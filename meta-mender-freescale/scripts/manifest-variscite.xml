@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default sync-j="4" revision="rocko"/>
+
+  <remote fetch="https://git.yoctoproject.org/git"  name="yocto"/>
+  <remote fetch="https://github.com/openembedded"   name="oe"/>
+  <remote fetch="https://github.com/Freescale"      name="freescale"/>
+  <remote fetch="https://github.com/varigit"        name="variscite"/>
+  <remote fetch="git://github.com/meta-qt5"         name="QT5"/>
+  <remote fetch="https://github.com/OSSystems"      name="OSSystems"/>
+  <remote fetch="https://github.com/sbabic"         name="sbabic"/>
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
+
+  <project name="poky"
+    remote="yocto"
+    revision="90414ecd5cf72995074f3dc6b05cfbee0a1dab67"
+    upstream="rocko"
+    path="sources/poky"/>
+
+  <project name="meta-openembedded"
+    remote="oe"
+    revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
+    upstream="rocko"
+    path="sources/meta-openembedded"/>
+
+  <project name="meta-freescale"
+    remote="yocto"
+    revision="affb4b17d3d97ae45bdc4887268ba1d88fccd876"
+    upstream="rocko"
+    path="sources/meta-freescale"/>
+
+  <project name="meta-freescale-3rdparty"
+    remote="freescale"
+    revision="a02324e27f7a7ac630dab616f46a8bad7fe2c071"
+    upstream="rocko"
+    path="sources/meta-freescale-3rdparty"/>
+
+  <project name="meta-freescale-distro"
+    remote="freescale"
+    revision="0ec6d7e206705702b5b534611754de0787f92b72"
+    upstream="rocko"
+    path="sources/meta-freescale-distro"/>
+
+  <project name="meta-qt5"
+    remote="QT5"
+    revision="682ad61c071a9710e9f9d8a32ab1b5f3c14953d1"
+    upstream="rocko"
+    path="sources/meta-qt5"/>
+
+  <project name="meta-browser"
+    remote="OSSystems"
+    revision="1cd38d701a49eade80a04140f70d3383117b9745"
+    upstream="master"
+    path="sources/meta-browser"/>
+
+  <project name="meta-swupdate"
+    remote="sbabic"
+    revision="0fb115e97187c069f0da90163f1f374a6b7a4af7"
+    upstream="rocko"
+    path="sources/meta-swupdate"/>
+
+  <project name="meta-variscite-fslc"
+    remote="variscite"
+    revision="43e838b8ec48d8964d12eaa1f3aa37109006d408"
+    upstream="rocko"
+    path="sources/meta-variscite-fslc"/>
+
+  <project name="meta-mender"
+    remote="mender"
+    revision="595ace9c5d26898e6a9d3313d2640112b0e45f72"
+    upstream="rocko"
+    path="sources/meta-mender"/>
+
+  <project name="meta-mender-community"
+    remote="mirzak"
+    revision="rocko"
+    upstream="rocko"
+    path="sources/meta-mender-community"/>
+
+</manifest>

@@ -1,0 +1,40 @@
+diff -urN a/include/configs/m3ulcb.h b/include/configs/m3ulcb.h
+--- a/include/configs/m3ulcb.h	2018-07-04 09:13:50.340306999 +0800
++++ b/include/configs/m3ulcb.h	2018-07-04 10:16:00.035416002 +0800
+@@ -97,9 +97,8 @@
+ 
+ /* Environment in eMMC, at the end of 2nd "boot sector" */
+ #define CONFIG_ENV_IS_IN_MMC
+-#define CONFIG_ENV_OFFSET	(-CONFIG_ENV_SIZE)
+-#define CONFIG_SYS_MMC_ENV_DEV	1
+-#define CONFIG_SYS_MMC_ENV_PART	2
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
+ 
+ /* Module clock supply/stop status bits */
+ /* MFIS */
+@@ -117,15 +116,18 @@
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"fdt_high=0xffffffffffffffff\0" \
+-	"initrd_high=0xffffffffffffffff\0"
++	"initrd_high=0xffffffffffffffff\0" \
++ 	"bootdelay=3\0" \
++	"load_ker=ext4load ${mender_uboot_root} 0x48080000 /boot/Image\0" \
++	"load_dtb=ext4load ${mender_uboot_root} 0x48000000 /boot/r8a7796-m3ulcb.dtb\0" \
++	"mmcboot=run load_ker; run load_dtb; booti 0x48080000 - 0x48000000\0" \
++	"ethaddr=2e:09:0a:01:9c:b6\0"
+ 
+ #define CONFIG_BOOTARGS \
+-	"root=/dev/nfs rw " \
+-	"nfsroot=192.168.0.1:/export/rfs ip=192.168.0.20"
++	"console=ttySC0,115200 " \
++	"root=${mender_kernel_root} rootwait rw rootfstype=ext4"
+ 
+ #define CONFIG_BOOTCOMMAND \
+-	"tftp 0x48080000 Image; " \
+-	"tftp 0x48000000 Image-r8a7796-m3ulcb.dtb; " \
+-	"booti 0x48080000 - 0x48000000"
++	"run mender_setup; run mmcboot; run mender_try_to_recover"
+ 
+ #endif /* __M3ULCB_H */

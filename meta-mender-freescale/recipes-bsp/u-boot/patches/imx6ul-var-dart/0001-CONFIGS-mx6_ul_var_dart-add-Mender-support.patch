@@ -1,0 +1,91 @@
+From de62c1fdb3263edf740ceb174c62a042b5adf9a1 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Wed, 4 Jul 2018 16:45:49 +0200
+Subject: [PATCH 1/1] configs: mx6ul_var_dart: add mender support
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ include/configs/mx6ul_var_dart.h | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
+
+diff --git a/include/configs/mx6ul_var_dart.h b/include/configs/mx6ul_var_dart.h
+index 0839185459..bc5d78bd66 100644
+--- a/include/configs/mx6ul_var_dart.h
++++ b/include/configs/mx6ul_var_dart.h
+@@ -72,26 +72,21 @@
+ 
+ 
+ #define MMC_BOOT_ENV_SETTINGS \
+-	"mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
+-	"mmcblk=0\0" \
+-	"mmcautodetect=yes\0" \
+-	"mmcbootpart=1\0" \
+-	"mmcrootpart=2\0" \
+ 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
+-		"root=/dev/mmcblk${mmcblk}p${mmcrootpart} rootwait rw " \
+-		"${cma_size}\0" \
++		"root=${mender_kernel_root} rootwait rw " \
++		"${cma_size} quiet\0" \
+ 	"loadbootenv=" \
+-		"load mmc ${mmcdev}:${mmcbootpart} ${loadaddr} ${bootdir}/${bootenv}\0" \
++		"load ${mender_uboot_root} ${loadaddr} /boot/${bootenv}\0" \
+ 	"importbootenv=echo Importing bootenv from mmc ...; " \
+ 		"env import -t ${loadaddr} ${filesize}\0" \
+ 	"loadbootscript=" \
+-		"load mmc ${mmcdev}:${mmcbootpart} ${loadaddr} ${bootdir}/${script};\0" \
++		"load ${mender_uboot_root} ${loadaddr} /boot/${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+-	"loadimage=load mmc ${mmcdev}:${mmcbootpart} ${loadaddr} ${bootdir}/${image}\0" \
++	"loadimage=load ${mender_uboot_root} ${loadaddr} /boot/${image}\0" \
+ 	"loadfdt=run findfdt; " \
+ 		"echo fdt_file=${fdt_file}; " \
+-		"load mmc ${mmcdev}:${mmcbootpart} ${fdt_addr} ${bootdir}/${fdt_file}\0" \
++		"load ${mender_uboot_root} ${fdt_addr} /boot/${fdt_file}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"run optargs; " \
+@@ -121,8 +116,8 @@
+ #define BOOT_ENV_SETTINGS	MMC_BOOT_ENV_SETTINGS
+ #define CONFIG_BOOTCOMMAND \
+ 	"run ramsize_check; " \
+-	"mmc dev ${mmcdev};" \
+-	"mmc dev ${mmcdev}; if mmc rescan; then " \
++	"mmc dev ${mender_uboot_dev}; if mmc rescan; then " \
++		"run mender_setup; " \
+ 		"if run loadbootenv; then " \
+ 			"run importbootenv; " \
+ 		"fi; " \
+@@ -131,6 +126,7 @@
+ 		"else " \
+ 			"if run loadimage; then " \
+ 				"run mmcboot; " \
++				"run mender_try_to_recover; " \
+ 			"else run netboot; " \
+ 			"fi; " \
+ 		"fi; " \
+@@ -138,6 +134,9 @@
+ 
+ #endif
+ 
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
+ #define OPT_ENV_SETTINGS \
+ 	"optargs=setenv bootargs ${bootargs} ${kernelargs};\0"
+ 
+@@ -305,11 +304,7 @@
+ #endif
+ #endif
+ 
+-#define CONFIG_SYS_MMC_ENV_DEV		0   	/* USDHC1 */
+-#define CONFIG_SYS_MMC_ENV_PART		0	/* user area */
+-
+ #if defined(CONFIG_ENV_IS_IN_MMC)
+-#define CONFIG_ENV_OFFSET		(14 * SZ_64K)
+ #define CONFIG_ENV_SIZE			SZ_8K
+ #elif defined(CONFIG_ENV_IS_IN_NAND)
+ #define CONFIG_ENV_OFFSET		0x400000
+-- 
+2.18.0
+
