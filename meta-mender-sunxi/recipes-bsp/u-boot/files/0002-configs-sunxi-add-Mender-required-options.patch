@@ -1,0 +1,37 @@
+From 7d880e7c92af0bcbafbbd7b30d4f0d7649544403 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 27 Aug 2018 14:44:40 +0200
+Subject: [PATCH 2/2] configs: sunxi: add Mender required options
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ include/configs/sunxi-common.h | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index 4391a8cbc8..9497718169 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -148,14 +148,12 @@
+ #endif
+ 
+ #if defined(CONFIG_ENV_IS_IN_MMC)
+-#if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
+-/* If we have two devices (most likely eMMC + MMC), favour the eMMC */
+-#define CONFIG_SYS_MMC_ENV_DEV		1
+-#else
+-/* Otherwise, use the only device we have */
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#endif
++
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
+ #define CONFIG_SYS_MMC_MAX_DEVICE	4
++
+ #elif defined(CONFIG_ENV_IS_NOWHERE)
+ #define CONFIG_ENV_SIZE			(128 << 10)
+ #endif
+-- 
+2.18.0
+
