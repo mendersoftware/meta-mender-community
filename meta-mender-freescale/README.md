@@ -20,7 +20,7 @@ ultimately all of them, but to be able to do that we need to collaborate.
 
 Supported SoMs:
 
-    - imx6ul-var-dart - DART-6UL (uSD/eMMC, WiFi)
+- imx6ul-var-dart - DART-6UL (uSD/eMMC, WiFi)
 
 ### Build
 
@@ -47,5 +47,5 @@ Build
 
 Supported SoM's:
 
-    - colibri-vf - Colibri VF61
-    - colibri-imx7 - Colibri iMX7
+- colibri-vf - Colibri VF61
+- colibri-imx7 - Colibri iMX7

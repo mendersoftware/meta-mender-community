@@ -1,7 +1,8 @@
 # Mender integration for Rockchip based boards
 
 Supported boards:
-    - Tinker Board
+
+- Tinker Board
 
 ## Build
 

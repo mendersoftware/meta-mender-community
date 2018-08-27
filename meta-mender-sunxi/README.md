@@ -1,7 +1,8 @@
 # Mender integration for SUNXI boards
 
 Supported boards:
-    - OrangePi PC Plus
+
+- OrangePi PC Plus
 
 *NOTE*! Even though the integration has only been tested on OrangePi PC Plus
 all the SUNXI boards share the same U-boot configuration
