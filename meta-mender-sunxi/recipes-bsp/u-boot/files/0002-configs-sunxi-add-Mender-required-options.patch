@@ -1,4 +1,4 @@
-From c198ef1aae97e454fa2aa52f7d38a1d5e68cfe31 Mon Sep 17 00:00:00 2001
+From dc1fb0732d163542b60ed8023f2c44dcb67193f0 Mon Sep 17 00:00:00 2001
 From: Mirza Krak <mirza.krak@northern.tech>
 Date: Mon, 6 Aug 2018 21:32:09 +0200
 Subject: [PATCH 2/2] configs: sunxi: add Mender required options
