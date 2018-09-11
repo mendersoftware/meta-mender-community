@@ -51,3 +51,11 @@ IMAGE_BOOT_FILES = "boot.scr"
 
 MENDER_IMAGE_BOOTLOADER_FILE="u-boot-sunxi-with-spl.bin"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET="16"
+
+# NanoPi, mmc index differs in U-boot and Linux. This configuration is for uSD.
+MENDER_STORAGE_DEVICE_nanopi-m1-plus = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_DEVICE_nanopi-m1-plus = "0"
+
+# NanoPi, uncomment this for eMMC. Remember to remove above!
+#MENDER_STORAGE_DEVICE_nanopi-m1-plus = "/dev/mmcblk3"
+#MENDER_UBOOT_STORAGE_DEVICE_nanopi-m1-plus = "1"
