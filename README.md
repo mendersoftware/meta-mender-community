@@ -1,25 +1,15 @@
-# Mender community integration layers
+# Yocto community integration layers for Mender
 
+Mender is an open source over-the-air (OTA) software updater for embedded Linux
+devices. Mender comprises a client running at the embedded device, as well as
+a server that manages deployments across many devices.
 
-## Google repo tool
+This repository contains Yocto integration layers for various boards.
 
-To simplify fetching sources and setting up the build environment this layer
-relies on the Google [repo](https://source.android.com/setup/develop/repo) tool,
-which allows fetching sources from multiple location in a single command. This
-tools is widely used within the Yocto eco-system and we have simply adopted
-the "best practice" from this.
+Please check out https://mender.trydiscourse.com/ for more information on
+supported boards and instructions on how to setup an environment and build.
 
-The following is a one time installation
-
-Install the repo utility:
-
-    $ mkdir ~/bin
-    $ curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-    $ chmod a+x ~/bin/repo
-
-You should also add the following to your `.bashrc` or equivalent, for convenience.
-
-    PATH=${PATH}:~/bin
+![Mender logo](https://mender.io/user/pages/05.resources/06.digital-assets/logo.png)
 
 ## Contributing
 
