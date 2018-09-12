@@ -4,7 +4,7 @@ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
 DEPENDS = "mtd-utils"
 
 UBOOT_URL = "git://github.com/renesas-rcar/u-boot.git"
-BRANCH = "v2015.04/rcar-3.5.6"
+BRANCH = "v2015.04/rcar-3.7.0"
 
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
