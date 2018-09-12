@@ -8,34 +8,10 @@
   <remote fetch="git://git.openembedded.org"        name="oe"/>
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
-  <project name="poky"
-    remote="yocto"
-    revision="9589076fed41fe9c5749445e9210406fea362277"
-    upstream="rocko"
-    path="sources/poky"/>
-
-  <project name="meta-openembedded"
-    remote="oe"
-    revision="352531015014d1957d6444d114f4451e241c4d23"
-    upstream="rocko"
-    path="sources/meta-openembedded"/>
-
-  <project name="meta-rockchip"
-    remote="mirzak"
-    revision="5924d7eb9c6c8ba778f25b103ff0f7ca5b99a6b9"
-    upstream="rocko"
-    path="sources/meta-rockchip"/>
-
-  <project name="meta-mender"
-    remote="mender"
-    revision="595ace9c5d26898e6a9d3313d2640112b0e45f72"
-    upstream="rocko"
-    path="sources/meta-mender"/>
-
-  <project name="meta-mender-community"
-    remote="mirzak"
-    revision="rocko"
-    upstream="rocko"
-    path="sources/meta-mender-community"/>
+  <project name="poky" remote="yocto" revision="rocko" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="rocko" path="sources/meta-openembedded"/>
+  <project name="meta-rockchip" remote="mirzak" revision="rocko" path="sources/meta-rockchip"/>
+  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mirzak" revision="rocko" path="sources/meta-mender-community"/>
 
   </manifest>
