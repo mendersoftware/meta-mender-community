@@ -1,0 +1,16 @@
+Index: git/arch/arm/include/asm/arch-rcar_gen3/rcar_gen3.h
+===================================================================
+--- git.orig/arch/arm/include/asm/arch-rcar_gen3/rcar_gen3.h
++++ git/arch/arm/include/asm/arch-rcar_gen3/rcar_gen3.h
+@@ -18,11 +18,7 @@
+  #include <asm/arch/r8a77990.h>
+  #elif defined(CONFIG_R8A77995)
+  #include <asm/arch/r8a77995.h>
+- #else
+- #error "SOC Name not defined"
+  #endif
+-#else
+- #error "not support ARCH."
+ #endif /* CONFIG_RCAR_GEN3 */
+ 
+ #ifndef __ASSEMBLY__
