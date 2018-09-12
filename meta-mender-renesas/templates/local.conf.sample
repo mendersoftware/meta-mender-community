@@ -1,0 +1,48 @@
+MACHINE = "m3ulcb"
+DISTRO ?= "poky"
+PACKAGE_CLASSES ?= "package_rpm"
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+PATCHRESOLVE = "noop"
+BB_DISKMON_DIRS ??= "\
+    STOPTASKS,${TMPDIR},1G,100K \
+    STOPTASKS,${DL_DIR},1G,100K \
+    STOPTASKS,${SSTATE_DIR},1G,100K \
+    STOPTASKS,/tmp,100M,100K \
+    ABORT,${TMPDIR},100M,1K \
+    ABORT,${DL_DIR},100M,1K \
+    ABORT,${SSTATE_DIR},100M,1K \
+    ABORT,/tmp,10M,1K"
+PACKAGECONFIG_append_pn-qemu-native = " sdl"
+PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+CONF_VERSION = "1"
+
+INHERIT += "rm_work"
+
+# The name of the disk image and Artifact that will be built.
+# This is what the device will report that it is running, and different updates
+# must have different names because Mender will skip installation of an Artifact
+# if it is already installed.
+MENDER_ARTIFACT_NAME = "release-1"
+
+INHERIT += "mender-full"
+
+# Build for Hosted Mender
+# To get your tenant token, log in to https://hosted.mender.io,
+# click your email at the top right and then "My organization".
+# Remember to remove the meta-mender-demo layer (if you have added it).
+# We recommend Mender 1.3.0 and Yocto Project's rocko or later for Hosted Mender.
+#
+#MENDER_SERVER_URL = "https://hosted.mender.io"
+#MENDER_TENANT_TOKEN = ""
+
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+# Do not really need a boot part and files in it,
+# but we need to satisfy a dependency that the sdimg format has.
+IMAGE_BOOT_FILES += "Image"
