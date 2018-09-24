@@ -1,7 +1,8 @@
 # Mender integration for Renesas based boards
 
 Supported boards:
-    - R-Car M3/H3
+
+- R-Car M3/H3
 
 ## Build
 
