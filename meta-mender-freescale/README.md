@@ -32,6 +32,7 @@ Download the source:
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-freescale/scripts/manifest-variscite.xml \
            -b sumo
+    $ repo sync
 
 Setup environment
 

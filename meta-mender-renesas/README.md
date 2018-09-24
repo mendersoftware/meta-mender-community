@@ -14,6 +14,7 @@ Download the source:
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-renesas/scripts/manifest-renesas.xml \
            -b sumo
+    $ repo sync
 
 Setup environment
 
