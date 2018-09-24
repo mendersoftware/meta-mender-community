@@ -13,7 +13,7 @@ Download the source:
     $ repo init \
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-rockchip/scripts/manifest-rockchip.xml \
-           -b rocko
+           -b sumo
 
 Setup environment
 
