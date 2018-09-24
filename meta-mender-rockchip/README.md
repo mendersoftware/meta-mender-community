@@ -14,6 +14,7 @@ Download the source:
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-rockchip/scripts/manifest-rockchip.xml \
            -b rocko
+    $ repo sync
 
 Setup environment
 

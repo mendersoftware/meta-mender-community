@@ -16,6 +16,7 @@ Download the source:
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-qemu/scripts/manifest-qemu.xml \
            -b rocko
+    $ repo sync
 
 Setup environment
 

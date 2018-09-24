@@ -13,6 +13,7 @@ Download the source:
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-renesas/scripts/manifest-renesas.xml \
            -b rocko
+    $ repo sync
 
 Setup environment
 
