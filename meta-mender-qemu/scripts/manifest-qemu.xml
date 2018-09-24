@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="rocko"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
+  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+
+  <project name="poky" remote="yocto" revision="rocko" path="sources/poky"/>
+  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mirzak" revision="rocko" path="sources/meta-mender-community"/>
+
+  </manifest>
