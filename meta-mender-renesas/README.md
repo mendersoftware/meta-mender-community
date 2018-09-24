@@ -17,8 +17,7 @@ Download the source:
 
 Setup environment
 
-    $ export MENDER_LAYER=${PWD}/sources/meta-mender-community/meta-mender-renesas
-    $ export TEMPLATECONF=${MENDER_LAYER}/templates/
+    $ export TEMPLATECONF=../meta-mender-community/meta-mender-renesas/templates/
     $ . sources/poky/oe-init-build-env build
 
 Build

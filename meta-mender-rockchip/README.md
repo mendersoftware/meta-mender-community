@@ -18,8 +18,7 @@ Download the source:
 
 Setup environment
 
-    $ export MENDER_LAYER=${PWD}/sources/meta-mender-community/meta-mender-rockchip
-    $ export TEMPLATECONF=${MENDER_LAYER}/templates/
+    $ export TEMPLATECONF=../meta-mender-community/meta-mender-rockchip/templates/
     $ . sources/poky/oe-init-build-env build
 
 Build

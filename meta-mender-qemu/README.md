@@ -20,8 +20,7 @@ Download the source:
 
 Setup environment
 
-    $ export MENDER_LAYER=${PWD}/sources/meta-mender-community/meta-mender-qemu
-    $ export TEMPLATECONF=${MENDER_LAYER}/templates/
+    $ export TEMPLATECONF=../meta-mender-community/meta-mender-qemu/templates/
     $ . sources/poky/oe-init-build-env build
 
 Build

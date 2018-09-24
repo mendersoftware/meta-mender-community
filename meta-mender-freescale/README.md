@@ -36,8 +36,7 @@ Download the source:
 
 Setup environment
 
-    $ export MENDER_LAYER=${PWD}/sources/meta-mender-community/meta-mender-freescale
-    $ export TEMPLATECONF=${MENDER_LAYER}/templates/variscite
+    $ export TEMPLATECONF=../meta-mender-community/meta-mender-freescale/templates/variscite
     $ . sources/poky/oe-init-build-env build
 
 Build
