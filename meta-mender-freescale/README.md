@@ -31,7 +31,7 @@ Download the source:
     $ repo init \
            -u https://github.com/mirzak/meta-mender-community \
            -m meta-mender-freescale/scripts/manifest-variscite.xml \
-           -b rocko
+           -b sumo
 
 Setup environment
 
@@ -42,10 +42,3 @@ Setup environment
 Build
 
     $ bitbake core-image-base
-
-## Toradex
-
-Supported SoM's:
-
-    - colibri-vf - Colibri VF61
-    - colibri-imx7 - Colibri iMX7
