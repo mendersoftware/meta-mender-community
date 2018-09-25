@@ -4,7 +4,6 @@
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/linux-sunxi"      name="sunxi"/>
-  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
@@ -12,6 +11,6 @@
   <project name="meta-openembedded" remote="oe" revision="rocko" path="sources/meta-openembedded"/>
   <project name="meta-sunxi" remote="sunxi" revision="rocko" path="sources/meta-sunxi"/>
   <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mirzak" revision="rocko" path="sources/meta-mender-community"/>
+  <project name="meta-mender-community" remote="mender" revision="rocko" path="sources/meta-mender-community"/>
 
   </manifest>
