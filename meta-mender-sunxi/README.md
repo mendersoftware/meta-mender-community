@@ -22,9 +22,7 @@ Download the source:
 
 Setup environment
 
-    $ export MENDER_LAYER=${PWD}/sources/meta-mender-community/meta-mender-sunxi
-    $ export TEMPLATECONF=${MENDER_LAYER}/templates/
-    $ . sources/poky/oe-init-build-env build
+    $ . setup-environment sunxi
 
 Build
 

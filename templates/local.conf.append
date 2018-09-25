@@ -1,22 +1,7 @@
-MACHINE ?= "qemux86-64"
-DISTRO ?= "poky"
-PACKAGE_CLASSES ?= "package_rpm"
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
-PATCHRESOLVE = "noop"
-BB_DISKMON_DIRS ??= "\
-    STOPTASKS,${TMPDIR},1G,100K \
-    STOPTASKS,${DL_DIR},1G,100K \
-    STOPTASKS,${SSTATE_DIR},1G,100K \
-    STOPTASKS,/tmp,100M,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K \
-    ABORT,/tmp,10M,1K"
-PACKAGECONFIG_append_pn-qemu-native = " sdl"
-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
-CONF_VERSION = "1"
 
+# Appended fragment from meta-mender-community/templates
+
+# This really saves a lot of disk space!
 INHERIT += "rm_work"
 
 # The name of the disk image and Artifact that will be built.

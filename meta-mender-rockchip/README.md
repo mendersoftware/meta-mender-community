@@ -18,8 +18,7 @@ Download the source:
 
 Setup environment
 
-    $ export TEMPLATECONF=../meta-mender-community/meta-mender-rockchip/templates/
-    $ . sources/poky/oe-init-build-env build
+    $ . setup-environment rockchip
 
 Build
 
