@@ -6,6 +6,7 @@
   <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
 
   <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
   <project name="meta-openembedded" remote="oe" revision="sumo" path="sources/meta-openembedded"/>
