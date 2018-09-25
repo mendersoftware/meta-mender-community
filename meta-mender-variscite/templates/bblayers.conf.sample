@@ -1,0 +1,28 @@
+LCONF_VERSION = "7"
+
+BBPATH = "${TOPDIR}"
+
+BBFILES ?= ""
+BBLAYERS = " \
+  ${TOPDIR}/../sources/poky/meta \
+  ${TOPDIR}/../sources/poky/meta-poky \
+  \
+  ${TOPDIR}/../sources/meta-openembedded/meta-oe \
+  ${TOPDIR}/../sources/meta-openembedded/meta-multimedia \
+  \
+  ${TOPDIR}/../sources/meta-freescale \
+  ${TOPDIR}/../sources/meta-freescale-3rdparty \
+  ${TOPDIR}/../sources/meta-freescale-distro \
+  \
+  ${TOPDIR}/../sources/meta-browser \
+  ${TOPDIR}/../sources/meta-openembedded/meta-gnome \
+  ${TOPDIR}/../sources/meta-openembedded/meta-networking \
+  ${TOPDIR}/../sources/meta-openembedded/meta-python \
+  ${TOPDIR}/../sources/meta-qt5 \
+  ${TOPDIR}/../sources/meta-browser \
+  ${TOPDIR}/../sources/meta-swupdate \
+  ${TOPDIR}/../sources/meta-variscite-fslc \
+  ${TOPDIR}/../sources/meta-mender/meta-mender-core \
+  ${TOPDIR}/../sources/meta-mender/meta-mender-demo \
+  ${TOPDIR}/../sources/meta-mender-community/meta-mender-freescale \
+"
