@@ -4,7 +4,6 @@
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/renesas-rcar"     name="renesas"/>
-  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
   <remote fetch="git://git.linaro.org/openembedded" name="linaro"/>
@@ -14,6 +13,6 @@
   <project name="meta-linaro" remote="linaro" revision="sumo" path="sources/meta-linaro"/>
   <project name="meta-renesas" remote="renesas" revision="sumo-dev" path="sources/meta-renesas"/>
   <project name="meta-mender" remote="mender" revision="sumo" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mirzak" revision="sumo" path="sources/meta-mender-community"/>
+  <project name="meta-mender-community" remote="mender" revision="sumo" path="sources/meta-mender-community"/>
 
   </manifest>
