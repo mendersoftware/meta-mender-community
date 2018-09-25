@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="rocko"/>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+
+  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="rocko" path="sources/meta-mender-community"/>
+
+  </manifest>

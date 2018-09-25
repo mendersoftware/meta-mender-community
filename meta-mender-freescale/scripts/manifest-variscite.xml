@@ -10,7 +10,6 @@
   <remote fetch="git://github.com/meta-qt5"         name="QT5"/>
   <remote fetch="https://github.com/OSSystems"      name="OSSystems"/>
   <remote fetch="https://github.com/sbabic"         name="sbabic"/>
-  <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
   <project name="poky"
     remote="yocto"
@@ -66,16 +65,6 @@
     upstream="rocko"
     path="sources/meta-variscite-fslc"/>
 
-  <project name="meta-mender"
-    remote="mender"
-    revision="595ace9c5d26898e6a9d3313d2640112b0e45f72"
-    upstream="rocko"
-    path="sources/meta-mender"/>
-
-  <project name="meta-mender-community"
-    remote="mender"
-    revision="rocko"
-    upstream="rocko"
-    path="sources/meta-mender-community"/>
+  <include name="scripts/mender.xml"/>
 
 </manifest>

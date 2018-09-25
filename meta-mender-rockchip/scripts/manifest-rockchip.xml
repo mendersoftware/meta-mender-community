@@ -6,12 +6,11 @@
   <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
   <remote fetch="git://github.com/mirzak"           name="mirzak"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
-  <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
   <project name="poky" remote="yocto" revision="rocko" path="sources/poky"/>
   <project name="meta-openembedded" remote="oe" revision="rocko" path="sources/meta-openembedded"/>
   <project name="meta-rockchip" remote="mirzak" revision="rocko" path="sources/meta-rockchip"/>
-  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mender" revision="rocko" path="sources/meta-mender-community"/>
+
+  <include name="scripts/mender.xml"/>
 
   </manifest>

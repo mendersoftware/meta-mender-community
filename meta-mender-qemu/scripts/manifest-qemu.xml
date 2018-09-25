@@ -4,10 +4,9 @@
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
-  <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
   <project name="poky" remote="yocto" revision="rocko" path="sources/poky"/>
-  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mender" revision="rocko" path="sources/meta-mender-community"/>
+
+  <include name="scripts/mender.xml"/>
 
   </manifest>
