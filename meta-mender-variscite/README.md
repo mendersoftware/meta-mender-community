@@ -1,15 +1,4 @@
-# Mender integration for Freescale/NXP based boards
-
-Some BSPs depend on libraries and packages which are covered by Freescale's
-End User License Agreement (EULA). To have the right to use these binaries in
-your images, you need to read and accept the terms. You can find the EULA in
-meta-freescale/EULA. Please read it and accept it by adding:
-
-    ACCEPT_FSL_EULA = "1"
-
-to your `local.conf`
-
-## Variscite
+# Mender integration for Variscite SoMs
 
 Variscite SoM's are configurable when you order them, this means that the
 integration can be configuration specific and you might need to make
@@ -30,14 +19,13 @@ Download the source:
     $ cd mender-variscite
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
-           -m meta-mender-freescale/scripts/manifest-variscite.xml \
+           -m meta-mender-variscite/scripts/manifest-variscite.xml \
            -b sumo
     $ repo sync
 
 Setup environment
 
-    $ export TEMPLATECONF=../meta-mender-community/meta-mender-freescale/templates/variscite
-    $ . sources/poky/oe-init-build-env build
+    $ . setup-environment variscite
 
 Build
 
