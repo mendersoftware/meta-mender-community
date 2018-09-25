@@ -10,7 +10,6 @@
   <remote fetch="https://github.com/OSSystems"      name="OSSystems"/>
   <remote fetch="https://github.com/sbabic"         name="sbabic"/>
   <remote fetch="https://github.com/varigit"        name="variscite"/>
-  <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
   <project remote="yocto"     revision="5887f81bb585d0a697b91daf7f7dd6ccb1d444e2" upstream="sumo"  name="poky" path="sources/poky"/>
   <project remote="yocto"     revision="50fbef4593f79949ab6c67b2582d8b5c8b24838a" upstream="sumo"  name="meta-freescale" path="sources/meta-freescale"/>
@@ -22,7 +21,6 @@
   <project remote="sbabic"    revision="dae0d3e906e764e02a8b6357e7698bfde278fa6e" upstream="sumo"  name="meta-swupdate" path="sources/meta-swupdate"/>
   <project remote="variscite" revision="734ce59a4f71326710fa76d8b10f174678e258b7" upstream="sumo"  name="meta-variscite-fslc" path="sources/meta-variscite-fslc"/>
 
-  <project name="meta-mender" remote="mender" revision="sumo" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mender" revision="sumo" path="sources/meta-mender-community"/>
+  <include name="scripts/mender.xml"/>
 
 </manifest>
