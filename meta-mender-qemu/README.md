@@ -13,7 +13,7 @@ Download the source:
     $ mkdir mender-qemu
     $ cd mender-qemu
     $ repo init \
-           -u https://github.com/mirzak/meta-mender-community \
+           -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-qemu/scripts/manifest-qemu.xml \
            -b sumo
     $ repo sync

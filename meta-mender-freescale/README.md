@@ -29,7 +29,7 @@ Download the source:
     $ mkdir mender-variscite
     $ cd mender-variscite
     $ repo init \
-           -u https://github.com/mirzak/meta-mender-community \
+           -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-freescale/scripts/manifest-variscite.xml \
            -b sumo
     $ repo sync
