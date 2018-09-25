@@ -11,7 +11,7 @@ Download the source:
     $ mkdir mender-rockchip
     $ cd mender-rockchip
     $ repo init \
-           -u https://github.com/mirzak/meta-mender-community \
+           -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-rockchip/scripts/manifest-rockchip.xml \
            -b rocko
     $ repo sync

@@ -16,7 +16,7 @@ Download the source:
     $ mkdir mender-sunxi
     $ cd mender-sunxi
     $ repo init \
-           -u https://github.com/mirzak/meta-mender-community \
+           -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-sunxi/scripts/manifest-sunxi.xml \
            -b rocko
 

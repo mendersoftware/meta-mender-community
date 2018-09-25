@@ -10,7 +10,7 @@ Download the source:
     $ mkdir mender-renesas
     $ cd mender-renesas
     $ repo init \
-           -u https://github.com/mirzak/meta-mender-community \
+           -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-renesas/scripts/manifest-renesas.xml \
            -b rocko
     $ repo sync
