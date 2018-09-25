@@ -20,7 +20,7 @@ documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING
 ## License
 
 Mender is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/master/LICENSE) for the
+[LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/sumo/LICENSE) for the
 full license text.
 
 ## Connect with us
