@@ -18,11 +18,12 @@ build_dir=${script_dir}/build
 target=""
 
 targets=(
+    "qemu"
+    "raspberrypi"
+    "renesas"
     "rockchip"
     "sunxi"
-    "renesas"
-    "variscite"
-    "qemu")
+    "variscite")
 
 for i in ${targets[@]}
 do
