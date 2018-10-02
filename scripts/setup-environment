@@ -23,6 +23,7 @@ targets=(
     "renesas"
     "rockchip"
     "sunxi"
+    "toradex-nxp"
     "variscite")
 
 for i in ${targets[@]}
