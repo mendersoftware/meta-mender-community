@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="rocko"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="git://git.openembedded.org"        name="oe"/>
+  <remote fetch="https://git.toradex.com"           name="tdx"/>
+  <remote fetch="https://github.com/Freescale"      name="freescale"/>
+
+  <project name="poky" remote="yocto" revision="rocko" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="rocko" path="sources/meta-openembedded"/>
+  <project name="meta-freescale" remote="freescale" revision="rocko" path="sources/meta-freescale"/>
+  <project name="meta-freescale-3rdparty" remote="freescale" revision="rocko" path="sources/meta-freescale-3rdparty"/>
+  <project name="meta-toradex-bsp-common.git" remote="tdx" revision="rocko" path="sources/meta-toradex-bsp-common"/>
+  <project name="meta-toradex-nxp.git" remote="tdx" revision="rocko" path="sources/meta-toradex-nxp"/>
+
+  <include name="scripts/mender.xml"/>
+
+  </manifest>
