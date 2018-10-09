@@ -18,6 +18,7 @@ build_dir=${script_dir}/build
 target=""
 
 targets=(
+    "beaglebone"
     "intel"
     "qemu"
     "raspberrypi"
