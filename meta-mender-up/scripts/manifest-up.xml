@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="sumo"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="git://github.com/emutex"           name="up"/>
+  <remote fetch="git://git.openembedded.org"        name="oe"/>
+
+  <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="sumo" path="sources/meta-openembedded"/>
+  <project name="meta-intel" remote="yocto" revision="sumo" path="sources/meta-intel"/>
+  <project name="meta-up-board" remote="up" revision="pyro" path="sources/meta-up-board"/>
+
+  <include name="scripts/mender.xml"/>
+
+  </manifest>
+

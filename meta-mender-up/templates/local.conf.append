@@ -1,0 +1,27 @@
+
+# Appended fragment from meta-mender-community/meta-mender-up/templates
+
+MACHINE ?= "up-board"
+
+# Note that these settings have been verified for booting from the on-board
+# eMMC. You might need to change the two latter settings if you are 
+# planning to boot from a different storage medium.
+#
+# To boot from USB you can set:
+#
+#     MENDER_STORAGE_EVICE = "/dev/sda"
+#
+MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+MENDER_GRUB_STORAGE_DEVICE = "hd0"
+
+# The size of core-image-base is 936 MB, meaning that if one tries to build
+# that specific image you get an build error saying that it does not fit in the
+# allocated part. This is because the default *total size* is set to 1024MB in
+# mender-setup.bbclass, this value is used to calculate IMAGE_ROOTFS_MAXSIZE
+#
+# Lets increase the total storage as the core-image-base target is quite
+# common and is the only image type that fully supports target device hardware.
+MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+
+# Easier to transfer compressed images for provisioning
+IMAGE_FSTYPES += "uefiimg.gz"
