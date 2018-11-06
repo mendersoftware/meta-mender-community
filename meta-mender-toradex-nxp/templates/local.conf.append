@@ -57,6 +57,13 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS_colibri-imx7 += "mtd-utils mtd-utils-ubifs"
 TORADEX_PRODUCT_IDS_append_colibri-imx7 = " 0033"
 TORADEX_PRODUCT_IDS[0033] = "colibri-imx7"
 
+# Colibri iMX7 eMMC
+
+IMAGE_FSTYPES_append_colibri-imx7-emmc = " sdimg.gz"
+IMAGE_FSTYPES_remove_colibri-imx7-emmc = "wic.gz teziimg"
+
+MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx7-emmc = "3072"
+
 # make sure that kernel and devicetree are installed
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "kernel-image kernel-devicetree"
 
