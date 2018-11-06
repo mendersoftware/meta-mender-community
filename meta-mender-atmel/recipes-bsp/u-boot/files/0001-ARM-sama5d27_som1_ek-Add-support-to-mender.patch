@@ -1,0 +1,66 @@
+From bd57b76ac88302096b6c96d41c7d517dbd162add Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pierre-jean.texier@lafon.fr>
+Date: Tue, 30 Oct 2018 16:42:19 +0100
+Subject: [PATCH] [PATCH 1/2] ARM: sama5d27_som1_ek: Add support to mender
+
+Signed-off-by: Pierre-Jean Texier <pierre-jean.texier@lafon.fr>
+---
+ configs/sama5d27_som1_ek_mmc_defconfig |  7 +++++--
+ include/configs/sama5d27_som1_ek.h     | 10 ++++++++++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/configs/sama5d27_som1_ek_mmc_defconfig b/configs/sama5d27_som1_ek_mmc_defconfig
+index bf2991b..8fb2f2c 100644
+--- a/configs/sama5d27_som1_ek_mmc_defconfig
++++ b/configs/sama5d27_som1_ek_mmc_defconfig
+@@ -23,7 +23,7 @@ CONFIG_SYS_EXTRA_OPTIONS="SAMA5D2"
+ CONFIG_SD_BOOT=y
+ CONFIG_BOOTDELAY=3
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait"
++CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root='${mender_kernel_root}' rw rootwait"
+ # CONFIG_DISPLAY_BOARDINFO is not set
+ CONFIG_SPL_SEPARATE_BSS=y
+ CONFIG_HUSH_PARSER=y
+@@ -38,13 +38,16 @@ CONFIG_CMD_DHCP=y
+ CONFIG_CMD_PING=y
+ CONFIG_CMD_EXT4=y
+ CONFIG_CMD_FAT=y
++CONFIG_CMD_FS_GENERIC=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_SPL_OF_CONTROL=y
+ CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-parent dmas dma-names"
+-CONFIG_ENV_IS_IN_FAT=y
++CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_DM=y
+ CONFIG_SPL_DM=y
+ CONFIG_SPL_DM_SEQ_ALIAS=y
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
+ CONFIG_CLK=y
+ CONFIG_SPL_CLK=y
+ CONFIG_CLK_AT91=y
+diff --git a/include/configs/sama5d27_som1_ek.h b/include/configs/sama5d27_som1_ek.h
+index cb3c0ea..3f40570 100644
+--- a/include/configs/sama5d27_som1_ek.h
++++ b/include/configs/sama5d27_som1_ek.h
+@@ -44,6 +44,16 @@
+ #define CONFIG_BOOTCOMMAND	"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x21000000 at91-sama5d27_som1_ek.dtb; " \
+ 				"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x22000000 zImage; " \
+ 				"bootz 0x22000000 - 0x21000000"
++#undef CONFIG_ENV_SIZE
++#undef CONFIG_BOOTCOMMAND
++
++#define CONFIG_ENV_SIZE		0x1000
++#define CONFIG_BOOTCOMMAND	\
++	"run mender_setup;" \
++	"load ${mender_uboot_root} 0x21000000 /boot/at91-sama5d27_som1_ek.dtb; " \
++	"load ${mender_uboot_root} 0x22000000 /boot/zImage; " \
++	"bootz 0x22000000 - 0x21000000; " \
++	"run mender_try_to_recover"
+ #endif
+ 
+ #ifdef CONFIG_QSPI_BOOT
+-- 
+2.7.4
+
