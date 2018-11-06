@@ -9,7 +9,7 @@ This repository contains Yocto integration layers for various boards.
 Please check out https://hub.mender.io for more information on
 supported boards and instructions on how to setup environment and build images.
 
-![Mender logo](https://mender.io/user/pages/05.resources/06.digital-assets/logo.png)
+![Mender logo](https://mender.io/user/pages/resources/06.digital-assets/mender.io.png)
 
 ## Structure
 
