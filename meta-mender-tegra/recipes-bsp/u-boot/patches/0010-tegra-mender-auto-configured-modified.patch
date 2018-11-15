@@ -1,0 +1,73 @@
+diff -r -u a/configs/p2771-0000-500_defconfig b/configs/p2771-0000-500_defconfig
+--- a/configs/p2771-0000-500_defconfig	2018-10-24 15:26:57.852705468 +0000
++++ b/configs/p2771-0000-500_defconfig	2018-10-24 15:27:17.668734604 +0000
+@@ -36,3 +36,4 @@ CONFIG_USB=y
+ CONFIG_DM_USB=y
+ CONFIG_POWER_DOMAIN=y
+ CONFIG_TEGRA186_POWER_DOMAIN=y
++CONFIG_MMC=y
+Binary files a/.git/index and b/.git/index differ
+diff -r -u a/include/config_defaults.h b/include/config_defaults.h
+--- a/include/config_defaults.h	2018-10-24 15:26:57.896705532 +0000
++++ b/include/config_defaults.h	2018-10-24 15:27:17.504734363 +0000
+@@ -21,3 +21,11 @@
+ #define CONFIG_PARTITIONS 1
+ 
+ #endif
++#define CONFIG_ENV_SIZE 0x20000
++#define CONFIG_ENV_OFFSET 0x400000
++#define CONFIG_ENV_OFFSET_REDUND 0x800000
++#define CONFIG_SYS_MMC_ENV_DEV 0
++#define CONFIG_SYS_MMC_ENV_PART 0
++#define CONFIG_ENV_IS_IN_MMC
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
+diff -r -u a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
+--- a/include/config_distro_bootcmd.h	2018-10-24 15:26:57.896705532 +0000
++++ b/include/config_distro_bootcmd.h	2018-10-24 15:27:17.528734398 +0000
+@@ -397,7 +397,6 @@
+ 		"done\0"
+ 
+ #ifndef CONFIG_BOOTCOMMAND
+-#define CONFIG_BOOTCOMMAND "run distro_bootcmd"
+ #endif
+ 
+ #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
+diff -r -u a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
+--- a/include/configs/p2771-0000.h	2018-10-24 15:26:57.912705556 +0000
++++ b/include/configs/p2771-0000.h	2018-10-24 15:27:17.508734369 +0000
+@@ -23,10 +23,6 @@
+ #define CONFIG_TEGRA_MMC
+ 
+ /* Environment in eMMC, at the end of 2nd "boot sector" */
+-#define CONFIG_ENV_IS_IN_MMC
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#define CONFIG_SYS_MMC_ENV_PART		2
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
+ 
+ /* PCI host support */
+ #define CONFIG_PCI
+diff -r -u a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
+--- a/include/configs/tegra186-common.h	2018-10-24 15:26:57.916705562 +0000
++++ b/include/configs/tegra186-common.h	2018-10-24 15:27:17.512734374 +0000
+@@ -54,7 +54,7 @@
+ #define MEM_LAYOUT_ENV_SETTINGS \
+ 	"scriptaddr=0x90000000\0" \
+ 	"pxefile_addr_r=0x90100000\0" \
+-	"kernel_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
++	"loadaddr=" __stringify(CONFIG_LOADADDR) "\0" \
+ 	"fdt_addr_r=0x82000000\0" \
+ 	"ramdisk_addr_r=0x82100000\0"
+ 
+diff -r -u a/include/configs/tegra-common.h b/include/configs/tegra-common.h
+--- a/include/configs/tegra-common.h	2018-10-24 15:26:57.916705562 +0000
++++ b/include/configs/tegra-common.h	2018-10-24 15:27:17.512734374 +0000
+@@ -34,7 +34,6 @@
+ 
+ /* Environment */
+ #define CONFIG_ENV_VARS_UBOOT_CONFIG
+-#define CONFIG_ENV_SIZE			0x2000	/* Total Size Environment */
+ 
+ /*
+  * NS16550 Configuration
+Only in b: .scmversion

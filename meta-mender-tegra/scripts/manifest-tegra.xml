@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="sumo"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="https://github.com/madisongh"        name="madisongh"/>
+
+  <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
+  <project name="meta-tegra" remote="madisongh" revision="sumo" path="sources/meta-tegra" />
+
+  <include name="scripts/mender.xml"/>
+
+  </manifest>
+
