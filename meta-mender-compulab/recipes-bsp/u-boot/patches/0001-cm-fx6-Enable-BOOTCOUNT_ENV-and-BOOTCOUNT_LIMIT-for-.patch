@@ -1,0 +1,25 @@
+From 1aaa1d11ccc24ed485e0da827eeddc123ea136b8 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Sun, 11 Nov 2018 15:45:12 +0000
+Subject: [PATCH 1/2] cm-fx6: Enable BOOTCOUNT_ENV and BOOTCOUNT_LIMIT for
+ Mender
+
+---
+ include/configs/cm_fx6.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/cm_fx6.h b/include/configs/cm_fx6.h
+index 8c11721..b9d6b1d 100644
+--- a/include/configs/cm_fx6.h
++++ b/include/configs/cm_fx6.h
+@@ -260,4 +260,7 @@
+ #define CONFIG_VIDEO_LOGO
+ #define CONFIG_VIDEO_BMP_LOGO
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ #endif	/* __CONFIG_CM_FX6_H */
+-- 
+2.7.4
+

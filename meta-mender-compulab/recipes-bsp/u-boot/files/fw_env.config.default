@@ -1,0 +1,6 @@
+# Configuration file for fw_(printenv/saveenv) utility for
+# CompuLab cm-fx6, cl-som-imx(X)
+
+# MTD name	Device offset	Env. size	Flash sector size
+/dev/mtd1	0x0000		0x2000		0x2000
+/dev/mtd1       0x2000          0x2000          0x2000

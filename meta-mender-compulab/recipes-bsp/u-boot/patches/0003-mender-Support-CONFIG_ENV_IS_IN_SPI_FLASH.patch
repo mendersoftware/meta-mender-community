@@ -1,0 +1,28 @@
+From 72a733556392aabe349cf47aff53885f4169282d Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Thu, 8 Nov 2018 16:20:57 +0000
+Subject: [PATCH 3/5] mender: Support CONFIG_ENV_IS_IN_SPI_FLASH
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/config_mender.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/config_mender.h b/include/config_mender.h
+index 116b87f..734cc89 100644
+--- a/include/config_mender.h
++++ b/include/config_mender.h
+@@ -21,8 +21,8 @@
+ 
+ #include <config_mender_defines.h>
+ 
+-#if !defined(CONFIG_ENV_IS_IN_MMC) && !defined(CONFIG_ENV_IS_IN_NAND) && !defined(CONFIG_ENV_IS_IN_FLASH)
+-# error CONFIG_ENV_IS_IN_MMC, CONFIG_ENV_IS_IN_NAND or CONFIG_ENV_IS_IN_FLASH is required for Mender to work
++#if !defined(CONFIG_ENV_IS_IN_MMC) && !defined(CONFIG_ENV_IS_IN_NAND) && !defined(CONFIG_ENV_IS_IN_FLASH) && !defined(CONFIG_ENV_IS_IN_SPI_FLASH)
++# error CONFIG_ENV_IS_IN_MMC, CONFIG_ENV_IS_IN_NAND, CONFIG_ENV_IS_IN_FLASH or CONFIG_ENV_IS_IN_SPI_FLASH is required for Mender to work
+ #endif
+ 
+ #ifndef CONFIG_BOOTCOUNT_LIMIT
+-- 
+2.7.4
+

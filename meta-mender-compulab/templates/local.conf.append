@@ -1,0 +1,31 @@
+
+# Appended fragment from meta-mender-community/meta-mender-compulab/templates
+
+MACHINE ?= "cl-som-imx6"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+IMAGE_FSTYPES_remove = "sdcard"
+
+IMAGE_BOOTLOADER_FILE = "u-boot.imx"
+
+MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE = "3"
+
+# The compulab BSP is based on an earlier version of the morty branch
+# than what the Mender layers have been developed against. We need
+# to explicitly remove this recipe to avoid build failures.
+BBMASK_append = " meta-mender-demo/recipes-core/volatile-binds/volatile-binds.bbappend"
+
+# The cl-som-imx6 board has 16GB eMMC and the Compulab demo images are rather
+# large.  However filling the entire 16GB space takes a lot of time so we will
+# use a smaller amount here. Also, the data partition is arbitrarily sized to
+# 1GB which should allow us to create an SDCard bootable image with a copy of
+# the SDIMG file to then deploy to eMMC.
+MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+MENDER_DATA_PART_SIZE_MB = "1024"
+
+# Do not really need a boot part and files in it,
+# but we need to satisfy a dependency that the sdimg format has.
+# IMAGE_BOOT_FILES = "zImage"
+IMAGE_BOOT_FILES = "u-boot.imx"

@@ -1,0 +1,26 @@
+From 8efd72acd999dd9ea96a3f263e0a695c0eb968fc Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Thu, 8 Nov 2018 19:38:40 +0000
+Subject: [PATCH 4/5] cl-som-imx6: Disable CONFIG_ENV_OFFSET for Mender
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cl_som_imx6.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/cl_som_imx6.h b/include/configs/cl_som_imx6.h
+index e1d1bd5..2c92627 100644
+--- a/include/configs/cl_som_imx6.h
++++ b/include/configs/cl_som_imx6.h
+@@ -29,5 +29,8 @@
+ 
+ #define CONFIG_BOOTCOUNT_ENV
+ #define CONFIG_BOOTCOUNT_LIMIT
++#undef CONFIG_ENV_OFFSET
++#undef CONFIG_ENV_OFFSET_REDUND
++#undef CONFIG_ENV_RANGE
+ 
+ #endif	/* __CONFIG_CL_SOM_IMX6_H */
+-- 
+2.7.4
+

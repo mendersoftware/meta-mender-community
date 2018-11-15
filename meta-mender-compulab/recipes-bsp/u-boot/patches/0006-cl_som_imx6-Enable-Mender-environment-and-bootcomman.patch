@@ -1,0 +1,41 @@
+From 1fabc5e1cdecbdb613e0a9829481a64cf8d4c35b Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Tue, 13 Nov 2018 18:27:18 +0000
+Subject: [PATCH 6/6] cl_som_imx6: Enable Mender environment and bootcommand.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cl_som_imx6.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/include/configs/cl_som_imx6.h b/include/configs/cl_som_imx6.h
+index f235e20..4ed39aa 100644
+--- a/include/configs/cl_som_imx6.h
++++ b/include/configs/cl_som_imx6.h
+@@ -35,4 +35,23 @@
+ #undef CONFIG_BOARD_NAME
+ #define CONFIG_BOARD_NAME	"SOM-iMX6-Mender"
+ 
++#undef CONFIG_PREBOOT
++#undef CONFIG_BOOTCOMMAND
++#define CONFIG_BOOTCOMMAND CONFIG_MENDER_BOOTCOMMAND
++
++#undef CONFIG_EXTRA_ENV_SETTINGS
++#define CONFIG_EXTRA_ENV_SETTINGS \
++	"stdin=serial,usbkbd\0" \
++	"stdout=serial,vga\0" \
++	"stderr=serial,vga\0" \
++	"panel=HDMI\0" \
++        "fdt_high=0xffffffff\0" \
++	"console=ttymxc3,115200\0" \
++	"ethprime=FEC0\0" \
++	"video_hdmi=mxcfb0:dev=hdmi,1920x1080M-32@50,if=RGB32\0" \
++	"video_dvi=mxcfb0:dev=dvi,1280x800M-32@50,if=RGB32\0" \
++	"kernel_addr_r=0x10800000\0" \
++	"fdt_addr_r=0x15000000\0" \
++	"bootargs=console=${console} ${video} vmalloc=256M cma=384M dmfc=3\0"
++
+ #endif	/* __CONFIG_CL_SOM_IMX6_H */
+-- 
+2.7.4
+

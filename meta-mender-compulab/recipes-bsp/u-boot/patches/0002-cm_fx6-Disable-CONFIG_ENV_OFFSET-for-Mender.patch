@@ -1,0 +1,28 @@
+From 20691a2cf3d936b3e6b5140d2e28867519c6946d Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Sun, 11 Nov 2018 15:55:14 +0000
+Subject: [PATCH 2/2] cm_fx6: Disable CONFIG_ENV_OFFSET for Mender
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cm_fx6.h | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/include/configs/cm_fx6.h b/include/configs/cm_fx6.h
+index b9d6b1d..406b9de 100644
+--- a/include/configs/cm_fx6.h
++++ b/include/configs/cm_fx6.h
+@@ -62,10 +62,7 @@
+ #define CONFIG_ENV_SPI_CS		CONFIG_SF_DEFAULT_CS
+ #define CONFIG_ENV_SECT_SIZE		(64 * 1024)
+ #define CONFIG_ENV_SIZE			(8 * 1024)
+-#define CONFIG_ENV_OFFSET		(768 * 1024)
+-#define CONFIG_ENV_OFFSET_REDUND	(CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE)
+ #define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+-#define CONFIG_ENV_RANGE                (2*CONFIG_ENV_OFFSET)
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"stdin=serial,usbkbd\0" \
+-- 
+2.7.4
+
