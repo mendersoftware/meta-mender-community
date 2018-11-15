@@ -6,10 +6,10 @@ a server that manages deployments across many devices.
 
 This repository contains Yocto integration layers for various boards.
 
-Please check out https://mender.trydiscourse.com/ for more information on
-supported boards and instructions on how to setup an environment and build.
+Please check out https://hub.mender.io for more information on
+supported boards and instructions on how to setup environment and build images.
 
-![Mender logo](https://mender.io/user/pages/05.resources/06.digital-assets/logo.png)
+![Mender logo](https://mender.io/user/pages/resources/06.digital-assets/mender.io.png)
 
 ## Structure
 
@@ -109,7 +109,7 @@ documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING
 ## License
 
 Mender is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/mirzak/meta-mender-community/blob/master/LICENSE) for the
+[LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/sumo/LICENSE) for the
 full license text.
 
 ## Connect with us
