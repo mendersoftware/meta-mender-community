@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# Inspired by "probe" in oe-init-build-env
+if [ -n "$BASH_SOURCE" ]; then
+    this_script=$BASH_SOURCE
+elif [ -n "$ZSH_NAME" ]; then
+    this_script=$0
+else
+    this_script="$(pwd)/setup-environment"
+fi
+
+script_dir=$(dirname "$this_script")
+script_dir=$(readlink -f "$script_dir")
+
+mender_community_dir=${script_dir}/sources/meta-mender-community
+build_dir=${script_dir}/build
+
+target=""
+
+targets=(
+)
+
+for i in ${targets[@]}
+do
+    if [[ $i == $1 ]]
+    then
+        target=$1
+        break
+    fi
+done
+
+if [ -z "${target}" ]; then
+    echo "Sorry, it does not seem that *$1* is a valid target"
+    echo ""
+
+    printf "Supported targets are:\n"
+    printf '%s\n' "${targets[@]}"
+    return 1
+fi
+
+target_templates=${mender_community_dir}/meta-mender-${target}/templates
+
+. ${script_dir}/sources/poky/oe-init-build-env ${build_dir}
+
+if [ -f ${build_dir}/conf/mender_append_complete ]; then
+    return 1
+fi
+
+# Common entries for Mender
+cat ${mender_community_dir}/templates/local.conf.append >> ${build_dir}/conf/local.conf
+
+# Board specific entries
+cp ${target_templates}/bblayers.conf.sample ${build_dir}/conf/bblayers.conf
+cat ${target_templates}/local.conf.append >> ${build_dir}/conf/local.conf
+
+touch ${build_dir}/conf/mender_append_complete
