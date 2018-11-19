@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+  <default sync-j="4" revision="sumo"/>
+
+  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="https://github.com/Freescale"      name="freescale"/>
+
+  <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
+  <project name="meta-freescale" remote="yocto" revision="sumo" path="sources/meta-freescale"/>
+  <project name="meta-freescale-3rdparty" remote="freescale" revision="sumo" path="sources/meta-freescale-3rdparty"/>
+  <project name="meta-freescale-distro" remote="freescale" revision="sumo" path="sources/meta-freescale-distro"/>
+  
+  <include name="scripts/mender.xml"/>
+
+  </manifest>

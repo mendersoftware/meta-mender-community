@@ -1,0 +1,14 @@
+# Appended fragment from meta-mender-community/meta-mender-nxp/templates
+
+MACHINE ?= "imx7s-warp"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+IMAGE_BOOT_FILES = "boot.scr"
+MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE = "0"
+MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x80000"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0xA0000"
