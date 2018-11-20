@@ -1,0 +1,25 @@
+From 51dd2cc65eb1c2cdce81468e898467c51fdcbc07 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Sun, 11 Nov 2018 17:11:36 +0000
+Subject: [PATCH 5/5] cl-som-imx6: Add Mender-specific BOARD_NAME
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cl_som_imx6.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/configs/cl_som_imx6.h b/include/configs/cl_som_imx6.h
+index 2c92627..f235e20 100644
+--- a/include/configs/cl_som_imx6.h
++++ b/include/configs/cl_som_imx6.h
+@@ -32,5 +32,7 @@
+ #undef CONFIG_ENV_OFFSET
+ #undef CONFIG_ENV_OFFSET_REDUND
+ #undef CONFIG_ENV_RANGE
++#undef CONFIG_BOARD_NAME
++#define CONFIG_BOARD_NAME	"SOM-iMX6-Mender"
+ 
+ #endif	/* __CONFIG_CL_SOM_IMX6_H */
+-- 
+2.7.4
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <manifest>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="https://github.com" name="github"/>
+
+  <project name="meta-mender" remote="mender" revision="morty" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="morty" path="sources/meta-mender-community" />
+  <project name="mem/oe-meta-go.git" path="sources/oe-meta-go" revision="master" remote="github" />
+
+  </manifest>

@@ -1,0 +1,26 @@
+From 7bc12458b2fa5dd26e0c6846120f81ff8f4f96a1 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Thu, 8 Nov 2018 16:06:36 +0000
+Subject: [PATCH 2/5] cl-som-imx6: Enable BOOTCOUNT_ENV and BOOTCOUNT_LIMIT for
+ Mender
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cl_som_imx6.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/cl_som_imx6.h b/include/configs/cl_som_imx6.h
+index 61d0b78..e1d1bd5 100644
+--- a/include/configs/cl_som_imx6.h
++++ b/include/configs/cl_som_imx6.h
+@@ -27,4 +27,7 @@
+ #define CONFIG_BOARD_NAME	"SOM-iMX6-ATP"
+ #endif
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ #endif	/* __CONFIG_CL_SOM_IMX6_H */
+-- 
+2.7.4
+

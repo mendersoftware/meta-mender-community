@@ -1,0 +1,27 @@
+From 21b5f90f1ef8a3b36d869447288128eecd75df04 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Thu, 8 Nov 2018 20:18:09 +0000
+Subject: [PATCH 1/5] cm_fx6: Enabled redundant environment.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/cm_fx6.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/cm_fx6.h b/include/configs/cm_fx6.h
+index 6474160..fed4d60 100644
+--- a/include/configs/cm_fx6.h
++++ b/include/configs/cm_fx6.h
+@@ -70,6 +70,9 @@
+ #define CONFIG_ENV_SECT_SIZE		(64 * 1024)
+ #define CONFIG_ENV_SIZE			(8 * 1024)
+ #define CONFIG_ENV_OFFSET		(768 * 1024)
++#define CONFIG_ENV_OFFSET_REDUND	(CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE)
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
++#define CONFIG_ENV_RANGE                (2*CONFIG_ENV_OFFSET)
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"stdin=serial,usbkbd\0" \
+-- 
+2.7.4
+
