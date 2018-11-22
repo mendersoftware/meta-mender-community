@@ -1,12 +1,15 @@
 # Appended fragment from meta-mender-community/meta-mender-nxp/templates
 
+# Change this to `imx7d-pico` if you want to build for this platform
 MACHINE ?= "imx7s-warp"
+
+DISTRO ?= "fslc-framebuffer"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
-IMAGE_BOOT_FILES = "boot.scr"
+IMAGE_BOOT_FILES_imx7s-warp = "boot.scr"
 MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE = "0"
 MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
