@@ -9,8 +9,9 @@ IMAGE_FSTYPES_remove = "sdcard"
 
 IMAGE_BOOTLOADER_FILE = "u-boot.imx"
 
-MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
-MENDER_UBOOT_STORAGE_DEVICE = "3"
+MENDER_UBOOT_STORAGE_INTERFACE = ""
+MENDER_UBOOT_STORAGE_DEVICE = ""
+MENDER_STORAGE_DEVICE = "/dev/mmcblk3"
 
 # The compulab BSP is based on an earlier version of the morty branch
 # than what the Mender layers have been developed against. We need
