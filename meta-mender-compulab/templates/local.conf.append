@@ -22,7 +22,7 @@ BBMASK_append = " meta-mender-demo/recipes-core/volatile-binds/volatile-binds.bb
 # use a smaller amount here. Also, the data partition is arbitrarily sized to
 # 1GB which should allow us to create an SDCard bootable image with a copy of
 # the SDIMG file to then deploy to eMMC.
-MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
 MENDER_DATA_PART_SIZE_MB = "1024"
 
 # Do not really need a boot part and files in it,
