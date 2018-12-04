@@ -1,0 +1,39 @@
+From f3f16f1dbd1bd53009fd5eaacb2a8fae0097d0e9 Mon Sep 17 00:00:00 2001
+From: Alf-Rune Siqveland <alf.rune@northern.tech>
+Date: Tue, 28 Aug 2018 08:51:33 +0200
+Subject: [PATCH] Fix capacitive touch for 7inch display with Aster carrier
+ board
+
+NOTE: this only applies to the combination with
+ - Capacitive Touch Display 7 Inch Parallel (prod. id "1206[0-9]{4}")
+ - Aster carrier board (prod. id "0143[0-9]{4})
+
+Signed-off-by: Alf-Rune Siqveland <alf.rune@northern.tech>
+---
+ arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi b/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi
+index aa2b028e144a..0d0ed969e128 100644
+--- a/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi
++++ b/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi
+@@ -160,13 +160,10 @@
+ 	/* Atmel maxtouch controller */
+ 	atmel_mxt_ts: atmel_mxt_ts@4a {
+ 		compatible = "atmel,maxtouch";
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&pinctrl_gpiotouch>;
+ 		reg = <0x4a>;
+-		interrupt-parent = <&gpio1>;
+-		interrupts = <9 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 28 */
+-		reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>; /* SODIMM 30 */
+-		status = "disabled";
++		interrupt-parent = <&gpio2>;
++		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
++		status = "okay";
+ 	};
+ 
+ 	touch: touchrevf0710a@10 {
+-- 
+2.17.1
+
