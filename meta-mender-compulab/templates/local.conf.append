@@ -9,8 +9,9 @@ IMAGE_FSTYPES_remove = "sdcard"
 
 IMAGE_BOOTLOADER_FILE = "u-boot.imx"
 
-MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
-MENDER_UBOOT_STORAGE_DEVICE = "3"
+MENDER_UBOOT_STORAGE_INTERFACE = ""
+MENDER_UBOOT_STORAGE_DEVICE = ""
+MENDER_STORAGE_DEVICE = "/dev/mmcblk3"
 
 # The compulab BSP is based on an earlier version of the morty branch
 # than what the Mender layers have been developed against. We need
@@ -22,7 +23,7 @@ BBMASK_append = " meta-mender-demo/recipes-core/volatile-binds/volatile-binds.bb
 # use a smaller amount here. Also, the data partition is arbitrarily sized to
 # 1GB which should allow us to create an SDCard bootable image with a copy of
 # the SDIMG file to then deploy to eMMC.
-MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
 MENDER_DATA_PART_SIZE_MB = "1024"
 
 # Do not really need a boot part and files in it,
