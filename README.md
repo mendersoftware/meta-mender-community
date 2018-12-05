@@ -13,7 +13,7 @@ supported boards and instructions on how to setup environment and build images.
 
 ## Structure
 
-This section is for anyone interested in contribution support for a board.
+This section is for anyone interested in contributing support for a board.
 
 meta-mender-community is a repository containing multiple Yocto layers for
 integrating Mender onto various boards.
