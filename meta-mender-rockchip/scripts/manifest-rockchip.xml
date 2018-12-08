@@ -5,11 +5,10 @@
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
-  <remote fetch="git://github.com/mirzak"           name="mirzak"/>
 
   <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
   <project name="meta-openembedded" remote="oe" revision="sumo" path="sources/meta-openembedded"/>
-  <project name="meta-rockchip" remote="mirzak" revision="sumo" path="sources/meta-rockchip"/>
+  <project name="meta-rockchip" remote="yocto" revision="sumo" path="sources/meta-rockchip"/>
 
   <include name="scripts/mender.xml"/>
 

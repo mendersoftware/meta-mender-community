@@ -1,6 +1,3 @@
-require u-boot-rockchip-mender.inc
-require recipes-bsp/u-boot/u-boot-mender.inc
-
 DEPENDS += "u-boot-mkimage-native"
 
 UBOOT_ROCKCHIP_BINARY = "u-boot-rockchip.img"
