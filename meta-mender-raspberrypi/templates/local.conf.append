@@ -8,3 +8,6 @@ MENDER_PARTITION_ALIGNMENT = "4194304"
 MENDER_BOOT_PART_SIZE_MB = "40"
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 IMAGE_FSTYPES_remove += " rpi-sdimg"
+
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
