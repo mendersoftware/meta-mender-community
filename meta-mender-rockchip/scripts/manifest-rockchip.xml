@@ -3,7 +3,6 @@
   <default sync-j="4" revision="sumo"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
-  <remote fetch="git://github.com/rockchip-linux"   name="rockchip"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
 
   <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
