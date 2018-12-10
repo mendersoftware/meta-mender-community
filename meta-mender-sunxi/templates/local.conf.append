@@ -21,3 +21,7 @@ MENDER_UBOOT_STORAGE_DEVICE_nanopi-m1-plus = "0"
 # NanoPi, uncomment this for eMMC. Remember to remove above!
 #MENDER_STORAGE_DEVICE_nanopi-m1-plus = "/dev/mmcblk3"
 #MENDER_UBOOT_STORAGE_DEVICE_nanopi-m1-plus = "1"
+
+# disable uefi
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
