@@ -1,0 +1,36 @@
+From 6679c047066ff17e666153e9614efe2aac58f4e3 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 6 Aug 2018 21:21:09 +0200
+Subject: [PATCH] env: Kconfig: remove defaults for SUNXI
+
+That is ENV_IS_IN_FAT and the default offset. Mender build will set
+up these correctly
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ env/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/env/Kconfig b/env/Kconfig
+index f23be00..f89a01f 100644
+--- a/env/Kconfig
++++ b/env/Kconfig
+@@ -56,7 +56,6 @@ config ENV_IS_IN_FAT
+ 	bool "Environment is in a FAT filesystem"
+ 	depends on !CHAIN_OF_TRUST
+ 	default y if ARCH_BCM283X
+-	default y if ARCH_SUNXI && MMC
+ 	default y if MMC_OMAP_HS && TI_COMMON_CMD_OPTIONS
+ 	select FS_FAT
+ 	select FAT_WRITE
+@@ -438,7 +437,6 @@ config ENV_OFFSET
+ 	depends on !ENV_IS_IN_UBI
+ 	depends on !ENV_IS_NOWHERE
+ 	default 0x3f8000 if ARCH_ROCKCHIP
+-	default 0x88000 if ARCH_SUNXI
+ 	default 0xE0000 if ARCH_ZYNQ
+ 	default 0x1E00000 if ARCH_ZYNQMP
+ 	help
+-- 
+2.7.4
+

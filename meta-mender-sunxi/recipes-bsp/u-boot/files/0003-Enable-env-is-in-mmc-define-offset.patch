@@ -1,0 +1,32 @@
+From 889810f7a0d0766d18440cb615ac962a8a21ac59 Mon Sep 17 00:00:00 2001
+From: Marek Belisko <marek.belisko@open-nandra.com>
+Date: Mon, 10 Dec 2018 18:07:26 +0100
+Subject: [PATCH] Enable env is in mmc + define offset
+
+Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
+---
+ configs/orangepi_zero_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/configs/orangepi_zero_defconfig b/configs/orangepi_zero_defconfig
+index 0da9c65..2b585c9 100644
+--- a/configs/orangepi_zero_defconfig
++++ b/configs/orangepi_zero_defconfig
+@@ -1,5 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_ARCH_SUNXI=y
++CONFIG_ENV_OFFSET=0x800000
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=624
+@@ -12,6 +13,7 @@ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_CONSOLE_MUX=y
+ # CONFIG_CMD_FLASH is not set
+ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h2-plus-orangepi-zero"
++CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SUN8I_EMAC=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_SYS_USB_EVENT_POLL_VIA_INT_QUEUE=y
+-- 
+2.7.4
+
