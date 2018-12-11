@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="sumo"/>
+  <default sync-j="4" revision="thud"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/linux-sunxi"      name="sunxi"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
 
-  <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
-  <project name="meta-openembedded" remote="oe" revision="sumo" path="sources/meta-openembedded"/>
-  <project name="meta-sunxi" remote="sunxi" revision="sumo" path="sources/meta-sunxi"/>
+  <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="thud" path="sources/meta-openembedded"/>
+  <project name="meta-sunxi" remote="sunxi" revision="thud" path="sources/meta-sunxi"/>
 
   <include name="scripts/mender.xml"/>
 
