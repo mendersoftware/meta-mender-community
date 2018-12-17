@@ -13,7 +13,7 @@ Download the source:
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-atmel/scripts/manifest-atmel.xml \
-           -b sumo
+           -b thud
     $ repo sync
 
 Setup environment

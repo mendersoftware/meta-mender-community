@@ -4,6 +4,7 @@ MACHINE ?= "sama5d27-som1-ek-sd"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 # Environment
