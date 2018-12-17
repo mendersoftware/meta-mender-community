@@ -1,50 +1,42 @@
-From bf0080e37210c63ef39132485c4f83a3b18c6295 Mon Sep 17 00:00:00 2001
+From d6f297a495aa7672c60b3bcbf5f4cb27f7fa73d0 Mon Sep 17 00:00:00 2001
 From: Joris Offouga <offougajoris@gmail.com>
-Date: Wed, 21 Nov 2018 23:31:46 +0000
-Subject: [PATCH] Add NXP Pico-Pi imx7d board
+Date: Sat, 15 Dec 2018 13:09:51 +0000
+Subject: [PATCH] ARM Pico-Pi i.MX7D support to mender
 
 Signed-off-by: Joris Offouga <offougajoris@gmail.com>
 ---
- configs/pico-imx7d_defconfig    |  5 +++--
- configs/pico-pi-imx7d_defconfig |  3 ++-
- include/configs/pico-imx7d.h    | 15 ++++++++++++---
- 3 files changed, 17 insertions(+), 6 deletions(-)
+ configs/pico-pi-imx7d_defconfig |  5 +++--
+ include/configs/pico-imx7d.h    | 17 ++++++++++++++---
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/configs/pico-imx7d_defconfig b/configs/pico-imx7d_defconfig
-index 623856c..48686ef 100644
---- a/configs/pico-imx7d_defconfig
-+++ b/configs/pico-imx7d_defconfig
-@@ -14,8 +14,9 @@ CONFIG_IMX_RDC=y
- CONFIG_IMX_BOOTAUX=y
- CONFIG_DISTRO_DEFAULTS=y
- CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/mach-imx/spl_sd.cfg"
--CONFIG_BOOTCOMMAND="run findfdt; run finduuid; run distro_bootcmd"
--CONFIG_DEFAULT_FDT_FILE="ask"
-+CONFIG_BOOTCOUNT_ENV=y
-+CONFIG_BOOTCOUNT_LIMIT=y
-+CONFIG_DEFAULT_FDT_FILE="imx7d-pico-pi.dtb"
- CONFIG_SPL_I2C_SUPPORT=y
- CONFIG_SPL_USB_HOST_SUPPORT=y
- CONFIG_SPL_USB_GADGET_SUPPORT=y
 diff --git a/configs/pico-pi-imx7d_defconfig b/configs/pico-pi-imx7d_defconfig
-index 2e72572..10d9436 100644
+index 3a182dc..ef12cfc 100644
 --- a/configs/pico-pi-imx7d_defconfig
 +++ b/configs/pico-pi-imx7d_defconfig
-@@ -14,7 +14,8 @@ CONFIG_IMX_RDC=y
- CONFIG_IMX_BOOTAUX=y
+@@ -14,7 +14,6 @@ CONFIG_IMX_BOOTAUX=y
  CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_NR_DRAM_BANKS=1
  CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/mach-imx/spl_sd.cfg"
 -CONFIG_BOOTCOMMAND="run findfdt; run finduuid; run distro_bootcmd"
-+CONFIG_BOOTCOUNT_ENV=y
-+CONFIG_BOOTCOUNT_LIMIT=y
  CONFIG_DEFAULT_FDT_FILE="imx7d-pico-pi.dtb"
  CONFIG_SPL_I2C_SUPPORT=y
  CONFIG_SPL_USB_HOST_SUPPORT=y
+@@ -34,7 +33,9 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_USB_SDP=y
+ CONFIG_CMD_USB_MASS_STORAGE=y
+-# CONFIG_CMD_SETEXPR is not set
++CONFIG_CMD_SETEXPR=y
++CONFIG_BOOTCOUNT_ENV=y
++CONFIG_BOOTCOUNT_LIMIT=y
+ # CONFIG_CMD_MII is not set
+ CONFIG_CMD_CACHE=y
+ CONFIG_CMD_EXT4_WRITE=y
 diff --git a/include/configs/pico-imx7d.h b/include/configs/pico-imx7d.h
-index 13e7353..d370307 100644
+index 1884c58..ca8a19f 100644
 --- a/include/configs/pico-imx7d.h
 +++ b/include/configs/pico-imx7d.h
-@@ -94,6 +94,18 @@
+@@ -98,6 +98,17 @@
  
  #include <config_distro_bootcmd.h>
  
@@ -54,26 +46,31 @@ index 13e7353..d370307 100644
 +  "setenv bootargs 'console=${console},${baudrate} root=${mender_kernel_root} rootwait rw';" \
 +  "run mender_setup;" \
 +  "mmc dev ${mender_uboot_dev}; " \
-+  "load ${mender_uboot_root} ${loadaddr} /boot/${image}; " \
++  "load ${mender_uboot_root} ${kernel_addr_r} /boot/${image}; " \
 +  "load ${mender_uboot_root} ${fdt_addr} /boot/${fdtfile};" \
-+  "bootz ${loadaddr} - ${fdt_addr};" \
++  "bootz ${kernel_addr_r} - ${fdt_addr};" \
 +  "run mender_try_to_recover"
-+
 +
  #define CONFIG_SYS_MEMTEST_START	0x80000000
  #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 0x20000000)
  
-@@ -129,13 +141,10 @@
+@@ -132,7 +143,7 @@
  #define CONFIG_POWER_PFUZE3000_I2C_ADDR	0x08
  
  /* FLASH and environment organization */
 -#define CONFIG_ENV_SIZE			SZ_8K
++
  
- #define CONFIG_ENV_OFFSET			(8 * SZ_64K)
+ /* Environment starts at 768k = 768 * 1024 = 786432 */
+ #define CONFIG_ENV_OFFSET		786432
+@@ -149,8 +160,8 @@
+ 
  #define CONFIG_SYS_FSL_USDHC_NUM		2
  
 -#define CONFIG_SYS_MMC_ENV_DEV			0
 -#define CONFIG_SYS_MMC_ENV_PART		0
++
++
  
  /* USB Configs */
  #define CONFIG_EHCI_HCD_INIT_AFTER_RESET

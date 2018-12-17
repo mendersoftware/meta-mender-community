@@ -15,4 +15,5 @@ BBLAYERS ?= " \
   ${TOPDIR}/../sources/meta-freescale \
   ${TOPDIR}/../sources/meta-freescale-3rdparty \
   ${TOPDIR}/../sources/meta-freescale-distro \
+  ${TOPDIR}/../sources/meta-openembedded/meta-oe \
 "

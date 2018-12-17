@@ -7,11 +7,20 @@ DISTRO ?= "fslc-framebuffer"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+# Specific Kernel devicetree and U-Boot Configuration for Pico-Pi i.MX7D
+KERNEL_DEVICETREE_remove_imx7d-pico = "imx7d-pico-hobbit.dtb"
+UBOOT_CONFIG_remove_imx7d-pico = "hobbit generic"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7d-pico = "0xC0000"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7d-pico = "0xE0000"
 
+# Specific Configuration for WaRP7
 IMAGE_BOOT_FILES_imx7s-warp = "boot.scr"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7s-warp = "0x80000"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7s-warp = "0xA0000"
+
+# General Configuration for imx device 
 MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE = "0"
 MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
-MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x80000"
-MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0xA0000"
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
