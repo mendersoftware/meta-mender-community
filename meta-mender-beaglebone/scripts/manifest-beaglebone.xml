@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <default sync-j="4" revision="sumo"/>
+  <default sync-j="4" revision="thud"/>
 
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
 
-  <project name="poky" remote="yocto" revision="sumo" path="sources/poky"/>
+  <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
 
   <include name="scripts/mender.xml"/>
 
