@@ -17,7 +17,7 @@ Download the source:
     $ repo init \
             -u https://github.com/mendersoftware/meta-mender-community \
             -m meta-mender-tegra/scripts/manifest-tegra.xml \
-            -b sumo
+            -b thud
     $ repo sync
 
 Setup environment

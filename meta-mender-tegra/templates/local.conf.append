@@ -35,3 +35,9 @@ MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "262144"
 MENDER_PARTITION_ALIGNMENT = "4096"
 # Not required, gives you access via SSH by default
 EXTRA_IMAGE_FEATURES += " ssh-server-dropbear"
+
+# See https://hub.mender.io/t/yocto-thud-release-and-mender/144
+# Default for thud and later is grub integration but we need to use u-boot integration already included.
+# Leave out sdimg since we don't use this with tegra (instead use tegraflash)
+MENDER_FEATURES_ENABLE_append = " mender-uboot"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"

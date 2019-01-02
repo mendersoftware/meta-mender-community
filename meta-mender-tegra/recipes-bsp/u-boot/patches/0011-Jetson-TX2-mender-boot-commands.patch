@@ -1,6 +1,6 @@
-From 631334da464f8eada6606f987a14eb4a4a66224b Mon Sep 17 00:00:00 2001
+From 6cea15a9ea7b680a9f2f48b08b9e10c68ab7c633 Mon Sep 17 00:00:00 2001
 From: Dan Walkes <danwalkes@trellis-logic.com>
-Date: Wed, 31 Oct 2018 12:25:48 -0600
+Date: Tue, 1 Jan 2019 18:00:39 -0700
 Subject: [PATCH] Jetson TX2 mender boot commands
 
 Modify u-boot to use bootcmd setting based on
@@ -27,16 +27,16 @@ index 700aedb..ae631c0 100644
  #ifdef	CONFIG_RAMBOOTCOMMAND
  	"ramboot="	CONFIG_RAMBOOTCOMMAND		"\0"
 diff --git a/include/env_mender.h b/include/env_mender.h
-index cf46ef0..ac53536 100644
+index 6fde590..dc1ba31 100644
 --- a/include/env_mender.h
 +++ b/include/env_mender.h
-@@ -136,9 +136,12 @@
+@@ -142,9 +142,12 @@
  
  #define CONFIG_MENDER_BOOTCOMMAND                                       \
      "run mender_setup; "                                                \
 -    MENDER_BOOTARGS                                                     \
 -    MENDER_LOAD_KERNEL_AND_FDT                                          \
--    "${mender_boot_kernel_type} ${loadaddr} - ${fdt_addr_r}; "     \
+-    "${mender_boot_kernel_type} ${kernel_addr_r} - ${fdt_addr_r}; "     \
 +    "setenv distro_bootpart ${mender_boot_part}; "			\
 +    "setenv distro_bootpart_hex ${mender_boot_part_hex}; "		\
 +    "setenv devnum " __stringify(MENDER_UBOOT_STORAGE_DEVICE) "; " 	\
