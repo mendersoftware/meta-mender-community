@@ -1,0 +1,57 @@
+From 2aa9329bfb99c244cd7586558d4f8bc41b5dcd94 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Wed, 23 Jan 2019 10:45:50 +0100
+Subject: [PATCH 1/1] configs: poplar: integrate Mender
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ include/configs/poplar.h | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/include/configs/poplar.h b/include/configs/poplar.h
+index 0a8c3d245e..b5195e4e23 100644
+--- a/include/configs/poplar.h
++++ b/include/configs/poplar.h
+@@ -55,14 +55,14 @@
+ /*****************************************************************************
+  *  Initial environment variables
+  *****************************************************************************/
+-
+-#define BOOT_TARGET_DEVICES(func)					\
+-					func(USB, usb, 0)		\
+-					func(MMC, mmc, 0)		\
+-					func(DHCP, dhcp, na)
+ #ifndef CONFIG_SPL_BUILD
+-#include <config_distro_defaults.h>
+-#include <config_distro_bootcmd.h>
++#define CONFIG_BOOTCOMMAND \
++    "run mender_setup; " \
++    "load ${mender_uboot_root} ${fdt_addr_r} /boot/hi3798cv200-poplar.dtb; " \
++    "load ${mender_uboot_root} ${kernel_addr_r} /boot/Image; " \
++    "booti ${kernel_addr_r} - ${fdt_addr_r}; " \
++    "run mender_try_to_recover;"
++
+ #endif
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS					\
+@@ -91,14 +91,13 @@
+ 			    "part size mmc 0 2 aisize; "		\
+ 			    "mmc read ${android_addr_r} ${aistart} ${aisize}; " \
+ 			    "booti ${android_addr_r}\0" \
+-			BOOTENV
++			"bootargs=mem=1G console=tty1 earlycon console=ttyAMA0 rw root=${mender_kernel_root} rootwait rootfstype=ext4\0"
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
+ 
+ /* Command line configuration */
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#define CONFIG_ENV_OFFSET		(0xf80 * 512) /* env_mmc_blknum bytes */
+ #define CONFIG_ENV_SIZE			(0x80 * 512)  /* env_mmc_nblks bytes */
+-#define CONFIG_FAT_WRITE
+ #define CONFIG_ENV_VARS_UBOOT_CONFIG
+ 
+ /* Monitor Command Prompt */
+-- 
+2.20.1
+
