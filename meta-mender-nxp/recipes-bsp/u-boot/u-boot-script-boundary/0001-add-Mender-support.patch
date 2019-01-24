@@ -1,0 +1,57 @@
+From 31a142012ab2ca0df76ab9762a7d448398528aed Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 31 Dec 2018 14:20:14 +0100
+Subject: [PATCH 1/1] add Mender support
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ .../boundary/bootscripts/bootscript-yocto.txt | 22 ++++++++-----------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/board/boundary/bootscripts/bootscript-yocto.txt b/board/boundary/bootscripts/bootscript-yocto.txt
+index c7009d840a..515add1017 100644
+--- a/board/boundary/bootscripts/bootscript-yocto.txt
++++ b/board/boundary/bootscripts/bootscript-yocto.txt
+@@ -57,14 +57,6 @@ if load ${devtype} ${devnum}:${distro_bootpart} ${a_script} uEnv.txt ; then
+ fi
+ setenv bootargs ${bootargs} console=${console},115200 vmalloc=400M consoleblank=0 rootwait fixrtc cpu=${imx_cpu} board=${board}
+ 
+-if load ${devtype} ${devnum}:${distro_bootpart} ${a_fdt} ${prefix}${fdt_file} ; then
+-	fdt addr ${a_fdt}
+-	setenv fdt_high 0xffffffff
+-else
+-	echo "!!!! Error loading ${prefix}${fdt_file}";
+-	exit;
+-fi
+-
+ cmd_xxx_present=
+ fdt resize
+ if itest.s "x" != "x${cmd_custom}" ; then
+@@ -114,7 +106,9 @@ if test "sata" = "${devtype}" ; then
+ elif test "usb" = "${devtype}" ; then
+ 	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
+ else
+-	setenv bootargs "${bootargs} root=/dev/mmcblk${devnum}p${bpart}"
++	# Intentional \ here to prevent expansion, it will be
++	# expanded by 'mender-setup'
++	setenv bootargs "${bootargs} root=\${mender_kernel_root}"
+ fi
+ 
+ if itest.s "x" != "x${disable_msi}" ; then
+@@ -159,7 +153,9 @@ if itest.s "x" != "x${show_env}" ; then
+ 	printenv
+ fi
+ 
+-if load ${devtype} ${devnum}:${distro_bootpart} ${a_zImage} ${prefix}zImage ; then
+-	bootz ${a_zImage} - ${a_fdt}
+-fi
+-echo "Error loading kernel image"
++run mender_setup
++mmc dev ${mender_uboot_dev}
++load ${mender_uboot_root} ${a_zImage} /boot/zImage
++load ${mender_uboot_root} ${a_fdt} /boot/${fdt_file}
++bootz ${a_zImage} - ${a_fdt}
++run mender_try_to_recover
+-- 
+2.20.1
+

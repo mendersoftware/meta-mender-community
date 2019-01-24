@@ -4,6 +4,7 @@ Supported boards:
 
  - WaRP7
  - Pico-Pi i.MX7D
+ - Nitrogen6X
 
 ## Build
 
