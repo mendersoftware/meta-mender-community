@@ -1,0 +1,66 @@
+From 01aa35e81c8b5fd7b5e797c6b0a003e2eeb0aac7 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 31 Dec 2018 14:33:51 +0100
+Subject: [PATCH 1/2] enable Mender requirements and remove env_offset define
+
+ENV_OFFSET is calculated by meta-mender.
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ include/configs/boundary.h   | 10 +---------
+ include/configs/nitrogen6x.h |  4 ++++
+ 2 files changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/include/configs/boundary.h b/include/configs/boundary.h
+index 62ee146064..f9e4539021 100644
+--- a/include/configs/boundary.h
++++ b/include/configs/boundary.h
+@@ -372,10 +372,6 @@
+ #define LOG_CMA_STR ""
+ #endif
+ 
+-#ifndef CONFIG_ENV_OFFSET
+-#define CONFIG_ENV_OFFSET		0xc0000
+-#endif
+-
+ #define BD_BOUNDARY_ENV_SETTINGS \
+ 	"clearenv=if sf probe || sf probe ; then " \
+ 		"sf erase " __stringify(CONFIG_ENV_OFFSET) " 0x2000 && " \
+@@ -454,11 +450,7 @@
+ #define CONFIG_ENV_IS_IN_SPI_FLASH
+ #endif
+ 
+-#if defined(CONFIG_ENV_IS_IN_MMC)
+-#undef CONFIG_ENV_OFFSET
+-#define CONFIG_ENV_OFFSET		(6 * 64 * 1024)
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#elif defined(CONFIG_ENV_IS_IN_SPI_FLASH)
++#if defined(CONFIG_ENV_IS_IN_SPI_FLASH)
+ #define CONFIG_ENV_SECT_SIZE		(8 * 1024)
+ #define CONFIG_ENV_SPI_BUS		CONFIG_SF_DEFAULT_BUS
+ #define CONFIG_ENV_SPI_CS		CONFIG_SF_DEFAULT_CS
+diff --git a/include/configs/nitrogen6x.h b/include/configs/nitrogen6x.h
+index bd4e54cb67..09192464a6 100644
+--- a/include/configs/nitrogen6x.h
++++ b/include/configs/nitrogen6x.h
+@@ -15,6 +15,9 @@
+ #undef CONFIG_SYS_BOARD
+ #endif
+ 
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
+ #define CONFIG_MACH_TYPE	3769
+ 
+ #define CONFIG_MXC_SPI_DISPLAY
+@@ -113,6 +116,7 @@
+ 	"done; " \
+ 	"run netboot; "
+ #else
++#define CONFIG_ENV_IS_IN_MMC
+ #include "boundary.h"
+ #define CONFIG_EXTRA_ENV_SETTINGS BD_BOUNDARY_ENV_SETTINGS \
+ 
+-- 
+2.19.2
+

@@ -21,3 +21,22 @@ MENDER_UBOOT_STORAGE_DEVICE_imx7d-pico = "0"
 MENDER_STORAGE_DEVICE_imx7d-pico = "/dev/mmcblk1"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7d-pico = "0x80000"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7d-pico = "0xA0000"
+
+# We install update.scr and u-boot in boot part because we need
+# to flash U-boot in first boot. The bootloader is stored on a
+# external EEPROM.
+#
+# To program U-boot we need to run:
+#
+#    run upgradeu
+#
+# and to make sure that correct U-boot env is used:
+#
+#    env default -a
+#    saveenv
+#
+IMAGE_BOOT_FILES_nitrogen6x = "\
+    boot.scr-nitrogen6x;boot.scr \
+    upgrade.scr-nitrogen6x;upgrade.scr \
+    u-boot-nitrogen6x.imx;u-boot.nitrogen6q \
+"

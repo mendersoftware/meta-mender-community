@@ -1,0 +1,28 @@
+From b1fa2e9badb80ec0e695bbdfc8774202163f047e Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 31 Dec 2018 15:06:49 +0100
+Subject: [PATCH 2/2] tools/Makefile: do not use python from
+
+And instead the one defined by PYTHON.
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ tools/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/Makefile b/tools/Makefile
+index cb1683e153..5467ab5e30 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -138,7 +138,7 @@ tools/_libfdt.so: $(LIBFDT_SRCS) $(LIBFDT_SWIG)
+ 		CPPFLAGS="$(_hostc_flags)" OBJDIR=tools \
+ 		SOURCES="$(LIBFDT_SRCS) tools/libfdt.i" \
+ 		SWIG_OPTS="-I$(srctree)/lib/libfdt -I$(srctree)/lib" \
+-		$(libfdt_tree)/pylibfdt/setup.py --quiet build_ext \
++		$(PYTHON) $(libfdt_tree)/pylibfdt/setup.py --quiet build_ext \
+ 			--build-lib tools
+ 
+ ifneq ($(CONFIG_MX23)$(CONFIG_MX28),)
+-- 
+2.19.2
+
