@@ -1,6 +1,10 @@
 # Appended fragment from meta-mender-community/meta-mender-nxp/templates
 
-# Change this to `imx7d-pico` if you want to build for this platform
+# Supported machines are:
+#    - imx7s-warp
+#    - imx7d-pico
+#    - nitrogen6x
+#
 MACHINE ?= "imx7s-warp"
 
 DISTRO ?= "fslc-framebuffer"
