@@ -3,6 +3,7 @@
 Supported boards:
 
  - sama5d27-som1-ek-sd
+ - sama5d23-xplained-sd
 
 ## Build
 
