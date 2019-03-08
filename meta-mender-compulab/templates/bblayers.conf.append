@@ -1,0 +1,3 @@
+BBLAYERS += " ${BSPDIR}/sources/meta-mender/meta-mender-core "
+BBLAYERS += " ${BSPDIR}/sources/meta-mender/meta-mender-demo "
+BBLAYERS += " ${BSPDIR}/sources/meta-mender-community/meta-mender-compulab "

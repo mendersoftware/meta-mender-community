@@ -1,0 +1,11 @@
+# Appended fragment from meta-mender-community/meta-mender-compulab/templates
+PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-mender-auto-provided"
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_FSTYPES_remove = "sdcard sdcard.bz2 mender.bmap tar.bz2 ext4"
+MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+MENDER_BOOT_PART_SIZE_MB = "0"
+IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "66"
+IMAGE_BOOTLOADER_FILE = "imx-boot-${MACHINE}-${UBOOT_CONFIG}.bin"
+do_image_sdimg[depends] += " imx-boot:do_deploy"
+PREFERRED_PROVIDER_u-boot_cl-som-imx8 = "u-boot-imx"
+MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
