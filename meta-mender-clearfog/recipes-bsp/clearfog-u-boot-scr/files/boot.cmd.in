@@ -1,0 +1,9 @@
+setenv bootargs 'root=${mender_kernel_root} rw rootwait'
+run mender_setup;
+
+# Boot the board
+load ${mender_uboot_root} ${kernel_addr_r} /boot/zImage
+load ${mender_uboot_root} ${fdt_addr_r} /boot/armada-388-clearfog-base.dtb
+
+bootz ${kernel_addr_r} - ${fdt_addr_r}
+

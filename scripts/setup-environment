@@ -20,6 +20,7 @@ target=""
 targets=(
     "atmel"
     "beaglebone"
+    "clearfog"
     "intel"
     "nxp"
     "qemu"

@@ -1,0 +1,12 @@
+# Appended fragment from meta-mender-community/meta-mender-clearfog/templates
+
+MACHINE ?= "clearfog-base"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-clearfog-base.bin"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "1"
+
