@@ -1,0 +1,57 @@
+From f6308c3b122336b0a746a8624c73e9f46b55f3d2 Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Date: Sun, 10 Mar 2019 14:46:14 +0100
+Subject: [PATCH] bootscript: add Mender support
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ board/boundary/bootscripts/bootscript-yocto.txt | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/board/boundary/bootscripts/bootscript-yocto.txt b/board/boundary/bootscripts/bootscript-yocto.txt
+index a076628..6fdac84 100644
+--- a/board/boundary/bootscripts/bootscript-yocto.txt
++++ b/board/boundary/bootscripts/bootscript-yocto.txt
+@@ -65,14 +65,6 @@ if load ${devtype} ${devnum}:${distro_bootpart} ${a_script} uEnv.txt ; then
+ fi
+ setenv bootargs ${bootargs} console=${console},115200 vmalloc=400M consoleblank=0 rootwait fixrtc cpu=${imx_cpu} board=${board}
+ 
+-if load ${devtype} ${devnum}:${distro_bootpart} ${a_fdt} ${prefix}${fdt_file} ; then
+-	fdt addr ${a_fdt}
+-	setenv fdt_high 0xffffffff
+-else
+-	echo "!!!! Error loading ${prefix}${fdt_file}";
+-	exit;
+-fi
+-
+ fdt resize
+ if itest.s "x" != "x${cmd_custom}" ; then
+ 	run cmd_custom
+@@ -108,7 +100,9 @@ if test "sata" = "${devtype}" ; then
+ elif test "usb" = "${devtype}" ; then
+ 	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
+ else
+-	setenv bootargs "${bootargs} root=/dev/mmcblk${devnum}p${bpart}"
++	# Intentional \ here to prevent expansion, it will be
++	# expanded by 'mender-setup'
++	setenv bootargs "${bootargs} root=\${mender_kernel_root}"
+ fi
+ 
+ if itest.s "x" != "x${disable_msi}" ; then
+@@ -153,7 +147,9 @@ if itest.s "x" != "x${show_env}" ; then
+ 	printenv
+ fi
+ 
+-if load ${devtype} ${devnum}:${distro_bootpart} ${a_zImage} ${prefix}${kernelimage} ; then
+-	${bootcommand} ${a_zImage} - ${a_fdt}
+-fi
+-echo "Error loading kernel image"
++run mender_setup
++mmc dev ${mender_uboot_dev}
++load ${mender_uboot_root} ${a_zImage} /boot/Image
++load ${mender_uboot_root} ${a_fdt} /boot/imx8mq-nitrogen8m.dtb
++booti ${a_zImage} - ${a_fdt}
++run mender_try_to_recover
+-- 
+2.7.4
+
