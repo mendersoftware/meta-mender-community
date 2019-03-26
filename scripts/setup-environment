@@ -23,6 +23,7 @@ targets=(
     "clearfog"
     "intel"
     "nxp"
+    "odroid"
     "qemu"
     "raspberrypi"
     "renesas"
