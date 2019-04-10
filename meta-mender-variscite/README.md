@@ -9,24 +9,9 @@ ultimately all of them, but to be able to do that we need to collaborate.
 
 Supported SoMs:
 
-    - imx6ul-var-dart - DART-6UL (uSD/eMMC, WiFi)
+- imx6ul-var-dart - DART-6UL (uSD/eMMC, WiFi)
+- var-som-solo - i.MX6 Solo (uSD)
 
 ### Build
 
-Download the source:
-
-    $ mkdir mender-variscite
-    $ cd mender-variscite
-    $ repo init \
-           -u https://github.com/mendersoftware/meta-mender-community \
-           -m meta-mender-variscite/scripts/manifest-variscite.xml \
-           -b sumo
-    $ repo sync
-
-Setup environment
-
-    $ . setup-environment variscite
-
-Build
-
-    $ bitbake core-image-base
+See specifics for this board at [Mender Hub](https://hub.mender.io/t/compulab-cl-som-imx8/416).
