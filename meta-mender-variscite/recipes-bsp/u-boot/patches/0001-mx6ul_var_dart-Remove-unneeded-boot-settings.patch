@@ -1,4 +1,4 @@
-From 0f2390ed86dd0aa217278cf9a39ffac05f7fdea5 Mon Sep 17 00:00:00 2001
+From 8a5524ec6559f0715eea9c38e909ed58350ba1b7 Mon Sep 17 00:00:00 2001
 From: Drew Moseley <drew.moseley@northern.tech>
 Date: Sun, 9 Dec 2018 20:35:35 +0000
 Subject: [PATCH] mx6ul_var_dart: Remove unneeded boot settings.
@@ -8,11 +8,11 @@ environment is too large and cannot build.
 
 Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
 ---
- include/configs/mx6ul_var_dart.h | 67 +---------------------------------------
+ include/configs/mx6ul_var_dart.h | 67 +-------------------------------
  1 file changed, 1 insertion(+), 66 deletions(-)
 
 diff --git a/include/configs/mx6ul_var_dart.h b/include/configs/mx6ul_var_dart.h
-index 0839185..2783c89 100644
+index 61acf16c30..2783c890bb 100644
 --- a/include/configs/mx6ul_var_dart.h
 +++ b/include/configs/mx6ul_var_dart.h
 @@ -71,44 +71,7 @@
@@ -67,7 +67,7 @@ index 0839185..2783c89 100644
  	"boot_fdt=try\0" \
 -	"ip_dyn=yes\0" \
 -	"netargs=setenv bootargs console=${console},${baudrate} " \
--		"root=/dev/nfs ${cma_size} " \
+-		"root=/dev/nfs rw ${cma_size}" \
 -		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
 -	"netboot=echo Booting from net ...; " \
 -		"run netargs; " \
@@ -97,5 +97,5 @@ index 0839185..2783c89 100644
  	"usbnet_hostaddr=f8:dc:7a:00:00:01\0" \
  	"ramsize_check="\
 -- 
-2.7.4
+2.21.0
 
