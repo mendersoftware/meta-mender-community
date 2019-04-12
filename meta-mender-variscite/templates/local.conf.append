@@ -10,8 +10,9 @@ IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
 
 MENDER_PARTITION_ALIGNMENT_KB = "4096"
 
-MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
-MENDER_UBOOT_STORAGE_DEVICE = "0"
+MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "0"
+MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk0"
 
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
