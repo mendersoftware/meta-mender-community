@@ -13,6 +13,7 @@ MENDER_PARTITION_ALIGNMENT = "4194304"
 MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk1"
 MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "0"
 MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk0"
+MENDER_BOOT_PART_SIZE_MB = "0"
 
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
