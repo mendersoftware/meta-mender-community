@@ -7,6 +7,7 @@ DISTRO ?= 'fslc-x11'
 # a 1kb offset.
 MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-spl.img"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
+IMAGE_BOOT_FILES = ""
 
 MENDER_PARTITION_ALIGNMENT = "4194304"
 
@@ -20,4 +21,8 @@ PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 
 UBOOT_CONFIG = "sd"
 
-IMAGE_FSTYPES_remove = "tar.gz ext4 sdcard multiubi mender.bmap"
+IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
+
+# disable uefi
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
