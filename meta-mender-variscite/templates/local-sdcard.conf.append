@@ -1,0 +1,9 @@
+
+# Appended fragment from meta-mender-community/meta-mender-variscite/templates
+
+# SDCard Settings
+MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "0"
+MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk0"
+UBOOT_CONFIG_var-som-mx6 = "sd"
+UBOOT_CONFIG_imx6ul-var-dart = "sd"
