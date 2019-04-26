@@ -1,20 +1,28 @@
 
 # Appended fragment from meta-mender-community/meta-mender-variscite/templates
 
-MACHINE ?= 'imx6ul-var-dart'
 DISTRO ?= 'fslc-x11'
 
 # This will make sure that our SPL + u-boot.img is embedded in the sdimg at
 # a 1kb offset.
 MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-spl.img"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
+IMAGE_BOOT_FILES = ""
 
 MENDER_PARTITION_ALIGNMENT = "4194304"
 
-# Change this to /dev/mmcblk1 if you want to run from eMMC
-MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "0"
+MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk0"
+MENDER_BOOT_PART_SIZE_MB = "0"
 
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
 
 UBOOT_CONFIG = "sd"
+
+IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
+
+# disable uefi
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
