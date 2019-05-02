@@ -2,9 +2,8 @@
 
 # Supported machines are:
 #    - pico-imx7
+#    - pico-imx6ul
 #
-MACHINE ?= "pico-imx7"
-
 DISTRO ?= "fsl-imx-fb"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
@@ -19,6 +18,14 @@ MENDER_UBOOT_STORAGE_INTERFACE_pico-imx7 = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE_pico-imx7 = "0"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_pico-imx7 = "0xC0000"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_pico-imx7 = "0xE0000"
+
+# Specific Kernel devicetree and U-Boot Configuration for Pico-Pi i.MX6ULL
+MENDER_STORAGE_DEVICE_pico-imx6ul = "/dev/mmcblk0"
+MENDER_UBOOT_STORAGE_INTERFACE_pico-imx6ul = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE_pico-imx6ul = "0"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_pico-imx6ul = "0xC0000"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_pico-imx6ul = "0xE0000"
+
 MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
 PREFERRED_PROVIDER_u-boot-fw-utils ?= "u-boot-edm-fw-utils"
 PREFERRED_RPROVIDER_u-boot-fw-utils ?= "u-boot-edm-fw-utils"
