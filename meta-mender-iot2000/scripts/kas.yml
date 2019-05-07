@@ -1,0 +1,18 @@
+header:
+  version: 2
+  includes:
+    - repo: meta-iot2000
+      file: meta-iot2000-example/kas.yml
+    - ../../scripts/kas.yml
+
+repos:
+  meta-iot2000:
+    url: "https://github.com/siemens/meta-iot2000"
+    refspec: 93e163f8b4f4448718c8997126fd8f12c2790268
+
+local_conf_header:
+  storage: |
+    MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+
+  device: |
+    MENDER_STORAGE_DEVICE = "/dev/sda"
