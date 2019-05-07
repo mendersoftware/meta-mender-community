@@ -1,0 +1,62 @@
+header:
+  version: 2
+
+repos:
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    refspec: rocko
+    layers:
+      meta-mender-core:
+      meta-mender-demo:
+
+local_conf_header:
+  mender: |
+    MENDER_ARTIFACT_NAME = "release-1"
+    INHERIT += "mender-full"
+
+  storage: |
+    MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "4096"
+
+  systemd: |
+    DISTRO_FEATURES_append = " systemd"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+    VIRTUAL-RUNTIME_initscripts = ""
+
+  mender-fs: |
+    ARTIFACTIMG_FSTYPE = "ext4"
+
+  mender-server-hosted: |
+    # Build for Hosted Mender
+    # To get your tenant token:
+    #    - log in to https://hosted.mender.io
+    #    - click your email at the top right and then "My organization"
+    #    - press the "COPY TO CLIPBOARD"
+    #    - assign content of clipboard to MENDER_TENANT_TOKEN
+    #
+    #MENDER_SERVER_URL = "https://hosted.mender.io"
+    #MENDER_TENANT_TOKEN = ""
+
+  mender-server-demo: |
+    # Build for Mender demo server
+    #
+    # https://docs.mender.io/getting-started/create-a-test-environment
+    #
+    # Uncomment below and update IP address to match the machine running the
+    # Mender demo server
+    #MENDER_DEMO_HOST_IP_ADDRESS = "192.168.0.100"
+
+  mender-server-onprem: |
+    # Build for Mender production setup (on-prem)
+    #
+    # https://docs.mender.io/artifacts/building-for-production
+    #
+    # Uncomment below and update the URL to match your configured domain
+    # name and provide the path to the generated server.crt file.
+    #
+    # NOTE! It is recommend that you provide below information in your custom
+    # Yocto layer and this is only for demo purposes. See linked documentation
+    # for additional information.
+    #MENDER_SERVER_URL = "https://docker.mender.io"
+    #FILESEXTRAPATHS_prepend_pn-mender := "<DIRECTORY-CONTAINING-server.crt>:"
+    #SRC_URI_append_pn-mender = " file://server.crt"
