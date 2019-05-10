@@ -6,14 +6,14 @@ PROVIDES = "u-boot-fw-utils"
 RPROVIDES_${PN} = "u-boot-fw-utils"
 DEPENDS = "mtd-utils"
 
-COMPATIBLE_MACHINE = "pico-imx7"
+COMPATIBLE_MACHINE = "(pico-imx7|pico-imx6ul)"
 
 UBOOT_SRC ?= "git://github.com/TechNexion/u-boot-edm.git"
 SRCBRANCH = "tn-imx_v2017.03_4.9.88_2.0.0_ga-test"
 SRC_URI = " \
     ${UBOOT_SRC};branch=${SRCBRANCH} \
     file://0001-tools-fix-cross-compiling-tools-when-HOSTCC-is-overr.patch \
-    file://fw_env.config \
+    file://fw_env.config.in \
 "
 SRCREV = "2fb0ee63229919807737b83d49f5813f594939ac"
 
@@ -28,6 +28,8 @@ inherit pkgconfig uboot-config
 do_compile () {
     oe_runmake ${UBOOT_MACHINE}
     oe_runmake env
+    sed -e "s~@@ENV_DEVICE@@~${MENDER_STORAGE_DEVICE}~" \
+        "${WORKDIR}/fw_env.config.in" > "${WORKDIR}/fw_env.config"
 }
 
 do_install () {

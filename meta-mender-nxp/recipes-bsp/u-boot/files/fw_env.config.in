@@ -1,0 +1,3 @@
+# Device name           Device offset   Env. size
+@@ENV_DEVICE@@          0xc0000         0x20000
+@@ENV_DEVICE@@          0xe0000         0x20000
