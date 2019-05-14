@@ -3,13 +3,12 @@
 
   <default sync-j="4" revision="thud"/>
 
-  <remote fetch="https://git.yoctoproject.org/git"            name="yocto"/>
-  <remote fetch="https://github.com/openembedded"             name="oe"/>
-  <remote fetch="git://git.yoctoproject.org/meta-raspberrypi" name="rpi"/>
+  <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="https://github.com/openembedded"  name="oe"/>
 
   <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
   <project name="meta-openembedded" remote="oe" revision="thud" path="sources/meta-openembedded"/>
-  <project name="meta-raspberrypi" remote="rpi" revision="thud" path="sources/meta-raspberrypi"/>
+  <project name="meta-raspberrypi" remote="yocto" revision="thud" path="sources/meta-raspberrypi"/>
 
   <include name="scripts/mender.xml"/>
 
