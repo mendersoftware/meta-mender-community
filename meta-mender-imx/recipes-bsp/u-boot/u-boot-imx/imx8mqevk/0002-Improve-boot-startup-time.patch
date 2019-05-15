@@ -1,0 +1,21 @@
+From 86ddfc3836196a8c951e5a09b60cb3258e9d0c45 Mon Sep 17 00:00:00 2001
+From: Tom Hochstein <tom.hochstein@nxp.com>
+Date: Fri, 26 Apr 2019 11:30:51 -0500
+Subject: [PATCH 2/2] Improve boot startup time
+
+---
+ configs/imx8mq_evk_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configs/imx8mq_evk_defconfig b/configs/imx8mq_evk_defconfig
+index f866717..9863ced 100644
+--- a/configs/imx8mq_evk_defconfig
++++ b/configs/imx8mq_evk_defconfig
+@@ -73,3 +73,4 @@ CONFIG_USB_DWC3=y
+ CONFIG_USB_DWC3_GADGET=y
+ CONFIG_BOOTCOUNT_LIMIT=y
+ CONFIG_BOOTCOUNT_ENV=y
++CONFIG_BLOCK_CACHE=y
+-- 
+2.7.4
+
