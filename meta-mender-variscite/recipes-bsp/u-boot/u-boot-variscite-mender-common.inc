@@ -3,6 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
 SRC_URI_append_imx6ul-var-dart = " \
     file://0001-mx6ul_var_dart-Remove-unneeded-boot-settings.patch \
     file://0002-imx6ul-var-dart-Find-splash-screen-with-Mender.patch \
+    file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
 "
 SRC_URI_remove_imx6ul-var-dart = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
