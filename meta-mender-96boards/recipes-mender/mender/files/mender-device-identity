@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Example script called by Mender agent to collect device identity data. The
+# script needs to be located at
+# $(datadir)/mender/identity/mender-device-identity path for the agent to find
+# it. The script shall exit with non-0 status on errors. In this case the agent
+# will discard any output the script may have produced.
+#
+# The script shall output identity data in <key>=<value> format, one
+# entry per line. Example
+#
+# $ ./mender-device-identity
+# mac=de:ad:ca:fe:00:01
+# cpuid=1112233
+#
+# This script collects the CID of the on-board eMMC
+
+set -ue
+
+emmc_id="/sys/devices/platform/soc@f0000000/f9830000.mmc/mmc_host/mmc1/mmc1:0001/cid"
+
+if [ -e ${emmc_id} ]; then
+    # grab eMMC identifier
+    echo "cid=$(cat /sys/devices/platform/soc@f0000000/f9830000.mmc/mmc_host/mmc1/mmc1:0001/cid)"
+else
+    echo "no suitable id found" >&2
+    exit 1
+fi

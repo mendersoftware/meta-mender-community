@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <include name="default.xml"/>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+
+  <project name="meta-mender" remote="mender" revision="sumo" path="layers/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="sumo" path="layers/meta-mender-community">
+    <linkfile src="meta-mender-96boards/scripts/setup-environment-mender.sh" dest="setup-environment-mender"/>
+  </project>
+
+</manifest>

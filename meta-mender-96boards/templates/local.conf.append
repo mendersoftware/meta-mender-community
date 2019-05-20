@@ -1,0 +1,12 @@
+# Appended fragment from meta-mender-community/meta-mender-96boards/templates
+
+PREFERRED_PROVIDER_virtual/bootloader_poplar ?= "u-boot-poplar"
+MENDER_IMAGE_BOOTLOADER_FILE_poplar = "loader.bin"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_poplar = "1"
+MENDER_STORAGE_DEVICE_poplar = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_DEVICE_poplar = "0"
+MENDER_STORAGE_TOTAL_SIZE_MB_poplar = "2048"
+IMAGE_BOOT_FILES_poplar += "loader.bin"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_FSTYPES += "sdimg.gz"
