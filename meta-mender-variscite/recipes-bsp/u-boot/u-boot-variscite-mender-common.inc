@@ -6,6 +6,7 @@ SRC_URI_append_imx6ul-var-dart = " \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
     file://0005-fw_env_main.c-Fix-incorrect-size-for-malloc-ed-strin.patch \
     file://0002-imx6ul-var-dart-Find-splash-screen-with-Mender.patch \
+    file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
 "
 SRC_URI_remove_imx6ul-var-dart = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \

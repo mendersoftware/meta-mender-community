@@ -1,0 +1,33 @@
+From 6563d089dee58f12256d3af58583f2b799b69e93 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Tue, 30 Apr 2019 20:16:43 +0000
+Subject: [PATCH] Add Mender MTD variables to config whitelist.
+
+This allow them to exist without explicitly being a Kconfig option.  Other
+CONFIG_MTD variables are in the whitelist as well; once they are changed
+to be Kconfig options we should do the same with this but for now this
+will work.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ scripts/config_whitelist.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/config_whitelist.txt b/scripts/config_whitelist.txt
+index 8b2be7f54e..0297a002b9 100644
+--- a/scripts/config_whitelist.txt
++++ b/scripts/config_whitelist.txt
+@@ -2019,8 +2019,10 @@ CONFIG_MS7720SE
+ CONFIG_MS7722SE
+ CONFIG_MS7750SE
+ CONFIG_MSHC_FREQ
++CONFIG_MTDIDS_DEFAULT
+ CONFIG_MTDMAP
+ CONFIG_MTDPARTS
++CONFIG_MTDPARTS_DEFAULT
+ CONFIG_MTD_CONCAT
+ CONFIG_MTD_DEBUG
+ CONFIG_MTD_DEBUG_VERBOSE
+-- 
+2.21.0
+
