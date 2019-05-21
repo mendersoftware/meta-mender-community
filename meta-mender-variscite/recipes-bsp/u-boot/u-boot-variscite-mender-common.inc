@@ -2,6 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
 
 SRC_URI_append_imx6ul-var-dart = " \
     file://0001-mx6ul_var_dart-Remove-unneeded-boot-settings.patch \
+    file://0002-imx6ul-var-dart-Find-splash-screen-with-Mender.patch \
 "
 SRC_URI_append_var-som-mx6 = " \
     file://0001-mx6var_som-Remove-unneeded-boot-settings.patch \
