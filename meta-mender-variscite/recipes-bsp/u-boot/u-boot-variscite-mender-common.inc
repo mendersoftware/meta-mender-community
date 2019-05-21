@@ -16,6 +16,7 @@ SRC_URI_append_var-som-mx6 = " \
     file://0001-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
     file://0005-fw_env_main.c-Fix-incorrect-size-for-malloc-ed-strin.patch \
+    file://0001-mx6var_som-Find-splash-screen-with-Mender.patch \
 "
 SRC_URI_remove_var-som-mx6 = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
