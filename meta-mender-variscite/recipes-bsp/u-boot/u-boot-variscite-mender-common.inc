@@ -5,6 +5,9 @@ SRC_URI_append_imx6ul-var-dart = " \
     file://0001-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
     file://0005-fw_env_main.c-Fix-incorrect-size-for-malloc-ed-strin.patch \
+    file://0002-imx6ul-var-dart-Find-splash-screen-with-Mender.patch \
+    file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
+    file://0001-tools-env-Add-support-for-direct-read-write-UBI-volu.patch \
 "
 SRC_URI_remove_imx6ul-var-dart = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
@@ -16,6 +19,7 @@ SRC_URI_append_var-som-mx6 = " \
     file://0001-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
     file://0005-fw_env_main.c-Fix-incorrect-size-for-malloc-ed-strin.patch \
+    file://0001-mx6var_som-Find-splash-screen-with-Mender.patch \
 "
 SRC_URI_remove_var-som-mx6 = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
@@ -25,7 +29,11 @@ SRC_URI_remove_var-som-mx6 = " \
 
 MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS = " \
     setenv bootargs console=\${console},\${baudrate}; \
-    run videoargs; \
+    if test \"${mmcargs}\" != \"\"; then run mmcargs; fi; \
+    if test \"${videoargs}\" != \"\"; then run videoargs; fi; \
+    if test \"${optargs}\" != \"\"; then run optargs; fi; \
+    if test \"${ramsize_check}\" != \"\"; then run ramsize_check; fi; \
+    if run loadbootenv; then run importbootenv; fi;  \
     run findfdt; \
     setenv mender_dtb_name \${fdt_file}; \
     setenv kernel_addr_r \${loadaddr}; \

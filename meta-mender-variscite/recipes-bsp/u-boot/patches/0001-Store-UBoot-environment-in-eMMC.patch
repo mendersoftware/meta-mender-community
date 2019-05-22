@@ -1,0 +1,26 @@
+From 997f85de14227ba1f65145add00e739173b6048b Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Fri, 26 Apr 2019 01:37:30 +0000
+Subject: [PATCH] Store UBoot environment in eMMC.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/mx6var_som.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/mx6var_som.h b/include/configs/mx6var_som.h
+index ab9c2613f6..42071ca8b8 100644
+--- a/include/configs/mx6var_som.h
++++ b/include/configs/mx6var_som.h
+@@ -57,7 +57,7 @@
+ /* MMC Configs */
+ #define CONFIG_SYS_FSL_ESDHC_ADDR	0
+ #define CONFIG_SYS_FSL_USDHC_NUM	2
+-#define CONFIG_SYS_MMC_ENV_DEV		0
++#define CONFIG_SYS_MMC_ENV_DEV		1	/* eMMC */
+ #ifndef CONFIG_SYS_MMC_ENV_PART
+ #define CONFIG_SYS_MMC_ENV_PART		0
+ #endif
+-- 
+2.21.0
+

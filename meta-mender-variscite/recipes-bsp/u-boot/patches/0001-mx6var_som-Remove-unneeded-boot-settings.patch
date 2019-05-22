@@ -1,4 +1,4 @@
-From d3662f13031169811c7f2c1e92750a5f2b9a9ba8 Mon Sep 17 00:00:00 2001
+From fe55d53ab7dd570d74c5b96e7742c6d38e8434d7 Mon Sep 17 00:00:00 2001
 From: Drew Moseley <drew.moseley@northern.tech>
 Date: Mon, 8 Apr 2019 20:01:58 +0000
 Subject: [PATCH] mx6var_som: Remove unneeded boot settings.
@@ -8,34 +8,34 @@ environment is too large and cannot build.
 
 Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
 ---
- include/configs/mx6var_som.h | 72 +-----------------------------------
- 1 file changed, 1 insertion(+), 71 deletions(-)
+ include/configs/mx6var_som.h | 68 ++----------------------------------
+ 1 file changed, 3 insertions(+), 65 deletions(-)
 
 diff --git a/include/configs/mx6var_som.h b/include/configs/mx6var_som.h
-index 1db7afb4d1..ab9c2613f6 100644
+index 1db7afb4d1..8e3725507d 100644
 --- a/include/configs/mx6var_som.h
 +++ b/include/configs/mx6var_som.h
-@@ -86,49 +86,7 @@
- #define MMC_ROOT_PART	2
- #endif
+@@ -88,47 +88,13 @@
  
--#define MMC_BOOT_ENV_SETTINGS \
--	"bootenv=uEnv.txt\0" \
+ #define MMC_BOOT_ENV_SETTINGS \
+ 	"bootenv=uEnv.txt\0" \
 -	"script=boot.scr\0" \
 -	"uimage=uImage\0" \
 -	"boot_fdt=try\0" \
 -	"ip_dyn=yes\0" \
 -	"mmcdev=" __stringify(CONFIG_SYS_MMC_ENV_DEV) "\0" \
 -	"mmcblk=0\0" \
--	"mmcautodetect=yes\0" \
++	"mmcdev=" __stringify(MENDER_STORAGE_DEVICE) "\0" \
+ 	"mmcautodetect=yes\0" \
 -	"mmcbootpart=1\0" \
 -	"mmcrootpart=" __stringify(MMC_ROOT_PART) "\0" \
 -	"mmcargs=setenv bootargs console=${console},${baudrate} " \
 -		"root=/dev/mmcblk${mmcblk}p${mmcrootpart} rootwait rw\0" \
--	"loadbootenv=" \
+ 	"loadbootenv=" \
 -		"load mmc ${mmcdev}:${mmcbootpart} ${loadaddr} ${bootdir}/${bootenv};\0" \
--	"importbootenv=echo Importing bootenv from mmc ...; " \
--		"env import -t ${loadaddr} ${filesize}\0" \
++		"load mmc ${mmcdev}:${mender_boot_part} ${loadaddr} ${bootdir}/${bootenv};\0" \
+ 	"importbootenv=echo Importing bootenv from mmc ...; " \
+ 		"env import -t ${loadaddr} ${filesize}\0" \
 -	"loadbootscript=" \
 -		"load mmc ${mmcdev}:${mmcbootpart} ${loadaddr} ${bootdir}/${script};\0" \
 -	"bootscript=echo Running bootscript from mmc ...; " \
@@ -62,11 +62,11 @@ index 1db7afb4d1..ab9c2613f6 100644
 -			"bootm; " \
 -		"fi;\0"
 -
-+#define MMC_BOOT_ENV_SETTINGS
++        ""
  
  #define MMC_BOOTCMD \
  	"mmc dev ${mmcdev};" \
-@@ -213,34 +171,6 @@
+@@ -213,34 +179,6 @@
  		"setenv splashimage 0x18100000\0" \
  	"splashdisable=setenv splashfile; setenv splashimage\0" \
  	"console=" CONSOLE_DEV "\0" \
