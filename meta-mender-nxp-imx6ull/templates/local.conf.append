@@ -1,0 +1,20 @@
+PREFERRED_PROVIDER_u-boot = "u-boot-imx"
+PREFERRED_RPROVIDER_u-boot = "u-boot-imx"
+
+MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+
+MENDER_STORAGE_TOTAL_SIZE_MB = "7580"
+
+IMAGE_BOOT_FILES ?= "u-boot.imx"
+
+IMAGE_BOOT_FILES = "zImage your-dtb-file-here.dtb"
+
+IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
+IMAGE_BOOTLOADER_FILE = "u-boot.imx"
+
+MENDER_UBOOT_PRE_SETUP_COMMANDS = " \
+    setenv kernel_addr_r \${loadaddr}; \
+"
+
+IMAGE_FSTYPES_remove += "sdcard.bz2"
+
