@@ -32,4 +32,6 @@
      <linkfile src="imx/README" dest="README-IMXBSP"/>
   </project>
 
+  <include name="scripts/mender.xml"/>
+
 </manifest>
