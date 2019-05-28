@@ -35,7 +35,7 @@
   <!-- <include name="scripts/mender.xml"/> -->
 
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
-  <remote fetch="https://github.com/brianleePTL/meta-mender-community.git" name="menderblee"/>
+  <remote fetch="https://github.com/brianleePTL" name="menderblee"/>
 
   <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
   <project name="meta-mender-community" remote="menderblee" revision="rocko" path="sources/meta-mender-community">
