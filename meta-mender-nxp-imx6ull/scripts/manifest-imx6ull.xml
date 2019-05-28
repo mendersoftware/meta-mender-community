@@ -32,6 +32,14 @@
      <linkfile src="imx/README" dest="README-IMXBSP"/>
   </project>
 
-  <include name="scripts/mender.xml"/>
+  <!-- <include name="scripts/mender.xml"/> -->
 
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="https://github.com/brianleePTL/meta-mender-community.git" name="menderblee"/>
+
+  <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="menderblee" revision="rocko" path="sources/meta-mender-community">
+    <copyfile dest="setup-environment" src="scripts/setup-environment"/>
+  </project>
+  
 </manifest>
