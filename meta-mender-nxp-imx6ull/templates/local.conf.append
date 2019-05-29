@@ -1,3 +1,7 @@
+DISTRO = "fsl-imx-fb"
+
+MACHINE = "imx6ull14x14evk"
+
 PREFERRED_PROVIDER_u-boot = "u-boot-imx"
 PREFERRED_RPROVIDER_u-boot = "u-boot-imx"
 
