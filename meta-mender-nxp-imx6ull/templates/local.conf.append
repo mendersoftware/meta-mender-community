@@ -1,6 +1,3 @@
-DISTRO = "fsl-imx-fb"
-
-MACHINE = "imx6ull14x14evk"
 
 # Mender expects only a single dtb file.
 # The imx6ull14x14evk.conf file uses '=', so we can't override from here to specify the one we want.
