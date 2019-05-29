@@ -2,6 +2,14 @@ DISTRO = "fsl-imx-fb"
 
 MACHINE = "imx6ull14x14evk"
 
+# Mender expects only a single dtb file.
+# The imx6ull14x14evk.conf file uses '=', so we can't override from here to specify the one we want.
+# Workaround is to remove the ones we don't want.
+ 
+KERNEL_DEVICETREE_remove = "imx6ull-14x14-evk-btwifi.dtb imx6ull-14x14-evk-gpmi-weim.dtb \
+                     imx6ull-14x14-evk-usb-certi.dtb imx6ull-14x14-evk-emmc.dtb\
+"
+
 PREFERRED_PROVIDER_u-boot = "u-boot-imx"
 PREFERRED_RPROVIDER_u-boot = "u-boot-imx"
 
@@ -11,7 +19,7 @@ MENDER_STORAGE_TOTAL_SIZE_MB = "7580"
 
 IMAGE_BOOT_FILES ?= "u-boot.imx"
 
-IMAGE_BOOT_FILES = "zImage your-dtb-file-here.dtb"
+IMAGE_BOOT_FILES = "zImage imx6ull-14x14-evk.dtb"
 
 IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
 IMAGE_BOOTLOADER_FILE = "u-boot.imx"
