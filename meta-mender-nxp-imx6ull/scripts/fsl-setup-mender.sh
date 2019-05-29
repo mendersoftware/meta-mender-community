@@ -24,7 +24,7 @@ echo "BBLAYERS += \" \${BSPDIR}/sources/meta-mender/meta-mender-core \"" >> conf
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-mender/meta-mender-demo \"" >> conf/bblayers.conf
 
 cat ../sources/meta-mender-community/templates/local.conf.append >> conf/local.conf
-cat ../sources/meta-mender-community/meta-mender-imx/templates/local.conf.append >> conf/local.conf
+cat ../sources/meta-mender-community/meta-mender-nxp-imx6ull/templates/local.conf.append >> conf/local.conf
 
 echo ""
 echo "Mender integration complete."
