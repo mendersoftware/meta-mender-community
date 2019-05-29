@@ -30,3 +30,4 @@ BBLAYERS += " ${BSPDIR}/sources/meta-qt5 "
 
 BBLAYERS += " ${BSPDIR}/sources/meta-mender/meta-mender-core "
 BBLAYERS += " ${BSPDIR}/sources/meta-mender/meta-mender-demo "
+BBLAYERS += " ${BSPDIR}/sources//meta-mender-community/meta-mender-nxp-imx6ull "
