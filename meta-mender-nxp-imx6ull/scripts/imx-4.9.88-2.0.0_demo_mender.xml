@@ -4,10 +4,9 @@
   <include name="imx-4.9.88-2.0.0_ga.xml"/>
 
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
-  <remote fetch="https://github.com/brianleePTL" name="menderblee"/>
 
   <project name="meta-mender" remote="mender" revision="rocko" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="menderblee" revision="rocko" path="sources/meta-mender-community">
+  <project name="meta-mender-community" remote="mender" revision="rocko" path="sources/meta-mender-community">
     <linkfile src="meta-mender-nxp-imx6ull/scripts/fsl-setup-mender.sh" dest="fsl-setup-mender.sh"/>
 </project>
   
