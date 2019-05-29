@@ -24,7 +24,8 @@ targets=(
     "rockchip"
     "sunxi"
     "toradex-nxp"
-    "variscite")
+    "variscite"
+    "nxp-imx6ull")
 
 for i in ${targets[@]}
 do
