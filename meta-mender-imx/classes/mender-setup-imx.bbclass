@@ -2,9 +2,9 @@ IMAGE_FSTYPES_remove = "tar.bz2 ext4 sdcard.bz2"
 
 # dummy value as the WIC plugin requires an entry but this will not be used
 # for anything beside to satisfy the build dependency
-IMAGE_BOOT_FILES_append = "u-boot-imx8mqevk.bin"
+IMAGE_BOOT_FILES_append = "u-boot-${MACHINE}.bin"
 
-MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot-imx8mqevk-sd.bin"
+MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot-${MACHINE}-sd.bin"
 python __anonymous () {
     # For all i.MX 8* families, set MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET
     # to 2 * IMX_BOOT_SEEK
@@ -17,4 +17,5 @@ do_image_sdimg[depends] += "imx-boot:do_deploy"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
+MENDER_STORAGE_DEVICE_imx8mmevk = "/dev/mmcblk1"
 MENDER_STORAGE_DEVICE_imx8mqevk = "/dev/mmcblk1"

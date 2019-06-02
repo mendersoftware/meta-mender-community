@@ -1,0 +1,24 @@
+From b931c0c8f2d8cf1aaa6174004c93080eaecf28dc Mon Sep 17 00:00:00 2001
+From: Tom Hochstein <tom.hochstein@nxp.com>
+Date: Sun, 2 Jun 2019 16:39:18 +0000
+Subject: [PATCH 2/2] Improve boot startup time
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ configs/imx8mm_evk_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/configs/imx8mm_evk_defconfig b/configs/imx8mm_evk_defconfig
+index b28f118f33..c31942ed3c 100644
+--- a/configs/imx8mm_evk_defconfig
++++ b/configs/imx8mm_evk_defconfig
+@@ -76,3 +76,6 @@ CONFIG_IMX_SEC_MIPI_DSI=y
+ # Added by Yocto for Mender support
+ CONFIG_BOOTCOUNT_LIMIT=y
+ CONFIG_BOOTCOUNT_ENV=y
++
++# Added by Yocto to improve boot startup time
++CONFIG_BLOCK_CACHE=y
+-- 
+2.17.1
+
