@@ -1,5 +1,5 @@
-# Appended fragment from meta-mender-community/meta-mender-imx/templates
 
+# Appended fragment from meta-mender-community/meta-mender-imx/templates
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 PREFERRED_PROVIDER_u-boot = "u-boot-imx"
 IMAGE_FSTYPES_remove = "tar.bz2 ext4 sdcard.bz2"
