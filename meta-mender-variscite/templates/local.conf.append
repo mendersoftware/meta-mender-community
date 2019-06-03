@@ -15,13 +15,9 @@ MENDER_BOOT_PART_SIZE_MB = "0"
 # Standard partition alignment from upstream wks file
 MENDER_PARTITION_ALIGNMENT = "4194304"
 
-# Make sure we use the right version of u-boot-fw-utils
-PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
-PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils"
-
 # Cleanup image types generated
 IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
 
 # disable uefi
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_ENABLE_append = " mender-uboot "
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
