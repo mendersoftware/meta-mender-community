@@ -1,0 +1,75 @@
+From 9527cd4def1cb9a74fbb29a43bcdb98c0a72e5d6 Mon Sep 17 00:00:00 2001
+From: Tom Hochstein <tom.hochstein@nxp.com>
+Date: Sun, 2 Jun 2019 16:35:18 +0000
+Subject: [PATCH 1/2] Add mender support
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ configs/imx8mm_evk_defconfig |  4 ++++
+ include/configs/imx8mm_evk.h | 16 ++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/configs/imx8mm_evk_defconfig b/configs/imx8mm_evk_defconfig
+index 125587560e..b28f118f33 100644
+--- a/configs/imx8mm_evk_defconfig
++++ b/configs/imx8mm_evk_defconfig
+@@ -72,3 +72,7 @@ CONFIG_USB_GADGET_PRODUCT_NUM=0xa4a5
+ 
+ CONFIG_VIDEO=y
+ CONFIG_IMX_SEC_MIPI_DSI=y
++
++# Added by Yocto for Mender support
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
+diff --git a/include/configs/imx8mm_evk.h b/include/configs/imx8mm_evk.h
+index 68d0643c07..a0d6b108a5 100644
+--- a/include/configs/imx8mm_evk.h
++++ b/include/configs/imx8mm_evk.h
+@@ -160,24 +160,24 @@
+ 	CONFIG_MFG_ENV_SETTINGS \
+ 	JAILHOUSE_ENV \
+ 	"script=boot.scr\0" \
+-	"image=Image\0" \
++	"image=boot/Image\0" \
+ 	"console=ttymxc1,115200 earlycon=ec_imx6q,0x30890000,115200\0" \
+ 	"fdt_addr=0x43000000\0"			\
+ 	"fdt_high=0xffffffffffffffff\0"		\
+ 	"boot_fdt=try\0" \
+-	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
++	"fdt_file=boot/" CONFIG_DEFAULT_FDT_FILE "\0" \
+ 	"initrd_addr=0x43800000\0"		\
+ 	"initrd_high=0xffffffffffffffff\0" \
+ 	"mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
+ 	"mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mmcroot}\0 " \
++	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mender_kernel_root}\0 " \
+ 	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+-	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
++	"loadimage=ext4load ${mender_uboot_root} ${loadaddr} ${image}\0" \
++	"loadfdt=ext4load ${mender_uboot_root} ${fdt_addr} ${fdt_file}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+@@ -215,9 +215,13 @@
+ 		   "if run loadbootscript; then " \
+ 			   "run bootscript; " \
+ 		   "else " \
++			   "run mender_setup; " \
+ 			   "if run loadimage; then " \
+ 				   "run mmcboot; " \
+-			   "else run netboot; " \
++				   "run mender_try_to_recover; " \
++			   "else " \
++				   "run mender_try_to_recover; " \
++				   "run netboot; " \
+ 			   "fi; " \
+ 		   "fi; " \
+ 	   "else booti ${loadaddr} - ${fdt_addr}; fi"
+-- 
+2.17.1
+
