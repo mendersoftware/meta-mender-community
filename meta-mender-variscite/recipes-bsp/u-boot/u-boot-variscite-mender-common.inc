@@ -12,18 +12,24 @@ SRC_URI_remove_imx6ul-var-dart = " \
 SRC_URI_append_var-som-mx6 = " \
     file://0001-mx6var_som-Remove-unneeded-boot-settings.patch \
     file://0001-mx6var_som-Find-splash-screen-with-Mender.patch \
+    file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
+    file://0001-tools-env-Add-support-for-direct-read-write-UBI-volu.patch \
+    file://0001-mx6var_som-Remove-MMC_BOOTCMD-for-Mender.patch \
+    file://0002-mx6var_som-Remove-bootenv-and-MMC-boot-processing.patch \
+    file://0003-mx6var_som-Remove-parts-of-NAND_BOOT_ENV_SETTINGS.patch \
+    file://0004-mx6var_som-Clear-MMC_BOOT_ENV_SETTINGS-when-configur.patch \
 "
 SRC_URI_remove_var-som-mx6 = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
 "
 
+# Still need to handle loadbootenv and importbootenv
 MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS = " \
     setenv bootargs console=\${console},\${baudrate}; \
-    if test \"${mmcargs}\" != \"\"; then run mmcargs; fi; \
-    if test \"${videoargs}\" != \"\"; then run videoargs; fi; \
-    if test \"${optargs}\" != \"\"; then run optargs; fi; \
-    if test \"${ramsize_check}\" != \"\"; then run ramsize_check; fi; \
-    if run loadbootenv; then run importbootenv; fi;  \
+    if test \\\"\${mmcargs}\\\" != \\\"\\\"; then run mmcargs; fi; \
+    if test \\\"\${videoargs}\\\" != \\\"\\\"; then run videoargs; fi; \
+    if test \\\"\${optargs}\\\" != \\\"\\\"; then run optargs; fi; \
+    if test \\\"\${ramsize_check}\\\" != \\\"\\\"; then run ramsize_check; fi; \
     run findfdt; \
     setenv mender_dtb_name \${fdt_file}; \
     setenv kernel_addr_r \${loadaddr}; \
