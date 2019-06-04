@@ -1,0 +1,84 @@
+From 4a10b8e376cd27541451147dc061ec6ceceb3790 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Tue, 21 May 2019 17:16:03 +0000
+Subject: [PATCH] imx6ul-var-dart: Find splash screen on active rootfs with
+ Mender.
+
+Note that this patch is hardcoded to the Mender defines that are
+expected. Given when this code executes, the logic in mender_setup has
+not run yet so we are just hard coding the values here.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ .../variscite/mx6ul_var_dart/mx6ul_var_dart.c | 21 +++++++++++--------
+ include/configs/mx6ul_var_dart.h              |  1 -
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/board/variscite/mx6ul_var_dart/mx6ul_var_dart.c b/board/variscite/mx6ul_var_dart/mx6ul_var_dart.c
+index 712e9c0e8e..e8ad1a2791 100644
+--- a/board/variscite/mx6ul_var_dart/mx6ul_var_dart.c
++++ b/board/variscite/mx6ul_var_dart/mx6ul_var_dart.c
+@@ -479,15 +479,12 @@ size_t display_count = ARRAY_SIZE(displays);
+ #ifdef CONFIG_SPLASH_SCREEN
+ static void set_splashsource_to_boot_rootfs(void)
+ {
+-	if (!check_env("splashsourceauto", "yes"))
+-		return;
+-
+ #ifdef CONFIG_NAND_BOOT
+ 	setenv("splashsource", "nand");
+ #else
+-	if (mmc_get_env_dev() == 0)
++	if (check_env("mender_uboot_dev", "0"))
+ 		setenv("splashsource", "sd");
+-	else if (mmc_get_env_dev() == 1)
++	else
+ 		setenv("splashsource", "emmc");
+ #endif
+ }
+@@ -498,12 +495,18 @@ int splash_screen_prepare(void)
+ 
+ 	char sd_devpart_str[5];
+ 	char emmc_devpart_str[5];
++	char ubi_devpart_str[15], ubi_part;
+ 	u32 sd_part, emmc_part;
+ 
+-	sd_part = emmc_part = getenv_ulong("mmcrootpart", 10, 0);
++	sd_part = emmc_part = getenv_ulong("mender_boot_part", 10, 0);
++	if (sd_part == 0)
++		ubi_part = 'a';
++	else
++		ubi_part = 'b';
+ 
+-	sprintf(sd_devpart_str, "0:%d", sd_part);
+-	sprintf(emmc_devpart_str, "1:%d", emmc_part);
++	snprintf(sd_devpart_str, 5, "0:%d", sd_part);
++	snprintf(emmc_devpart_str, 5, "1:%d", emmc_part);
++	snprintf(ubi_devpart_str, 15, "ubi0:rootfs%c", ubi_part);
+ 
+ 	struct splash_location var_splash_locations[] = {
+ 		{
+@@ -523,7 +526,7 @@ int splash_screen_prepare(void)
+ 			.storage = SPLASH_STORAGE_NAND,
+ 			.flags = SPLASH_STORAGE_FS,
+ 			.mtdpart = "rootfs",
+-			.ubivol = "ubi0:rootfs",
++			.ubivol = ubi_devpart_str,
+ 		},
+ 	};
+ 
+diff --git a/include/configs/mx6ul_var_dart.h b/include/configs/mx6ul_var_dart.h
+index 31ae1d27ef..f5345f3a40 100644
+--- a/include/configs/mx6ul_var_dart.h
++++ b/include/configs/mx6ul_var_dart.h
+@@ -123,7 +123,6 @@
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
+ 	"panel=VAR-WVGA-LCD\0" \
+-	"splashsourceauto=yes\0" \
+ 	"splashfile=/boot/splash.bmp\0" \
+ 	"splashimage=0x83100000\0" \
+ 	"splashenable=setenv splashfile /boot/splash.bmp; " \
+-- 
+2.21.0
+

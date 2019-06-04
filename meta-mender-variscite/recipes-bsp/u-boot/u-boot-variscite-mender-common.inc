@@ -2,22 +2,22 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
 
 SRC_URI_append_imx6ul-var-dart = " \
     file://0001-mx6ul_var_dart-Remove-unneeded-boot-settings.patch \
-    file://0002-imx6ul-var-dart-Find-splash-screen-with-Mender.patch \
     file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
     file://0001-tools-env-Add-support-for-direct-read-write-UBI-volu.patch \
+    file://0001-imx6ul-var-dart-Find-splash-screen-on-active-rootfs-.patch \
 "
 SRC_URI_remove_imx6ul-var-dart = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
 "
 SRC_URI_append_var-som-mx6 = " \
     file://0001-mx6var_som-Remove-unneeded-boot-settings.patch \
-    file://0001-mx6var_som-Find-splash-screen-with-Mender.patch \
     file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
     file://0001-tools-env-Add-support-for-direct-read-write-UBI-volu.patch \
     file://0001-mx6var_som-Remove-MMC_BOOTCMD-for-Mender.patch \
     file://0002-mx6var_som-Remove-bootenv-and-MMC-boot-processing.patch \
     file://0003-mx6var_som-Remove-parts-of-NAND_BOOT_ENV_SETTINGS.patch \
     file://0004-mx6var_som-Clear-MMC_BOOT_ENV_SETTINGS-when-configur.patch \
+    file://0001-mx6var_som-Find-splash-screen-on-active-rootfs-with-.patch \
 "
 SRC_URI_remove_var-som-mx6 = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
