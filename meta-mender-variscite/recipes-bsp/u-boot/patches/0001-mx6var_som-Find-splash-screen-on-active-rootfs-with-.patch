@@ -1,4 +1,4 @@
-From e9925e2d68daf56ebe5fe2cdd8b688bdc623e3b5 Mon Sep 17 00:00:00 2001
+From 31b76caddc82ade7c46fd39fccdf3f753dff759b Mon Sep 17 00:00:00 2001
 From: Drew Moseley <drew.moseley@northern.tech>
 Date: Mon, 20 May 2019 23:17:44 +0000
 Subject: [PATCH] mx6var_som: Find splash screen on active rootfs with Mender.
@@ -14,29 +14,29 @@ Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
  2 files changed, 16 insertions(+), 11 deletions(-)
 
 diff --git a/board/variscite/mx6var_som/mx6var_som.c b/board/variscite/mx6var_som/mx6var_som.c
-index 5903a54d0d..bcad02086f 100644
+index 45dbb8e0d8..11dfab0335 100644
 --- a/board/variscite/mx6var_som/mx6var_som.c
 +++ b/board/variscite/mx6var_som/mx6var_som.c
-@@ -194,15 +194,15 @@ static int check_env(char *var, char *val)
+@@ -194,15 +194,15 @@ static int env_check(char *var, char *val)
  #ifdef CONFIG_SPLASH_SCREEN
  static void set_splashsource_to_boot_rootfs(void)
  {
--	if (!check_env("splashsourceauto", "yes"))
+-	if (!env_check("splashsourceauto", "yes"))
 -		return;
 -
  #ifdef CONFIG_NAND_BOOT
--	setenv("splashsource", getenv("rootfs_device"));
-+	if (check_env("mender_uboot_if", "mmc"))
-+		setenv("splashsource", "emmc");
+-	env_set("splashsource", env_get("rootfs_device"));
++	if (env_check("mender_uboot_if", "mmc"))
++		env_set("splashsource", "emmc");
 +        else
-+		setenv("splashsource", "nand");
++		env_set("splashsource", "nand");
  #else
 -	if (mmc_get_env_dev() == 0)
-+	if (check_env("mender_uboot_dev", "0"))
- 		setenv("splashsource", "sd");
++	if (env_check("mender_uboot_dev", "0"))
+ 		env_set("splashsource", "sd");
 -	else if (mmc_get_env_dev() == 1)
 +	else
- 		setenv("splashsource", "emmc");
+ 		env_set("splashsource", "emmc");
  #endif
  }
 @@ -213,12 +213,18 @@ int splash_screen_prepare(void)
@@ -46,8 +46,8 @@ index 5903a54d0d..bcad02086f 100644
 +	char ubi_devpart_str[15], ubi_part;
  	u32 sd_part, emmc_part;
  
--	sd_part = emmc_part = getenv_ulong("mmcrootpart", 10, 0);
-+	sd_part = emmc_part = getenv_ulong("mender_boot_part", 10, 0);
+-	sd_part = emmc_part = env_get_ulong("mmcrootpart", 10, 0);
++	sd_part = emmc_part = env_get_ulong("mender_boot_part", 10, 0);
 +	if (sd_part == 0)
 +		ubi_part = 'a';
 +	else
@@ -71,10 +71,10 @@ index 5903a54d0d..bcad02086f 100644
  	};
  
 diff --git a/include/configs/mx6var_som.h b/include/configs/mx6var_som.h
-index c4d159af0b..ca0bdbb83a 100644
+index 074012d9dd..b1cc007656 100644
 --- a/include/configs/mx6var_som.h
 +++ b/include/configs/mx6var_som.h
-@@ -116,7 +116,6 @@
+@@ -117,7 +117,6 @@
  	"fdt_file=undefined\0" \
  	"fdt_addr=0x18000000\0" \
  	"fdt_high=0xffffffff\0" \

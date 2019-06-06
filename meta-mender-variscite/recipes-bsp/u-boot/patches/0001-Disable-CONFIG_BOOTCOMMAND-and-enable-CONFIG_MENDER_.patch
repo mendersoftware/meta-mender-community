@@ -1,4 +1,4 @@
-From b98c97beaf4b615ccb6cf580b91a073b68e7a087 Mon Sep 17 00:00:00 2001
+From b3cd5d42d205afe418131324b1457ef0da6e7ad3 Mon Sep 17 00:00:00 2001
 From: Kristian Amlie <kristian.amlie@northern.tech>
 Date: Mon, 28 Aug 2017 18:12:37 +0200
 Subject: [PATCH] Disable CONFIG_BOOTCOMMAND and enable
@@ -10,11 +10,11 @@ Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/include/env_default.h b/include/env_default.h
-index 700aedb34d..ae631c05d2 100644
+index 00958105fa..1bacc1cb27 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
 @@ -34,8 +34,8 @@ const uchar default_environment[] = {
- #ifdef	CONFIG_BOOTARGS
+ #ifdef	CONFIG_USE_BOOTARGS
  	"bootargs="	CONFIG_BOOTARGS			"\0"
  #endif
 -#ifdef	CONFIG_BOOTCOMMAND
