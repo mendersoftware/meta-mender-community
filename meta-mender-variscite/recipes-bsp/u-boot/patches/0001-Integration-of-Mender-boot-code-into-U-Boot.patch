@@ -1,4 +1,4 @@
-From 2cf082c0504cddae08fe69cee047bb5ee0c545d6 Mon Sep 17 00:00:00 2001
+From 9874c5ff0ca68baba0c2ee7e5ca8a2e7b55bda53 Mon Sep 17 00:00:00 2001
 From: Marcin Pasinski <marcin.pasinski@northern.tech>
 Date: Wed, 31 Jan 2018 18:10:04 +0100
 Subject: [PATCH] Integration of Mender boot code into U-Boot.
@@ -12,7 +12,7 @@ Signed-off-by: Marcin Pasinski <marcin.pasinski@northern.tech>
  2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/include/env_default.h b/include/env_default.h
-index ea6704a972..700aedb34d 100644
+index b574345af2..00958105fa 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
 @@ -10,6 +10,8 @@
@@ -22,7 +22,7 @@ index ea6704a972..700aedb34d 100644
 +#include <env_mender.h>
 +
  #ifdef DEFAULT_ENV_INSTANCE_EMBEDDED
- env_t environment __PPCENV__ = {
+ env_t environment __UBOOT_ENV_SECTION__ = {
  	ENV_CRC,	/* CRC Sum */
 @@ -22,6 +24,7 @@ static char default_environment[] = {
  #else
