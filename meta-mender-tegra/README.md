@@ -1,30 +1,56 @@
-# Mender integration for NVIDIA Tegra
+# meta-mender-tegra
 
-This layer contains [mender](https://mender.io/) specific integrations for NVIDIA Tegra hardware, for Over The Air (OTA) software update support of Yocto based NVIDIA Tegra builds.
+Mender integration layer for NVIDIA Tegra hardware.
+ 
+The supported and tested boards are:
 
-It depends on the [meta-tegra](https://github.com/madisongh/meta-tegra) layer with branch matching the selected branch name.
+- [Jetson TX2](https://hub.mender.io/t/nvidia-tegra-jetson-tx2/123)
 
-See integration details in the [Mender Hub Page](https://hub.mender.io/t/nvidia-tegra-jetson-tx2/123)
+Visit the individual board links above for more information on status of the
+integration and more detailed instructions on how to build and use images
+together with Mender for the mentioned boards.
 
-Supported and Tested Boards:
-* Jetson TX2 Development Board
 
-### Build
-Download the source:
+## Dependencies
 
-    $ mkdir mender-tegra
-    $ cd mender-tegra
-    $ repo init \
-            -u https://github.com/mendersoftware/meta-mender-community \
-            -m meta-mender-tegra/scripts/manifest-tegra.xml \
-            -b thud
-    $ repo sync
+This layer depends on:
 
-Setup environment
+```
+URI: https://github.com/madisongh/meta-tegra.git
+layers: meta-tegra
+branch: warrior
+revision: HEAD
+```
 
-    $ . setup-environment tegra
+```
+URI: https://github.com/mendersoftware/meta-mender.git
+layers: meta-mender-core
+branch: warrior
+revision: HEAD
+```
 
-Build
 
-    $ bitbake core-image-base
+## Quick start
 
+The following commands will setup the environment and allow you to build images
+that have Mender integrated.
+
+
+```
+mkdir mender-tegra && cd mender-tegra
+repo init -u https://github.com/mendersoftware/meta-mender-community \
+           -m meta-mender-tegra/scripts/manifest-tegra.xml \
+           -b warrior
+repo sync
+source setup-environment tegra
+MACHINE=jetson-tx2 bitbake core-image-base
+```
+
+
+## Maintainer
+
+The author and maintainer of this layer is:
+
+- Dan Walkes - <danwalkes@trellis-logic.com> - [dwalkes](https://github.com/dwalkes)
+
+Always include the maintainers when suggesting code changes to this layer.

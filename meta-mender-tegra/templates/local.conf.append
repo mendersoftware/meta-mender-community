@@ -1,43 +1,9 @@
-# Appended fragment from meta-mender-community/meta-mender-tegra/templates
 MACHINE ?= "jetson-tx2"
-# meta-tegra and tegraflash requirements
-IMAGE_CLASSES += "image_types_mender_tegra"
-IMAGE_FSTYPES += "tegraflash"
 
-ARTIFACTIMG_FSTYPE = "ext4"
-# Generate dataimg for use with tegraflash
-IMAGE_TYPEDEP_tegraflash += " dataimg"
-IMAGE_FSTYPES += "dataimg"
-# Additional mender settings, See discussion in VS-68
-EXTRA_IMAGECMD_ext4 = " -b 2048"
-PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-# Note: this isn't really a boot file, just put it here to keep the mender build from
-# complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
-IMAGE_BOOT_FILES = "u-boot-dtb.bin"
-# Mender customizations to support jetson tx2.  This needs to match up with flash_l4t_t186.custom.xml scheme
-# We don't use a boot partition
-MENDER_BOOT_PART = ""
-MENDER_DATA_PART = "${MENDER_STORAGE_DEVICE_BASE}30"
-MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}1"
-MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}29"
-# See setting in meta-tegra/conf/machine
-# Need to oversize this to make sure IMAGE_ROOTFS_SIZE is less than this, however any change
-# will mean you need to change the offsets below as well.
-ROOTFSPART_SIZE = "3000000000"
-# Assumes a default partition layout for jetson with partition 28 reserved for uboot environment
-# At LBA 0x68b170.  0x68b170 = 6861168 blocks and 6861168 blocks *512 bytes/block = 3512918016 byte offset
-# This will need to be modified whenever flash layout changes
-# Use mmc part command in u-boot to find partition start for any new platforms
-MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET = "3512918016"
-MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "262144"
-# Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
-MENDER_PARTITION_ALIGNMENT = "4096"
-# Not required, gives you access via SSH by default
+# Tegra specific mender setup variables
+INHERIT += "tegra-mender-setup"
+
+MENDER_FEATURES_ENABLE_append = " mender-growfs-data"
+
+# Not required for mender support, but gives you access via SSH by default
 EXTRA_IMAGE_FEATURES += " ssh-server-dropbear"
-
-# See https://hub.mender.io/t/yocto-thud-release-and-mender/144
-# Default for thud and later is grub integration but we need to use u-boot integration already included.
-# Leave out sdimg since we don't use this with tegra (instead use tegraflash)
-MENDER_FEATURES_ENABLE_append = " mender-uboot"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
