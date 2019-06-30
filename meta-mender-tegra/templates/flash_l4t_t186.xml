@@ -46,6 +46,33 @@
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
         </partition>
+        <partition name="DRAMECCNAME" type="DRAMECCTYPE" oem_sign="true">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 55296 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> DRAMECCFILE </filename>
+        </partition>
+        <partition name="BADPAGENAME" type="BADPAGETYPE" oem_sign="true">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4608 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> BADPAGEFILE </filename>
+        </partition>
+        <partition name="BADPAGENAME_b" type="BADPAGETYPE" oem_sign="true">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4608 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> BADPAGEFILE </filename>
+        </partition>
         <partition name="SPENAME" type="SPETYPE" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -152,6 +179,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
+            <align_boundary> 4096 </align_boundary>
             <filename> APPFILE </filename>
         </partition>
         <partition name="MBPNAME" type="MBPTYPE" oem_sign="true">
@@ -235,7 +263,6 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> EKSFILE </filename>
         </partition>
-<!-- Uncomment below partition once filename is updated
         <partition name="adsp-fw" type="data" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -243,8 +270,17 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
+            <filename> adsp-fw.bin </filename>
         </partition>
--->
+        <partition name="adsp-fw_b" type="data" oem_sign="true">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> adsp-fw.bin </filename>
+        </partition>
         <partition name="BPFNAME" type="data" oem_sign="BPFSIGN">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
