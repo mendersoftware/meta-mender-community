@@ -3,3 +3,6 @@
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 PREFERRED_PROVIDER_u-boot = "u-boot-imx"
 IMAGE_CLASSES += "mender-setup-imx"
+
+MENDER_STORAGE_DEVICE_imx8mmevk = "/dev/mmcblk1"
+MENDER_STORAGE_DEVICE_imx8mqevk = "/dev/mmcblk1"
