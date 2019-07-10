@@ -16,6 +16,3 @@ python __anonymous () {
 do_image_sdimg[depends] += "imx-boot:do_deploy"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
-
-MENDER_STORAGE_DEVICE_imx8mmevk = "/dev/mmcblk1"
-MENDER_STORAGE_DEVICE_imx8mqevk = "/dev/mmcblk1"
