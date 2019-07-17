@@ -49,3 +49,23 @@ VIRTUAL-RUNTIME_initscripts = ""
 #MENDER_SERVER_URL = "https://docker.mender.io"
 #FILESEXTRAPATHS_prepend_pn-mender := "<DIRECTORY-CONTAINING-server.crt>:"
 #SRC_URI_append_pn-mender = " file://server.crt"
+
+# Mender storage configuration
+#
+# More details on these variables is available at
+#    https://docs.mender.io/devices/yocto-project/partition-configuration#configuring-storage
+#
+# Also, please be sure to check other config files as other
+# layers, config fragments, etc may attempt to set values
+# for specific platforms.  Using "bitbake -e <image-name>"
+# can help determine which files are setting these values
+# in a given configuration.
+#
+# MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+# MENDER_BOOT_PART_SIZE_MB = "16"
+# MENDER_DATA_PART_SIZE_MB = "1024"
+# MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+# MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}1"
+# MENDER_DATA_PART = "${MENDER_STORAGE_DEVICE_BASE}4"
+# MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}2"
+# MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}3"
