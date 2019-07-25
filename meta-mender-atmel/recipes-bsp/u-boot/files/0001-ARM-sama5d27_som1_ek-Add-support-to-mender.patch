@@ -1,16 +1,17 @@
-From bd57b76ac88302096b6c96d41c7d517dbd162add Mon Sep 17 00:00:00 2001
-From: Pierre-Jean Texier <pierre-jean.texier@lafon.fr>
-Date: Tue, 30 Oct 2018 16:42:19 +0100
-Subject: [PATCH] [PATCH 1/2] ARM: sama5d27_som1_ek: Add support to mender
+From dea234aada238b9579420cccc5765effa8db7543 Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Date: Tue, 25 Jun 2019 21:13:53 +0200
+Subject: [PATCH] ARM: sama5d27_som1_ek: Add support to mender for U-Boot
+ 2019.04
 
-Signed-off-by: Pierre-Jean Texier <pierre-jean.texier@lafon.fr>
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- configs/sama5d27_som1_ek_mmc_defconfig |  7 +++++--
- include/configs/sama5d27_som1_ek.h     | 10 ++++++++++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ configs/sama5d27_som1_ek_mmc_defconfig | 10 ++++++----
+ include/configs/sama5d27_som1_ek.h     | 11 +++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/configs/sama5d27_som1_ek_mmc_defconfig b/configs/sama5d27_som1_ek_mmc_defconfig
-index bf2991b..8fb2f2c 100644
+index cbfc5efd53..2afd09d666 100644
 --- a/configs/sama5d27_som1_ek_mmc_defconfig
 +++ b/configs/sama5d27_som1_ek_mmc_defconfig
 @@ -23,7 +23,7 @@ CONFIG_SYS_EXTRA_OPTIONS="SAMA5D2"
@@ -19,16 +20,17 @@ index bf2991b..8fb2f2c 100644
  CONFIG_USE_BOOTARGS=y
 -CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait"
 +CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root='${mender_kernel_root}' rw rootwait"
+ CONFIG_MISC_INIT_R=y
  # CONFIG_DISPLAY_BOARDINFO is not set
  CONFIG_SPL_SEPARATE_BSS=y
- CONFIG_HUSH_PARSER=y
-@@ -38,13 +38,16 @@ CONFIG_CMD_DHCP=y
+@@ -39,14 +39,17 @@ CONFIG_CMD_DHCP=y
  CONFIG_CMD_PING=y
  CONFIG_CMD_EXT4=y
  CONFIG_CMD_FAT=y
 +CONFIG_CMD_FS_GENERIC=y
  CONFIG_OF_CONTROL=y
  CONFIG_SPL_OF_CONTROL=y
+ CONFIG_DEFAULT_DEVICE_TREE="at91-sama5d27_som1_ek"
  CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-parent dmas dma-names"
 -CONFIG_ENV_IS_IN_FAT=y
 +CONFIG_ENV_IS_IN_MMC=y
@@ -40,14 +42,24 @@ index bf2991b..8fb2f2c 100644
  CONFIG_CLK=y
  CONFIG_SPL_CLK=y
  CONFIG_CLK_AT91=y
+@@ -93,7 +96,6 @@ CONFIG_USB_GADGET=y
+ CONFIG_USB_GADGET_ATMEL_USBA=y
+ CONFIG_DM_VIDEO=y
+ CONFIG_W1=y
+-CONFIG_W1_GPIO=y
+ CONFIG_W1_EEPROM=y
+-CONFIG_W1_EEPROM_DS24XXX=y
++CONFIG_FAT_WRITE=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
 diff --git a/include/configs/sama5d27_som1_ek.h b/include/configs/sama5d27_som1_ek.h
-index cb3c0ea..3f40570 100644
+index f128bdb6fb..339ba32894 100644
 --- a/include/configs/sama5d27_som1_ek.h
 +++ b/include/configs/sama5d27_som1_ek.h
-@@ -44,6 +44,16 @@
+@@ -40,6 +40,17 @@
  #define CONFIG_BOOTCOMMAND	"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x21000000 at91-sama5d27_som1_ek.dtb; " \
  				"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x22000000 zImage; " \
  				"bootz 0x22000000 - 0x21000000"
++
 +#undef CONFIG_ENV_SIZE
 +#undef CONFIG_BOOTCOMMAND
 +
@@ -59,8 +71,7 @@ index cb3c0ea..3f40570 100644
 +	"bootz 0x22000000 - 0x21000000; " \
 +	"run mender_try_to_recover"
  #endif
- 
- #ifdef CONFIG_QSPI_BOOT
--- 
-2.7.4
 
+ #ifdef CONFIG_QSPI_BOOT
+--
+2.7.4
