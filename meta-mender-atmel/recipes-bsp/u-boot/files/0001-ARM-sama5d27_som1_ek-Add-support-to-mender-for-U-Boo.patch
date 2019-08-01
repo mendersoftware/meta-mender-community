@@ -1,17 +1,17 @@
-From dea234aada238b9579420cccc5765effa8db7543 Mon Sep 17 00:00:00 2001
+From 19ca7efcbd7ea69e29a09e592f32b382dee6738d Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Date: Tue, 25 Jun 2019 21:13:53 +0200
+Date: Thu, 1 Aug 2019 13:34:14 +0200
 Subject: [PATCH] ARM: sama5d27_som1_ek: Add support to mender for U-Boot
  2019.04
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- configs/sama5d27_som1_ek_mmc_defconfig | 10 ++++++----
+ configs/sama5d27_som1_ek_mmc_defconfig |  8 ++++++--
  include/configs/sama5d27_som1_ek.h     | 11 +++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/configs/sama5d27_som1_ek_mmc_defconfig b/configs/sama5d27_som1_ek_mmc_defconfig
-index e31eb1c..09290e5 100644
+index cbfc5ef..2a3533d 100644
 --- a/configs/sama5d27_som1_ek_mmc_defconfig
 +++ b/configs/sama5d27_som1_ek_mmc_defconfig
 @@ -23,7 +23,7 @@ CONFIG_SYS_EXTRA_OPTIONS="SAMA5D2"
@@ -42,13 +42,10 @@ index e31eb1c..09290e5 100644
  CONFIG_CLK=y
  CONFIG_SPL_CLK=y
  CONFIG_CLK_AT91=y
-@@ -92,7 +95,6 @@ CONFIG_USB_STORAGE=y
- CONFIG_USB_GADGET=y
- CONFIG_USB_GADGET_ATMEL_USBA=y
- CONFIG_DM_VIDEO=y
--CONFIG_W1_GPIO=y
+@@ -96,4 +99,5 @@ CONFIG_W1=y
+ CONFIG_W1_GPIO=y
  CONFIG_W1_EEPROM=y
--CONFIG_W1_EEPROM_DS24XXX=y
+ CONFIG_W1_EEPROM_DS24XXX=y
 +CONFIG_FAT_WRITE=y
  CONFIG_OF_LIBFDT_OVERLAY=y
 diff --git a/include/configs/sama5d27_som1_ek.h b/include/configs/sama5d27_som1_ek.h
