@@ -12,7 +12,7 @@
   <project name="meta-freescale-3rdparty" remote="freescale" revision="thud" path="sources/meta-freescale-3rdparty"/>
   <project name="meta-freescale-distro" remote="freescale" revision="thud" path="sources/meta-freescale-distro"/>
   <project name="meta-openembedded" remote="oe" revision="thud" path="sources/meta-openembedded"/>
-  <project name="meta-boundary" remote="boundary" revision="master" path="sources/meta-boundary"/>
+  <project name="meta-boundary" remote="boundary" revision="14d7a54464450e50bdd28b6cba505d1263bc1b41" path="sources/meta-boundary"/>
   
   <include name="scripts/mender.xml"/>
 
