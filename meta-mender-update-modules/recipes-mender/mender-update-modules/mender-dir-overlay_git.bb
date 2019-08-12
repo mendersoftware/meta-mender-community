@@ -15,6 +15,6 @@ do_install_class-native() {
 }
 
 FILES_${PN} += "${datadir}/mender/modules/v3/dir-overlay"
-FILES_${PN}-class-native += "${bindir}/dir-overlay-gen"
+FILES_${PN}-class-native += "${bindir}/dir-overlay-artifact-gen"
 
 BBCLASSEXTEND = "native"
