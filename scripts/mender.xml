@@ -5,7 +5,7 @@
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
   <remote fetch="https://github.com/drewmoseley" name="drewmoseley"/>
 
-  <project name="meta-mender" remote="mender" revision="warrior" path="sources/meta-mender"/>
+  <project name="meta-mender" remote="drewmoseley" revision="wip-warrior" path="sources/meta-mender"/>
   <project name="meta-mender-community" remote="drewmoseley" revision="wip-warrior" path="sources/meta-mender-community">
     <copyfile dest="setup-environment" src="scripts/setup-environment"/>
   </project>
