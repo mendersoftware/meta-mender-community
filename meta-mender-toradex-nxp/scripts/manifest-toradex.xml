@@ -7,7 +7,7 @@
   <remote fetch="https://git.toradex.com"           name="tdx"/>
   <remote fetch="https://github.com/Freescale"      name="freescale"/>
 
-  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
+  <project name="poky" remote="drewmoseley" revision="wip-warrior" path="sources/poky"/>
   <project name="meta-openembedded" remote="oe" revision="warrior" path="sources/meta-openembedded"/>
   <project name="meta-freescale" remote="freescale" revision="warrior" path="sources/meta-freescale"/>
   <project name="meta-freescale-3rdparty" remote="freescale" revision="warrior" path="sources/meta-freescale-3rdparty"/>

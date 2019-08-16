@@ -4,7 +4,7 @@
 
   <remote fetch="git://git.yoctoproject.org" name="yocto"/>
 
-  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
+  <project name="poky" remote="drewmoseley" revision="wip-warrior" path="sources/poky"/>
 
   <include name="scripts/mender.xml"/>
 
