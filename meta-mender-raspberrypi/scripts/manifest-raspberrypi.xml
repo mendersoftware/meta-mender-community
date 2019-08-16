@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <default sync-j="4" revision="thud"/>
+  <default sync-j="4" revision="warrior"/>
 
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
   <remote fetch="https://github.com/openembedded"  name="oe"/>
   <remote fetch="https://github.com/agherzan"      name="rpi"/>
 
-  <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
-  <project name="meta-openembedded" remote="oe" revision="thud" path="sources/meta-openembedded"/>
-  <project name="meta-raspberrypi" remote="rpi" revision="thud" path="sources/meta-raspberrypi"/>
+  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="warrior" path="sources/meta-openembedded"/>
+  <project name="meta-raspberrypi" remote="rpi" revision="warrior" path="sources/meta-raspberrypi"/>
 
   <include name="scripts/mender.xml"/>
 
