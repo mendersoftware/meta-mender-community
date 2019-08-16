@@ -1,5 +1,0 @@
-BBLAYERS += " \
-  ${BSPDIR}/sources/meta-mender/meta-mender-core \
-  ${BSPDIR}/sources/meta-mender/meta-mender-demo \
-  ${BSPDIR}/sources/meta-mender-community/meta-mender-variscite \
-"

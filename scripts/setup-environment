@@ -18,20 +18,10 @@ build_dir=${script_dir}/build
 target=""
 
 targets=(
-    "atmel"
-    "beaglebone"
-    "clearfog"
     "intel"
-    "nxp"
-    "odroid"
     "qemu"
     "raspberrypi"
-    "renesas"
-    "rockchip"
-    "sunxi"
-    "tegra"
-    "up"
-    "variscite")
+    "toradex-nxp")
 
 for i in ${targets[@]}
 do

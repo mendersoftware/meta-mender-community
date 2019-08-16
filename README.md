@@ -23,19 +23,6 @@ boards.
 
 There are multiple types of layers included here.
 
-SoC-oriented:
-
-- meta-freescale
-- meta-sunxi
-- meta-rockchip
-- meta-renesas
-
-Vendor-oriented:
-
-- meta-variscite
-- meta-phytec
-- meta-toradex-nxp
-
 Naming of integration layers follows the upstream naming conventions with SoM
 vendor layer name having priority. The convention is:
 
@@ -74,7 +61,7 @@ To use this layer:
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-<vendor/soc name>/scripts/manifest-<vendor/soc name>.xml \
-           -b thud
+           -b warrior
     $ repo sync
 ```
 

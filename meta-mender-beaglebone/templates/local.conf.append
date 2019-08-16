@@ -1,4 +1,0 @@
-
-# Appended fragment from meta-mender-community/meta-mender-beaglebone/templates
-
-MACHINE ?= "beaglebone-yocto"
