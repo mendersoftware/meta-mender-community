@@ -13,7 +13,7 @@ UBOOT_BINARY ?= "u-boot-spl-sdhc.kwb"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
-MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-{MACHINE}.bin"
+MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-${MACHINE}.bin"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "1"
 
 MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
