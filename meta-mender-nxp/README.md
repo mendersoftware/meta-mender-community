@@ -15,7 +15,7 @@ Download the source:
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-nxp/scripts/manifest-nxp.xml \
-           -b thud
+           -b warrior
     $ repo sync
 
 Setup environment

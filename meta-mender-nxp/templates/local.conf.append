@@ -16,7 +16,8 @@ MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 # Specific Kernel devicetree and U-Boot Configuration for Pico-Pi i.MX7D
-KERNEL_DEVICETREE_remove_imx7d-pico = "imx7d-pico-hobbit.dtb"
+IMAGE_BOOT_FILES_imx7d-pico = "boot.scr"
+KERNEL_DEVICETREE_remove_imx7d-pico = "imx7d-pico-hobbit.dtb imx7d-pico-dwarf.dtb"
 UBOOT_CONFIG_remove_imx7d-pico = "hobbit generic"
 MENDER_UBOOT_STORAGE_INTERFACE_imx7d-pico = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE_imx7d-pico = "0"
