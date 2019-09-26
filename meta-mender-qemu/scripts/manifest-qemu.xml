@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="thud"/>
+  <default sync-j="4" revision="warrior"/>
 
   <remote fetch="git://git.yoctoproject.org" name="yocto"/>
 
-  <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
+  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
 
   <include name="scripts/mender.xml"/>
 
