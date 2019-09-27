@@ -1,4 +1,4 @@
-From e100a7e41028067c875c45d1c294f078a8a0d9d1 Mon Sep 17 00:00:00 2001
+From ba0f0dd4bb1b977414beabae2059bc09dde5c7ad Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
 Date: Mon, 19 Nov 2018 21:29:40 +0100
 Subject: [PATCH] ARM: WaRP7: Add support to mender
@@ -11,24 +11,24 @@ Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
  2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/configs/warp7_defconfig b/configs/warp7_defconfig
-index 955c7af..7810423 100644
+index 5b35113..1bffddc 100644
 --- a/configs/warp7_defconfig
 +++ b/configs/warp7_defconfig
-@@ -29,6 +29,8 @@ CONFIG_CMD_EXT4_WRITE=y
- CONFIG_CMD_FAT=y
- CONFIG_CMD_FS_GENERIC=y
+@@ -34,6 +34,8 @@ CONFIG_CMD_FS_GENERIC=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_DEFAULT_DEVICE_TREE="imx7s-warp"
  CONFIG_NET_RANDOM_ETHADDR=y
 +CONFIG_BOOTCOUNT_LIMIT=y
 +CONFIG_BOOTCOUNT_ENV=y
  CONFIG_DFU_MMC=y
- CONFIG_FSL_ESDHC=y
- CONFIG_OPTEE=y
+ CONFIG_DM_GPIO=y
+ CONFIG_DM_I2C=y
 diff --git a/include/configs/warp7.h b/include/configs/warp7.h
-index a391dfb..db53c7f 100644
+index 8ceaa0c..7ba36de 100644
 --- a/include/configs/warp7.h
 +++ b/include/configs/warp7.h
-@@ -138,14 +138,10 @@
- #define CONFIG_POWER_PFUZE3000_I2C_ADDR	0x08
+@@ -116,14 +116,10 @@
+ #define CONFIG_SYS_I2C_SPEED		100000
  
  /* environment organization */
 -#define CONFIG_ENV_SIZE			SZ_8K
