@@ -81,7 +81,7 @@ To use this layer:
 2. Setup environment:
 
 ```
-    $ . setup-environment <vendor/soc name>
+    $ . ./setup-environment <vendor/soc name>
 ```
 
 3. Build:
