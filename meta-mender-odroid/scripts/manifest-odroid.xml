@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="thud"/>
+  <default sync-j="4" revision="warrior"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="https://github.com/akuster"        name="odroid"/>
