@@ -1,16 +1,17 @@
-From bb0ac3f7a255e20dedbb240bef273b90fc61ae6b Mon Sep 17 00:00:00 2001
+From 0494704410b93e5e5d8dd5a5c79f2c3a5a44ed74 Mon Sep 17 00:00:00 2001
 From: Joris Offouga <offougajoris@gmail.com>
 Date: Fri, 1 Feb 2019 11:47:51 +0100
 Subject: [PATCH] Arm: Atmel: Add mender support for sama5d3 xplained
 
 Signed-off-by: Joris Offouga <offougajoris@gmail.com>
+
 ---
  configs/sama5d3_xplained_mmc_defconfig |  7 +++++--
  include/configs/sama5d3_xplained.h     | 11 ++++++++++-
  2 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/configs/sama5d3_xplained_mmc_defconfig b/configs/sama5d3_xplained_mmc_defconfig
-index dfcd35a..eefcb0e 100644
+index f0995da..710e96e 100644
 --- a/configs/sama5d3_xplained_mmc_defconfig
 +++ b/configs/sama5d3_xplained_mmc_defconfig
 @@ -22,7 +22,8 @@ CONFIG_FIT=y
@@ -23,23 +24,23 @@ index dfcd35a..eefcb0e 100644
  # CONFIG_DISPLAY_BOARDINFO is not set
  CONFIG_SPL_SEPARATE_BSS=y
  CONFIG_HUSH_PARSER=y
-@@ -43,7 +44,7 @@ CONFIG_CMD_UBI=y
- CONFIG_OF_CONTROL=y
+@@ -46,7 +47,7 @@ CONFIG_OF_CONTROL=y
  CONFIG_SPL_OF_CONTROL=y
+ CONFIG_DEFAULT_DEVICE_TREE="at91-sama5d3_xplained"
  CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-parent dmas dma-names"
 -CONFIG_ENV_IS_IN_FAT=y
 +CONFIG_ENV_IS_IN_MMC=y
  CONFIG_DM=y
  CONFIG_SPL_DM=y
  CONFIG_SPL_DM_SEQ_ALIAS=y
-@@ -77,3 +78,5 @@ CONFIG_W1_GPIO=y
+@@ -82,3 +83,5 @@ CONFIG_W1_GPIO=y
  CONFIG_W1_EEPROM=y
  CONFIG_W1_EEPROM_DS24XXX=y
  CONFIG_OF_LIBFDT_OVERLAY=y
 +CONFIG_BOOTCOUNT_LIMIT=y
 +CONFIG_BOOTCOUNT_ENV=y
 diff --git a/include/configs/sama5d3_xplained.h b/include/configs/sama5d3_xplained.h
-index 5cbddf3..2a8c089 100644
+index 8a9a19d..1e91e9e 100644
 --- a/include/configs/sama5d3_xplained.h
 +++ b/include/configs/sama5d3_xplained.h
 @@ -1,4 +1,4 @@
@@ -64,6 +65,3 @@ index 5cbddf3..2a8c089 100644
  /*
   * This needs to be defined for the OHCI code to work but it is defined as
   * ATMEL_ID_UHPHS in the CPU specific header files.
--- 
-2.7.4
-
