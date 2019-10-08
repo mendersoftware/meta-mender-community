@@ -145,37 +145,10 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> slot_metadata.bin </filename>
         </partition>
-        <partition name="reserved" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 6034432 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <align_boundary> 4096 </align_boundary>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-        </partition>
-        <partition name="uboot_env" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 262144 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <align_boundary> 4096 </align_boundary>
-            <allocation_attribute> 0x808 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-        </partition>
-        <partition name="reserved_align_secondary_gpt" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 3584 </size> <!-- See comment at https://devtalk.nvidia.com/default/topic/1063652/jetson-tx2/mmcblk0boot1-usage-at-address-4177408-and-u-boot-parameter-storage-space-availability/ - Suggests reserving 0xE00 bytes before the secondary_gpt -->
-            <file_system_attribute> 0 </file_system_attribute>
-            <align_boundary> 4096 </align_boundary>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-        </partition>
         <partition name="secondary_gpt" type="secondary_gpt">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 0xFFFFFFFFFFFFFFFF </size> <!-- See comment at https://devtalk.nvidia.com/default/topic/1063652/jetson-tx2/mmcblk0boot1-usage-at-address-4177408-and-u-boot-parameter-storage-space-availability/ - total partition size is actually 0x4200 -->
+            <size> 0xFFFFFFFFFFFFFFFF </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
@@ -461,15 +434,13 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> KERNELDTB-FILE </filename>
         </partition>
-        <partition name="APP2" type="data">
+        <partition name="CAC" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> APPSIZE </size>
+            <size> 268435456 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
-            <align_boundary> 4096 </align_boundary>
             <percent_reserved> 0 </percent_reserved>
-            <filename> APPFILE </filename>
         </partition>
         <partition name="UDA" type="data">
             <allocation_policy> sequential </allocation_policy>
@@ -478,7 +449,6 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x808 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> DATAFILE </filename>
         </partition>
         <partition name="secondary_gpt" type="secondary_gpt">
             <allocation_policy> sequential </allocation_policy>

@@ -1,15 +1,23 @@
-diff -r -u a/configs/p2771-0000-500_defconfig b/configs/p2771-0000-500_defconfig
---- a/configs/p2771-0000-500_defconfig	2018-10-24 15:26:57.852705468 +0000
-+++ b/configs/p2771-0000-500_defconfig	2018-10-24 15:27:17.668734604 +0000
-@@ -36,3 +36,4 @@ CONFIG_USB=y
- CONFIG_DM_USB=y
- CONFIG_POWER_DOMAIN=y
- CONFIG_TEGRA186_POWER_DOMAIN=y
-+CONFIG_MMC=y
-Binary files a/.git/index and b/.git/index differ
-diff -r -u a/include/config_defaults.h b/include/config_defaults.h
---- a/include/config_defaults.h	2018-10-24 15:26:57.896705532 +0000
-+++ b/include/config_defaults.h	2018-10-24 15:27:17.504734363 +0000
+From 080c857306f422d8fe411edbd9ee81eaf19dd93e Mon Sep 17 00:00:00 2001
+From: Dan Walkes <danwalkes@trellis-logic.com>
+Date: Sat, 29 Jun 2019 12:17:30 -0600
+Subject: [PATCH] tegra mender auto configured modified
+
+This patch was created after performing [automatic u-boot patching](https://github.com/mendersoftware/meta-mender/blob/master/meta-mender-core/recipes-bsp/u-boot/files/uboot_auto_patch.sh) on sumo and then fixing resulting patch failures.
+
+It was last updated for the warrior release, at which time it looked as though there were no significant changes made to [u-boot patches](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-core/recipes-bsp/u-boot/patches) since initial port was completed in [November 2018](https://github.com/mendersoftware/meta-mender-community/pull/15)
+---
+ include/config_defaults.h         | 8 ++++++++
+ include/config_distro_bootcmd.h   | 1 -
+ include/configs/p2771-0000.h      | 4 ----
+ include/configs/tegra-common.h    | 1 -
+ include/configs/tegra186-common.h | 2 +-
+ 5 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/include/config_defaults.h b/include/config_defaults.h
+index ad08c1d..2b503f8 100644
+--- a/include/config_defaults.h
++++ b/include/config_defaults.h
 @@ -21,3 +21,11 @@
  #define CONFIG_PARTITIONS 1
  
@@ -22,9 +30,10 @@ diff -r -u a/include/config_defaults.h b/include/config_defaults.h
 +#define CONFIG_ENV_IS_IN_MMC
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
-diff -r -u a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
---- a/include/config_distro_bootcmd.h	2018-10-24 15:26:57.896705532 +0000
-+++ b/include/config_distro_bootcmd.h	2018-10-24 15:27:17.528734398 +0000
+diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
+index d718224..32df04a 100644
+--- a/include/config_distro_bootcmd.h
++++ b/include/config_distro_bootcmd.h
 @@ -397,7 +397,6 @@
  		"done\0"
  
@@ -33,9 +42,10 @@ diff -r -u a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
  #endif
  
  #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
-diff -r -u a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
---- a/include/configs/p2771-0000.h	2018-10-24 15:26:57.912705556 +0000
-+++ b/include/configs/p2771-0000.h	2018-10-24 15:27:17.508734369 +0000
+diff --git a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
+index 1c8981b..6e7d8f5 100644
+--- a/include/configs/p2771-0000.h
++++ b/include/configs/p2771-0000.h
 @@ -23,10 +23,6 @@
  #define CONFIG_TEGRA_MMC
  
@@ -47,9 +57,22 @@ diff -r -u a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
  
  /* PCI host support */
  #define CONFIG_PCI
-diff -r -u a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
---- a/include/configs/tegra186-common.h	2018-10-24 15:26:57.916705562 +0000
-+++ b/include/configs/tegra186-common.h	2018-10-24 15:27:17.512734374 +0000
+diff --git a/include/configs/tegra-common.h b/include/configs/tegra-common.h
+index 4c4a1ea..0446ba5 100644
+--- a/include/configs/tegra-common.h
++++ b/include/configs/tegra-common.h
+@@ -34,7 +34,6 @@
+ 
+ /* Environment */
+ #define CONFIG_ENV_VARS_UBOOT_CONFIG
+-#define CONFIG_ENV_SIZE			0x2000	/* Total Size Environment */
+ 
+ /*
+  * NS16550 Configuration
+diff --git a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
+index 2a78513..86e2f17 100644
+--- a/include/configs/tegra186-common.h
++++ b/include/configs/tegra186-common.h
 @@ -54,7 +54,7 @@
  #define MEM_LAYOUT_ENV_SETTINGS \
  	"scriptaddr=0x90000000\0" \
@@ -59,15 +82,6 @@ diff -r -u a/include/configs/tegra186-common.h b/include/configs/tegra186-common
  	"fdt_addr_r=0x82000000\0" \
  	"ramdisk_addr_r=0x82100000\0"
  
-diff -r -u a/include/configs/tegra-common.h b/include/configs/tegra-common.h
---- a/include/configs/tegra-common.h	2018-10-24 15:26:57.916705562 +0000
-+++ b/include/configs/tegra-common.h	2018-10-24 15:27:17.512734374 +0000
-@@ -34,7 +34,6 @@
- 
- /* Environment */
- #define CONFIG_ENV_VARS_UBOOT_CONFIG
--#define CONFIG_ENV_SIZE			0x2000	/* Total Size Environment */
- 
- /*
-  * NS16550 Configuration
-Only in b: .scmversion
+-- 
+2.7.4
+
