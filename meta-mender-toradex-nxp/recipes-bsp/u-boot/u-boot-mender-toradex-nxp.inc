@@ -33,3 +33,5 @@ SRC_URI_append_colibri-imx7 = " \
 BOOTENV_SIZE_colibri-imx7-emmc ?= "0x2000"
 
 SRC_URI_append_colibri-imx7-emmc = " file://0001-colibri-imx7-emmc-mender-integration-patch.patch"
+
+MENDER_UBOOT_PRE_SETUP_COMMANDS_apalis-imx6 = "setenv loadaddr \${kernel_addr_r}; run setup; setenv bootargs \${defargs} \${emmcargs} \${setupargs} \${vidargs}; "
