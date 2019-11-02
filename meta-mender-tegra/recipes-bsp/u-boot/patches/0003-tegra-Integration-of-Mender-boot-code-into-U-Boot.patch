@@ -1,4 +1,4 @@
-From 9697e669d849ad53ca374a5e2c4b260c1ba9f67e Mon Sep 17 00:00:00 2001
+From 8bfbe900305178f4aa6f156a112276697f8cd8bb Mon Sep 17 00:00:00 2001
 From: Marcin Pasinski <marcin.pasinski@northern.tech>
 Date: Wed, 31 Jan 2018 18:10:04 +0100
 Subject: [PATCH] Integration of Mender boot code into U-Boot.
@@ -13,7 +13,7 @@ Signed-off-by: Marcin Pasinski <marcin.pasinski@northern.tech>
  2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/include/env_default.h b/include/env_default.h
-index ea6704a..700aedb 100644
+index ea6704a972..700aedb34d 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
 @@ -10,6 +10,8 @@
@@ -34,7 +34,7 @@ index ea6704a..700aedb 100644
  	ENV_CALLBACK_VAR "=" CONFIG_ENV_CALLBACK_LIST_DEFAULT "\0"
  #endif
 diff --git a/scripts/Makefile.autoconf b/scripts/Makefile.autoconf
-index 01a739d..4c4067d 100644
+index 01a739d23f..4c4067d5cc 100644
 --- a/scripts/Makefile.autoconf
 +++ b/scripts/Makefile.autoconf
 @@ -98,7 +98,8 @@ define filechk_config_h
