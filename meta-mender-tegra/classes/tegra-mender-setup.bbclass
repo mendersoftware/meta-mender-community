@@ -46,3 +46,6 @@ MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 # Use this variable to adjust your total rootfs size across both images.  Rootfs size will be approximately 1/2 this value (ignoring alignment)
 # The default is enough to build core-image-base
 MENDER_STORAGE_TOTAL_SIZE_MB ??="6000"
+
+# This keeps the client ID used by systemd and therefore the IP address from changing.
+MENDER_FEATURES_ENABLE_append = " mender-persist-systemd-machine-id"
