@@ -4,6 +4,7 @@
 #    - imx7s-warp
 #    - imx7d-pico
 #    - nitrogen8m
+#    - imx7dsabresd
 #
 MACHINE ?= "imx7s-warp"
 
@@ -32,6 +33,11 @@ MENDER_UBOOT_STORAGE_DEVICE_imx7s-warp = "0"
 MENDER_STORAGE_DEVICE_imx7s-warp = "/dev/mmcblk1"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7s-warp = "0x80000"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7s-warp = "0xA0000"
+
+# Specific Configuration for i.MX7D Sabre
+IMAGE_BOOT_FILES_imx7dsabresd = "boot.scr"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7dsabresd = "0xC0000"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7dsabresd = "0xE0000"
 
 # Specific Configuration for nitrogen8m
 IMAGE_BOOT_FILES_nitrogen8m_append = " \
