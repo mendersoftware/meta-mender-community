@@ -10,4 +10,9 @@ SRC_URI_append_imx7d-pico = " \
 "
 BOOTENV_SIZE_imx7d-pico = "0x4000"
 
+SRC_URI_append_imx7dsabresd = " \
+	file://0001-mx7dsabresd-Add-support-to-mender.patch \
+"
+BOOTENV_SIZE_imx7dsabresd = "0x2000"
+
 MENDER_UBOOT_AUTO_CONFIGURE = "0"

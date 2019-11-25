@@ -7,6 +7,7 @@ The supported and tested boards are:
  - [WaRP7](https://hub.mender.io/t/nxp-warp7/135)
  - [Pico-Pi i.MX7D](https://hub.mender.io/t/technexion-pico-pi-imx7/136)
  - [Nitrogen8M](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
+ - [i.MX7D SABRE](https://hub.mender.io/t/nxp-i-mx7d-sabre/1279)
 
 
 Visit the individual board links above for more information on status of the

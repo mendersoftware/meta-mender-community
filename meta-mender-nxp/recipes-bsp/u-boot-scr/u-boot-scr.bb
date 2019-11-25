@@ -20,4 +20,4 @@ do_deploy() {
 addtask do_deploy after do_compile before do_build
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-COMPATIBLE_MACHINE = "(imx7s-warp|imx7d-pico)"
+COMPATIBLE_MACHINE = "(imx7s-warp|imx7d-pico|imx7dsabresd)"
