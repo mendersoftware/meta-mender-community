@@ -1,0 +1,24 @@
+From 0972c8b7ecc95ac27ef69bd4441154f422413bfd Mon Sep 17 00:00:00 2001
+From: Moritz Marquardt <moritz.marquardt@zeiss.com>
+Date: Thu, 5 Dec 2019 14:26:57 +0000
+Subject: [PATCH] Configure u-boot env. in sd-card for jetson-nano
+
+---
+ include/configs/p3450-porg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/configs/p3450-porg.h b/include/configs/p3450-porg.h
+index e8a7ead5bb..b818aae159 100644
+--- a/include/configs/p3450-porg.h
++++ b/include/configs/p3450-porg.h
+@@ -34,8 +34,8 @@
+ 	func(PXE, pxe, na) \
+ 	func(DHCP, dhcp, na)
+ 
+-/* Environment s/b at end of SPI, fix it later */
+-#define CONFIG_ENV_IS_NOWHERE
++/* Env is located in a partition of the sd-card (mmc device in u-boot) */
++#define CONFIG_ENV_IS_IN_MMC
+ 
+ /* SPI */
+ #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0
