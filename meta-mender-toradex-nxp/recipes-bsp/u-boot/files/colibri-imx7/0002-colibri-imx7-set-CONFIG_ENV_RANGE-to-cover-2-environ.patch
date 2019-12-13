@@ -1,4 +1,4 @@
-From 2dcfd52287618fb29882aaf9e514c72a9593a8d3 Mon Sep 17 00:00:00 2001
+From 07e3e48db7682d8205d9f63c1e36f5f3fff0ca6c Mon Sep 17 00:00:00 2001
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 Date: Wed, 9 Aug 2017 11:13:12 +0200
 Subject: [PATCH] colibri-imx7: set CONFIG_ENV_RANGE to cover 2 * environment
@@ -10,17 +10,17 @@ Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/include/configs/colibri_imx7.h b/include/configs/colibri_imx7.h
-index 9eb4bfa..da69ccb 100644
+index b3feb019fa..6a3572a581 100644
 --- a/include/configs/colibri_imx7.h
 +++ b/include/configs/colibri_imx7.h
-@@ -202,6 +202,7 @@
+@@ -182,6 +182,7 @@
  /* configured by mender integration */
  /* #define CONFIG_ENV_OFFSET		(28 * CONFIG_ENV_SECT_SIZE) */
  #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
 +#define CONFIG_ENV_RANGE    (2 * CONFIG_ENV_SIZE)
- #else
- #define CONFIG_ENV_SIZE			(8 * SZ_64K)
  #endif
+ 
+ #define CONFIG_NAND_MXS
 -- 
-2.7.4
+2.24.1
 

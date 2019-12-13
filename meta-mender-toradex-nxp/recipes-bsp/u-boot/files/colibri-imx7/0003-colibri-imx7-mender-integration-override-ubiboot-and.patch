@@ -1,4 +1,4 @@
-From 3bea2ead650dab2d2fa55f79f4865aeacd8ad4dd Mon Sep 17 00:00:00 2001
+From de5a8e1cc6938d1e8f7cdf64c38750cff1fba662 Mon Sep 17 00:00:00 2001
 From: Drew Moseley <drew.moseley@northern.tech>
 Date: Wed, 22 Nov 2017 15:40:03 -0500
 Subject: [PATCH] colibri-imx7: mender integration, override ubiboot and
@@ -7,19 +7,19 @@ Subject: [PATCH] colibri-imx7: mender integration, override ubiboot and
 Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
 ---
- include/configs/colibri_imx7.h | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ include/configs/colibri_imx7.h | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/include/configs/colibri_imx7.h b/include/configs/colibri_imx7.h
-index da69ccb..49e2707 100644
+index 6a3572a581..af6d60dec1 100644
 --- a/include/configs/colibri_imx7.h
 +++ b/include/configs/colibri_imx7.h
-@@ -104,22 +104,25 @@
- 		"bootm ${ramdisk_addr_r}#config@${soc}\0"
- #else /* CONFIG_TDX_EASY_INSTALLER */
+@@ -94,17 +94,20 @@
+ 	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+ 
  #define UBI_BOOTCMD \
 -	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
-+	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} rw rootfstype=ubifs " \
++	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=ubi0:rootfs rw rootfstype=ubifs " \
  		"ubi.fm_autoconvert=1\0" \
  	"ubiboot=run setup; " \
 -		"setenv bootargs ${defargs} ${ubiargs} " \
@@ -29,24 +29,20 @@ index da69ccb..49e2707 100644
 -		"ubi part ubi && run m4boot && " \
 -		"ubi read ${kernel_addr_r} kernel && " \
 -		"ubi read ${fdt_addr_r} dtb && " \
--		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
+-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+-
+-#define CONFIG_BOOTCOMMAND "run ubiboot; " \
 +		"run mender_setup; "                                   \
 +		"ubi part ${mender_mtd_ubi_dev_name} && "              \
 +		"ubifsmount ${mender_uboot_root_name} && "             \
 +		"ubifsload ${kernel_addr_r} /boot/zImage && "          \
 +		"ubifsload ${fdt_addr_r} /boot/${fdtfile} && "         \
 +		"bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
- #endif /* CONFIG_TDX_EASY_INSTALLER */
- 
- #ifdef CONFIG_TDX_EASY_INSTALLER
- #define CONFIG_BOOTCOMMAND "setenv fdtfile ${soc}-colibri-${fdt_board}.dtb && " \
- 	"run bootcmd_mmc0; run ubiboot; run distro_bootcmd"
- #else
--#define CONFIG_BOOTCOMMAND "run ubiboot; " \
++
 +#define CONFIG_BOOTCOMMAND "run ubiboot; run mender_try_to_recover; " \
- 	"setenv fdtfile ${soc}-colibri-${fdt_board}.dtb && run distro_bootcmd"
- #endif
+ 	"setenv fdtfile ${soc}-colibri-${fdt_board}.dtb && run distro_bootcmd;"
  
+ #define BOOTENV_RUN_NET_USB_START ""
 -- 
-2.7.4
+2.24.1
 
