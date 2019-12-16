@@ -28,6 +28,7 @@ targets=(
     "rockchip"
     "sunxi"
     "tegra"
+    "toradex-nxp"
     "up"
     "variscite")
 
