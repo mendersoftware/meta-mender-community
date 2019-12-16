@@ -18,8 +18,8 @@ INHERIT_append_colibri-imx7 = " mender-full-ubi"
 # Inherit toradex easyinstaller metadata generation ("image.json")
 INHERIT_append_colibri-imx7 += "toradex_image_json"
 
-# u-boot-env partition holds 2 environments, each 128kB with env range set to 256kB
-BOOTENV_SIZE_colibri-imx7 ?= "0x20000"
+# u-boot-env partition holds 2 environments, each 128kB - a bit.
+BOOTENV_SIZE_colibri-imx7 ?= "0x18000"
 BOOTENV_RANGE_colibri-imx7 ?= "0x40000"
 
 # 512MB of NAND flash
