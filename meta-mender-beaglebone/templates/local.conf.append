@@ -2,3 +2,6 @@
 # Appended fragment from meta-mender-community/meta-mender-beaglebone/templates
 
 MACHINE ?= "beaglebone-yocto"
+
+# These are part of the rootfs with Mender and should be removed from the boot partition"
+IMAGE_BOOT_FILES_remove_mender-install = "zImage am335x-bone.dtb am335x-boneblack.dtb am335x-bonegreen.dtb"
