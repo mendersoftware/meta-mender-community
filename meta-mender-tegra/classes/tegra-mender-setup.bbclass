@@ -1,5 +1,7 @@
-def tegra_mender_set_rootfs_size(image_rootfs_size_kb):
-    return image_rootfs_size_kb*1024
+# @return the rootfs size in bytes based on yocto variables which hold the rootfs size
+# and extra space in KB
+def tegra_mender_set_rootfs_size(image_rootfs_size_kb,image_rootfs_extra_space_kb):
+    return image_rootfs_size_kb*1024 + image_rootfs_extra_space_kb*1024
 
 # meta-tegra and tegraflash requirements
 IMAGE_CLASSES += "image_types_mender_tegra"
@@ -38,8 +40,8 @@ MENDER_PARTITIONING_OVERHEAD_KB = "0"
 MENDER_BOOT_PART = ""
 MENDER_BOOT_PART_SIZE_MB = "0"
 
-# Calculate the ROOTFSPART_SIZE value based on IMAGE_ROOTFS_SIZE set by mender
-ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${IMAGE_ROOTFS_SIZE})}"
+# Calculate the ROOTFSPART_SIZE value based on IMAGE_ROOTFS_SIZE set by mender and any IMAGE_ROOTFS_EXTRA_SPACE
+ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${IMAGE_ROOTFS_SIZE},${IMAGE_ROOTFS_EXTRA_SPACE})}"
 
 # See https://hub.mender.io/t/yocto-thud-release-and-mender/144
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
