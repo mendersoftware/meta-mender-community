@@ -1,23 +1,35 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-
-SRC_URI = "file://redundant-boot-reboot-state-script;subdir=${PN}-${PV} \
-          file://mender-install-manual;subdir=${PN}-${PV} \
-          "
+SRC_URI = " \
+    file://migrate-current-uboot-vars \
+    file://redundant-boot-commit-script \
+    file://redundant-boot-install-script \
+    file://redundant-boot-rollback-script \
+    file://rollback-uboot-vars \
+"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
+S = "${WORKDIR}"
+
 inherit mender-state-scripts
 
+PERSIST_MACHINE_ID=""
+PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
+
 do_compile() {
-    cp redundant-boot-reboot-state-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactReboot_Enter_50
+    sed -e's,@COPY_MACHINE_ID@,${PERSIST_MACHINE_ID},' ${S}/redundant-boot-install-script > ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
+    cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
+    cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
 }
 
-base_do_install_append() {
-    install -d ${D}${base_sbindir}
-    install -m 755 redundant-boot-reboot-state-script ${D}${base_sbindir}/
-    install -m 755 mender-install-manual ${D}${base_sbindir}/
+do_compile_append_mender-uboot() {
+    cp ${S}/migrate-current-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_90_uboot-migrate
+    cp ${S}/rollback-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_90_uboot-migrate
 }
 
-FILES_${PN} += "${base_sbindir}/redundant-boot-reboot-state-script"
-FILES_${PN} += "${base_sbindir}/mender-install-manual"
+# Make sure scripts aren't left around from old builds
+do_deploy_prepend() {
+    rm -rf ${DEPLOYDIR}/mender-state-scripts
+}
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
