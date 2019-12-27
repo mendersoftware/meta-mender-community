@@ -39,13 +39,16 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${IMAGE_ROOTFS_SIZE})}"
 
 # See https://hub.mender.io/t/yocto-thud-release-and-mender/144
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
-# Leave out sdimg since we don't use this with tegra (instead use tegraflash)
-MENDER_FEATURES_ENABLE_append = " mender-uboot"
+# Leave out sdimg since we don't use this with tegra (instead use
+# tegraflash)
+MENDER_FEATURES_ENABLE_append = "${@mender_tegra_uboot_feature(d)}"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 # Use this variable to adjust your total rootfs size across both images.  Rootfs size will be approximately 1/2 this value (ignoring alignment)
 # The default is enough to build core-image-base
 MENDER_STORAGE_TOTAL_SIZE_MB ??="6000"
 
-# This keeps the client ID used by systemd and therefore the IP address from changing.
-MENDER_FEATURES_ENABLE_append = " mender-persist-systemd-machine-id"
+def mender_tegra_uboot_feature(d):
+    if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot'):
+        return " mender-persist-systemd-machine-id"
+    return " mender-uboot mender-persist-systemd-machine-id"
