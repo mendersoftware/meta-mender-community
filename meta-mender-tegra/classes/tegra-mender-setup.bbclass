@@ -52,3 +52,7 @@ def mender_tegra_uboot_feature(d):
     if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot'):
         return " mender-persist-systemd-machine-id"
     return " mender-uboot mender-persist-systemd-machine-id"
+
+_MENDER_IMAGE_DEPS_EXTRA = ""
+_MENDER_IMAGE_DEPS_EXTRA_tegra = "tegra-state-scripts:do_deploy"
+do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
