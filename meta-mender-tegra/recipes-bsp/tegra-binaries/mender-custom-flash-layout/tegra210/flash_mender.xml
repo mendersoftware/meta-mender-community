@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+
+<!-- Nvidia Tegra Partition Layout Version 1.0.0 -->
+
+<partition_layout version="01.00.0000">
+    <device type="sdmmc" instance="3">
+        <partition name="BCT" id="2" type="boot_config_table">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="NXC" id="3" type="NVCTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> NVCFILE </filename>
+        </partition>
+
+        <partition name="PPT" id="4" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> PPTSIZE </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="GP1" id="5" type="GP1">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="APP" id="6" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> APPSIZE </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <unique_guid> APPUUID </unique_guid>
+            <filename> APPFILE </filename>
+        </partition>
+
+        <partition name="TXC" id="7" type="TBCTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> TBCFILE </filename>
+        </partition>
+
+        <partition name="EBT" id="8" type="bootloader">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> EBTFILE </filename>
+        </partition>
+
+        <partition name="BXF" id="9" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> BPFFILE </filename>
+        </partition>
+
+        <partition name="WX0" id="10" type="WB0TYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 6291456 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> WB0FILE </filename>
+        </partition>
+
+        <partition name="RP1" id="11" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> DTBFILE </filename>
+        </partition>
+
+        <partition name="TXS" id="12" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 6291456 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> TOSFILE </filename>
+        </partition>
+
+        <partition name="EXS" id="13" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> EKSFILE </filename>
+        </partition>
+
+        <partition name="FX" id="14" type="FBTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> FBFILE </filename>
+        </partition>
+
+        <partition name="BMP" id="25" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 134217728 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> bmp.blob </filename>
+        </partition>
+
+        <partition name="SOS" id="15" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 20971520 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <filename> SOSFILE </filename>
+        </partition>
+
+        <partition name="EXI" id="16" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> EFISIZE </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> EFIFILE </filename>
+        </partition>
+
+        <partition name="LNX" id="17" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 67108864 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> LNXFILE </filename>
+        </partition>
+
+        <partition name="DXB" id="18" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 4194304 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> DTBFILE </filename>
+        </partition>
+
+        <partition name="NXT" id="19" type="NCTTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> NCTFILE </filename>
+        </partition>
+
+        <partition name="MXB" id="20" type="MPBTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 6291456 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> MPBFILE </filename>
+        </partition>
+
+        <partition name="MXP" id="21" type="MBPTYPE">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 6291456 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <partition_attribute> 0 </partition_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> MBPFILE </filename>
+        </partition>
+
+        <partition name="USP" id="22" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="APP2" id="23" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> APPSIZE </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> APPFILE </filename>
+        </partition>
+
+        <partition name="UDA" id="24" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x808 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+	    <filename> DATAFILE </filename>
+        </partition>
+
+        <partition name="GPT" id="25" type="GPT">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 0xFFFFFFFFFFFFFFFF </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+    </device>
+</partition_layout>
