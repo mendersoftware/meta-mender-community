@@ -10,10 +10,10 @@ u-boot variables.
  include/config_defaults.h | 17 +++++++++++------
  1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/include/config_defaults.h b/include/config_defaults.h
-index 2b503f807c..e4ec0e16dc 100644
---- a/include/config_defaults.h
-+++ b/include/config_defaults.h
+Index: git/include/config_defaults.h
+===================================================================
+--- git.orig/include/config_defaults.h
++++ git/include/config_defaults.h
 @@ -9,6 +9,8 @@
  #ifndef _CONFIG_DEFAULTS_H_
  #define _CONFIG_DEFAULTS_H_
@@ -23,25 +23,3 @@ index 2b503f807c..e4ec0e16dc 100644
  /* Support bootm-ing different OSes */
  #define CONFIG_BOOTM_LINUX 1
  #define CONFIG_BOOTM_NETBSD 1
-@@ -20,12 +22,15 @@
- #define CONFIG_ZLIB 1
- #define CONFIG_PARTITIONS 1
- 
--#endif
--#define CONFIG_ENV_SIZE 0x20000
--#define CONFIG_ENV_OFFSET 0x400000
--#define CONFIG_ENV_OFFSET_REDUND 0x800000
--#define CONFIG_SYS_MMC_ENV_DEV 0
--#define CONFIG_SYS_MMC_ENV_PART 0
-+/* Let mender define these */
-+/*#define CONFIG_ENV_OFFSET 0x400000 */
-+/*#define CONFIG_ENV_OFFSET_REDUND 0x800000 */
-+/* Use mender definitions for these */
-+#define CONFIG_ENV_SIZE MENDER_BOOTENV_SIZE
-+#define CONFIG_SYS_MMC_ENV_DEV MENDER_UBOOT_STORAGE_DEVICE
-+#define CONFIG_SYS_MMC_ENV_PART MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART
- #define CONFIG_ENV_IS_IN_MMC
- #define CONFIG_BOOTCOUNT_LIMIT
- #define CONFIG_BOOTCOUNT_ENV
-+
-+#endif

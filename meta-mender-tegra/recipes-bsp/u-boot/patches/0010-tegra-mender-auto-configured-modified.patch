@@ -15,26 +15,20 @@ It was last updated for the warrior release, at which time it looked as though t
  include/configs/tegra186-common.h | 2 +-
  5 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/include/config_defaults.h b/include/config_defaults.h
-index ad08c1d335..2b503f807c 100644
---- a/include/config_defaults.h
-+++ b/include/config_defaults.h
-@@ -21,3 +21,11 @@
+Index: git/include/config_defaults.h
+===================================================================
+--- git.orig/include/config_defaults.h
++++ git/include/config_defaults.h
+@@ -21,3 +21,5 @@
  #define CONFIG_PARTITIONS 1
  
  #endif
-+#define CONFIG_ENV_SIZE 0x20000
-+#define CONFIG_ENV_OFFSET 0x400000
-+#define CONFIG_ENV_OFFSET_REDUND 0x800000
-+#define CONFIG_SYS_MMC_ENV_DEV 0
-+#define CONFIG_SYS_MMC_ENV_PART 0
-+#define CONFIG_ENV_IS_IN_MMC
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
-diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
-index d7182244cb..32df04aef1 100644
---- a/include/config_distro_bootcmd.h
-+++ b/include/config_distro_bootcmd.h
+Index: git/include/config_distro_bootcmd.h
+===================================================================
+--- git.orig/include/config_distro_bootcmd.h
++++ git/include/config_distro_bootcmd.h
 @@ -397,7 +397,6 @@
  		"done\0"
  
@@ -43,10 +37,10 @@ index d7182244cb..32df04aef1 100644
  #endif
  
  #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
-diff --git a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
-index 61310fbdf2..f586e340ce 100644
---- a/include/configs/p2771-0000.h
-+++ b/include/configs/p2771-0000.h
+Index: git/include/configs/p2771-0000.h
+===================================================================
+--- git.orig/include/configs/p2771-0000.h
++++ git/include/configs/p2771-0000.h
 @@ -23,10 +23,6 @@
  #define CONFIG_TEGRA_MMC
  
@@ -58,10 +52,10 @@ index 61310fbdf2..f586e340ce 100644
  
  /* PCI host support */
  #define CONFIG_PCI
-diff --git a/include/configs/tegra-common.h b/include/configs/tegra-common.h
-index 4c4a1ea1c6..0446ba594b 100644
---- a/include/configs/tegra-common.h
-+++ b/include/configs/tegra-common.h
+Index: git/include/configs/tegra-common.h
+===================================================================
+--- git.orig/include/configs/tegra-common.h
++++ git/include/configs/tegra-common.h
 @@ -34,7 +34,6 @@
  
  /* Environment */
@@ -70,10 +64,10 @@ index 4c4a1ea1c6..0446ba594b 100644
  
  /*
   * NS16550 Configuration
-diff --git a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
-index 3f96a45b18..215aef0b33 100644
---- a/include/configs/tegra186-common.h
-+++ b/include/configs/tegra186-common.h
+Index: git/include/configs/tegra186-common.h
+===================================================================
+--- git.orig/include/configs/tegra186-common.h
++++ git/include/configs/tegra186-common.h
 @@ -54,7 +54,7 @@
  #define MEM_LAYOUT_ENV_SETTINGS \
  	"scriptaddr=0x90000000\0" \
