@@ -2,6 +2,7 @@ SRC_URI = " \
     file://migrate-current-uboot-vars \
     file://redundant-boot-commit-script \
     file://redundant-boot-install-script \
+    file://redundant-boot-install-script-uboot \
     file://redundant-boot-rollback-script \
     file://rollback-uboot-vars \
 "
@@ -18,6 +19,12 @@ PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
 
 copy_redundant_boot_scripts() {
     sed -e's,@COPY_MACHINE_ID@,${PERSIST_MACHINE_ID},' ${S}/redundant-boot-install-script > ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
+    cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
+    cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
+}
+
+copy_redundant_boot_scripts_mender-uboot() {
+    cp ${S}/redundant-boot-install-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
     cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
     cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
 }
