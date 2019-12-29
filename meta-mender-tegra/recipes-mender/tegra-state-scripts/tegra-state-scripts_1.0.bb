@@ -16,13 +16,25 @@ inherit mender-state-scripts
 PERSIST_MACHINE_ID=""
 PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
 
-do_compile() {
+copy_redundant_boot_scripts() {
     sed -e's,@COPY_MACHINE_ID@,${PERSIST_MACHINE_ID},' ${S}/redundant-boot-install-script > ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
     cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
     cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
 }
 
-do_compile_append_mender-uboot() {
+do_compile() {
+    :
+}
+
+do_compile_tegra194() {
+    copy_redundant_boot_scripts
+}
+
+do_compile_tegra186() {
+    copy_redundant_boot_scripts
+}
+
+do_compile_append_tegra186_mender-uboot() {
     cp ${S}/migrate-current-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_90_uboot-migrate
     cp ${S}/rollback-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_90_uboot-migrate
 }
