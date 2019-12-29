@@ -41,11 +41,10 @@ Index: git/include/configs/p2771-0000.h
 ===================================================================
 --- git.orig/include/configs/p2771-0000.h
 +++ git/include/configs/p2771-0000.h
-@@ -23,10 +23,6 @@
- #define CONFIG_TEGRA_MMC
+@@ -24,9 +24,6 @@
  
  /* Environment in eMMC, at the end of 2nd "boot sector" */
--#define CONFIG_ENV_IS_IN_MMC
+ #define CONFIG_ENV_IS_IN_MMC
 -#define CONFIG_SYS_MMC_ENV_DEV		0
 -#define CONFIG_SYS_MMC_ENV_PART		2
 -#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
