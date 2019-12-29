@@ -10,5 +10,13 @@ tegraflash_custom_pre() {
 tegraflash_create_flash_config_append() {
     sed -i \
         -e"s,DATAFILE,${DATAFILE}," \
-        flash.xml.in
+        $destdir/flash.xml.in
+    if [ "${TEGRA_SPIFLASH_BOOT}" = "1" ]; then
+        sed -i \
+            -e"s,DATAFILE,${DATAFILE}," \
+	   $destdir/sdcard.xml.in $destdir/sdcard-layout
+        sed -i \
+            -e"s,APPSIZE,${ROOTFSPART_SIZE}," \
+	   $destdir/sdcard-layout
+    fi
 }
