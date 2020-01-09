@@ -1,0 +1,26 @@
+From 88c766a8abce7ba752dc2ba359f07c7320bd6029 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Fri, 13 Dec 2019 21:17:54 +0000
+Subject: [PATCH] Reduce ENV_SIZE to fit 2 copies
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/colibri_imx7.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/colibri_imx7.h b/include/configs/colibri_imx7.h
+index af6d60dec1..1f315f561e 100644
+--- a/include/configs/colibri_imx7.h
++++ b/include/configs/colibri_imx7.h
+@@ -184,7 +184,7 @@
+ #define CONFIG_ENV_SECT_SIZE		(128 * 1024)
+ /* configured by mender integration */
+ /* #define CONFIG_ENV_OFFSET		(28 * CONFIG_ENV_SECT_SIZE) */
+-#define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
++#define CONFIG_ENV_SIZE			(CONFIG_ENV_SECT_SIZE - 0x8000)
+ #define CONFIG_ENV_RANGE    (2 * CONFIG_ENV_SIZE)
+ #endif
+ 
+-- 
+2.24.1
+

@@ -1,0 +1,27 @@
+From 57eb846c96f3e1ba1ff4a84ac175b8181e1a1fb5 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Fri, 13 Dec 2019 21:24:24 +0000
+Subject: [PATCH] Reenable CONFIG_ENV_OFFSET for colibri-imx7
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/colibri_imx7.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/include/configs/colibri_imx7.h b/include/configs/colibri_imx7.h
+index 1f315f561e..da230c0722 100644
+--- a/include/configs/colibri_imx7.h
++++ b/include/configs/colibri_imx7.h
+@@ -182,8 +182,7 @@
+ 
+ #if defined(CONFIG_ENV_IS_IN_NAND)
+ #define CONFIG_ENV_SECT_SIZE		(128 * 1024)
+-/* configured by mender integration */
+-/* #define CONFIG_ENV_OFFSET		(28 * CONFIG_ENV_SECT_SIZE) */
++#define CONFIG_ENV_OFFSET		(28 * CONFIG_ENV_SECT_SIZE)
+ #define CONFIG_ENV_SIZE			(CONFIG_ENV_SECT_SIZE - 0x8000)
+ #define CONFIG_ENV_RANGE    (2 * CONFIG_ENV_SIZE)
+ #endif
+-- 
+2.24.1
+

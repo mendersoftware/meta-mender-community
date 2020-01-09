@@ -27,9 +27,13 @@ SRC_URI_append_colibri-imx7 = " \
     file://0001-colibri-imx7-mender-integration-primer-enable-BOOTCO.patch \
     file://0002-colibri-imx7-set-CONFIG_ENV_RANGE-to-cover-2-environ.patch \
     file://0003-colibri-imx7-mender-integration-override-ubiboot-and.patch \
+    file://0001-Reduce-ENV_SIZE-to-fit-2-copies.patch \
+    file://0001-Reenable-CONFIG_ENV_OFFSET-for-colibri-imx7.patch \
 "
 
 # 8kB
 BOOTENV_SIZE_colibri-imx7-emmc ?= "0x2000"
 
 SRC_URI_append_colibri-imx7-emmc = " file://0001-colibri-imx7-emmc-mender-integration-patch.patch"
+
+MENDER_UBOOT_PRE_SETUP_COMMANDS_apalis-imx6 = "setenv loadaddr \${kernel_addr_r}; run setup; setenv bootargs \${defargs} \${emmcargs} \${setupargs} \${vidargs}; "
