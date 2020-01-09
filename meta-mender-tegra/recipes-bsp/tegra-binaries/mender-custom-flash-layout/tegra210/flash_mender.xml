@@ -226,7 +226,7 @@
             <percent_reserved> 0 </percent_reserved>
         </partition>
 
-        <partition name="APP2" id="23" type="data">
+        <partition name="APP_b" id="23" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> APPSIZE </size>
