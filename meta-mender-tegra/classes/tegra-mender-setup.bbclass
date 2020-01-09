@@ -53,7 +53,7 @@ MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 # Use these variables to adjust your total rootfs size across both
 # images. Rootfs size will be approximately 1/2 of
 # MENDER_STORAGE_TOTAL_SIZE_MB (ignoring alignment).
-# Calculate the total zie based on the eMMC or SDcard size configured
+# Calculate the total size based on the eMMC or SDcard size configured
 # for the machine, subtracting off space for the boot-related files (by
 # default, 1GiB).
 def mender_tegra_calc_total_size(d):
