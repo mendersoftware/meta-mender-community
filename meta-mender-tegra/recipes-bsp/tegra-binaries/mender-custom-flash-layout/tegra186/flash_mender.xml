@@ -461,7 +461,7 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> KERNELDTB-FILE </filename>
         </partition>
-        <partition name="APP2" type="data">
+        <partition name="APP_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> APPSIZE </size>
