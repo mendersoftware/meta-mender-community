@@ -1,10 +1,8 @@
 SRC_URI = " \
-    file://migrate-current-uboot-vars \
     file://redundant-boot-commit-script \
     file://redundant-boot-install-script \
     file://redundant-boot-install-script-uboot \
     file://redundant-boot-rollback-script \
-    file://rollback-uboot-vars \
 "
 
 LICENSE = "Apache-2.0"
@@ -17,33 +15,38 @@ inherit mender-state-scripts
 PERSIST_MACHINE_ID=""
 PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
 
-copy_redundant_boot_scripts() {
+# We have a different install script for U-Boot vs. cboot, since
+# the mechanism for determining boot partitions is different between
+# the two, and with cboot there is no U-Boot environment for copying
+# the machine-id.
+copy_install_script() {
     sed -e's,@COPY_MACHINE_ID@,${PERSIST_MACHINE_ID},' ${S}/redundant-boot-install-script > ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
-    cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
-    cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
 }
 
-copy_redundant_boot_scripts_mender-uboot() {
+copy_install_script_mender-uboot() {
     cp ${S}/redundant-boot-install-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
+}
+
+copy_other_scripts() {
     cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
     cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
 }
 
+# These scripts are only needed for tegra platforms with the
+# A/B-redundant bootloader, which currently are just TX2
+# (tegra186) and Xavier (tegra194).
 do_compile() {
     :
 }
 
 do_compile_tegra194() {
-    copy_redundant_boot_scripts
+    copy_install_script
+    copy_other_scripts
 }
 
 do_compile_tegra186() {
-    copy_redundant_boot_scripts
-}
-
-do_compile_append_tegra186_mender-uboot() {
-    cp ${S}/migrate-current-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_90_uboot-migrate
-    cp ${S}/rollback-uboot-vars ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_90_uboot-migrate
+    copy_install_script
+    copy_other_scripts
 }
 
 # Make sure scripts aren't left around from old builds

@@ -27,13 +27,4 @@ do_install_append_tegra186_mender-uboot() {
         install -m 755 ${D}${base_sbindir}/fw_setenv ${D}${base_sbindir}/fw_setenv_nounlock
         install -m 755 ${WORKDIR}/fw_unlock_mmc.sh ${D}${base_sbindir}/fw_setenv
     fi
-    # Put fw_env.config back in its normal place - we use scripts
-    # to handle propagation and rollback of U-Boot environment
-    # variables, because the environment location could change during
-    # an update, since our updates include U-Boot.
-    rm -f ${D}${sysconfdir}/fw_env.config
-    install -m 0644 ${D}/data/u-boot/fw_env.config ${D}${sysconfdir}/
-    rm -rf ${D}/data
 }
-
-FILES_${PN}_remove_tegra186_mender-uboot = "/data/u-boot/fw_env.config"
