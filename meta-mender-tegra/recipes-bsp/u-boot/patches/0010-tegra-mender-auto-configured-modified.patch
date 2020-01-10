@@ -1,34 +1,35 @@
-From 43552f4028a3aeb735bbe3dddd4be2072281e5e8 Mon Sep 17 00:00:00 2001
+From 94b3f43f5ebcead4743c14231b9a330801a0c588 Mon Sep 17 00:00:00 2001
 From: Dan Walkes <danwalkes@trellis-logic.com>
 Date: Sat, 29 Jun 2019 12:17:30 -0600
-Subject: [PATCH] tegra mender auto configured modified
+Subject: [PATCH 10/10] tegra mender auto configured modified
 
 This patch was created after performing [automatic u-boot patching](https://github.com/mendersoftware/meta-mender/blob/master/meta-mender-core/recipes-bsp/u-boot/files/uboot_auto_patch.sh) on sumo and then fixing resulting patch failures.
 
 It was last updated for the warrior release, at which time it looked as though there were no significant changes made to [u-boot patches](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-core/recipes-bsp/u-boot/patches) since initial port was completed in [November 2018](https://github.com/mendersoftware/meta-mender-community/pull/15)
 
+%% original patch: 0010-tegra-mender-auto-configured-modified.patch
 ---
- include/config_defaults.h         | 8 ++++++++
+ include/config_defaults.h         | 2 ++
  include/config_distro_bootcmd.h   | 1 -
- include/configs/p2771-0000.h      | 4 ----
+ include/configs/p2771-0000.h      | 1 -
  include/configs/tegra-common.h    | 1 -
  include/configs/tegra186-common.h | 2 +-
- 5 files changed, 9 insertions(+), 7 deletions(-)
+ 5 files changed, 3 insertions(+), 4 deletions(-)
 
-Index: git/include/config_defaults.h
-===================================================================
---- git.orig/include/config_defaults.h
-+++ git/include/config_defaults.h
+diff --git a/include/config_defaults.h b/include/config_defaults.h
+index ad08c1d335..3dad911845 100644
+--- a/include/config_defaults.h
++++ b/include/config_defaults.h
 @@ -21,3 +21,5 @@
  #define CONFIG_PARTITIONS 1
  
  #endif
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
-Index: git/include/config_distro_bootcmd.h
-===================================================================
---- git.orig/include/config_distro_bootcmd.h
-+++ git/include/config_distro_bootcmd.h
+diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
+index d7182244cb..32df04aef1 100644
+--- a/include/config_distro_bootcmd.h
++++ b/include/config_distro_bootcmd.h
 @@ -397,7 +397,6 @@
  		"done\0"
  
@@ -37,24 +38,22 @@ Index: git/include/config_distro_bootcmd.h
  #endif
  
  #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
-Index: git/include/configs/p2771-0000.h
-===================================================================
---- git.orig/include/configs/p2771-0000.h
-+++ git/include/configs/p2771-0000.h
-@@ -24,9 +24,6 @@
- 
- /* Environment in eMMC, at the end of 2nd "boot sector" */
+diff --git a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
+index 61310fbdf2..3010e2f5d4 100644
+--- a/include/configs/p2771-0000.h
++++ b/include/configs/p2771-0000.h
+@@ -26,7 +26,6 @@
  #define CONFIG_ENV_IS_IN_MMC
--#define CONFIG_SYS_MMC_ENV_DEV		0
--#define CONFIG_SYS_MMC_ENV_PART		2
+ #define CONFIG_SYS_MMC_ENV_DEV		0
+ #define CONFIG_SYS_MMC_ENV_PART		2
 -#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
  
  /* PCI host support */
  #define CONFIG_PCI
-Index: git/include/configs/tegra-common.h
-===================================================================
---- git.orig/include/configs/tegra-common.h
-+++ git/include/configs/tegra-common.h
+diff --git a/include/configs/tegra-common.h b/include/configs/tegra-common.h
+index 4c4a1ea1c6..0446ba594b 100644
+--- a/include/configs/tegra-common.h
++++ b/include/configs/tegra-common.h
 @@ -34,7 +34,6 @@
  
  /* Environment */
@@ -63,10 +62,10 @@ Index: git/include/configs/tegra-common.h
  
  /*
   * NS16550 Configuration
-Index: git/include/configs/tegra186-common.h
-===================================================================
---- git.orig/include/configs/tegra186-common.h
-+++ git/include/configs/tegra186-common.h
+diff --git a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
+index 3f96a45b18..215aef0b33 100644
+--- a/include/configs/tegra186-common.h
++++ b/include/configs/tegra186-common.h
 @@ -54,7 +54,7 @@
  #define MEM_LAYOUT_ENV_SETTINGS \
  	"scriptaddr=0x90000000\0" \
@@ -76,3 +75,6 @@ Index: git/include/configs/tegra186-common.h
  	"fdt_addr_r=0x82000000\0" \
  	"ramdisk_addr_r=0x82100000\0" \
  	"fdt_copy_node_paths=" \
+-- 
+2.20.1
+
