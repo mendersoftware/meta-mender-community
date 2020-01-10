@@ -1,14 +1,12 @@
-#!/bin/sh -e
+#!/bin/sh
 echo "Rolling back NV bootloader upgrade"
 curslot=`nvbootctrl get-current-slot`
 
+# If cboot failed to boot after an update, the
+# current boot slot should be the pre-update slot
+# already, but set it to be sure
 if ! nvbootctrl set-active-boot-slot $curslot; then
     echo "ERR: could not set active boot slot to: $curslot" >&2
     exit 1
 fi
-if ! nvbootctrl mark-boot-successful $curslot; then
-    echo "ERR: could not restore boot-succesful status for slot: $curslot" >&2
-    exit 1
-fi
-echo "Succesfully rolled back NV bootloader upgrade"
 exit 0

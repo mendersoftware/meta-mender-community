@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# We've rebooted after a rollback, let the Tegra bootloader
+# know that we booted successfully.
+
+curslot=`nvbootctrl get-current-slot`
+if ! nvbootctrl mark-boot-successful; then
+    echo "ERR: could not restore boot-succesful status for slot: $curslot" >&2
+    exit 1
+fi
+echo "Marked boot slot $curslot as successful"
+exit 0
+
