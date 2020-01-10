@@ -17,12 +17,12 @@ cleanup() {
     rmdir "$mnt" >/dev/null 2>&1 || true
 }
 
-echo "Installing NVIDIA bootloader update payload" >&2
+echo "Installing NVIDIA bootloader update payload"
 
 num_slots=`nvbootctrl get-number-slots`
 if [ $num_slots != 2 ]; then
-    echo "Enabling A/B update mode using nv_update_engine" >&2
-    nv_update_engine --enable-ab 1>&2
+    echo "Enabling A/B update mode using nv_update_engine"
+    nv_update_engine --enable-ab
 fi
 current_slot=`nvbootctrl get-current-slot`
 echo "Current boot slot: $current_slot" >&2
@@ -52,15 +52,15 @@ mount --bind /dev "${mnt}/dev"
 # Run the update engine in the context of the just-installed rootfs
 # to ensure that the TNSPEC in the config file it uses matches the
 # TNSPEC in the update payload
-if ! chroot "${mnt}" /usr/sbin/nv_update_engine --install no-reboot 1>&2; then
+if ! chroot "${mnt}" /usr/sbin/nv_update_engine --install no-reboot; then
     echo "ERR: bootloader update failed" >&2
     cleanup
     exit 1
 fi
-echo "Successful bootloader update" >&2
+echo "Successful bootloader update"
 if [ -n "$COPY_MACHINE_ID" -a -f /etc/machine-id -a -f "${mnt}/etc/machine-id" ]; then
     cp /etc/machine-id "${mnt}/etc/machine-id"
-    echo "Copied current /etc/machine-id to new rootfs" >&2
+    echo "Copied current /etc/machine-id to new rootfs"
 fi
 cleanup
 exit 0
