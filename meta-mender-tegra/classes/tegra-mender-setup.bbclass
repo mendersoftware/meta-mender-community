@@ -40,8 +40,14 @@ MENDER_PARTITIONING_OVERHEAD_KB = "0"
 MENDER_BOOT_PART = ""
 MENDER_BOOT_PART_SIZE_MB = "0"
 
-# Calculate the ROOTFSPART_SIZE value based on IMAGE_ROOTFS_SIZE set by mender
-ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${IMAGE_ROOTFS_SIZE})}"
+# Calculate the ROOTFSPART_SIZE value based on the *calculated*
+# IMAGE_ROOTFS_SIZE set by mender. Do *not* use ${IMAGE_ROOTFS_SIZE}
+# here; when we're called on in the context of an initramfs image
+# build (for BUP payload generation), its size is set smaller than
+# the actual rootfs image, so the resulting flash layout XML files
+# will be different between the two contexts, leading to boot
+# failures after bootloader updates.
+ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${MENDER_IMAGE_ROOTFS_SIZE_DEFAULT})}"
 
 # See https://hub.mender.io/t/yocto-thud-release-and-mender/144
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
