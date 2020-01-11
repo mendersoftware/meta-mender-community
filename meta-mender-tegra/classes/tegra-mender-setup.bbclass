@@ -1,5 +1,10 @@
-def tegra_mender_set_rootfs_size(image_rootfs_size_kb):
-    return image_rootfs_size_kb*1024
+def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
+    return calc_rootfs_size_kb * 1024
+
+def tegra_mender_image_rootfs_size(d):
+    calc_rootfs_size = int(d.getVar('MENDER_CALC_ROOTFS_SIZE'))
+    calc_rootfs_size = (calc_rootfs_size * 95) // 100
+    return calc_rootfs_size - eval(d.getVar('IMAGE_ROOTFS_EXTRA_SPACE'))
 
 # meta-tegra and tegraflash requirements
 IMAGE_CLASSES += "image_types_mender_tegra"
@@ -30,8 +35,10 @@ MENDER_ROOTFS_PART_B_NUMBER_tegra210 = "${@'14' if (d.getVar('TEGRA_SPIFLASH_BOO
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
 
-# Use no reserved space for bootloader data, since we will store in the partition block for the image
-MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "0"
+# On Jetson-Nano devices configured to use SDCard for U-Boot storage,
+# reserve 256KiB (which must match the size of the ENV partition in
+# the SDcard layout file).
+MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "${@'262144' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') != '1' and (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '0'}"
 
 # See note in https://docs.mender.io/1.7/troubleshooting/running-yocto-project-image#i-moved-from-an-older-meta-mender-branch-to-the-thud-branch-and
 # Prevents build failure during mkfs.ext4 step on warrior
@@ -47,22 +54,22 @@ MENDER_BOOT_PART_SIZE_MB = "0"
 # the actual rootfs image, so the resulting flash layout XML files
 # will be different between the two contexts, leading to boot
 # failures after bootloader updates.
-ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_size(${MENDER_IMAGE_ROOTFS_SIZE_DEFAULT})}"
+ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE})}"
 
 # See https://hub.mender.io/t/yocto-thud-release-and-mender/144
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
-MENDER_FEATURES_ENABLE_append = "${@mender_tegra_uboot_feature(d)}"
+MENDER_FEATURES_ENABLE_append = "${@tegra_mender_uboot_feature(d)}"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 # Use these variables to adjust your total rootfs size across both
 # images. Rootfs size will be approximately 1/2 of
 # MENDER_STORAGE_TOTAL_SIZE_MB (ignoring alignment).
 # Calculate the total size based on the eMMC or SDcard size configured
-# for the machine, subtracting off space for the boot-related files (by
-# default, 1GiB).
-def mender_tegra_calc_total_size(d):
+# for the machine, subtracting off space for the boot-related files
+# and other NVIDIA-specific partitions (by default, 1GiB).
+def tegra_mender_calc_total_size(d):
     # For pre-production Nanos, use SDCard size, which in the machine
     # config ends with a size factor (K, M, or G). Note that the
     # factors are kilo/mega/giga, rather than kibi/mibi/gibi.
@@ -80,13 +87,16 @@ def mender_tegra_calc_total_size(d):
             bb.error('TEGRAFLASH_SDCARD_SIZE does not end with G, K, or M')
     else:
         total_size_bytes = int(d.getVar('EMMC_SIZE'))
+    # Add back in the U-Boot environment space
+    total_size_bytes += int(d.getVar('MENDER_RESERVED_SPACE_BOOTLOADER_DATA'))
     # Mender uses mibibytes, not megabytes
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
 
+MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
-MENDER_STORAGE_TOTAL_SIZE_MB ??= "${@mender_tegra_calc_total_size(d)}"
+MENDER_STORAGE_TOTAL_SIZE_MB ??= "${@tegra_mender_calc_total_size(d)}"
 
-def mender_tegra_uboot_feature(d):
+def tegra_mender_uboot_feature(d):
     if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot'):
         return " mender-persist-systemd-machine-id"
     return " mender-uboot mender-persist-systemd-machine-id"
