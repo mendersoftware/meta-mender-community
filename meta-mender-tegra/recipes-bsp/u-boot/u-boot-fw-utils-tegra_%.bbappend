@@ -11,12 +11,10 @@ def mender_get_uboot_env_mmc_linux_device(d):
 
 MENDER_UBOOT_MMC_ENV_LINUX_DEVICE ?= "${@mender_get_uboot_env_mmc_linux_device(d)}"
 
-# These hacks only apply to TX2-based devices, which use an MMC boot
-# partition for environment storage and can possibly move their
-# U-Boot environment from version to version of U-Boot, since U-Boot
-# is not the primary bootloader.
-do_install_append_tegra186_mender-uboot() {
-    if [ ${MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART} != 0 ]; then
+# These hacks only apply to devices which use an eMMC boot
+# partition for U-Boot environment storage.
+do_install_append_mender-uboot() {
+    if [ ${MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART} != 0 -a "${TEGRA_SPIFLASH_BOOT}" != "1" ]; then
         # Unlock the boot partition
         echo '#!/bin/bash' > ${WORKDIR}/fw_unlock_mmc.sh
         echo "echo 0 > /sys/block/${MENDER_UBOOT_MMC_ENV_LINUX_DEVICE}/force_ro" >> ${WORKDIR}/fw_unlock_mmc.sh
