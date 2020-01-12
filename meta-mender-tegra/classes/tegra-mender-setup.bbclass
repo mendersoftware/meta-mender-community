@@ -2,7 +2,7 @@ def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
     return calc_rootfs_size_kb * 1024
 
 def tegra_mender_image_rootfs_size(d):
-    calc_rootfs_size = int(d.getVar('MENDER_CALC_ROOTFS_SIZE'))
+    calc_rootfs_size = int(d.getVar('ROOTFSPART_SIZE') or d.getVar('MENDER_CALC_ROOTFS_SIZE'))
     calc_rootfs_size = (calc_rootfs_size * 95) // 100
     return calc_rootfs_size - eval(d.getVar('IMAGE_ROOTFS_EXTRA_SPACE'))
 
