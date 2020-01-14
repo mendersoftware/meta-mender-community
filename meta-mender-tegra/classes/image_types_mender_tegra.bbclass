@@ -12,3 +12,10 @@ tegraflash_create_flash_config_append() {
         -e"s,DATAFILE,${DATAFILE}," \
         flash.xml.in
 }
+
+tegraflash_create_flash_config_tegra210_append() {
+    sed -i \
+        -e"s,DATAFILE,${DATAFILE}," \
+        -e"s,APPSIZE,$(expr ${IMAGE_ROOTFS_SIZE} '*' 1024),g" \
+        $destdir/sdcard-layout
+}
