@@ -3,6 +3,7 @@
 # eMMC Settings
 MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk0"
 MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "1"
+MENDER_STORAGE_DEVICE_imx8m-var-dart = "/dev/mmcblk0"
 # var-som-solo does not support UBoot in eMMC. We have to use
 # nand and do a separate flash write to ensure it is stored
 # there. Note that the environment is still stored in
@@ -13,3 +14,5 @@ UBOOT_CONFIG_var-som-mx6 = "nand"
 MENDER_FEATURES_ENABLE_append = " mender-image-sd "
 MENDER_STORAGE_TOTAL_SIZE_MB_var-som-mx6 = "1024"
 MENDER_STORAGE_TOTAL_SIZE_MB_imx6ul-var-dart = "1024"
+MENDER_STORAGE_TOTAL_SIZE_MB_imx8m-var-dart = "1024"
+IMAGE_FSTYPES_append_imx8m-var-dart = " sdimg sdimg.bmap mender"
