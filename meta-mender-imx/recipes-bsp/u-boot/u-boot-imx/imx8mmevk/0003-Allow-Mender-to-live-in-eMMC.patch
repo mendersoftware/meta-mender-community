@@ -1,0 +1,25 @@
+From 177be3cde2725cf67e064734f3a8fc224742fe6a Mon Sep 17 00:00:00 2001
+From: Tom Kuparowitz <tomas.kuparowitz@invasys.com>
+Date: Fri, 24 Jan 2020 12:53:33 +0100
+Subject: [PATCH] Allow Mender to live in eMMC
+
+Remove option binding Mender exclusively to SD Card on imx8mm_evk.
+---
+ include/configs/imx8mm_evk.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/include/configs/imx8mm_evk.h b/include/configs/imx8mm_evk.h
+index 68d0643..c053ed3 100644
+--- a/include/configs/imx8mm_evk.h
++++ b/include/configs/imx8mm_evk.h
+@@ -249,7 +249,6 @@
+ #define CONFIG_ENV_OFFSET       (60 << 20)
+ #endif
+ #define CONFIG_ENV_SIZE			0x1000
+-#define CONFIG_SYS_MMC_ENV_DEV		0   /* USDHC2 */
+ #define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
+ 
+ /* Size of malloc() pool */
+-- 
+2.7.4
+
