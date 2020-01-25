@@ -8,15 +8,9 @@ tegraflash_custom_pre() {
 }
 
 tegraflash_create_flash_config_append() {
-    sed -i \
-        -e"s,DATAFILE,${DATAFILE}," \
-        $destdir/flash.xml.in
-    if [ "${TEGRA_SPIFLASH_BOOT}" = "1" ]; then
-        sed -i \
-            -e"s,DATAFILE,${DATAFILE}," \
-	   $destdir/sdcard.xml.in $destdir/sdcard-layout
-        sed -i \
-            -e"s,APPSIZE,${ROOTFSPART_SIZE}," \
-	   $destdir/sdcard-layout
+    if [ -n "$bupgen" ]; then
+        sed -i -e'/DATAFILE/d' $destdir/flash.xml.in
+    else
+        sed -i -e"s,DATAFILE,${DATAFILE}," $destdir/flash.xml.in
     fi
 }
