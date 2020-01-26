@@ -30,18 +30,24 @@ Index: git/include/configs/p3450-porg.h
 ===================================================================
 --- git.orig/include/configs/p3450-porg.h
 +++ git/include/configs/p3450-porg.h
-@@ -36,10 +36,14 @@
+@@ -36,7 +36,6 @@
+ #define CONFIG_ENV_IS_IN_MMC
+ #define CONFIG_SYS_MMC_ENV_DEV		0
+ #define CONFIG_SYS_MMC_ENV_PART		2
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
  
- /* Environment s/b at end of SPI, fix it later */
- #define CONFIG_ENV_IS_IN_SPI_FLASH
--/* 64KB at end of SPI flash is used, so position at 128K from end
--   in the padding area */
--#define CONFIG_ENV_OFFSET		(CONFIG_SPI_FLASH_SIZE-131072)
+ #define DEFAULT_MMC_DEV "0"
+ #else
+@@ -51,8 +50,13 @@
+ #define CONFIG_ENV_SPI_MAX_HZ		48000000
+ #define CONFIG_ENV_SPI_MODE		SPI_MODE_0
+ #define CONFIG_ENV_SECT_SIZE		SZ_4K
+-/* 4MB flash, environment located as high as possible */
+-#define CONFIG_ENV_OFFSET		(SZ_4M - CONFIG_ENV_SIZE)
 +/* 64KB at end of SPI flash is used by NVIDIA, and we need 256K to
 +   hold 2*128K env blocks, so position at 320K (256K + 64K) from end,
 +   in the padding area.  */
-+#define CONFIG_ENV_OFFSET		(CONFIG_SPI_FLASH_SIZE-327680)
- #define CONFIG_ENV_SECT_SIZE		4096
++#define CONFIG_ENV_OFFSET		(SZ_4M - 327680)
 +/* ONLY for SPI flash, this does NOT get defined automatically
 +   if CONFIG_ENV_xxx_REDUND settings are present. */
 +#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
