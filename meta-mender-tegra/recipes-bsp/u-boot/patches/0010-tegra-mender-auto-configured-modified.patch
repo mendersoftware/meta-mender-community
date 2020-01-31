@@ -1,4 +1,4 @@
-From a9ca40aaa5b33a2c9440d27141b0bd5c1610740a Mon Sep 17 00:00:00 2001
+From 080c857306f422d8fe411edbd9ee81eaf19dd93e Mon Sep 17 00:00:00 2001
 From: Dan Walkes <danwalkes@trellis-logic.com>
 Date: Sat, 29 Jun 2019 12:17:30 -0600
 Subject: [PATCH] tegra mender auto configured modified
@@ -6,7 +6,6 @@ Subject: [PATCH] tegra mender auto configured modified
 This patch was created after performing [automatic u-boot patching](https://github.com/mendersoftware/meta-mender/blob/master/meta-mender-core/recipes-bsp/u-boot/files/uboot_auto_patch.sh) on sumo and then fixing resulting patch failures.
 
 It was last updated for the warrior release, at which time it looked as though there were no significant changes made to [u-boot patches](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-core/recipes-bsp/u-boot/patches) since initial port was completed in [November 2018](https://github.com/mendersoftware/meta-mender-community/pull/15)
-
 ---
  include/config_defaults.h         | 8 ++++++++
  include/config_distro_bootcmd.h   | 1 -
@@ -16,7 +15,7 @@ It was last updated for the warrior release, at which time it looked as though t
  5 files changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/include/config_defaults.h b/include/config_defaults.h
-index ad08c1d335..2b503f807c 100644
+index ad08c1d..2b503f8 100644
 --- a/include/config_defaults.h
 +++ b/include/config_defaults.h
 @@ -21,3 +21,11 @@
@@ -32,7 +31,7 @@ index ad08c1d335..2b503f807c 100644
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
 diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
-index d7182244cb..32df04aef1 100644
+index d718224..32df04a 100644
 --- a/include/config_distro_bootcmd.h
 +++ b/include/config_distro_bootcmd.h
 @@ -397,7 +397,6 @@
@@ -44,7 +43,7 @@ index d7182244cb..32df04aef1 100644
  
  #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
 diff --git a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
-index 61310fbdf2..f586e340ce 100644
+index 1c8981b..6e7d8f5 100644
 --- a/include/configs/p2771-0000.h
 +++ b/include/configs/p2771-0000.h
 @@ -23,10 +23,6 @@
@@ -59,7 +58,7 @@ index 61310fbdf2..f586e340ce 100644
  /* PCI host support */
  #define CONFIG_PCI
 diff --git a/include/configs/tegra-common.h b/include/configs/tegra-common.h
-index 4c4a1ea1c6..0446ba594b 100644
+index 4c4a1ea..0446ba5 100644
 --- a/include/configs/tegra-common.h
 +++ b/include/configs/tegra-common.h
 @@ -34,7 +34,6 @@
@@ -71,7 +70,7 @@ index 4c4a1ea1c6..0446ba594b 100644
  /*
   * NS16550 Configuration
 diff --git a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
-index 3f96a45b18..215aef0b33 100644
+index 2a78513..86e2f17 100644
 --- a/include/configs/tegra186-common.h
 +++ b/include/configs/tegra186-common.h
 @@ -54,7 +54,7 @@
@@ -81,5 +80,8 @@ index 3f96a45b18..215aef0b33 100644
 -	"kernel_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
 +	"loadaddr=" __stringify(CONFIG_LOADADDR) "\0" \
  	"fdt_addr_r=0x82000000\0" \
- 	"ramdisk_addr_r=0x82100000\0" \
- 	"fdt_copy_node_paths=" \
+ 	"ramdisk_addr_r=0x82100000\0"
+ 
+-- 
+2.7.4
+
