@@ -4,5 +4,14 @@ MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 PREFERRED_PROVIDER_u-boot = "u-boot-imx"
 IMAGE_CLASSES += "mender-setup-imx"
 
+# Boot from SD
 MENDER_STORAGE_DEVICE_imx8mmevk = "/dev/mmcblk1"
 MENDER_STORAGE_DEVICE_imx8mqevk = "/dev/mmcblk1"
+
+# Boot from eMMC on imx8mmevk
+# MENDER_STORAGE_DEVICE_imx8mmevk = "/dev/mmcblk2"
+# MENDER_UBOOT_STORAGE_DEVICE_imx8mmevk = "1"
+
+# Boot from eMMC on imx8mqevk
+# MENDER_STORAGE_DEVICE_imx8mqevk = "/dev/mmcblk0"
+# MENDER_UBOOT_STORAGE_DEVICE_imx8mqevk = "0"
