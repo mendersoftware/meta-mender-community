@@ -6,7 +6,7 @@
   <remote fetch="https://github.com/madisongh"        name="madisongh"/>
 
   <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
-  <project name="meta-tegra" remote="madisongh" revision="warrior" path="sources/meta-tegra" />
+  <project name="meta-tegra" remote="madisongh" revision="zeus-l4t-r32.3.1" path="sources/meta-tegra" />
 
   <include name="scripts/mender.xml"/>
 

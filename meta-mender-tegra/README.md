@@ -21,14 +21,14 @@ This layer depends on:
 ```
 URI: https://github.com/madisongh/meta-tegra.git
 layers: meta-tegra
-branch: warrior
+branch: zeus-l4t-r32.3.1
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
@@ -43,7 +43,7 @@ that have Mender integrated.
 mkdir mender-tegra && cd mender-tegra
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-tegra/scripts/manifest-tegra.xml \
-           -b warrior
+           -b zeus
 repo sync
 source setup-environment tegra
 ```
