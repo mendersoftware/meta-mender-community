@@ -1,0 +1,93 @@
+From cb2bf4d2242847a052946096c3ca78b5e793d3e8 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Tue, 17 Mar 2020 14:08:30 +0100
+Subject: [PATCH 1/2] stm32mp1: enable Mender requirements
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ configs/stm32mp15_basic_defconfig   |  9 ++-------
+ configs/stm32mp15_optee_defconfig   |  8 ++------
+ configs/stm32mp15_trusted_defconfig | 12 ++++--------
+ 3 files changed, 8 insertions(+), 21 deletions(-)
+
+diff --git a/configs/stm32mp15_basic_defconfig b/configs/stm32mp15_basic_defconfig
+index 3eff6b5e2d..d7b5d36142 100644
+--- a/configs/stm32mp15_basic_defconfig
++++ b/configs/stm32mp15_basic_defconfig
+@@ -46,16 +46,11 @@ CONFIG_CMD_REGULATOR=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_CMD_MTDPARTS=y
+ CONFIG_CMD_UBI=y
++CONFIG_CMD_SAVEENV=y
+ # CONFIG_SPL_DOS_PARTITION is not set
+ CONFIG_DEFAULT_DEVICE_TREE="stm32mp157c-ev1"
+ CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-names interrupts-extended interrupt-controller \\\#interrupt-cells interrupt-parent dmas dma-names assigned-clocks assigned-clock-rates assigned-clock-parents hwlocks"
+-CONFIG_ENV_IS_NOWHERE=y
+-CONFIG_ENV_IS_IN_EXT4=y
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_IS_IN_UBI=y
+-CONFIG_ENV_EXT4_INTERFACE="mmc"
+-CONFIG_ENV_EXT4_DEVICE_AND_PART="0:auto"
+-CONFIG_ENV_EXT4_FILE="/uboot.env"
++CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_STM32_ADC=y
+ CONFIG_USB_FUNCTION_FASTBOOT=y
+ CONFIG_FASTBOOT_BUF_ADDR=0xC0000000
+diff --git a/configs/stm32mp15_optee_defconfig b/configs/stm32mp15_optee_defconfig
+index 9ef8f62894..febfd2b105 100644
+--- a/configs/stm32mp15_optee_defconfig
++++ b/configs/stm32mp15_optee_defconfig
+@@ -37,14 +37,10 @@ CONFIG_CMD_REGULATOR=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_CMD_MTDPARTS=y
+ CONFIG_CMD_UBI=y
++CONFIG_CMD_SAVEENV=y
+ CONFIG_DEFAULT_DEVICE_TREE="stm32mp157c-ev1"
+ CONFIG_ENV_IS_NOWHERE=y
+-CONFIG_ENV_IS_IN_EXT4=y
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_IS_IN_UBI=y
+-CONFIG_ENV_EXT4_INTERFACE="mmc"
+-CONFIG_ENV_EXT4_DEVICE_AND_PART="0:auto"
+-CONFIG_ENV_EXT4_FILE="/uboot.env"
++CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_STM32_ADC=y
+ CONFIG_USB_FUNCTION_FASTBOOT=y
+ CONFIG_FASTBOOT_BUF_ADDR=0xC0000000
+diff --git a/configs/stm32mp15_trusted_defconfig b/configs/stm32mp15_trusted_defconfig
+index 7635d7f6c7..52a105d53b 100644
+--- a/configs/stm32mp15_trusted_defconfig
++++ b/configs/stm32mp15_trusted_defconfig
+@@ -37,13 +37,7 @@ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_CMD_MTDPARTS=y
+ CONFIG_CMD_UBI=y
+ CONFIG_DEFAULT_DEVICE_TREE="stm32mp157c-ev1"
+-CONFIG_ENV_IS_NOWHERE=y
+-CONFIG_ENV_IS_IN_EXT4=y
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_IS_IN_UBI=y
+-CONFIG_ENV_EXT4_INTERFACE="mmc"
+-CONFIG_ENV_EXT4_DEVICE_AND_PART="0:auto"
+-CONFIG_ENV_EXT4_FILE="/uboot.env"
++CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_STM32_ADC=y
+ CONFIG_USB_FUNCTION_FASTBOOT=y
+ CONFIG_FASTBOOT_BUF_ADDR=0xC0000000
+@@ -104,7 +98,7 @@ CONFIG_USB_GADGET_VENDOR_NUM=0x0483
+ CONFIG_USB_GADGET_PRODUCT_NUM=0x5720
+ CONFIG_USB_GADGET_DWC2_OTG=y
+ CONFIG_DM_VIDEO=y
+-CONFIG_BACKLIGHT_GPIO=y
++CONFIG_BACKLGIHT_GPIO=y
+ CONFIG_VIDEO_LCD_ORISETECH_OTM8009A=y
+ CONFIG_VIDEO_LCD_RAYDIUM_RM68200=y
+ CONFIG_VIDEO_STM32=y
+@@ -112,3 +106,5 @@ CONFIG_VIDEO_STM32_DSI=y
+ CONFIG_VIDEO_STM32_MAX_XRES=1280
+ CONFIG_VIDEO_STM32_MAX_YRES=800
+ CONFIG_FDT_FIXUP_PARTITIONS=y
++CONFIG_BOOTCOUNT_ENV=y
++CONFIG_BOOTCOUNT_LIMIT=y
+-- 
+2.25.1
+
