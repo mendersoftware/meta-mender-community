@@ -1,0 +1,54 @@
+From 7a8dae98a6d7a8b671825b878d9fb586cf9f9865 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Wed, 18 Mar 2020 11:02:30 +0100
+Subject: [PATCH 2/2] stm32mp1: remove 'env_get_location' override
+
+Environment location is hardcoded when using Mender.
+
+Upstrea-status: Inappropriate
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ board/st/stm32mp1/stm32mp1.c | 26 --------------------------
+ 1 file changed, 26 deletions(-)
+
+diff --git a/board/st/stm32mp1/stm32mp1.c b/board/st/stm32mp1/stm32mp1.c
+index 822b6d77f6..cc2300465c 100644
+--- a/board/st/stm32mp1/stm32mp1.c
++++ b/board/st/stm32mp1/stm32mp1.c
+@@ -831,32 +831,6 @@ error:
+ }
+ #endif
+ 
+-enum env_location env_get_location(enum env_operation op, int prio)
+-{
+-	u32 bootmode = get_bootmode();
+-
+-	if (prio)
+-		return ENVL_UNKNOWN;
+-
+-	switch (bootmode & TAMP_BOOT_DEVICE_MASK) {
+-#ifdef CONFIG_ENV_IS_IN_EXT4
+-	case BOOT_FLASH_SD:
+-	case BOOT_FLASH_EMMC:
+-		return ENVL_EXT4;
+-#endif
+-#ifdef CONFIG_ENV_IS_IN_UBI
+-	case BOOT_FLASH_NAND:
+-		return ENVL_UBI;
+-#endif
+-#ifdef CONFIG_ENV_IS_IN_SPI_FLASH
+-	case BOOT_FLASH_NOR:
+-		return ENVL_SPI_FLASH;
+-#endif
+-	default:
+-		return ENVL_NOWHERE;
+-	}
+-}
+-
+ #if defined(CONFIG_ENV_IS_IN_EXT4)
+ const char *env_ext4_get_intf(void)
+ {
+-- 
+2.25.1
+
