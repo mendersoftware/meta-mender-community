@@ -25,6 +25,16 @@ IMAGE_CLASSES_remove = "st-partitions-image"
 # still have the dependencies on bootfs, vendorfs and userfs images.
 WKS_FILE_DEPENDS_remove = "st-image-bootfs st-image-vendorfs st-image-userfs"
 
+# Disable flashlayout config
+#
+# This generates a set of configuration files to be used by the STM32 flash tool,
+# as the flash layout is not compatible with what we generate in Mender we can
+# disable this.
+#
+# It also produces an build error if left enabled, as we have disabled build of
+# the bootfs/vendorfs/userfs images which this configuration relies on.
+ENABLE_FLASHLAYOUT_CONFIG = "0"
+
 # STM32MP BSP defines a custom package called kernel-imagebootfs which contains
 # the dtb and kernel files
 #
