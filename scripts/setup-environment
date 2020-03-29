@@ -21,6 +21,7 @@ targets=(
     "atmel"
     "beaglebone"
     "clearfog"
+    "coral"
     "intel"
     "nxp"
     "odroid"
