@@ -1,4 +1,8 @@
-# Mender integration for QEMU machines
+# meta-mender-qemu
+
+Mender integration layer for QEMU virtual devices. Note that this layer
+only contains templates, and the actual integration patches live in
+[meta-mender/meta-mender-qemu](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-qemu).
 
 Supported targets:
 
@@ -6,22 +10,51 @@ Supported targets:
 - vexpress-qemu
 - vexpress-qemu-flash
 
-## Build
+Visit [QEMU, the FAST! processor emulator](https://hub.mender.io/t/qemu-the-fast-processor-emulator/420/2)
+for more information on status of the integration and more
+detailed instructions on how to build and use images together with Mender for
+the mentioned boards.
 
-Download the source:
 
-    $ mkdir mender-qemu
-    $ cd mender-qemu
-    $ repo init \
-           -u https://github.com/mendersoftware/meta-mender-community \
+## Dependencies
+
+This layer depends on:
+
+```
+URI: https://git.yoctoproject.org/git/poky
+branch: zeus
+revision: HEAD
+```
+
+```
+URI: https://github.com/mendersoftware/meta-mender.git
+layers: meta-mender-core
+branch: zeus
+revision: HEAD
+```
+
+
+## Quick start
+
+The following commands will setup the environment and allow you to build images
+that have Mender integrated.
+
+
+```
+mkdir mender-qemu && cd mender-qemu
+repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-qemu/scripts/manifest-qemu.xml \
-           -b sumo
-    $ repo sync
+           -b zeus
+repo sync
+source setup-environment qemu
+bitbake core-image-base
+```
 
-Setup environment
 
-    $ . setup-environment qemu
+## Maintainer
 
-Build
+The authors and maintainers of this layer are:
 
-    $ bitbake core-image-base
+- Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
+
+Always include the maintainers when suggesting code changes to this layer.
