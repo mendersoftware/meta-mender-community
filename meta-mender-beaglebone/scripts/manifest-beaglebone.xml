@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <default sync-j="4" revision="warrior"/>
-
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
 
   <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
