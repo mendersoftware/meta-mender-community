@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="warrior"/>
+  <default sync-j="4" revision="zeus"/>
 
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
-  <project name="meta-mender" remote="mender" revision="warrior" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mender" revision="warrior" path="sources/meta-mender-community">
+  <project name="meta-mender" remote="mender" revision="zeus-test" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="zeus-test" path="sources/meta-mender-community">
     <copyfile dest="setup-environment" src="scripts/setup-environment"/>
   </project>
 
