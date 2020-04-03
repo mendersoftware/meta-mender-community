@@ -3,7 +3,7 @@
 
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
 
-  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
+  <project name="poky" remote="yocto" revision="zeus" path="sources/poky"/>
 
   <include name="scripts/mender.xml"/>
 
