@@ -48,14 +48,6 @@ repo sync
 source setup-environment tegra
 ```
 
-At this point, you need to download Nvidia sources.
-See [meta tegra wiki](https://github.com/madisongh/meta-tegra/wiki/L4T-R32.3.1-Notes#sdk-manager-downloads-required)
-for details about this.  You will then need to modify your `conf/local.conf` with a line like:
-
-```
-NVIDIA_DEVNET_MIRROR = "file:///home/<yourhomedir>/Downloads/nvidia/sdkm_downloads"
-```
-
 Finally, run the build with a command like:
 
 ```
