@@ -8,14 +8,9 @@ tegraflash_custom_pre() {
 }
 
 tegraflash_create_flash_config_append() {
-    sed -i \
-        -e"s,DATAFILE,${DATAFILE}," \
-        flash.xml.in
-}
-
-tegraflash_create_flash_config_tegra210_append() {
-    sed -i \
-        -e"s,DATAFILE,${DATAFILE}," \
-        -e"s,APPSIZE,$(expr ${IMAGE_ROOTFS_SIZE} '*' 1024),g" \
-        $destdir/sdcard-layout
+    if [ -n "$bupgen" ]; then
+        sed -i -e'/DATAFILE/d' $destdir/flash.xml.in
+    else
+        sed -i -e"s,DATAFILE,${DATAFILE}," $destdir/flash.xml.in
+    fi
 }

@@ -1,0 +1,56 @@
+From ba0bf916cfcaea1b4f894308a791deacdbd3acdf Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Sun, 29 Dec 2019 06:18:21 -0800
+Subject: [PATCH 13/13] Move env offset for tegra210 platforms
+
+Mender needs 256KiB of environment space, so move the
+SPI flash offset back to accommodate for p3450-porg,
+where we must define the offset to avoid conflicting
+with the reserved 64KiB block at the end of the flash.
+For p2371-2180, just remove the define and let Mender
+control the setting.
+---
+ include/configs/p2371-2180.h | 1 -
+ include/configs/p3450-porg.h | 7 ++++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+Index: git/include/configs/p2371-2180.h
+===================================================================
+--- git.orig/include/configs/p2371-2180.h
++++ git/include/configs/p2371-2180.h
+@@ -31,7 +31,6 @@
+ #define CONFIG_ENV_IS_IN_MMC
+ #define CONFIG_SYS_MMC_ENV_DEV		0
+ #define CONFIG_SYS_MMC_ENV_PART		2
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
+ 
+ /* SPI */
+ #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0
+Index: git/include/configs/p3450-porg.h
+===================================================================
+--- git.orig/include/configs/p3450-porg.h
++++ git/include/configs/p3450-porg.h
+@@ -36,7 +36,6 @@
+ #define CONFIG_ENV_IS_IN_MMC
+ #define CONFIG_SYS_MMC_ENV_DEV		0
+ #define CONFIG_SYS_MMC_ENV_PART		2
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
+ 
+ #define DEFAULT_MMC_DEV "0"
+ #else
+@@ -51,8 +50,13 @@
+ #define CONFIG_ENV_SPI_MAX_HZ		48000000
+ #define CONFIG_ENV_SPI_MODE		SPI_MODE_0
+ #define CONFIG_ENV_SECT_SIZE		SZ_4K
+-/* 4MB flash, environment located as high as possible */
+-#define CONFIG_ENV_OFFSET		(SZ_4M - CONFIG_ENV_SIZE)
++/* 64KB at end of SPI flash is used by NVIDIA, and we need 256K to
++   hold 2*128K env blocks, so position at 320K (256K + 64K) from end,
++   in the padding area.  */
++#define CONFIG_ENV_OFFSET		(SZ_4M - 327680)
++/* ONLY for SPI flash, this does NOT get defined automatically
++   if CONFIG_ENV_xxx_REDUND settings are present. */
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+ 
+ /* SPI */
+ #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0

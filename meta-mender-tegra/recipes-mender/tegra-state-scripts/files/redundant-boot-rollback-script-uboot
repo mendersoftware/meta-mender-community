@@ -1,0 +1,47 @@
+#!/bin/sh
+
+LABELCHARS="AB"
+
+echo "Rolling back NV bootloader upgrade"
+curslot=`nvbootctrl get-current-slot`
+cfglbl="\"RootfsPart${LABELCHARS:$curslot:1}\""
+devnam=`grep -h "$cfglbl:" /etc/mender/mender.conf /var/lib/mender/mender.conf | cut -d: -f2 | cut -d, -f1 | tr -d '" '`
+if [ -z "$devnam" ]; then
+    echo "ERR: could not determine expected mender device name for boot slot $curslot" >&2
+    exit 1
+fi
+
+# If the rootfs partitions are eMMC/SDcard device names, verify that
+# the mender boot partition in U-Boot and the Tegra bootloader boot
+# slot match.  If not, the Tegra bootloader is OK but something was
+# wrong with the rootfs and we hit U-Boot's bootcount limit. In that
+# case, we should switch boot slots to get back in sync between
+# the Tegra A/B boot slot and the Mender A/B rootfs.
+if [ "${devnam##/dev/mmcblk}" != "${devnam}" ]; then
+    bootpart=`fw_printenv -n mender_boot_part`
+    if [ -z "$bootpart" ]; then
+	echo "ERR: could not retrieve mender_boot_part from U-Boot env" >&2
+	exit 1
+    fi
+    devnampart=`expr "${devnam##/dev/mmcblk*p}" \+ 0 2>/dev/null`
+    if [ -z "$devnampart" ]; then
+	echo "ERR: could not extract partition number from rootfs device name" >&2
+	exit 1
+    fi
+    if [ $bootpart -ne $devnampart ]; then
+	otherslot=`expr 1 - $curslot`
+	echo "Mender rootfs partition mismatch with Tegra boot slot, switching over to slot $otherslot" >&2
+	if ! nvbootctrl set-active-boot-slot $otherslot; then
+	    echo "ERR: could not set active boot slot to $otherslot" >&2
+	    exit 1
+	fi
+	exit 0
+    fi
+fi
+
+# Otherwise, just make sure the current slot is
+# the one we're booting from
+if ! nvbootctrl set-active-boot-slot $curslot; then
+    echo "ERR: could not set active boot slot to: $curslot" >&2
+    exit 1
+fi

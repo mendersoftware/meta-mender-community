@@ -1,6 +1,0 @@
-#!/bin/sh
-# Sequence mender-install step with redundant boot rebot state scripts
-# for manual installations, since reboot state script is not run in standalone modes
-set -e
-mender -install "$@"
-redundant-boot-reboot-state-script

@@ -1,4 +1,4 @@
-From 12203a6ab241238db8e30df265965e7f862b5fbd Mon Sep 17 00:00:00 2001
+From 645fa2847d8d1c7c4fdc4932d3f9007628e2bd57 Mon Sep 17 00:00:00 2001
 From: "B, Ravi" <ravibabu@ti.com>
 Date: Mon, 26 Sep 2016 18:24:08 +0530
 Subject: [PATCH] env: tool: add command line option to input lockfile path
@@ -15,13 +15,14 @@ operating system.
 usage: ./fw_printenv -l <lockfile path>
 
 Signed-off-by: Ravi Babu <ravibabu@ti.com>
+
 ---
  tools/env/fw_env.h      |  1 +
  tools/env/fw_env_main.c | 35 +++++++++++++++++++++++++++++------
  2 files changed, 30 insertions(+), 6 deletions(-)
 
 diff --git a/tools/env/fw_env.h b/tools/env/fw_env.h
-index dac964d..6422769 100644
+index dac964d933..6422769925 100644
 --- a/tools/env/fw_env.h
 +++ b/tools/env/fw_env.h
 @@ -63,6 +63,7 @@ struct env_opts {
@@ -33,7 +34,7 @@ index dac964d..6422769 100644
  
  int parse_aes_key(char *key, uint8_t *bin_key);
 diff --git a/tools/env/fw_env_main.c b/tools/env/fw_env_main.c
-index 7a17b28..443de36 100644
+index 7a17b28f40..443de36e43 100644
 --- a/tools/env/fw_env_main.c
 +++ b/tools/env/fw_env_main.c
 @@ -46,6 +46,7 @@ static struct option long_options[] = {

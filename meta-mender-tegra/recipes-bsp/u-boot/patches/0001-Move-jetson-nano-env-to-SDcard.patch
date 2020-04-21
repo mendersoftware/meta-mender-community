@@ -1,0 +1,36 @@
+From 3c56a8582e9c4a268c932f8c42a62ae43bf11aba Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Fri, 10 Jan 2020 12:19:14 -0800
+Subject: [PATCH 1/1] Move jetson-nano env to SDcard
+
+---
+ include/configs/p3450-porg.h | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
+
+Index: git/include/configs/p3450-porg.h
+===================================================================
+--- git.orig/include/configs/p3450-porg.h
++++ git/include/configs/p3450-porg.h
+@@ -45,18 +45,12 @@
+ 	func(PXE, pxe, na) \
+ 	func(DHCP, dhcp, na)
+ 
+-/* Environment at end of QSPI, in the VER partition */
+-#define CONFIG_ENV_IS_IN_SPI_FLASH
+ #define CONFIG_ENV_SPI_MAX_HZ		48000000
+ #define CONFIG_ENV_SPI_MODE		SPI_MODE_0
+-#define CONFIG_ENV_SECT_SIZE		SZ_4K
+-/* 64KB at end of SPI flash is used by NVIDIA, and we need 256K to
+-   hold 2*128K env blocks, so position at 320K (256K + 64K) from end,
+-   in the padding area.  */
+-#define CONFIG_ENV_OFFSET		(SZ_4M - 327680)
+-/* ONLY for SPI flash, this does NOT get defined automatically
+-   if CONFIG_ENV_xxx_REDUND settings are present. */
+-#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
++/* Mender: use SDcard instead of SPI flash for environment */
++#define CONFIG_ENV_IS_IN_MMC		1
++#define CONFIG_SYS_MMC_ENV_DEV		1
++#define CONFIG_SYS_MMC_ENV_PART		0
+ 
+ /* SPI */
+ #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0

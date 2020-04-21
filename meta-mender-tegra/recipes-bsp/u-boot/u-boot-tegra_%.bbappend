@@ -1,4 +1,7 @@
 require recipes-bsp/u-boot/u-boot-mender.inc
 require recipes-bsp/u-boot/u-boot-mender-tegra.inc
 
-RDEPENDS_${PN}_tegra186 += "mender-tegra-bup-payload-install"
+BUPDEP = ""
+BUPDEP_tegra186 = "mender-tegra-bup-payload-install"
+BUPDEP_tegra194 = "mender-tegra-bup-payload-install"
+RDEPENDS_${PN} += "${BUPDEP}"
