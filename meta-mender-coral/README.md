@@ -16,14 +16,14 @@ This layer depends on:
 
 ```
 URI: https://github.com/mirza/meta-coral
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
@@ -37,7 +37,7 @@ that have Mender integrated.
 mkdir mender-coral && cd mender-coral
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-coral/scripts/manifest-coral.xml \
-           -b warrior
+           -b zeus
 repo sync
 . setup-environment coral
 MACHINE=coral-dev bitbake core-image-base
