@@ -14,4 +14,4 @@ Supported SoMs:
 
 ### Build
 
-See specifics for this board at [Mender Hub](https://hub.mender.io/t/compulab-cl-som-imx8/416).
+See specifics for these boards at [Mender Hub](https://hub.mender.io/).
