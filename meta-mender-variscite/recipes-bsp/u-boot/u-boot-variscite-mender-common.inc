@@ -36,6 +36,12 @@ SRC_URI_remove_imx8m-var-dart = " \
 SRC_URI_append_imx8m-var-dart = " \
     file://0001-imx8m-var-dart-custom-boot-code-for-Mender.patch \
 "
+SRC_URI_remove_imx8mn-var-som = " \
+    file://0002-Generic-boot-code-for-Mender.patch \
+"
+SRC_URI_append_imx8mn-var-som = " \
+    file://0001-imx8m-var-dart-custom-boot-code-for-Mender.patch \
+"
 
 
 # Still need to handle loadbootenv and importbootenv
@@ -53,3 +59,4 @@ MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS = " \
 MENDER_UBOOT_PRE_SETUP_COMMANDS_var-som-mx6 = "${MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS}"
 MENDER_UBOOT_PRE_SETUP_COMMANDS_imx6ul-var-dart = "${MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS}"
 MENDER_UBOOT_PRE_SETUP_COMMANDS_imx8m-var-dart = "${MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS}"
+MENDER_UBOOT_PRE_SETUP_COMMANDS_imx8mn-var-som = "${MENDER_VARISCITE_UBOOT_PRE_SETUP_COMMANDS}"
