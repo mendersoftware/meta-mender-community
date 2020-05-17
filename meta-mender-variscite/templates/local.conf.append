@@ -3,16 +3,22 @@
 
 DISTRO ?= 'fslc-x11'
 DISTRO_imx8m-var-dart ?= "fslc-xwayland"
+DISTRO_imx8mn-var-som ?= "fslc-xwayland"
 
 # This will make sure that our SPL + u-boot.img is embedded in the sdimg at
 # a 1kb offset.
 MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-spl.img"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
 
-# Configure bootloader files for imx86-var-dart
+# Configure bootloader files for imx8m-var-dart
 MENDER_IMAGE_BOOTLOADER_FILE_imx8m-var-dart = "imx-boot-imx8m-var-dart-sd.bin"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_imx8m-var-dart = "66"
 do_image_sdimg[depends] += "${@bb.utils.contains('MACHINE', 'imx8m-var-dart', 'imx-boot:do_deploy', '', d)}"
+
+# Configure bootloader files for imx8mn-var-som
+MENDER_IMAGE_BOOTLOADER_FILE_imx8mn-var-som = "imx-boot-imx8mn-var-som-sd.bin"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_imx8mn-var-som = "64"
+do_image_sdimg[depends] += "${@bb.utils.contains('MACHINE', 'imx8mn-var-som', 'imx-boot:do_deploy', '', d)}"
 
 # Remove the unneeded VFAT boot partition
 IMAGE_BOOT_FILES = ""
