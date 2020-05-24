@@ -38,6 +38,7 @@ SRC_URI_append_mender-uboot = " file://0010-tegra-mender-auto-configured-modifie
 SRC_URI_append_mender-uboot = " file://0011-Jetson-TX2-mender-boot-commands.patch"
 SRC_URI_append_mender-uboot = " file://0012-Update-environment-defaults-for-tegra.patch"
 SRC_URI_append_mender-uboot = " file://0013-Move-env-offset-for-tegra210-platforms.patch"
+SRC_URI_append_mender-uboot = " file://0014-Handle-pre-v2020-u-boot-env-redundancy-for-tegra-pla.patch"
 SRC_URI_append_mender-uboot_tegra210 = " ${@' file://0001-Move-jetson-nano-env-to-SDcard.patch' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' and (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') != '1' else ''}"
 SRC_URI_remove = " file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch"
 SRC_URI_remove = " file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch"
@@ -46,4 +47,11 @@ do_provide_mender_defines_append_tegra210() {
     if [ "${TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH}" = "1" ]; then
         sed -i -e'/^CONFIG_SYS_MMC_ENV/d' ${S}/mender_Kconfig_fragment
     fi
+}
+
+mender_get_clean_kernel_devicetree_tegra() {
+    # Singleton device tree is not required on all platforms,
+    # and the value is not used on tegra platforms, so just provide a
+    # dummy value.
+    echo "dummy"
 }

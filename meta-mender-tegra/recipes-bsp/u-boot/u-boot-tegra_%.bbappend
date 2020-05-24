@@ -5,3 +5,4 @@ BUPDEP = ""
 BUPDEP_tegra186 = "mender-tegra-bup-payload-install"
 BUPDEP_tegra194 = "mender-tegra-bup-payload-install"
 RDEPENDS_${PN} += "${BUPDEP}"
+
