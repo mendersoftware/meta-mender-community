@@ -13,6 +13,7 @@ The supported and tested boards are:
 
 - [DART-6UL (uSD/eMMC, WiFi)](https://hub.mender.io/t/variscite-dart-6ul/483)
 - [i.MX6 Solo (uSD)](https://hub.mender.io/t/variscite-var-som-solo/467)
+- [DART-MX8M : NXP i.MX8M (uSD/eMMC, WiFi)](https://hub.mender.io/t/dart-mx8m-nxp-i-mx8m/1470)
 - [NXP i.MX8 NANO (uSD/eMMC, WiFi)](https://hub.mender.io/t/variscite-var-som-mx8m-nano-nxp-i-mx-8m-nano/1928)
 
 ## Dependencies
