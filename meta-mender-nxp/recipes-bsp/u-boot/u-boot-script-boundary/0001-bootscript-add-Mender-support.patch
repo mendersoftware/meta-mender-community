@@ -1,20 +1,20 @@
-From f6308c3b122336b0a746a8624c73e9f46b55f3d2 Mon Sep 17 00:00:00 2001
+From 926792c1c5b9479f4eab7af8fd1416289f70ebea Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
 Date: Sun, 10 Mar 2019 14:46:14 +0100
 Subject: [PATCH] bootscript: add Mender support
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- board/boundary/bootscripts/bootscript-yocto.txt | 22 +++++++++-------------
+ .../boundary/bootscripts/bootscript-yocto.txt | 22 ++++++++-----------
  1 file changed, 9 insertions(+), 13 deletions(-)
 
 diff --git a/board/boundary/bootscripts/bootscript-yocto.txt b/board/boundary/bootscripts/bootscript-yocto.txt
-index a076628..6fdac84 100644
+index 45e0f83498..24794229f8 100644
 --- a/board/boundary/bootscripts/bootscript-yocto.txt
 +++ b/board/boundary/bootscripts/bootscript-yocto.txt
-@@ -65,14 +65,6 @@ if load ${devtype} ${devnum}:${distro_bootpart} ${a_script} uEnv.txt ; then
+@@ -83,14 +83,6 @@ if itest.s x${consoleblank} == x ; then
  fi
- setenv bootargs ${bootargs} console=${console},115200 vmalloc=400M consoleblank=0 rootwait fixrtc cpu=${imx_cpu} board=${board}
+ setenv bootargs ${bootargs} vmalloc=${vmalloc} consoleblank=${consoleblank} rootwait fixrtc cpu=${imx_cpu} board=${board} uboot_release=${uboot_release}
  
 -if load ${devtype} ${devnum}:${distro_bootpart} ${a_fdt} ${prefix}${fdt_file} ; then
 -	fdt addr ${a_fdt}
@@ -24,10 +24,10 @@ index a076628..6fdac84 100644
 -	exit;
 -fi
 -
- fdt resize
- if itest.s "x" != "x${cmd_custom}" ; then
- 	run cmd_custom
-@@ -108,7 +100,9 @@ if test "sata" = "${devtype}" ; then
+ fdt resize 4096
+ if itest.s "x" != "x${cmd_board}" ; then
+ 	run cmd_board
+@@ -129,7 +121,9 @@ if test "sata" = "${devtype}" ; then
  elif test "usb" = "${devtype}" ; then
  	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
  else
@@ -38,7 +38,7 @@ index a076628..6fdac84 100644
  fi
  
  if itest.s "x" != "x${disable_msi}" ; then
-@@ -153,7 +147,9 @@ if itest.s "x" != "x${show_env}" ; then
+@@ -174,7 +168,9 @@ if itest.s "x" != "x${show_env}" ; then
  	printenv
  fi
  
@@ -53,5 +53,5 @@ index a076628..6fdac84 100644
 +booti ${a_zImage} - ${a_fdt}
 +run mender_try_to_recover
 -- 
-2.7.4
+2.17.1
 
