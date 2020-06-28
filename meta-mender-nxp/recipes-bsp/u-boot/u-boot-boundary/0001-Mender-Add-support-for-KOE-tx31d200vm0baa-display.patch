@@ -1,0 +1,94 @@
+From a722499a0e7afbcc0aa06f4cc5f7001d86685ee8 Mon Sep 17 00:00:00 2001
+From: Samuli Piippo <samuli.piippo@theqtcompany.com>
+Date: Thu, 11 Feb 2016 10:17:51 +0200
+Subject: [PATCH] Add support for KOE tx31d200vm0baa display
+
+Used for the cluster demo
+---
+ arch/arm/include/asm/mach-imx/fbpanel.h      | 27 ++++++++++++++++++++
+ board/boundary/nitrogen6_max/nitrogen6_max.c |  3 ++-
+ board/boundary/nitrogen6sx/nitrogen6sx.c     |  3 ++-
+ board/boundary/nitrogen6x/nitrogen6x.c       |  1 +
+ 4 files changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/include/asm/mach-imx/fbpanel.h b/arch/arm/include/asm/mach-imx/fbpanel.h
+index 15dac91aa5..34804f63cc 100644
+--- a/arch/arm/include/asm/mach-imx/fbpanel.h
++++ b/arch/arm/include/asm/mach-imx/fbpanel.h
+@@ -225,6 +225,33 @@ void fbp_setup_env_cmds(void);
+ 	.fbflags = _flags, \
+ 	.enable_alias = {args} \
+ 
++/* tx31d200vm0baa == koe */
++#define IMX_VD_KOE(_mode, _detect, _bus) \
++{\
++	.bus	= _bus,\
++	.addr	= 0,\
++	.pixfmt	= IPU_PIX_FMT_RGB666,\
++	.detect	= NULL,\
++	.enable	= fbp_enable_fb,\
++	.fbtype = FB_##_mode,\
++	.fbflags = 0,\
++	.mode	= {\
++		.name           = "koe",\
++		.refresh        = 60,\
++		.xres           = 1280,\
++		.yres           = 480,\
++		.pixclock       = 1000000000000ULL/((1280+80+48+32)*(480+15+2+6)*60),\
++		.left_margin    = 80,\
++		.right_margin   = 48,\
++		.upper_margin   = 15,\
++		.lower_margin   = 2,\
++		.hsync_len      = 32,\
++		.vsync_len      = 6,\
++		.sync           = FB_SYNC_EXT,\
++		.vmode          = FB_VMODE_NONINTERLACED\
++	}\
++}
++
+ /* hdmi settings */
+ #define VDF_1280_800M_60(_mode, _name, _fmt, _flags, args...) \
+ {\
+diff --git a/board/boundary/nitrogen6_max/nitrogen6_max.c b/board/boundary/nitrogen6_max/nitrogen6_max.c
+index fdbab71249..c01eff22c6 100644
+--- a/board/boundary/nitrogen6_max/nitrogen6_max.c
++++ b/board/boundary/nitrogen6_max/nitrogen6_max.c
+@@ -503,7 +503,8 @@ int fbp_detect_serializer(struct display_info_t const *di)
+ }
+ 
+ static const struct display_info_t displays[] = {
+-	/* hdmi */
++	IMX_VD_KOE(LVDS, 0, 2),
++        /* hdmi */
+ 	VD_1280_720M_60(HDMI, fbp_detect_i2c, 1, 0x50),
+ 	VD_1920_1080M_60(HDMI, NULL, 1, 0x50),
+ 	VD_1024_768M_60(HDMI, NULL, 1, 0x50),
+diff --git a/board/boundary/nitrogen6sx/nitrogen6sx.c b/board/boundary/nitrogen6sx/nitrogen6sx.c
+index 976c25ba47..04ab7801ba 100644
+--- a/board/boundary/nitrogen6sx/nitrogen6sx.c
++++ b/board/boundary/nitrogen6sx/nitrogen6sx.c
+@@ -435,7 +435,8 @@ void board_enable_lcd(const struct display_info_t *di, int enable)
+ }
+ 
+ static const struct display_info_t displays[] = {
+-	/* hdmi/lcd via tfp410 */
++	IMX_VD_KOE(LVDS, 0, 2),
++        /* hdmi/lcd via tfp410 */
+ 	VDF_1280_720M_60(LCD, "1280x720M@60", RGB24, 0, fbp_detect_i2c, 2, 0x50),
+ 	VDF_1920_1080M_60(LCD, "1920x1080M@60", RGB24, 0, NULL, 2, 0x50),
+ 	VDF_1024_768M_60(LCD, "1024x768M@60", RGB24, 0, NULL, 2, 0x50),
+diff --git a/board/boundary/nitrogen6x/nitrogen6x.c b/board/boundary/nitrogen6x/nitrogen6x.c
+index 006fa0cd79..6505869240 100644
+--- a/board/boundary/nitrogen6x/nitrogen6x.c
++++ b/board/boundary/nitrogen6x/nitrogen6x.c
+@@ -365,6 +365,7 @@ static const struct display_info_t displays[] = {
+ #ifdef CONFIG_DEFAULT_DISPLAY_WXGA
+ 	VD_WXGA(LVDS, NULL, fbp_bus_gp(0, 0, GP_LVDS_BKL_EN, 0), 0x00),
+ #endif
++	IMX_VD_KOE(LVDS, 0, 2),
+ 	/* hdmi */
+ 	VD_1280_720M_60(HDMI, fbp_detect_i2c, 1, 0x50),
+ 	VD_1920_1080M_60(HDMI, NULL, 1, 0x50),
+-- 
+2.17.1
+
