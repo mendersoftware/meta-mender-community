@@ -1,44 +1,44 @@
-From 926792c1c5b9479f4eab7af8fd1416289f70ebea Mon Sep 17 00:00:00 2001
+From 500e736626708d94b3ab2b1acc9fba78bcb534a0 Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
 Date: Sun, 10 Mar 2019 14:46:14 +0100
 Subject: [PATCH] bootscript: add Mender support
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- .../boundary/bootscripts/bootscript-yocto.txt | 22 ++++++++-----------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ board/boundary/bootscripts/bootscript-yocto.txt | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/board/boundary/bootscripts/bootscript-yocto.txt b/board/boundary/bootscripts/bootscript-yocto.txt
-index 45e0f83498..24794229f8 100644
+index 45e0f83498..f840cc91ec 100644
 --- a/board/boundary/bootscripts/bootscript-yocto.txt
 +++ b/board/boundary/bootscripts/bootscript-yocto.txt
-@@ -83,14 +83,6 @@ if itest.s x${consoleblank} == x ; then
+@@ -83,11 +83,14 @@ if itest.s x${consoleblank} == x ; then
  fi
  setenv bootargs ${bootargs} vmalloc=${vmalloc} consoleblank=${consoleblank} rootwait fixrtc cpu=${imx_cpu} board=${board} uboot_release=${uboot_release}
  
 -if load ${devtype} ${devnum}:${distro_bootpart} ${a_fdt} ${prefix}${fdt_file} ; then
--	fdt addr ${a_fdt}
--	setenv fdt_high 0xffffffff
--else
++run mender_setup
++mmc dev ${mender_uboot_dev}
++
++if load ${mender_uboot_root} ${a_fdt} /boot/${fdt_file}; then
+ 	fdt addr ${a_fdt}
+ 	setenv fdt_high 0xffffffff
+ else
 -	echo "!!!! Error loading ${prefix}${fdt_file}";
--	exit;
--fi
--
- fdt resize 4096
- if itest.s "x" != "x${cmd_board}" ; then
- 	run cmd_board
-@@ -129,7 +121,9 @@ if test "sata" = "${devtype}" ; then
++	echo "!!!! Error loading /boot/${fdt_file}";
+ 	exit;
+ fi
+ 
+@@ -129,7 +132,7 @@ if test "sata" = "${devtype}" ; then
  elif test "usb" = "${devtype}" ; then
  	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
  else
 -	setenv bootargs "${bootargs} root=/dev/mmcblk${devnum}p${bpart}"
-+	# Intentional \ here to prevent expansion, it will be
-+	# expanded by 'mender-setup'
-+	setenv bootargs "${bootargs} root=\${mender_kernel_root}"
++	setenv bootargs "${bootargs} root=${mender_kernel_root}"
  fi
  
  if itest.s "x" != "x${disable_msi}" ; then
-@@ -174,7 +168,9 @@ if itest.s "x" != "x${show_env}" ; then
+@@ -174,7 +177,6 @@ if itest.s "x" != "x${show_env}" ; then
  	printenv
  fi
  
@@ -46,10 +46,7 @@ index 45e0f83498..24794229f8 100644
 -	${bootcommand} ${a_zImage} - ${a_fdt}
 -fi
 -echo "Error loading kernel image"
-+run mender_setup
-+mmc dev ${mender_uboot_dev}
 +load ${mender_uboot_root} ${a_zImage} /boot/Image
-+load ${mender_uboot_root} ${a_fdt} /boot/imx8mq-nitrogen8m.dtb
 +booti ${a_zImage} - ${a_fdt}
 +run mender_try_to_recover
 -- 
