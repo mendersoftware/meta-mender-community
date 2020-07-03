@@ -43,7 +43,7 @@ that have Mender integrated.
 mkdir mender-tegra && cd mender-tegra
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-tegra/scripts/manifest-tegra.xml \
-           -b zeus
+           -b zeus-test
 repo sync
 source setup-environment tegra
 ```

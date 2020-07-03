@@ -1,17 +1,17 @@
-From 3c56a8582e9c4a268c932f8c42a62ae43bf11aba Mon Sep 17 00:00:00 2001
+From 0ca8cf728807766f9bc36fe8551b96f3295273b5 Mon Sep 17 00:00:00 2001
 From: Matt Madison <matt@madison.systems>
 Date: Fri, 10 Jan 2020 12:19:14 -0800
-Subject: [PATCH 1/1] Move jetson-nano env to SDcard
+Subject: [PATCH] Move jetson-nano env to SDcard
 
 ---
- include/configs/p3450-porg.h | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ include/configs/p3450-porg.h | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-Index: git/include/configs/p3450-porg.h
-===================================================================
---- git.orig/include/configs/p3450-porg.h
-+++ git/include/configs/p3450-porg.h
-@@ -45,18 +45,12 @@
+diff --git a/include/configs/p3450-porg.h b/include/configs/p3450-porg.h
+index c3e709d44d..89ce624a8c 100644
+--- a/include/configs/p3450-porg.h
++++ b/include/configs/p3450-porg.h
+@@ -47,18 +47,14 @@
  	func(PXE, pxe, na) \
  	func(DHCP, dhcp, na)
  
@@ -31,6 +31,11 @@ Index: git/include/configs/p3450-porg.h
 +#define CONFIG_ENV_IS_IN_MMC		1
 +#define CONFIG_SYS_MMC_ENV_DEV		1
 +#define CONFIG_SYS_MMC_ENV_PART		0
++#define CONFIG_ENV_OFFSET (MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1)
++#define CONFIG_ENV_OFFSET_REDUND (MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2)
  
  /* SPI */
  #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0
+-- 
+2.25.1
+

@@ -66,8 +66,8 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
-MENDER_FEATURES_ENABLE_append = "${@tegra_mender_uboot_feature(d)}"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE_append_tegra = "${@tegra_mender_uboot_feature(d)}"
+MENDER_FEATURES_DISABLE_append_tegra = " mender-grub mender-image-uefi"
 
 # Use these variables to adjust your total rootfs size across both
 # images. Rootfs size will be approximately 1/2 of
@@ -100,10 +100,12 @@ def tegra_mender_calc_total_size(d):
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
-MENDER_STORAGE_TOTAL_SIZE_MB ??= "${@tegra_mender_calc_total_size(d)}"
+TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB = "${MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT}"
+TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB_tegra = "${@tegra_mender_calc_total_size(d)}"
+MENDER_STORAGE_TOTAL_SIZE_MB ??= "${TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB}"
 
 def tegra_mender_uboot_feature(d):
-    if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot'):
+    if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
         return " mender-persist-systemd-machine-id"
     return " mender-uboot mender-persist-systemd-machine-id"
 
