@@ -32,11 +32,13 @@ MENDER_DATA_PART_NUMBER_tegra186 = "34"
 MENDER_DATA_PART_NUMBER_tegra194 = "43"
 MENDER_DATA_PART_NUMBER_tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
 MENDER_DATA_PART_NUMBER_jetson-nano-emmc = "19"
+MENDER_DATA_PART_NUMBER_xavier-nx = "12"
 MENDER_ROOTFS_PART_A_NUMBER = "1"
 MENDER_ROOTFS_PART_B_NUMBER_tegra186 = "33"
 MENDER_ROOTFS_PART_B_NUMBER_tegra194 = "42"
 MENDER_ROOTFS_PART_B_NUMBER_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
 MENDER_ROOTFS_PART_B_NUMBER_jetson-nano-emmc = "18"
+MENDER_ROOTFS_PART_B_NUMBER_xavier-nx = "11"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
