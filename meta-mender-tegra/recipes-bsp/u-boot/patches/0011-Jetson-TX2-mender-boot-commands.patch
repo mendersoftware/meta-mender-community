@@ -1,23 +1,22 @@
-From 66b57a0cbfaa18d1ec455d6af2bfff29a4359ed4 Mon Sep 17 00:00:00 2001
+From 424fd871ab8b39d828d738949f809fd123d2afde Mon Sep 17 00:00:00 2001
 From: Dan Walkes <danwalkes@trellis-logic.com>
 Date: Tue, 1 Jan 2019 18:00:39 -0700
-Subject: [PATCH] Jetson TX2 mender boot commands
+Subject: [PATCH 5/7] Jetson TX2 mender boot commands
 
 Modify u-boot to use bootcmd setting based on
 values which support jetson-tx2 boot partition layout
 and setup.
-
 ---
  include/env_default.h | 4 ++--
  include/env_mender.h  | 9 ++++++---
  2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/include/env_default.h b/include/env_default.h
-index 700aedb34d..ae631c05d2 100644
+index 641742bead..c2e5bc062f 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
 @@ -34,8 +34,8 @@ const uchar default_environment[] = {
- #ifdef	CONFIG_BOOTARGS
+ #ifdef	CONFIG_USE_BOOTARGS
  	"bootargs="	CONFIG_BOOTARGS			"\0"
  #endif
 -#ifdef	CONFIG_BOOTCOMMAND
@@ -47,3 +46,6 @@ index 0605f6a9fa..d6aa6edd9d 100644
      "run mender_try_to_recover"
  
  #endif /* !MENDER_AUTO_PROBING */
+-- 
+2.26.2
+

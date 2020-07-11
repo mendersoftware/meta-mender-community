@@ -1,36 +1,356 @@
-From 94b3f43f5ebcead4743c14231b9a330801a0c588 Mon Sep 17 00:00:00 2001
-From: Dan Walkes <danwalkes@trellis-logic.com>
-Date: Sat, 29 Jun 2019 12:17:30 -0600
-Subject: [PATCH 10/10] tegra mender auto configured modified
+From 31fcc9cca0cfbd87e6294855a5ff7b480ad8fed5 Mon Sep 17 00:00:00 2001
+From: Kurt Kiefer <kekiefer@gmail.com>
+Date: Mon, 24 Aug 2020 22:49:32 -0700
+Subject: [PATCH 1/1] Apply mender_auto_configured.patch
 
-This patch was created after performing [automatic u-boot patching](https://github.com/mendersoftware/meta-mender/blob/master/meta-mender-core/recipes-bsp/u-boot/files/uboot_auto_patch.sh) on sumo and then fixing resulting patch failures.
-
-It was last updated for the warrior release, at which time it looked as though there were no significant changes made to [u-boot patches](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-core/recipes-bsp/u-boot/patches) since initial port was completed in [November 2018](https://github.com/mendersoftware/meta-mender-community/pull/15)
-
-%% original patch: 0010-tegra-mender-auto-configured-modified.patch
 ---
- include/config_defaults.h         | 2 ++
- include/config_distro_bootcmd.h   | 1 -
- include/configs/p2771-0000.h      | 1 -
- include/configs/tegra-common.h    | 1 -
- include/configs/tegra186-common.h | 2 +-
- 5 files changed, 3 insertions(+), 4 deletions(-)
+ configs/p2371-0000_defconfig     | 33 +++++++++++++++++++++++++++++--
+ configs/p2371-2180_defconfig     | 33 +++++++++++++++++++++++++++++--
+ configs/p2571_defconfig          | 33 +++++++++++++++++++++++++++++--
+ configs/p2771-0000-000_defconfig | 33 +++++++++++++++++++++++++++++--
+ configs/p2771-0000-500_defconfig | 33 +++++++++++++++++++++++++++++--
+ configs/p3450-0000_defconfig     | 34 ++++++++++++++++++++++++++++----
+ configs/p3450-0002_defconfig     | 34 +++++++++++++++++++++++++++++---
+ include/config_distro_bootcmd.h  |  1 -
+ 8 files changed, 216 insertions(+), 17 deletions(-)
 
-diff --git a/include/config_defaults.h b/include/config_defaults.h
-index ad08c1d335..3dad911845 100644
---- a/include/config_defaults.h
-+++ b/include/config_defaults.h
-@@ -21,3 +21,5 @@
- #define CONFIG_PARTITIONS 1
- 
- #endif
-+#define CONFIG_BOOTCOUNT_LIMIT
-+#define CONFIG_BOOTCOUNT_ENV
+diff --git a/configs/p2371-0000_defconfig b/configs/p2371-0000_defconfig
+index 3450592894..56f6097c17 100644
+--- a/configs/p2371-0000_defconfig
++++ b/configs/p2371-0000_defconfig
+@@ -1,8 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_TEGRA=y
+ CONFIG_SYS_TEXT_BASE=0x80080000
+-CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_OFFSET=0xFFFFE000
+ CONFIG_NR_DRAM_BANKS=3
+ CONFIG_TEGRA210=y
+ CONFIG_TARGET_P2371_0000=y
+@@ -45,3 +43,34 @@ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_HOST_ETHER=y
+ CONFIG_USB_ETHER_ASIX=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p2371-2180_defconfig b/configs/p2371-2180_defconfig
+index c75694ee8f..fe94ba3f96 100644
+--- a/configs/p2371-2180_defconfig
++++ b/configs/p2371-2180_defconfig
+@@ -1,8 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_TEGRA=y
+ CONFIG_SYS_TEXT_BASE=0x80080000
+-CONFIG_ENV_SIZE=0x8000
+-CONFIG_ENV_OFFSET=0x3D8000
+ CONFIG_NR_DRAM_BANKS=3
+ CONFIG_TEGRA210=y
+ CONFIG_TARGET_P2371_2180=y
+@@ -53,3 +51,34 @@ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_HOST_ETHER=y
+ CONFIG_USB_ETHER_ASIX=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p2571_defconfig b/configs/p2571_defconfig
+index cfc07ff840..193908c4f9 100644
+--- a/configs/p2571_defconfig
++++ b/configs/p2571_defconfig
+@@ -1,8 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_TEGRA=y
+ CONFIG_SYS_TEXT_BASE=0x80080000
+-CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_OFFSET=0xFFFFE000
+ CONFIG_NR_DRAM_BANKS=3
+ CONFIG_TEGRA210=y
+ CONFIG_TARGET_P2571=y
+@@ -45,3 +43,34 @@ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_HOST_ETHER=y
+ CONFIG_USB_ETHER_ASIX=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p2771-0000-000_defconfig b/configs/p2771-0000-000_defconfig
+index 0b3fe448e0..0858530100 100644
+--- a/configs/p2771-0000-000_defconfig
++++ b/configs/p2771-0000-000_defconfig
+@@ -1,8 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_TEGRA=y
+ CONFIG_SYS_TEXT_BASE=0x80080000
+-CONFIG_ENV_SIZE=0x8000
+-CONFIG_ENV_OFFSET=0x3D8000
+ CONFIG_NR_DRAM_BANKS=1026
+ CONFIG_TEGRA186=y
+ CONFIG_OF_BOARD_SETUP=y
+@@ -38,3 +36,34 @@ CONFIG_USB=y
+ CONFIG_DM_USB=y
+ CONFIG_POSITION_INDEPENDENT=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p2771-0000-500_defconfig b/configs/p2771-0000-500_defconfig
+index fc122d9dbd..6f7795db44 100644
+--- a/configs/p2771-0000-500_defconfig
++++ b/configs/p2771-0000-500_defconfig
+@@ -1,8 +1,6 @@
+ CONFIG_ARM=y
+ CONFIG_TEGRA=y
+ CONFIG_SYS_TEXT_BASE=0x80080000
+-CONFIG_ENV_SIZE=0x8000
+-CONFIG_ENV_OFFSET=0x3D8000
+ CONFIG_NR_DRAM_BANKS=1026
+ CONFIG_TEGRA186=y
+ CONFIG_OF_BOARD_SETUP=y
+@@ -38,3 +36,34 @@ CONFIG_USB=y
+ CONFIG_DM_USB=y
+ CONFIG_POSITION_INDEPENDENT=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p3450-0000_defconfig b/configs/p3450-0000_defconfig
+index 3cccf62492..c3200216b9 100644
+--- a/configs/p3450-0000_defconfig
++++ b/configs/p3450-0000_defconfig
+@@ -54,11 +54,37 @@ CONFIG_CI_UDC=y
+ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_HOST_ETHER=y
+ CONFIG_USB_ETHER_ASIX=y
+-# CONFIG_ENV_IS_IN_MMC is not set
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_SIZE=0x8000
+ CONFIG_ENV_SECT_SIZE=0x1000
+-CONFIG_ENV_OFFSET=0x3D8000
+ CONFIG_BOOTP_PREFER_SERVERIP=y
+ CONFIG_POSITION_INDEPENDENT=y
+ CONFIG_DISABLE_SDMMC1_EARLY=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3b0000
++CONFIG_ENV_OFFSET_REDUND=0x3d0000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++CONFIG_ENV_IS_IN_SPI_FLASH=y
++# CONFIG_ENV_IS_IN_UBI is not set
++# CONFIG_ENV_IS_IN_MMC is not set
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
+diff --git a/configs/p3450-0002_defconfig b/configs/p3450-0002_defconfig
+index 4cbe9678a1..dba7ff4129 100644
+--- a/configs/p3450-0002_defconfig
++++ b/configs/p3450-0002_defconfig
+@@ -50,10 +50,38 @@ CONFIG_CI_UDC=y
+ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_HOST_ETHER=y
+ CONFIG_USB_ETHER_ASIX=y
+-CONFIG_ENV_IS_IN_MMC=y
+-CONFIG_ENV_SIZE=0x8000
+ CONFIG_ENV_SECT_SIZE=0x1000
+-CONFIG_ENV_OFFSET=0x3D8000
+ CONFIG_BOOTP_PREFER_SERVERIP=y
+ CONFIG_POSITION_INDEPENDENT=y
+ CONFIG_DISABLE_SDMMC1_EARLY=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x3bb000
++CONFIG_ENV_OFFSET_REDUND=0x3db000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++CONFIG_MMC=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_FS_GENERIC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++# CONFIG_BOOTCOMMAND is not set
 diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
-index d7182244cb..32df04aef1 100644
+index fc0935fa21..7433b0b760 100644
 --- a/include/config_distro_bootcmd.h
 +++ b/include/config_distro_bootcmd.h
-@@ -397,7 +397,6 @@
+@@ -486,7 +486,6 @@
  		"done\0"
  
  #ifndef CONFIG_BOOTCOMMAND
@@ -38,43 +358,6 @@ index d7182244cb..32df04aef1 100644
  #endif
  
  #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
-diff --git a/include/configs/p2771-0000.h b/include/configs/p2771-0000.h
-index 61310fbdf2..3010e2f5d4 100644
---- a/include/configs/p2771-0000.h
-+++ b/include/configs/p2771-0000.h
-@@ -26,7 +26,6 @@
- #define CONFIG_ENV_IS_IN_MMC
- #define CONFIG_SYS_MMC_ENV_DEV		0
- #define CONFIG_SYS_MMC_ENV_PART		2
--#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE)
- 
- /* PCI host support */
- #define CONFIG_PCI
-diff --git a/include/configs/tegra-common.h b/include/configs/tegra-common.h
-index 4c4a1ea1c6..0446ba594b 100644
---- a/include/configs/tegra-common.h
-+++ b/include/configs/tegra-common.h
-@@ -34,7 +34,6 @@
- 
- /* Environment */
- #define CONFIG_ENV_VARS_UBOOT_CONFIG
--#define CONFIG_ENV_SIZE			0x2000	/* Total Size Environment */
- 
- /*
-  * NS16550 Configuration
-diff --git a/include/configs/tegra186-common.h b/include/configs/tegra186-common.h
-index 3f96a45b18..215aef0b33 100644
---- a/include/configs/tegra186-common.h
-+++ b/include/configs/tegra186-common.h
-@@ -54,7 +54,7 @@
- #define MEM_LAYOUT_ENV_SETTINGS \
- 	"scriptaddr=0x90000000\0" \
- 	"pxefile_addr_r=0x90100000\0" \
--	"kernel_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
-+	"loadaddr=" __stringify(CONFIG_LOADADDR) "\0" \
- 	"fdt_addr_r=0x82000000\0" \
- 	"ramdisk_addr_r=0x82100000\0" \
- 	"fdt_copy_node_paths=" \
 -- 
-2.20.1
+2.28.0
 

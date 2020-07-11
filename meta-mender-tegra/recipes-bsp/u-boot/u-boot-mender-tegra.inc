@@ -32,16 +32,8 @@ MENDER_UBOOT_MMC_ENV_LINUX_DEVICE_PATH_tegra210 = "${@'/dev/mtdblock0' if (d.get
 TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH ?= "${TEGRA_SPIFLASH_BOOT}"
 MENDER_UBOOT_STORAGE_DEVICE_tegra210 = "${@'1' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '0'}"
 
-SRC_URI += " file://0001-env-tool-add-command-line-option-to-input-lockfile-p.patch"
-SRC_URI += " file://0003-tegra-Integration-of-Mender-boot-code-into-U-Boot.patch"
 SRC_URI_append_mender-uboot = " file://0010-tegra-mender-auto-configured-modified.patch"
 SRC_URI_append_mender-uboot = " file://0011-Jetson-TX2-mender-boot-commands.patch"
-SRC_URI_append_mender-uboot = " file://0012-Update-environment-defaults-for-tegra.patch"
-SRC_URI_append_mender-uboot = " file://0013-Move-env-offset-for-tegra210-platforms.patch"
-SRC_URI_append_mender-uboot = " file://0014-Handle-pre-v2020-u-boot-env-redundancy-for-tegra-pla.patch"
-SRC_URI_append_mender-uboot_tegra210 = " ${@' file://0001-Move-jetson-nano-env-to-SDcard.patch' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' and (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') != '1' else ''}"
-SRC_URI_remove = " file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch"
-SRC_URI_remove = " file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch"
 
 do_provide_mender_defines_append_tegra210() {
     if [ "${TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH}" = "1" ]; then
