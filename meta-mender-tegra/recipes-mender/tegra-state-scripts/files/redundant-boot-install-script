@@ -23,6 +23,10 @@ num_slots=`nvbootctrl get-number-slots`
 if [ $num_slots != 2 ]; then
     echo "Enabling A/B update mode using nv_update_engine"
     nv_update_engine --enable-ab
+    if [ ! "$?" -eq 0 ]; then
+        echo "ERR: could not enable A/B update by using nv_update_engine" >&2
+        exit 1
+    fi
 fi
 current_slot=`nvbootctrl get-current-slot`
 echo "Current boot slot: $current_slot"
