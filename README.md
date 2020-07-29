@@ -112,11 +112,21 @@ Mender is licensed under the Apache License, Version 2.0. See
 [LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/sumo/LICENSE) for the
 full license text.
 
+
 ## Connect with us
 
-* Join our [Google
-  group](https://groups.google.com/a/lists.mender.io/forum/#!forum/mender)
-* Follow us on [Twitter](https://twitter.com/mender_io?target=_blank). Please
+* Join the [Mender Hub discussion forum](https://hub.mender.io)
+* Follow us on [Twitter](https://twitter.com/mender_io). Please
   feel free to tweet us questions.
 * Fork us on [Github](https://github.com/mendersoftware)
+* Create an issue in the [bugtracker](https://tracker.mender.io/projects/MEN)
 * Email us at [contact@mender.io](mailto:contact@mender.io)
+* Connect to the [#mender IRC channel on Freenode](http://webchat.freenode.net/?channels=mender)
+
+
+## Authors
+
+Mender was created by the team at [Northern.tech AS](https://northern.tech), with many contributions from
+the community. Thanks [everyone](https://github.com/mendersoftware/mender/graphs/contributors)!
+
+[Mender](https://mender.io) is sponsored by [Northern.tech AS](https://northern.tech).
