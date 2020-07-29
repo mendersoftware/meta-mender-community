@@ -18,7 +18,7 @@ BBLAYERS ?= " \
   ${TOPDIR}/../sources/meta-freescale-distro \
   \
   ${TOPDIR}/../sources/meta-clang \
-  ${TOPDIR}/../sources/meta-coral \
+  ${TOPDIR}/../sources/meta-coral/meta-coral-bsp \
   \
   ${TOPDIR}/../sources/meta-mender/meta-mender-core \
   ${TOPDIR}/../sources/meta-mender/meta-mender-demo \
