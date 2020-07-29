@@ -38,7 +38,7 @@ that have Mender integrated.
 mkdir mender-beaglebone && cd mender-beaglebone
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-beaglebone/scripts/manifest-beaglebone.xml \
-          -b warrior
+          -b zeus
 repo sync
 source setup-environment beaglebone
 bitbake core-image-base

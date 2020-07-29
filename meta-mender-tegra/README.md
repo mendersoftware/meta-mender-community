@@ -1,7 +1,7 @@
 # meta-mender-tegra
 
 Mender integration layer for NVIDIA Tegra hardware.
- 
+
 The supported and tested boards are:
 
 - [Jetson TX2](https://hub.mender.io/t/nvidia-tegra-jetson-tx2/123)
@@ -43,7 +43,7 @@ that have Mender integrated.
 mkdir mender-tegra && cd mender-tegra
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-tegra/scripts/manifest-tegra.xml \
-           -b zeus-test
+           -b zeus
 repo sync
 source setup-environment tegra
 ```
