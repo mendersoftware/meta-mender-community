@@ -18,14 +18,14 @@ This layer depends on:
 
 ```
 URI: https://github.com/linux4sam/meta-atmel
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
@@ -39,7 +39,7 @@ that have Mender integrated.
 mkdir mender-atmel && cd mender-atmel
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-atmel/scripts/manifest-atmel.xml \
-          -b warrior
+          -b zeus
 repo sync
 source setup-environment atmel
 MACHINE=sama5d27-som1-ek-sd bitbake core-image-base
