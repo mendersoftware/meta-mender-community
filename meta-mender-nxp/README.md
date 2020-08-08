@@ -20,20 +20,20 @@ This layer depends on:
 
 ```
 URI: https://github.com/Freescale/meta-freescale-3rdparty
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/Freescale/meta-freescale-distro
-branch: warrior
+branch: zeus
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/boundarydevices/meta-boundary
-branch: master
-revision: 14d7a54464450e50bdd28b6cba505d1263bc1b41
+branch: zeus
+revision: HEAD
 ```
 
 ## Quick start
@@ -46,7 +46,7 @@ that have Mender integrated.
 mkdir mender-nxp && cd mender-nxp
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-nxp/scripts/manifest-nxp.xml \
-          -b warrior
+          -b zeus
 repo sync
 source setup-environment nxp
 MACHINE=imx7s-warp bitbake core-image-base

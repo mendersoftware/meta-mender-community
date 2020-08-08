@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="warrior"/>
+  <default sync-j="4" revision="zeus"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="https://github.com/Freescale"      name="freescale"/>
   <remote fetch="git://git.openembedded.org"	     name="oe"/>
   <remote fetch="https://github.com/boundarydevices" name="boundary"/>
 
-  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
-  <project name="meta-freescale" remote="yocto" revision="warrior" path="sources/meta-freescale"/>
-  <project name="meta-freescale-3rdparty" remote="freescale" revision="warrior" path="sources/meta-freescale-3rdparty"/>
-  <project name="meta-freescale-distro" remote="freescale" revision="warrior" path="sources/meta-freescale-distro"/>
-  <project name="meta-openembedded" remote="oe" revision="warrior" path="sources/meta-openembedded"/>
-  <project name="meta-boundary" remote="boundary" revision="14d7a54464450e50bdd28b6cba505d1263bc1b41" path="sources/meta-boundary"/>
+  <project name="poky" remote="yocto" revision="zeus" path="sources/poky"/>
+  <project name="meta-freescale" remote="yocto" revision="zeus" path="sources/meta-freescale"/>
+  <project name="meta-freescale-3rdparty" remote="freescale" revision="zeus" path="sources/meta-freescale-3rdparty"/>
+  <project name="meta-freescale-distro" remote="freescale" revision="zeus" path="sources/meta-freescale-distro"/>
+  <project name="meta-openembedded" remote="oe" revision="zeus" path="sources/meta-openembedded"/>
+  <project name="meta-boundary" remote="boundary" revision="zeus" path="sources/meta-boundary"/>
   
   <include name="scripts/mender.xml"/>
 
