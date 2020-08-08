@@ -1,14 +1,14 @@
-From 19ca7efcbd7ea69e29a09e592f32b382dee6738d Mon Sep 17 00:00:00 2001
+From 39d15b16cfd4284b624f87553a7e2c451e33cd12 Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Date: Thu, 1 Aug 2019 13:34:14 +0200
+Date: Sat, 1 Aug 2020 14:59:22 +0200
 Subject: [PATCH] ARM: sama5d27_som1_ek: Add support to mender for U-Boot
  2019.04
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
  configs/sama5d27_som1_ek_mmc_defconfig |  8 ++++++--
- include/configs/sama5d27_som1_ek.h     | 11 +++++++++++
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ include/configs/sama5d27_som1_ek.h     | 12 ++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/configs/sama5d27_som1_ek_mmc_defconfig b/configs/sama5d27_som1_ek_mmc_defconfig
 index cbfc5ef..2a3533d 100644
@@ -49,10 +49,10 @@ index cbfc5ef..2a3533d 100644
 +CONFIG_FAT_WRITE=y
  CONFIG_OF_LIBFDT_OVERLAY=y
 diff --git a/include/configs/sama5d27_som1_ek.h b/include/configs/sama5d27_som1_ek.h
-index f128bdb..339ba32 100644
+index f128bdb..480a959 100644
 --- a/include/configs/sama5d27_som1_ek.h
 +++ b/include/configs/sama5d27_som1_ek.h
-@@ -40,6 +40,17 @@
+@@ -40,6 +40,18 @@
  #define CONFIG_BOOTCOMMAND	"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x21000000 at91-sama5d27_som1_ek.dtb; " \
  				"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x22000000 zImage; " \
  				"bootz 0x22000000 - 0x21000000"
@@ -60,6 +60,7 @@ index f128bdb..339ba32 100644
 +#undef CONFIG_ENV_SIZE
 +#undef CONFIG_BOOTCOMMAND
 +
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 +#define CONFIG_ENV_SIZE		0x1000
 +#define CONFIG_BOOTCOMMAND	\
 +	"run mender_setup;" \
