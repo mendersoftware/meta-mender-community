@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="warrior"/>
+  <default sync-j="4" revision="zeus"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://github.com/linux4sam"        name="atmel"/>
 
-  <project name="poky" remote="yocto" revision="warrior" path="sources/poky"/>
-  <project name="meta-atmel" remote="atmel" revision="warrior" path="sources/meta-atmel"/>
+  <project name="poky" remote="yocto" revision="zeus" path="sources/poky"/>
+  <project name="meta-atmel" remote="atmel" revision="zeus" path="sources/meta-atmel"/>
 
   <include name="scripts/mender.xml"/>
 
