@@ -1,14 +1,13 @@
-From ba0f0dd4bb1b977414beabae2059bc09dde5c7ad Mon Sep 17 00:00:00 2001
+From 268ae7f869ae7dc5a24239d1d4d71fdd4d82c779 Mon Sep 17 00:00:00 2001
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Date: Mon, 19 Nov 2018 21:29:40 +0100
+Date: Sat, 1 Aug 2020 18:14:51 +0200
 Subject: [PATCH] ARM: WaRP7: Add support to mender
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
-
 ---
  configs/warp7_defconfig | 2 ++
- include/configs/warp7.h | 4 ----
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/configs/warp7.h | 6 ++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/configs/warp7_defconfig b/configs/warp7_defconfig
 index 5b35113..1bffddc 100644
@@ -24,14 +23,16 @@ index 5b35113..1bffddc 100644
  CONFIG_DM_GPIO=y
  CONFIG_DM_I2C=y
 diff --git a/include/configs/warp7.h b/include/configs/warp7.h
-index 8ceaa0c..7ba36de 100644
+index 8ceaa0c..92091d1 100644
 --- a/include/configs/warp7.h
 +++ b/include/configs/warp7.h
-@@ -116,14 +116,10 @@
+@@ -116,14 +116,12 @@
  #define CONFIG_SYS_I2C_SPEED		100000
  
  /* environment organization */
 -#define CONFIG_ENV_SIZE			SZ_8K
++
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
  
  #define CONFIG_ENV_OFFSET		(8 * SZ_64K)
  #define CONFIG_SYS_FSL_USDHC_NUM	1
@@ -42,3 +43,6 @@ index 8ceaa0c..7ba36de 100644
  /* USB Configs */
  #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
  
+-- 
+2.7.4
+
