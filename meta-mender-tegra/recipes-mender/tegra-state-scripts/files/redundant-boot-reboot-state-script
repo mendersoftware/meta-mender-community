@@ -9,17 +9,22 @@ if [ $num_slots != 2 ]; then
 fi
 
 new_boot_part=`fw_printenv -n mender_boot_part`
+
 new_mender_boot_part_mountpoint=/tmp/new_mender_boot_part
+ota_package_location=/opt/ota_package/bl_update_payload_current
+
 echo "Mounting new install partition ${new_boot_part}" >&2
 mkdir -p ${new_mender_boot_part_mountpoint}
-mount /dev/mmcblk0p${new_boot_part} ${new_mender_boot_part_mountpoint}
-mount -oremount,rw /
-cp ${new_mender_boot_part_mountpoint}/opt/ota_package/bl_update_payload_current /opt/ota_package/bl_update_payload_new
-rm /opt/ota_package/bl_update_payload
-ln -s /opt/ota_package/bl_update_payload_new /opt/ota_package/bl_update_payload
+mount -o ro /dev/mmcblk0p${new_boot_part} ${new_mender_boot_part_mountpoint}
+
+echo "Mounting bl_update_payload from other partition"
+mount --bind ${new_mender_boot_part_mountpoint}${ota_package_location} ${ota_package_location}
+
 nv_update_engine --install 1>&2
 # Should never get here, nv_update_engine will reboot on its own after successful update
 echo "A failure occurred in nv_update_engine (rc $?).. nv_update_engine did not reboot" >&2
-rm /opt/ota_package/bl_update_payload
-ln -s /opt/ota_package/bl_update_payload_current /opt/ota_package/bl_update_payload
+
+umount ${ota_package_location}
+umount ${new_mender_boot_part_mountpoint}
+
 exit 1
