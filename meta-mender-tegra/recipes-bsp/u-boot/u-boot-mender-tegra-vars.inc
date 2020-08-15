@@ -13,7 +13,7 @@ MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART = "${@'0' if (d.getVar('TEGRA_MENDER_UBOOT_
 # the ENV partition on the SDcard - 0xC00000 (12582912).
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_tegra186 = "3911680"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_tegra210 = "${@'3866624' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') == '1' else '12582912' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '3911680'}"
-MENDER_UBOOT_MMC_ENV_LINUX_DEVICE_PATH_tegra210 = "${@'/dev/mtdblock0' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') == '1' else '/dev/mmcblk0' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else mender_get_uboot_env_mmc_linux_device_path(d)}"
+MENDER_UBOOT_MMC_ENV_LINUX_DEVICE_PATH_tegra210 = "${@'/dev/mtd0' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') == '1' else '/dev/mmcblk0' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else mender_get_uboot_env_mmc_linux_device_path(d)}"
 
 # Optionally use SDcard instead of SPI flash on Jetson Nano dev kits.
 # Starting with meta-tegra zeus branch, Nano dev kits use the SPI flash
