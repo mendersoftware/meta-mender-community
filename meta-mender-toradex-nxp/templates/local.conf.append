@@ -16,3 +16,5 @@ include conf/machine/include/${MACHINE}.inc
 
 MENDER_STORAGE_DEVICE_apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE_apalis-imx6 = "0"
+MENDER_STORAGE_DEVICE_colibri-imx7-emmc = "/dev/mmcblk0"
+MENDER_UBOOT_STORAGE_DEVICE_colibri-imx7-emmc = "0"

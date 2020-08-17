@@ -33,21 +33,10 @@ python() {
                   (d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET"), d.getVar("OFFSET_BOOTROM_PAYLOAD")))
 }
 
-def rootfs_mender_tezi_emmc(d):
+def rootfs_mender_tezi_uboot_spl(d):
     from collections import OrderedDict
-
-    return [
-        OrderedDict({
-          "name": "mmcblk0",
-          "table_type": "gpt",
-              "content": {
-                  "rawfiles": [
-                      {
-                          "filename": "%s.%s.bz2" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
-                      }
-                  ]
-              }
-        }),
+    
+    return \
         OrderedDict({
           "name": "mmcblk0boot0",
           "content": {
@@ -63,6 +52,39 @@ def rootfs_mender_tezi_emmc(d):
             ]
           }
         })
+
+def rootfs_mender_tezi_uboot_nospl(d):
+    from collections import OrderedDict
+    
+    return \
+        OrderedDict({
+          "name": "mmcblk0boot0",
+          "content": {
+            "rawfiles": [
+              {
+                "dd_options": "seek=" + d.getVar('OFFSET_BOOTROM_PAYLOAD'),
+                "filename": d.getVar("UBOOT_BINARY")
+              }
+            ]
+          }
+        })
+
+def rootfs_mender_tezi_emmc(d):
+    from collections import OrderedDict
+
+    return [
+        OrderedDict({
+          "name": "mmcblk0",
+          "table_type": "gpt",
+              "content": {
+                  "rawfiles": [
+                      {
+                          "filename": "%s.%s.bz2" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
+                      }
+                  ]
+              }
+        }),
+        rootfs_mender_tezi_uboot_nospl(d) if d.getVar("SPL_BINARY") == None else rootfs_mender_tezi_uboot_spl(d)
     ]
 
 def rootfs_mender_tezi_rawnand(d):
@@ -102,14 +124,21 @@ python rootfs_mender_tezi_json() {
 IMAGE_CMD_mender_tezi () {
     cp ${IMGDEPLOYDIR}/image-${IMAGE_BASENAME}*.json ${WORKDIR}/image-json/image.json
 
-    # The first transform strips all folders from the files to tar
+    if [ -z "${SPL_BINARY}" ] ; then
+        uboot_files="${DEPLOY_DIR_IMAGE}/${UBOOT_BINARY}"
+    else
+        uboot_files="${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_BINARY}"
+    fi
+
+    # The first transform strips all folders from the files
+    # The second adds back a subfolder
     ${IMAGE_CMD_TAR} --transform='s/.*\///' \
+		     --transform 's,^,${IMAGE_LINK_NAME}/,' \
 		     -chf ${IMGDEPLOYDIR}/${IMAGE_NAME}.mender_tezi.tar \
 		     ${WORKDIR}/image-json/image.json ${DEPLOY_DIR_IMAGE}/mender-tezi-metadata/* \
-		     ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} \
-		     ${DEPLOY_DIR_IMAGE}/${UBOOT_BINARY} \
+		     $uboot_files \
 		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}.bz2
-    ln -s ${IMAGE_NAME}.mender_tezi.tar ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar
+    ln -sf ${IMAGE_NAME}.mender_tezi.tar ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar
 }
 do_image_mender_tezi[dirs] += "${WORKDIR}/image-json ${DEPLOY_DIR_IMAGE}"
 do_image_mender_tezi[cleandirs] += "${WORKDIR}/image-json"
