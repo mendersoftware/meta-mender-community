@@ -1,0 +1,64 @@
+From c186ef29bed2e4ad563bde15780b560d1f3ec567 Mon Sep 17 00:00:00 2001
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
+Date: Mon, 31 Jul 2017 12:57:09 +0200
+Subject: [PATCH] colibri-imx7: mender manual U-boot integration
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/colibri_imx7.h | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/include/configs/colibri_imx7.h b/include/configs/colibri_imx7.h
+index b99307d54e..ad94161b83 100644
+--- a/include/configs/colibri_imx7.h
++++ b/include/configs/colibri_imx7.h
+@@ -66,18 +66,20 @@
+ 		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+ 
+ #define UBI_BOOTCMD	\
+-	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rootfstype=ubifs " \
++	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} rw rootfstype=ubifs " \
+ 		"ubi.fm_autoconvert=1\0" \
+ 	"ubiboot=run setup; " \
+-		"setenv bootargs ${defargs} ${ubiargs} " \
++		"setenv bootargs ${defargs} ${ubiargs} ${mtdparts} " \
+ 		"${setupargs} ${vidargs}; echo Booting from NAND...; " \
+-		"ubi part ubi && run m4boot && " \
+-		"ubi read ${kernel_addr_r} kernel && " \
+-		"ubi read ${fdt_addr_r} dtb && " \
+-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
++		"run mender_setup; "                                   \
++		"ubi part ${mender_mtd_ubi_dev_name} && "              \
++		"ubifsmount ${mender_uboot_root_name} && "             \
++		"ubifsload ${kernel_addr_r} /boot/zImage && "          \
++		"ubifsload ${fdt_addr_r} /boot/${fdtfile} && "         \
++		"bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
+ 
+ #if defined(CONFIG_TARGET_COLIBRI_IMX7_NAND)
+-#define CONFIG_BOOTCOMMAND "run ubiboot ; echo ; echo ubiboot failed ; " \
++#define CONFIG_BOOTCOMMAND "run ubiboot; run mender_try_to_recover; " \
+ 	"setenv fdtfile ${soc}-colibri-${fdt_board}.dtb && run distro_bootcmd;"
+ #define MODULE_EXTRA_ENV_SETTINGS \
+ 	"mtdparts=" CONFIG_MTDPARTS_DEFAULT "\0" \
+@@ -168,7 +170,9 @@
+ #elif defined(CONFIG_ENV_IS_IN_NAND)
+ #define CONFIG_ENV_SECT_SIZE		(128 * 1024)
+ #define CONFIG_ENV_OFFSET		(28 * CONFIG_ENV_SECT_SIZE)
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+ #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
++#define CONFIG_ENV_RANGE    (2 * CONFIG_ENV_SIZE)
+ #endif
+ 
+ #ifdef CONFIG_TARGET_COLIBRI_IMX7_NAND
+@@ -205,4 +209,7 @@
+ #define CONFIG_VIDEO_BMP_LOGO
+ #endif
+ 
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
+ #endif
+-- 
+2.28.0
+
