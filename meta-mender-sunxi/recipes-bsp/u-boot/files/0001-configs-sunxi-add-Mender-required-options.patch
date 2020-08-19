@@ -1,28 +1,30 @@
-From 58f58651db34be9eb9c6d873928a888141cd86c8 Mon Sep 17 00:00:00 2001
-From: Mirza Krak <mirza.krak@northern.tech>
-Date: Mon, 10 Dec 2018 22:06:52 +0100
-Subject: [PATCH 1/2] configs: sunxi: add Mender required options
- Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+From c338d50eb7e8e9d4ea4883a8f50894ca0a48c9ec Mon Sep 17 00:00:00 2001
+From: Marek Belisko <marek.belisko@open-nandra.com>
+Date: Wed, 5 Aug 2020 20:59:01 +0200
+Subject: [PATCH] configs: sunxi: add Mender required options
 
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
 ---
- include/configs/sunxi-common.h | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ include/configs/sunxi-common.h | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 9819d9980c..6756ac9b04 100644
+index 0ef289f..d8ca72f 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -136,6 +136,9 @@
+@@ -125,6 +125,10 @@
  
  #if defined(CONFIG_ENV_IS_IN_MMC)
  
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 +
  #ifdef CONFIG_ARM64
  /*
   * This is actually (CONFIG_ENV_OFFSET -
-@@ -145,13 +148,6 @@
+@@ -134,13 +138,6 @@
  #define CONFIG_BOARD_SIZE_LIMIT		0x7e000
  #endif
  
@@ -37,5 +39,5 @@ index 9819d9980c..6756ac9b04 100644
  #endif
  
 -- 
-2.19.2
+2.7.4
 

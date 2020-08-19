@@ -1,7 +1,7 @@
-From 1c41f27c1f45ae7873f68d13ae89261da76e1033 Mon Sep 17 00:00:00 2001
+From b53c3bac553ee9655d8ba17c9bb3055d4a591b5e Mon Sep 17 00:00:00 2001
 From: Mirza Krak <mirza.krak@northern.tech>
 Date: Mon, 10 Dec 2018 22:07:12 +0100
-Subject: [PATCH 2/2] env: Kconfig: remove defaults for SUNXI
+Subject: [PATCH] env: Kconfig: remove defaults for SUNXI
 
 That is ENV_IS_IN_FAT and the default offset. Mender build will set
 up these correctly. Also set ENV_IS_IN_MMC by default for all SUNXI
@@ -9,14 +9,14 @@ boards to avoid updating each specific defconfig.
 
 Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
 ---
- env/Kconfig | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ env/Kconfig | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/env/Kconfig b/env/Kconfig
-index f23be00a54..82a7d03556 100644
+index ed12609..30b2f03 100644
 --- a/env/Kconfig
 +++ b/env/Kconfig
-@@ -56,7 +56,6 @@ config ENV_IS_IN_FAT
+@@ -50,7 +50,6 @@ config ENV_IS_IN_FAT
  	bool "Environment is in a FAT filesystem"
  	depends on !CHAIN_OF_TRUST
  	default y if ARCH_BCM283X
@@ -24,7 +24,7 @@ index f23be00a54..82a7d03556 100644
  	default y if MMC_OMAP_HS && TI_COMMON_CMD_OPTIONS
  	select FS_FAT
  	select FAT_WRITE
-@@ -154,6 +153,7 @@ config ENV_IS_IN_MMC
+@@ -147,6 +146,7 @@ config ENV_IS_IN_MMC
  	depends on !CHAIN_OF_TRUST
  	depends on MMC
  	default y if ARCH_EXYNOS4
@@ -32,24 +32,28 @@ index f23be00a54..82a7d03556 100644
  	default y if MX6SX || MX7D
  	default y if TEGRA30 || TEGRA124
  	default y if TEGRA_ARMV8_COMMON
-@@ -433,17 +433,6 @@ config ENV_EXT4_FILE
- 
- if ARCH_ROCKCHIP || ARCH_SUNXI || ARCH_ZYNQ || ARCH_ZYNQMP
+@@ -484,21 +484,6 @@ config ENV_ADDR_REDUND
+ 	  Offset from the start of the device (or partition) of the redundant
+ 	  environment location.
  
 -config ENV_OFFSET
--	hex "Environment Offset"
--	depends on !ENV_IS_IN_UBI
--	depends on !ENV_IS_NOWHERE
+-	hex "Environment offset"
+-	depends on ENV_IS_IN_EEPROM || ENV_IS_IN_MMC || ENV_IS_IN_NAND || \
+-		    ENV_IS_IN_SPI_FLASH
 -	default 0x3f8000 if ARCH_ROCKCHIP
 -	default 0x88000 if ARCH_SUNXI
 -	default 0xE0000 if ARCH_ZYNQ
 -	default 0x1E00000 if ARCH_ZYNQMP
+-	default 0x7F40000 if ARCH_VERSAL
+-	default 0 if ARC
+-	default 0x140000 if ARCH_AT91
+-	default 0x260000 if ARCH_OMAP2PLUS
 -	help
 -	  Offset from the start of the device (or partition)
 -
- config ENV_SIZE
- 	hex "Environment Size"
- 	default 0x40000 if ENV_IS_IN_SPI_FLASH && ARCH_ZYNQMP
+ config ENV_OFFSET_REDUND
+ 	hex "Redundant environment offset"
+ 	depends on (ENV_IS_IN_EEPROM || ENV_IS_IN_MMC || ENV_IS_IN_NAND || \
 -- 
-2.19.2
+2.7.4
 
