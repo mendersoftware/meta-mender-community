@@ -1,0 +1,27 @@
+
+# Appended fragment from meta-mender-community/meta-mender-toradex-nxp/templates
+
+# Make sure not to install the U-Boot script when using GRUB.
+MACHINE_BOOT_FILES_remove_mender-grub = "boot.scr"
+
+# Use u-boot rather than u-boot-toradex for Grub integration
+PREFERRED_PROVIDER_u-boot_mender-grub = "u-boot"
+PREFERRED_PROVIDER_virtual/bootloader_mender-grub = "u-boot"
+
+IMAGE_CLASSES += "image_type_mender_tezi"
+IMAGE_FSTYPES_append = " mender_tezi"
+IMAGE_FSTYPES_remove = " teziimg"
+
+include conf/machine/include/${MACHINE}.inc
+
+MENDER_STORAGE_DEVICE_apalis-imx6 = "/dev/mmcblk2"
+MENDER_UBOOT_STORAGE_DEVICE_apalis-imx6 = "0"
+MENDER_STORAGE_DEVICE_colibri-imx7-emmc = "/dev/mmcblk0"
+MENDER_UBOOT_STORAGE_DEVICE_colibri-imx7-emmc = "0"
+INHERIT_remove_colibri-imx7 = " mender-full "
+INHERIT_append_colibri-imx7 = " mender-full-ubi "
+MENDER_MTDIDS_colibri-imx7 = "nand0=gpmi-nand"
+MENDER_MTDPARTS_colibri-imx7 = "gpmi-nand:512k(mx7-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,512k(u-boot-env),-(ubi)"
+MENDER_IMAGE_BOOTLOADER_FILE_colibri-imx7 = "u-boot-nand.imx"
+MENDER_PARTITION_ALIGNMENT_colibri-imx7 = "131072"
+KERNEL_DEVICETREE_colibri-imx7 = "imx7d-colibri-aster.dtb"
