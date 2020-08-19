@@ -11,6 +11,3 @@ SRC_URI += "\
 
 # fix booting issue on orange pi zero
 SRC_URI_append_orange-pi-zero = " file://0003-Revert-sunxi-psci-avoid-error-address-of-packed-memb.patch"
-
-# cannot be applied on thud (just drop it)
-SRC_URI_remove_mender-uboot = " file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch"
