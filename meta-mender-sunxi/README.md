@@ -22,14 +22,14 @@ This layer depends on:
 
 ```
 URI: https://github.com/linux-sunxi/meta-sunxi.git
-branch: zeus
+branch: dunfell
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: zeus
+branch: dunfell
 revision: HEAD
 ```
 
@@ -43,7 +43,7 @@ that have Mender integrated.
 mkdir mender-sunxi && cd mender-sunxi
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-sunxi/scripts/manifest-sunxi.xml \
-           -b zeus
+           -b dunfell
 repo sync
 source setup-environment sunxi
 MACHINE=orange-pi-zeo bitbake core-image-base
