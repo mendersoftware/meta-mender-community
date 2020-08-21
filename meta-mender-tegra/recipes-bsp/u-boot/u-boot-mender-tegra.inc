@@ -4,7 +4,7 @@ SRC_URI_append_mender-uboot = " file://0010-tegra-mender-auto-configured-modifie
 SRC_URI_append_mender-uboot = " file://0011-Jetson-TX2-mender-boot-commands.patch"
 
 do_provide_mender_defines_append_tegra210() {
-    if [ "${TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH}" = "1" ]; then
+    if [ "${TEGRA_SPIFLASH_BOOT}" = "1" ]; then
         sed -i -e'/^CONFIG_SYS_MMC_ENV/d' ${S}/mender_Kconfig_fragment
     fi
 }

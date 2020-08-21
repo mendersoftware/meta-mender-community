@@ -43,10 +43,7 @@ MENDER_ROOTFS_PART_B_NUMBER_xavier-nx = "11"
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
 
-# On Jetson-Nano devices configured to use SDCard for U-Boot storage,
-# reserve 256KiB (which must match the size of the ENV partition in
-# the SDcard layout file).
-MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "${@'262144' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') != '1' and (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '0'}"
+MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "0"
 
 # See note in https://docs.mender.io/1.7/troubleshooting/running-yocto-project-image#i-moved-from-an-older-meta-mender-branch-to-the-thud-branch-and
 # Prevents build failure during mkfs.ext4 step on warrior
@@ -95,8 +92,6 @@ def tegra_mender_calc_total_size(d):
             bb.error('TEGRAFLASH_SDCARD_SIZE does not end with G, K, or M')
     else:
         total_size_bytes = int(d.getVar('EMMC_SIZE'))
-    # Add back in the U-Boot environment space
-    total_size_bytes += int(d.getVar('MENDER_RESERVED_SPACE_BOOTLOADER_DATA'))
     # Mender uses mibibytes, not megabytes
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
 
