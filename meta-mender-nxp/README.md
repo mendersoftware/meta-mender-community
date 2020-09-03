@@ -32,8 +32,8 @@ revision: HEAD
 
 ```
 URI: https://github.com/boundarydevices/meta-boundary
-branch: master
-revision: 14d7a54464450e50bdd28b6cba505d1263bc1b41
+branch: warrior
+revision: 0beba0ebbda86342e77659ccb9efeef0094b434c
 ```
 
 ## Quick start
