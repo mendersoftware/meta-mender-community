@@ -1,0 +1,40 @@
+# Appended fragment from meta-mender-community/meta-mender-imx/templates
+# Supported machine is:
+#    - imx6ulevk
+
+# Setting U-boot provider
+PREFERRED_PROVIDER_u-boot = "u-boot-imx"
+
+# Setting kernel load address to kernel_addr_r variable for mender. See more at,
+# https://docs.mender.io/system-updates-yocto-project/variables#mender_uboot_pre_setup_commands
+MENDER_UBOOT_PRE_SETUP_COMMANDS = "setenv kernel_addr_r \${loadaddr}"
+
+# The storage device holding all partitions (SD Card)
+# See https://docs.mender.io/2.3/devices/yocto-project/partition-configuration#configuring-storage
+# for more information
+MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+
+# This sets the offset where the bootloader should be placed,
+# counting from the start of the storage medium
+# The offset is specified in units of 512-byte sectors
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
+
+# File to be written directly into the boot sector
+MENDER_IMAGE_BOOTLOADER_FILE = "u-boot.imx"
+
+# See https://docs.mender.io/2.3/artifacts/yocto-project/image-configuration/features
+# for details
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+
+# Disabling mender's data grow service (extend the image to fully occupy SD card)
+# Disable the UEFI image
+MENDER_FEATURES_DISABLE_append = " mender-growfs-data mender-grub mender-image-uefi"
+
+# Removing wic images, as we don't use those
+# wic images won't contain mender partition
+# bmap images are not useful in our context
+IMAGE_FSTYPES_remove = "wic.gz wic.bmap mender.bmap sdimg.bmap"
+
+# Disabling boot partition from mender image
+# Mender use rootfs /boot to store and boot kernel & DTBs
+MENDER_BOOT_PART_SIZE_MB = "0"
