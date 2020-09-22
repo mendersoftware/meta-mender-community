@@ -97,9 +97,7 @@ def tegra_mender_calc_total_size(d):
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
-TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB = "${MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT}"
-TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB_tegra = "${@tegra_mender_calc_total_size(d)}"
-MENDER_STORAGE_TOTAL_SIZE_MB ??= "${TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB}"
+MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)}"
 
 def tegra_mender_uboot_feature(d):
     if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
