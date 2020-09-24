@@ -7,6 +7,8 @@ SRC_URI = " \
     file://fw_setenv \
 "
 
+PROVIDES += "libubootenv"
+
 S = "${WORKDIR}"
 
 do_configure[noexec] = "1"
@@ -18,4 +20,7 @@ do_install() {
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-RCONFLICTS_${PN} = "u-boot-fw-utils"
+
+RPROVIDES_${PN} += "libubootenv-bin u-boot-fw-utils"
+RCONFLICTS_${PN} = "libubootenv-bin"
+RREPLACES_${PN} = "libubootenv-bin"

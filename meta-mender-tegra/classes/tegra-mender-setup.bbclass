@@ -19,7 +19,9 @@ ARTIFACTIMG_FSTYPE = "ext4"
 IMAGE_TYPEDEP_tegraflash += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
+PREFERRED_PROVIDER_libubootenv_tegra = "${'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
+PREFERRED_RPROVIDER_libubootenv-bin_tegra = "${'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
 IMAGE_BOOT_FILES = "u-boot-dtb.bin"
@@ -32,19 +34,18 @@ MENDER_DATA_PART_NUMBER_tegra186 = "34"
 MENDER_DATA_PART_NUMBER_tegra194 = "43"
 MENDER_DATA_PART_NUMBER_tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
 MENDER_DATA_PART_NUMBER_jetson-nano-emmc = "19"
+MENDER_DATA_PART_NUMBER_xavier-nx = "12"
 MENDER_ROOTFS_PART_A_NUMBER = "1"
 MENDER_ROOTFS_PART_B_NUMBER_tegra186 = "33"
 MENDER_ROOTFS_PART_B_NUMBER_tegra194 = "42"
 MENDER_ROOTFS_PART_B_NUMBER_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
 MENDER_ROOTFS_PART_B_NUMBER_jetson-nano-emmc = "18"
+MENDER_ROOTFS_PART_B_NUMBER_xavier-nx = "11"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
 
-# On Jetson-Nano devices configured to use SDCard for U-Boot storage,
-# reserve 256KiB (which must match the size of the ENV partition in
-# the SDcard layout file).
-MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "${@'262144' if (d.getVar('TEGRA_MENDER_UBOOT_ENV_IN_SPIFLASH') or '') != '1' and (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '0'}"
+MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "0"
 
 # See note in https://docs.mender.io/1.7/troubleshooting/running-yocto-project-image#i-moved-from-an-older-meta-mender-branch-to-the-thud-branch-and
 # Prevents build failure during mkfs.ext4 step on warrior
@@ -93,16 +94,12 @@ def tegra_mender_calc_total_size(d):
             bb.error('TEGRAFLASH_SDCARD_SIZE does not end with G, K, or M')
     else:
         total_size_bytes = int(d.getVar('EMMC_SIZE'))
-    # Add back in the U-Boot environment space
-    total_size_bytes += int(d.getVar('MENDER_RESERVED_SPACE_BOOTLOADER_DATA'))
     # Mender uses mibibytes, not megabytes
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
-TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB = "${MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT}"
-TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB_tegra = "${@tegra_mender_calc_total_size(d)}"
-MENDER_STORAGE_TOTAL_SIZE_MB ??= "${TEGRA_MENDER_STORAGE_TOTAL_SIZE_MB}"
+MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)}"
 
 def tegra_mender_uboot_feature(d):
     if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
