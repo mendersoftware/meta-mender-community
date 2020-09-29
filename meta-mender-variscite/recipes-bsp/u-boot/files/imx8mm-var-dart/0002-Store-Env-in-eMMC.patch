@@ -1,0 +1,26 @@
+From 84d9d9198f2b577ffb878732830ef5e079c4cabf Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Thu, 24 Sep 2020 15:43:47 -0400
+Subject: [PATCH 2/2] Store Env in eMMC
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ include/configs/imx8mm_var_dart.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/imx8mm_var_dart.h b/include/configs/imx8mm_var_dart.h
+index 5c4f86b150..7eb2d5b1b7 100644
+--- a/include/configs/imx8mm_var_dart.h
++++ b/include/configs/imx8mm_var_dart.h
+@@ -173,7 +173,7 @@
+ #define CONFIG_ENV_OVERWRITE
+ #define CONFIG_ENV_OFFSET		(64 * SZ_64K)
+ #define CONFIG_ENV_SIZE			SZ_8K
+-#define CONFIG_SYS_MMC_ENV_DEV		1   /* USDHC2 */
++#define CONFIG_SYS_MMC_ENV_DEV		2   /* USDHC2 */
+ 
+ /* Size of malloc() pool */
+ #define CONFIG_SYS_MALLOC_LEN		((CONFIG_ENV_SIZE + (2*1024) + (16*1024)) * 1024)
+-- 
+2.28.0
+

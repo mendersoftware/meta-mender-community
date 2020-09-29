@@ -12,6 +12,7 @@ ultimately all of them, but to be able to do that we need to collaborate.
 The supported and tested boards are:
 
 - [DART-6UL (uSD/eMMC, WiFi)](https://hub.mender.io/t/variscite-dart-6ul/483)
+- [NXP i.MX 8M Mini (uSD/eMMC, WiFi)](https://hub.mender.io/t/variscite-var-som-mx8m-mini-nxp-i-mx-8m-mini/1918)
 
 ## Dependencies
 

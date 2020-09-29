@@ -1,6 +1,12 @@
 
 # Appended fragment from meta-mender-community/meta-mender-variscite/templates
 # eMMC Settings
+VARISCITE_UBOOT_ENV_IN_EMMC = "1"
+
 MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk1"
 MENDER_UBOOT_STORAGE_DEVICE_imx6ul-var-dart = "1"
 UBOOT_CONFIG_imx6ul-var-dart = "sd"
+
+MENDER_STORAGE_DEVICE_imx8mm-var-dart = "/dev/mmcblk2"
+MENDER_UBOOT_STORAGE_DEVICE_imx8mm-var-dart = "1"
+UBOOT_CONFIG_imx8mm-var-dart = "sd"

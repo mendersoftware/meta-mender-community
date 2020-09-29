@@ -6,9 +6,15 @@
 MENDER_IMAGE_BOOTLOADER_FILE_imx6ul-var-dart = "u-boot-spl.img"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_imx6ul-var-dart = "2"
 
+MENDER_IMAGE_BOOTLOADER_FILE_imx8mm-var-dart = "imx-boot"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_imx8mm-var-dart = "66"
+
 # Configure the boot partition files
 MENDER_BOOT_PART_SIZE_MB_imx6ul-var-dart = "16"
 IMAGE_BOOT_FILES_remove_imx6ul-var-dart = "${KERNEL_IMAGETYPE} ${KERNEL_DEVICETREE}"
+
+MENDER_BOOT_PART_SIZE_MB_imx8mm-var-dart = "16"
+IMAGE_BOOT_FILES_remove_imx8mm-var-dart = "${KERNEL_IMAGETYPE} ${@make_dtb_boot_files(d)}"
 
 # Cleanup image types generated
 IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
@@ -16,3 +22,6 @@ IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
 # Build sdimg file rather than uefiimg
 MENDER_FEATURES_ENABLE_append = " mender-image-sd "
 MENDER_FEATURES_DISABLE_append = " mender-image-uefi "
+
+# Make sure we don't include u-boot-fw-utils; we are using grub-mender-grubenv instead
+MACHINE_EXTRA_RDEPENDS_remove = "u-boot-fw-utils"
