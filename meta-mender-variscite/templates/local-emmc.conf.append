@@ -10,3 +10,7 @@ UBOOT_CONFIG_imx6ul-var-dart = "sd"
 MENDER_STORAGE_DEVICE_imx8mm-var-dart = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE_imx8mm-var-dart = "1"
 UBOOT_CONFIG_imx8mm-var-dart = "sd"
+
+MENDER_STORAGE_DEVICE_imx8mn-var-som = "/dev/mmcblk2"
+MENDER_UBOOT_STORAGE_DEVICE_imx8mn-var-som = "1"
+UBOOT_CONFIG_imx8mm-var-dart = "sd"

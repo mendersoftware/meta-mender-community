@@ -1,0 +1,176 @@
+From d4c479e70130dcb2b636b8066719bb276d8717d6 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@northern.tech>
+Date: Wed, 16 Sep 2020 13:49:16 -0400
+Subject: [PATCH 1/2] Switch to CONFIG_DISTRO_DEFAULTS for bootcmd.
+
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ configs/imx8mn_var_som_defconfig |  3 +-
+ include/configs/imx8mn_var_som.h | 86 +++++++-------------------------
+ 2 files changed, 19 insertions(+), 70 deletions(-)
+
+diff --git a/configs/imx8mn_var_som_defconfig b/configs/imx8mn_var_som_defconfig
+index 18e091a646..0d108a0958 100644
+--- a/configs/imx8mn_var_som_defconfig
++++ b/configs/imx8mn_var_som_defconfig
+@@ -56,4 +56,5 @@ CONFIG_USB_GADGET_MANUFACTURER="Variscite"
+ CONFIG_USB_GADGET_VENDOR_NUM=0x0525
+ CONFIG_USB_GADGET_PRODUCT_NUM=0xa4a5
+ CONFIG_CI_UDC=y
+-# CONFIG_EFI_LOADER is not set
++CONFIG_EFI_LOADER=y
++CONFIG_DISTRO_DEFAULTS=y
+diff --git a/include/configs/imx8mn_var_som.h b/include/configs/imx8mn_var_som.h
+index 0eb8d094a4..49daedadd3 100644
+--- a/include/configs/imx8mn_var_som.h
++++ b/include/configs/imx8mn_var_som.h
+@@ -61,6 +61,7 @@
+ 
+ #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
+ 
++#define BOOTENV
+ #endif /* CONFIG_SPL_BUILD */
+ 
+ #define CONFIG_CMD_READ
+@@ -108,21 +109,18 @@
+ /* Initial environment variables */
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	CONFIG_MFG_ENV_SETTINGS \
++        BOOTENV \
+ 	"bootdir=/boot\0" \
+ 	"script=boot.scr\0" \
+ 	"image=Image.gz\0" \
+ 	"img_addr=0x42000000\0" \
+ 	"console=ttymxc3,115200 earlycon=ec_imx6q,0x30a60000,115200\0" \
+-	"fdt_addr=0x43000000\0" \
++	"fdt_addr_r=0x43000000\0" \
+ 	"fdt_high=0xffffffffffffffff\0" \
+-	"boot_fdt=try\0" \
+-	"ip_dyn=yes\0" \
+-	"fdt_file=undefined\0" \
++	"fdtfile=undefined\0" \
+ 	"initrd_addr=0x43800000\0" \
+ 	"initrd_high=0xffffffffffffffff\0" \
+ 	"mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
+-	"mmcblk=1\0" \
+-	"mmcautodetect=yes\0" \
+ 	"mmcpart=1\0" \
+ 	"m7_addr=0x7e0000\0" \
+ 	"m7_bin=hello_world.bin\0" \
+@@ -136,66 +134,19 @@
+ 			"dcache flush; " \
+ 		"fi; " \
+ 		"bootaux ${m7_addr};\0" \
+-	"optargs=setenv bootargs ${bootargs} ${kernelargs};\0" \
+-	"mmcargs=setenv bootargs console=${console} " \
+-		"root=/dev/mmcblk${mmcblk}p${mmcpart} rootwait rw ${cma_size}\0 " \
+-	"loadbootscript=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bootdir}/${script};\0" \
+-	"bootscript=echo Running bootscript from mmc ...; " \
+-		"source\0" \
+-	"loadimage=load mmc ${mmcdev}:${mmcpart} ${img_addr} ${bootdir}/${image};" \
+-		"unzip ${img_addr} ${loadaddr}\0" \
+ 	"findfdt=" \
+-		"if test $fdt_file = undefined; then " \
++		"if test $fdtfile = undefined; then " \
+ 			"if test $som_rev = som_rev10; then " \
+-				"setenv fdt_file imx8mn-var-som-rev10.dtb; " \
++				"setenv fdtfile imx8mn-var-som-rev10.dtb; " \
+ 			"else " \
+-				"setenv fdt_file imx8mn-var-som.dtb; " \
++				"setenv fdtfile imx8mn-var-som.dtb; " \
+ 			"fi;" \
+ 		"fi; \0" \
+-	"loadfdt=run findfdt; " \
+-		"echo fdt_file=${fdt_file}; " \
+-		"load mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${bootdir}/${fdt_file}\0" \
+ 	"ramsize_check="\
+ 		"if test $sdram_size -le 512; then " \
+ 			"setenv cma_size cma=320M; " \
+ 		"else " \
+ 			"setenv cma_size cma=640M@1376M; " \
+-		"fi;\0" \
+-	"mmcboot=echo Booting from mmc ...; " \
+-		"run mmcargs; " \
+-		"run optargs; " \
+-		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+-			"if run loadfdt; then " \
+-				"booti ${loadaddr} - ${fdt_addr}; " \
+-			"else " \
+-				"echo WARN: Cannot load the DT; " \
+-			"fi; " \
+-		"else " \
+-			"echo wait for boot; " \
+-		"fi;\0" \
+-	"netargs=setenv bootargs console=${console} " \
+-		"root=/dev/nfs ${cma_size} " \
+-		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
+-	"netboot=echo Booting from net ...; " \
+-		"if test ${ip_dyn} = yes; then " \
+-			"setenv get_cmd dhcp; " \
+-		"else " \
+-			"setenv get_cmd tftp; " \
+-		"fi; " \
+-		"${get_cmd} ${img_addr} ${image}; unzip ${img_addr} ${loadaddr};" \
+-		"run ramsize_check; " \
+-		"run netargs; " \
+-		"run optargs; " \
+-		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+-			"run findfdt; " \
+-			"echo fdt_file=${fdt_file}; " \
+-			"if ${get_cmd} ${fdt_addr} ${fdt_file}; then " \
+-				"booti ${loadaddr} - ${fdt_addr}; " \
+-			"else " \
+-				"echo WARN: Cannot load the DT; " \
+-			"fi; " \
+-		"else " \
+-			"booti; " \
+ 		"fi;\0"
+ 
+ #define CONFIG_BOOTCOMMAND \
+@@ -205,18 +156,11 @@
+ 		"if test ${use_m7} = yes && run loadm7bin; then " \
+ 			"run runm7bin; " \
+ 		"fi; " \
+-		"if run loadbootscript; then " \
+-			"run bootscript; " \
+-		"else "\
+-			"if run loadimage; then " \
+-				"run mmcboot; " \
+-			"else " \
+-				"run netboot; " \
+-			"fi; " \
+-		"fi; " \
+-	"else " \
+-		"booti ${loadaddr} - ${fdt_addr}; " \
+-	"fi;"
++	"fi;" \
++	"setenv bootargs console=${console} ${cma_size} ${kernelargs}; " \
++	"run findfdt; " \
++	"setenv kernel_addr_r ${loadaddr}; " \
++	"run distro_bootcmd;"
+ 
+ /* Link Definitions */
+ #define CONFIG_LOADADDR			0x40480000
+@@ -234,7 +178,7 @@
+ 
+ /* Default ENV offset is 4MB for SD/EMMC/FSPI, but NAND uses 60MB offset, overridden by env_get_offset */
+ #define CONFIG_ENV_OFFSET		(64 * SZ_64K)
+-#define CONFIG_ENV_SIZE			0x1000
++#define CONFIG_ENV_SIZE			SZ_8K
+ #define CONFIG_ENV_SECT_SIZE		(64 * 1024)
+ #define CONFIG_SYS_MMC_ENV_DEV		1 /* USDHC2 */
+ 
+@@ -300,6 +244,10 @@
+ #define CONFIG_USB_GADGET_MASS_STORAGE
+ #define CONFIG_USB_FUNCTION_MASS_STORAGE
+ 
++#define BOOT_TARGET_DEVICES(func) \
++        func(MMC, mmc, 2) \
++        func(MMC, mmc, 1)
++#include <config_distro_bootcmd.h>
+ #endif
+ 
+ #define CONFIG_USB_GADGET_VBUS_DRAW 2
+-- 
+2.28.0
+
