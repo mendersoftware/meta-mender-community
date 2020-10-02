@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="zeus"/>
-
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
 
   <project name="meta-mender" remote="mender" revision="zeus" path="sources/meta-mender"/>
