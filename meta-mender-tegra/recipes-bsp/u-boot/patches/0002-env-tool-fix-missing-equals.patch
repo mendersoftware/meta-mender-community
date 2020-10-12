@@ -1,0 +1,13 @@
+diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
+index 6b71acb28fe1c47451e84e80ef31bb5fd7867436..0e3e34321f6467b9889295aaf9b46b3bee158e57 100644
+--- a/tools/env/fw_env.c
++++ b/tools/env/fw_env.c
+@@ -357,7 +357,7 @@ static int get_config (char *);
+ static char *skip_chars(char *s)
+ {
+ 	for (; *s != '\0'; s++) {
+-		if (isblank(*s))
++		if (isblank(*s) || *s == '=')
+ 			return s;
+ 	}
+ 	return NULL;

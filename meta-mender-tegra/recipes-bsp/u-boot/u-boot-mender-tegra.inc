@@ -21,6 +21,7 @@ MENDER_UBOOT_STORAGE_DEVICE_tegra210 = "1"
 
 SRC_URI += " file://0001-env-tool-add-command-line-option-to-input-lockfile-p.patch"
 SRC_URI += " file://0003-tegra-Integration-of-Mender-boot-code-into-U-Boot.patch"
+SRC_URI_append_mender-uboot = " file://0002-env-tool-fix-missing-equals.patch"
 SRC_URI_append_mender-uboot = " file://0010-tegra-mender-auto-configured-modified.patch"
 SRC_URI_append_mender-uboot = " file://0011-Jetson-TX2-mender-boot-commands.patch"
 SRC_URI_append_mender-uboot = " file://0012-Update-environment-defaults-for-tegra.patch"
