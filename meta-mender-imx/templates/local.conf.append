@@ -1,0 +1,13 @@
+
+# Appended fragment from meta-mender-community/meta-mender-imx/templates
+IMAGE_CLASSES += "mender-setup-imx"
+
+# Boot from SD
+MENDER_STORAGE_DEVICE_imx8mnevk = "/dev/mmcblk1"
+MENDER_BOOT_PART_SIZE_MB_imx8mnevk = "256"
+MENDER_STORAGE_TOTAL_SIZE_MB_imx8mnevk = "1024"
+
+# Do not use the bbappend provided by meta-imx. It does not not use
+# the right ${B} and ${S} settings and causes build failures with Mender
+BBMASK += "meta-imx/meta-bsp/recipes-bsp/u-boot/u-boot-tools_%.bbappend"
+
