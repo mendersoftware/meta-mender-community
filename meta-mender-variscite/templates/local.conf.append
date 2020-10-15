@@ -32,3 +32,7 @@ MENDER_FEATURES_DISABLE_append = " mender-image-uefi "
 
 # Make sure we don't include u-boot-fw-utils; we are using grub-mender-grubenv instead
 MACHINE_EXTRA_RDEPENDS_remove = "u-boot-fw-utils"
+
+# Do not use the bbappend provided by meta-imx. It does not not use
+# the right ${B} and ${S} settings and causes build failures with Mender
+BBMASK += "meta-imx/meta-bsp/recipes-bsp/u-boot/u-boot-tools_%.bbappend"
