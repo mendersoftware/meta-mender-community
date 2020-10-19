@@ -11,8 +11,3 @@ MENDER_STORAGE_TOTAL_SIZE_MB_imx8mnevk = "1024"
 
 # Boot from eMMC
 MENDER_STORAGE_DEVICE_imx8mnevk = "/dev/mmcblk2"
-
-# Do not use the bbappend provided by meta-imx. It does not not use
-# the right ${B} and ${S} settings and causes build failures with Mender
-BBMASK += "meta-imx/meta-bsp/recipes-bsp/u-boot/u-boot-tools_%.bbappend"
-
