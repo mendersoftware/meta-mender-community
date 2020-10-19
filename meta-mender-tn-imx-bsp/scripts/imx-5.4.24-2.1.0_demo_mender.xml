@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+
+  <project name="meta-mender" remote="mender" revision="zeus" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="zeus" path="sources/meta-mender-community">
+    <linkfile src="meta-mender-tn-imx-bsp/scripts/tn-setup-mender.sh" dest="tn-setup-mender.sh"/>
+  </project>
+
+</manifest>

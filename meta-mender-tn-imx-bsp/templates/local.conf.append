@@ -1,0 +1,26 @@
+
+# Appended fragment from meta-mender-community/meta-mender-tn-imx-bsp/templates
+
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+# SD Card
+MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk1"
+
+# eMMC Card
+#MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk2"
+
+IMAGE_FSTYPES_remove = "tar.bz2 ext4 sdcard.bz2 wic.md5sum wic.bmap wic.bz2"
+
+# Disable boot partition
+MENDER_BOOT_PART_SIZE_MB = "0"
+IMAGE_BOOT_FILES = ""
+
+MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "66"
+
+do_image_sdimg[depends] += "imx-boot:do_deploy"
+
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+
+MENDER_STORAGE_TOTAL_SIZE_MB = "1024"
