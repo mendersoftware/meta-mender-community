@@ -1,4 +1,4 @@
-From ec904f738ea6c43db6efb05cf83a49461caa6621 Mon Sep 17 00:00:00 2001
+From 60bb5c5bed517d71e9816d7f285f93d1c787b872 Mon Sep 17 00:00:00 2001
 From: Joris Offouga <offougajoris@gmail.com>
 Date: Sun, 1 Sep 2019 21:47:19 +0200
 Subject: [PATCH] ARM Pico-Pi i.MX7D support to mender
@@ -6,8 +6,8 @@ Subject: [PATCH] ARM Pico-Pi i.MX7D support to mender
 Signed-off-by: Joris Offouga <offougajoris@gmail.com>
 ---
  configs/pico-pi-imx7d_defconfig | 5 ++---
- include/configs/pico-imx7d.h    | 5 -----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ include/configs/pico-imx7d.h    | 7 ++-----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/configs/pico-pi-imx7d_defconfig b/configs/pico-pi-imx7d_defconfig
 index 042affe01b..6bba547ac3 100644
@@ -42,19 +42,24 @@ index 042affe01b..6bba547ac3 100644
  CONFIG_CI_UDC=y
 -CONFIG_VIDEO=y
 diff --git a/include/configs/pico-imx7d.h b/include/configs/pico-imx7d.h
-index 91015402ef..a0edfa89a0 100644
+index 1f4023796a..ee6604e290 100644
 --- a/include/configs/pico-imx7d.h
 +++ b/include/configs/pico-imx7d.h
-@@ -173,8 +173,6 @@
+@@ -187,11 +187,11 @@
  #define CONFIG_VIDEO_BMP_LOGO
  #endif
  
 -/* FLASH and environment organization */
 -#define CONFIG_ENV_SIZE			SZ_8K
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
  
  /* Environment starts at 768k = 768 * 1024 = 786432 */
  #define CONFIG_ENV_OFFSET		786432
-@@ -191,9 +189,6 @@
++
+ /*
+  * Detect overlap between U-Boot image and environment area in build-time
+  *
+@@ -205,9 +205,6 @@
  
  #define CONFIG_SYS_FSL_USDHC_NUM		2
  
@@ -65,5 +70,5 @@ index 91015402ef..a0edfa89a0 100644
  #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
  #define CONFIG_MXC_USB_PORTSC			(PORT_PTS_UTMI | PORT_PTS_PTW)
 -- 
-2.17.1
+2.25.1
 
