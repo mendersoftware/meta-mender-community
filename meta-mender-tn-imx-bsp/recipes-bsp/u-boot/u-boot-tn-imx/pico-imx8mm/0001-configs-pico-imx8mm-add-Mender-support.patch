@@ -1,0 +1,79 @@
+From ab797083f67b08bfd8b0164c8f177936272f9d66 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 19 Oct 2020 11:15:27 +0200
+Subject: [PATCH 1/1] configs: pico-imx8mm: add Mender support
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ configs/pico-imx8mm_defconfig |  4 +++-
+ include/configs/pico-imx8mm.h | 16 +++++++++++-----
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/configs/pico-imx8mm_defconfig b/configs/pico-imx8mm_defconfig
+index a2a8c16cc9..edc79a7095 100644
+--- a/configs/pico-imx8mm_defconfig
++++ b/configs/pico-imx8mm_defconfig
+@@ -10,7 +10,9 @@ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+ CONFIG_ENV_SIZE=0x1000
+-CONFIG_ENV_OFFSET=0x400000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_DM_GPIO=y
+ CONFIG_TARGET_PICO_IMX8MM=y
+ CONFIG_SPL_MMC_SUPPORT=y
+diff --git a/include/configs/pico-imx8mm.h b/include/configs/pico-imx8mm.h
+index 0311431d38..b22b3739c2 100644
+--- a/include/configs/pico-imx8mm.h
++++ b/include/configs/pico-imx8mm.h
+@@ -96,12 +96,12 @@
+ 	"mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mmcroot}\0 " \
++	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mender_kernel_root} rootwait\0 " \
+ 	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+-	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
++	"loadimage=ext4load ${mender_uboot_root} ${loadaddr} /boot/${image}\0" \
++	"loadfdt=ext4load ${mender_uboot_root} ${fdt_addr} /boot/${fdt_file}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
+@@ -139,13 +139,20 @@
+ 		   "if run loadbootscript; then " \
+ 			   "run bootscript; " \
+ 		   "else " \
++		   	   "run mender_setup; " \
+ 			   "if run loadimage; then " \
+ 				   "run mmcboot; " \
+-			   "else run netboot; " \
++				   "run mender_try_to_recover; " \
++			   "else " \
++			       "run mender_try_to_recover; " \
++			       "run netboot; " \
+ 			   "fi; " \
+ 		   "fi; " \
+ 	   "fi;"
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ /* Link Definitions */
+ #define CONFIG_LOADADDR			0x40480000
+ 
+@@ -160,7 +167,6 @@
+ 
+ #define CONFIG_ENV_OVERWRITE
+ 
+-#define CONFIG_SYS_MMC_ENV_DEV		1   /* USDHC2 */
+ #define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
+ 
+ /* Size of malloc() pool */
+-- 
+2.28.0
+
