@@ -5,10 +5,10 @@ MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 # SD Card
-MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk1"
+#MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk1"
 
 # eMMC Card
-#MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk2"
+MENDER_STORAGE_DEVICE_pico-imx8mm = "/dev/mmcblk2"
 
 IMAGE_FSTYPES_remove = "tar.bz2 ext4 sdcard.bz2 wic.md5sum wic.bmap wic.bz2"
 
