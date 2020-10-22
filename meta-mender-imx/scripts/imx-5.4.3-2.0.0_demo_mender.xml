@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <include name="imx-5.4.3-2.0.0.xml"/>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="https://github.com/drewmoseley" name="drewmoseley"/>
+
+  <project name="meta-mender" remote="mender" revision="zeus" path="sources/meta-mender"/>
+  <project name="meta-mender-community" remote="drewmoseley" revision="wip-zeus-imx" path="sources/meta-mender-community">
+     <linkfile src="meta-mender-imx/scripts/imx-setup-mender.sh" dest="imx-setup-mender.sh"/>
+  </project>
+
+</manifest>

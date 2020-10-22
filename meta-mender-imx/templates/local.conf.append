@@ -1,0 +1,13 @@
+
+# Appended fragment from meta-mender-community/meta-mender-imx/templates
+IMAGE_CLASSES += "mender-setup-imx"
+
+# General Settings
+MENDER_BOOT_PART_SIZE_MB_imx8mnevk = "256"
+MENDER_STORAGE_TOTAL_SIZE_MB_imx8mnevk = "1024"
+
+# Boot from SD
+#MENDER_STORAGE_DEVICE_imx8mnevk = "/dev/mmcblk1"
+
+# Boot from eMMC
+MENDER_STORAGE_DEVICE_imx8mnevk = "/dev/mmcblk2"
