@@ -1,7 +1,7 @@
-From 9720407c334a9762ed9418c6051c52a925226291 Mon Sep 17 00:00:00 2001
+From 88ef678ef5e50adb6d356a062bde5791741e589e Mon Sep 17 00:00:00 2001
 From: Drew Moseley <drew.moseley@northern.tech>
 Date: Thu, 24 Sep 2020 15:43:47 -0400
-Subject: [PATCH 2/2] Store Env in eMMC
+Subject: [PATCH] Store Env in eMMC
 
 Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
 ---
@@ -9,12 +9,12 @@ Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/configs/imx8mn_var_som.h b/include/configs/imx8mn_var_som.h
-index 49daedadd3..c2c37ea46a 100644
+index 71060e95d1..885aa068e3 100644
 --- a/include/configs/imx8mn_var_som.h
 +++ b/include/configs/imx8mn_var_som.h
 @@ -180,7 +180,7 @@
- #define CONFIG_ENV_OFFSET		(64 * SZ_64K)
- #define CONFIG_ENV_SIZE			SZ_8K
+ 
+ /* Default ENV offset is 4MB for SD/EMMC/FSPI, but NAND uses 60MB offset, overridden by env_get_offset */
  #define CONFIG_ENV_SECT_SIZE		(64 * 1024)
 -#define CONFIG_SYS_MMC_ENV_DEV		1 /* USDHC2 */
 +#define CONFIG_SYS_MMC_ENV_DEV		2 /* USDHC2 */
