@@ -172,7 +172,6 @@ IMAGE_CMD_mender_tezi () {
             uboot_files="${DEPLOY_DIR_IMAGE}/$file $uboot_files"
         fi
     done
-    echo HIDREW:uboot_files=$uboot_files > /work/dmoseley/log.txt
 
     # The first transform strips all folders from the files
     # The second adds back a subfolder
