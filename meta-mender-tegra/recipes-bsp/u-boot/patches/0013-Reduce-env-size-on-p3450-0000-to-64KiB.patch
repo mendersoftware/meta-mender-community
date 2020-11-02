@@ -1,0 +1,29 @@
+From 00d2500c1a78e3b49d70256e5cbea6aedb3ebe83 Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Mon, 2 Nov 2020 08:24:14 -0800
+Subject: [PATCH] Reduce env size on p3450-0000 to 64KiB
+
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ configs/p3450-0000_defconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configs/p3450-0000_defconfig b/configs/p3450-0000_defconfig
+index c3200216b9..c6dfbc79d8 100644
+--- a/configs/p3450-0000_defconfig
++++ b/configs/p3450-0000_defconfig
+@@ -58,9 +58,9 @@ CONFIG_ENV_SECT_SIZE=0x1000
+ CONFIG_BOOTP_PREFER_SERVERIP=y
+ CONFIG_POSITION_INDEPENDENT=y
+ CONFIG_DISABLE_SDMMC1_EARLY=y
+-CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_SIZE=0x10000
+ CONFIG_ENV_OFFSET=0x3b0000
+-CONFIG_ENV_OFFSET_REDUND=0x3d0000
++CONFIG_ENV_OFFSET_REDUND=0x3c0000
+ CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ # CONFIG_ENV_IS_NOWHERE is not set
+ # CONFIG_ENV_IS_IN_EEPROM is not set
+-- 
+2.25.1
+

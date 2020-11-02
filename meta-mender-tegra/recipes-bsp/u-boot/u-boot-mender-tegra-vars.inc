@@ -1,6 +1,10 @@
 MENDER_UBOOT_AUTO_CONFIGURE = "0"
 MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART = "2"
 
+TEGRA_MENDER_BOOTENV_SIZE_DEFAULT = "0x20000"
+TEGRA_MENDER_BOOTENV_SIZE_DEFAULT_tegra210 = "${@'0x10000' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '0x20000'}"
+BOOTENV_SIZE ?= "${TEGRA_MENDER_BOOTENV_SIZE_DEFAULT}"
+
 # Calculate this offset by adding up the offsets of each partition preceeding the uboot_env partition in sdmmc_boot and aligning to the next
 # 4096 byte boundary, then subtracting 4 MiB (4194304) since the sdmmc_boot represents the combined boot0 and boot1 partitions
 # Please note the suggestions in the nvidia thread at https://devtalk.nvidia.com/default/topic/1063652/jetson-tx2/mmcblk0boot1-usage-at-address-4177408-and-u-boot-parameter-storage-space-availability/
