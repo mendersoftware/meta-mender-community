@@ -17,14 +17,14 @@ This layer depends on:
 
 ```
 URI: https://git.yoctoproject.org/git/poky
-branch: zeus
+branch: dunfell
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: zeus
+branch: dunfell
 revision: HEAD
 ```
 
@@ -38,7 +38,7 @@ that have Mender integrated.
 mkdir mender-beaglebone && cd mender-beaglebone
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-beaglebone/scripts/manifest-beaglebone.xml \
-          -b zeus
+          -b dunfell
 repo sync
 source setup-environment beaglebone
 bitbake core-image-base
