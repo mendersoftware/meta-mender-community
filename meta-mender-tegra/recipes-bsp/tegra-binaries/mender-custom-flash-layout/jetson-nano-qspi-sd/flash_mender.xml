@@ -48,21 +48,22 @@
               binary. </description>
         </partition>
 
-        <!-- This is padding to ensure VER is at the end of flash -->
-        <partition name="PAD" id="6" type="data">
+        <partition name="UBENV" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 3342336 </size>
+	    <start_location> 0x3B0000 </start_location>
+            <size> 131072 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <description> Empty padding. </description>
+            <description> U-Boot environment area  </description>
         </partition>
 
-        <partition name="VER_b" id="7" type="data">
+        <partition name="VER_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 65536 </size>
+	    <start_location> 0x3E0000 </start_location>
+            <size> 32768 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <partition_attribute> 0 </partition_attribute>
             <allocation_attribute> 8 </allocation_attribute>
@@ -72,10 +73,11 @@
               information. </description>
         </partition>
 
-        <partition name="VER" id="8" type="data">
+        <partition name="VER" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 65536 </size>
+	    <start_location> 0x3F0000 </start_location>
+            <size> 32768 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <partition_attribute> 0 </partition_attribute>
             <allocation_attribute> 8 </allocation_attribute>
