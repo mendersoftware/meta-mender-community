@@ -1,11 +1,8 @@
 SRC_URI = " \
-    file://redundant-boot-commit-script \
     file://redundant-boot-commit-check-script-uboot \
     file://redundant-boot-install-script \
     file://redundant-boot-install-script-uboot \
-    file://redundant-boot-rollback-script \
     file://redundant-boot-rollback-script-uboot \
-    file://redundant-boot-rollback-reboot-script \
 "
 
 LICENSE = "Apache-2.0"
@@ -24,18 +21,12 @@ PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
 # the machine-id.
 copy_install_script() {
     sed -e's,@COPY_MACHINE_ID@,${PERSIST_MACHINE_ID},' ${S}/redundant-boot-install-script > ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
-    cp ${S}/redundant-boot-rollback-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
 }
 
 copy_install_script_mender-uboot() {
     cp ${S}/redundant-boot-install-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
     cp ${S}/redundant-boot-rollback-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_80_bl-rollback
     cp ${S}/redundant-boot-commit-check-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Enter_80_bl-check-update
-}
-
-copy_other_scripts() {
-    cp ${S}/redundant-boot-commit-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_90_bl-commit
-    cp ${S}/redundant-boot-rollback-reboot-script ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollbackReboot_Leave_90_bl-rolledback
 }
 
 # These scripts are only needed for tegra platforms with the
@@ -47,12 +38,10 @@ do_compile() {
 
 do_compile_tegra194() {
     copy_install_script
-    copy_other_scripts
 }
 
 do_compile_tegra186() {
     copy_install_script
-    copy_other_scripts
 }
 
 # Make sure scripts aren't left around from old builds

@@ -38,10 +38,3 @@ if [ "${devnam##/dev/mmcblk}" != "${devnam}" ]; then
 	exit 0
     fi
 fi
-
-# Otherwise, just make sure the current slot is
-# the one we're booting from
-if ! nvbootctrl set-active-boot-slot $curslot; then
-    echo "ERR: could not set active boot slot to: $curslot" >&2
-    exit 1
-fi
