@@ -19,9 +19,9 @@ ARTIFACTIMG_FSTYPE = "ext4"
 IMAGE_TYPEDEP_tegraflash += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_PROVIDER_libubootenv_tegra = "${'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
+PREFERRED_PROVIDER_libubootenv_tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_RPROVIDER_libubootenv-bin_tegra = "${'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
+PREFERRED_RPROVIDER_libubootenv-bin_tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
 IMAGE_BOOT_FILES = "u-boot-dtb.bin"
