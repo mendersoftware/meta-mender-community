@@ -14,3 +14,6 @@ UBOOT_CONFIG_imx8mm-var-dart = "sd"
 MENDER_STORAGE_DEVICE_imx8mn-var-som = "/dev/mmcblk1"
 MENDER_UBOOT_STORAGE_DEVICE_imx8mn-var-som = "0"
 UBOOT_CONFIG_imx8mm-var-dart = "sd"
+
+MENDER_BOOT_PART_SIZE_MB_mender-uboot = "0"
+KERNEL_IMAGETYPE_mender-uboot = "Image"
