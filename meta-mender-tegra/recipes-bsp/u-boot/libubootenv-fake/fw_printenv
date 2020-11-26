@@ -18,6 +18,10 @@ while [ -n "$1" ]; do
             [ -n "$quiet" ] || echo -n "$1="
             nvbootctrl get-current-slot
             ;;
+        mender_uboot_separator)
+            [ -n "$quiet" ] || echo -n "$1="
+            echo "something other than just 1"
+            ;;
         upgrade_available)
             [ -n "$quiet" ] || echo -n "$1="
 	    if [ -e "/var/lib/mender/upgrade_available" ]; then
