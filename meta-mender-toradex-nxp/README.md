@@ -4,7 +4,7 @@ Mender integration layer for Toradex family of boards.
 
 The supported and tested boards are:
 
-- [verdin-imx8mm]()
+- [Toradex Verdin iMX8M Mini](https://hub.mender.io/t/toradex-verdin-imx8m-mini/2908)
 
 Visit the individual board links above for more information on status of the
 integration and more detailed instructions on how to build and use images
@@ -41,6 +41,8 @@ repo init -u https://git.toradex.com/toradex-manifest.git \
 
 wget --directory-prefix .repo/local_manifests \
     https://raw.githubusercontent.com/mendersoftware/meta-mender-community/dunfell/scripts/mender-no-setup.xml
+
+repo sync
 
 . export
 
