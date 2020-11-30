@@ -3,9 +3,9 @@
 
 MACHINE ?= "verdin-imx8mm"
 
-# Uncomment to enable U-Boot integration instead of GRUB
-#MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
-#MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+# Comment/remove below to enable GRUB integration instead of U-Boot
+MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
 
 IMAGE_CLASSES += "image_type_mender_tezi"
 IMAGE_FSTYPES_append = " mender_tezi"
