@@ -1,0 +1,23 @@
+
+# Appended fragment from meta-mender-community/meta-mender-toradex-nxp/templates
+
+MACHINE ?= "verdin-imx8mm"
+
+# Uncomment to enable U-Boot integration instead of GRUB
+#MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
+#MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+
+IMAGE_CLASSES += "image_type_mender_tezi"
+IMAGE_FSTYPES_append = " mender_tezi"
+IMAGE_FSTYPES_remove = " teziimg"
+
+# Default is Image.gz, which is not compatible with GRUB
+KERNEL_IMAGETYPE_aarch64_mender-grub = "Image"
+
+# Nothing in boot part, just GRUB. Kernel and DTB is in /boot directory of
+# rootfs image
+IMAGE_BOOT_FILES = ""
+
+# boot.scr conflicts when using GRUB, it is added using _append which is why
+# it is not covered by previous statement.
+IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
