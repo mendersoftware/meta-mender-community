@@ -14,7 +14,7 @@ FULL_IMAGE_SUFFIX_mender-image-sd = "sdimg"
 FULL_IMAGE_SUFFIX_mender-image-ubi = "ubimg"
 FULL_IMAGE_SUFFIX_mender-image-uefi = "uefiimg"
 FULL_IMAGE_SUFFIX_mender-image-bios = "biosimg"
-FULL_IMAGE_SUFFIX_mender-image-gpt= "gptimg"
+FULL_IMAGE_SUFFIX_mender-image-gpt = "gptimg"
 python () {
    if d.getVar('FULL_IMAGE_SUFFIX') == "":
        bb.fatal("Unable to determine FULL_IMAGE_SUFFIX for use with mender_tezi images.")
