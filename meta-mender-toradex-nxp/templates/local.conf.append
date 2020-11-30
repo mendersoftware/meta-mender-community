@@ -1,7 +1,7 @@
 
 # Appended fragment from meta-mender-community/meta-mender-toradex-nxp/templates
 
-MACHINE ?= "verdin-imx8mm"
+MACHINE = "verdin-imx8mm"
 
 # Comment/remove below to enable GRUB integration instead of U-Boot
 MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
