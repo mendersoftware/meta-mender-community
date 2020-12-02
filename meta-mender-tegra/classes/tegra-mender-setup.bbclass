@@ -30,17 +30,17 @@ IMAGE_BOOT_FILES = "u-boot-dtb.bin"
 # You will need to update these partition values when you update the flash layout.  One way to find the correct number is to
 # boot into an emergency shell and examine the /dev/mmcblk* devices,
 # or use the uboot console to look at mtdparts
-MENDER_DATA_PART_NUMBER_tegra186 = "34"
-MENDER_DATA_PART_NUMBER_tegra194 = "43"
-MENDER_DATA_PART_NUMBER_tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
-MENDER_DATA_PART_NUMBER_jetson-nano-emmc = "19"
-MENDER_DATA_PART_NUMBER_xavier-nx = "12"
-MENDER_ROOTFS_PART_A_NUMBER = "1"
-MENDER_ROOTFS_PART_B_NUMBER_tegra186 = "33"
-MENDER_ROOTFS_PART_B_NUMBER_tegra194 = "42"
-MENDER_ROOTFS_PART_B_NUMBER_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
-MENDER_ROOTFS_PART_B_NUMBER_jetson-nano-emmc = "18"
-MENDER_ROOTFS_PART_B_NUMBER_xavier-nx = "11"
+MENDER_DATA_PART_NUMBER_DEFAULT_tegra186 = "34"
+MENDER_DATA_PART_NUMBER_DEFAULT_tegra194 = "43"
+MENDER_DATA_PART_NUMBER_DEFAULT_tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-emmc = "19"
+MENDER_DATA_PART_NUMBER_DEFAULT_xavier-nx = "12"
+MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra186 = "33"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra194 = "42"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-emmc = "18"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_xavier-nx = "11"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
