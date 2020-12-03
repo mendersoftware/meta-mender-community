@@ -23,8 +23,8 @@ that have Mender integrated.
 
 ```
 mkdir mender-tn-imx-bsp && cd mender-tn-imx-bsp
-repo init -u https://github.com/TechNexion/tn-imx-yocto-manifest.git -b zeus_5.4.y-next -m imx-5.4.24-2.1.0.xml
-wget --directory-prefix .repo/local_manifests https://raw.githubusercontent.com/mendersoftware/meta-mender-community/zeus/meta-mender-tn-imx-bsp/scripts/imx-5.4.24-2.1.0_demo_mender.xml
+repo init -u https://github.com/TechNexion/tn-imx-yocto-manifest.git -b zeus_5.4.y-next -m imx-5.4.47-2.2.0.xml
+wget --directory-prefix .repo/local_manifests https://raw.githubusercontent.com/mendersoftware/meta-mender-community/zeus/meta-mender-tn-imx-bsp/scripts/mender-technexion.xml
 repo sync -j$(nproc)
 DISTRO=fsl-imx-xwayland MACHINE=pico-imx8mm source tn-setup-mender.sh -b build-xwayland-imx8mm
 bitbake core-image-base
