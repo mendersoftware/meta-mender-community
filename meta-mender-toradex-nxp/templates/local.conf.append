@@ -21,3 +21,6 @@ IMAGE_BOOT_FILES = ""
 # boot.scr conflicts when using GRUB, it is added using _append which is why
 # it is not covered by previous statement.
 IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+
+# No SPL, otherwise this gets included in tezi image
+OFFSET_SPL_PAYLOAD_verdin-imx8mm = "0"
