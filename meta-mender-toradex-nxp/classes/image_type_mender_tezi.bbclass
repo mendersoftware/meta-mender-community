@@ -38,23 +38,33 @@ python() {
 
 def rootfs_mender_tezi_uboot_spl(d):
     from collections import OrderedDict
+    offset_bootrom = d.getVar('OFFSET_BOOTROM_PAYLOAD')
+    offset_spl = d.getVar('OFFSET_SPL_PAYLOAD')
 
-    return \
+    bootpart_rawfiles = []
+
+    if offset_spl:
+        bootpart_rawfiles.append(
+              {
+                "filename": d.getVar('SPL_BINARY'),
+                "dd_options": "seek=" + offset_bootrom
+              })
+
+    bootpart_rawfiles.append(
+              {
+                "filename": d.getVar('UBOOT_BINARY_TEZI_EMMC'),
+                "dd_options": "seek=" + (offset_spl if offset_spl else offset_bootrom)
+              })
+
+    return [
         OrderedDict({
           "name": "mmcblk0boot0",
+          "erase": True,
           "content": {
-            "rawfiles": [
-              {
-                "dd_options": "seek=" + d.getVar('OFFSET_BOOTROM_PAYLOAD'),
-                "filename": d.getVar("SPL_BINARY")
-              },
-              {
-                "filename": d.getVar('UBOOT_BINARY'),
-                "dd_options": "seek=" + d.getVar('OFFSET_SPL_PAYLOAD')
-              }
-            ]
+            "filesystem_type": "raw",
+            "rawfiles": bootpart_rawfiles
           }
-        })
+        })]
 
 def rootfs_mender_tezi_uboot_nospl(d):
     from collections import OrderedDict
