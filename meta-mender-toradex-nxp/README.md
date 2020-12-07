@@ -53,10 +53,24 @@ echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender-community/meta-mender-tora
 echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender/meta-mender-demo \"" >> conf/bblayers.conf
 
 cat ../layers/meta-mender-community/templates/local.conf.append >> conf/local.conf
+```
+
+## For verdin-imx8mm use the following procedure
+```
+
 cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append >> conf/local.conf
 
 MACHINE=verdin-imx8mm bitbake tdx-reference-minimal-image
 ```
+
+## For colibri-imx6ull use the following procedure
+```
+cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append.colibri-imx6ull >> conf/local.conf
+
+MACHINE=colibri-imx6ull bitbake tdx-reference-minimal-image
+```
+## Notes for colibri-imx6ull
+- Current mender integration uses ubi volumes to store the redundant environment, this is why the regular u-boot-env partition has been removed from the MTDPARTS
 
 
 ## Maintainer
@@ -64,5 +78,6 @@ MACHINE=verdin-imx8mm bitbake tdx-reference-minimal-image
 The authors and maintainers of this layer are:
 
 - Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
+- Ricardo Sanchez - <ricardo.sanchez@aerin.es>
 
 Always include the maintainers when suggesting code changes to this layer.
