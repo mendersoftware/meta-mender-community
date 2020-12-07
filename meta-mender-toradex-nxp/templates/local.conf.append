@@ -23,4 +23,4 @@ IMAGE_BOOT_FILES = ""
 IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 
 # No SPL, otherwise this gets included in tezi image
-OFFSET_SPL_PAYLOAD_verdin-imx8mm = "0"
+OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
