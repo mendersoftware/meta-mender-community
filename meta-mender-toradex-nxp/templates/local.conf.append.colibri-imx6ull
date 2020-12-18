@@ -5,6 +5,8 @@ MACHINE = "colibri-imx6ull"
 INHERIT_remove_colibri-imx6ull = " mender-full "
 INHERIT_append_colibri-imx6ull = " mender-full-ubi "
 
+IMAGE_FSTYPES_remove_colibri-imx6ull = " mtdimg teziimg"
+
 IMAGE_CLASSES += "image_type_mender_tezi"
 IMAGE_FSTYPES_append = " mender_tezi"
 
