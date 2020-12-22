@@ -19,7 +19,6 @@ MENDER_MTDPARTS = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,
 MENDER_ARTIFACT_NAME_colibri-imx6ull = "xpac-mender"
 MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx6ull = "512"
 MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
-MENDER_RESERVED_SPACE_BOOTLOADER_DATA ="0x40000"
 
 # --space-fixup option required so images can be flashed using either nand.write from u-boot or toradex easy installer
 MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
