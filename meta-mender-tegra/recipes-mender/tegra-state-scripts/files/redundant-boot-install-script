@@ -6,7 +6,7 @@ COPY_MACHINE_ID=@COPY_MACHINE_ID@
 
 cleanup() {
     [ -n "$mnt" ] || return
-    for d in sys proc dev; do
+    for d in sys proc dev run; do
 	if mountpoint -q "${mnt}/${d}"; then
 	    umount "${mnt}/${d}" >/dev/null 2>&1 || true
 	fi
@@ -42,7 +42,8 @@ if [ -z "$mnt" -o ! -d "$mnt" ]; then
     echo "ERR: could not create directory for mounting install partition" >&2
     exit 1
 fi
-mount "$devnam" "$mnt"
+# Use a read only mount for compatiblity with delta updates
+mount -o ro "$devnam" "$mnt"
 if [ ! -d "${mnt}/opt/ota_package" ]; then
     echo "ERR: Missing /opt/ota_package directory in installed rootfs" >&2
     cleanup
@@ -53,12 +54,14 @@ fi
 mount --bind /sys "${mnt}/sys"
 mount --bind /proc "${mnt}/proc"
 mount --bind /dev "${mnt}/dev"
+# Mount an overlay for /var/run so the /var/lib/nv_boot_control.conf symlink becomes writable
+mount -t tmpfs tmpfs ${mnt}/run
+
 # Run the update engine in the context of the just-installed rootfs
 # to ensure that the TNSPEC in the config file it uses matches the
 # TNSPEC in the update payload.  But first we have to set up the
 # configuration file with the TNSPEC.
 if [ -L "${mnt}/etc/nv_boot_control.conf" -a -x "${mnt}/usr/bin/setup-nv-boot-control" ]; then
-    rm "${mnt}/etc/nv_boot_control.conf"
     if ! chroot "${mnt}" /usr/bin/setup-nv-boot-control; then
 	echo "ERR: could not initialize nv_boot_control.conf in new rootfs" >&2
     fi
@@ -70,6 +73,8 @@ if ! chroot "${mnt}" /usr/sbin/nv_update_engine --install no-reboot; then
 fi
 echo "Successful bootloader update"
 if [ -n "$COPY_MACHINE_ID" -a -f /etc/machine-id -a -f "${mnt}/etc/machine-id" ]; then
+    echo "Copying machine ID, this will break delta update support."
+    mount -oremount,rw ${mnt}
     cp /etc/machine-id "${mnt}/etc/machine-id"
     echo "Copied current /etc/machine-id to new rootfs"
 fi

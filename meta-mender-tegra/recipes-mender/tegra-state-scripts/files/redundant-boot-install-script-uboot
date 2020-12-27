@@ -4,7 +4,7 @@ mnt=
 
 cleanup() {
     [ -n "$mnt" ] || return
-    for d in sys proc dev var/lib var/volatile; do
+    for d in sys proc dev run; do
 	if mountpoint -q "${mnt}/${d}"; then
 	    umount "${mnt}/${d}" >/dev/null 2>&1 || true
 	fi
@@ -46,10 +46,8 @@ fi
 mount --bind /sys "${mnt}/sys"
 mount --bind /proc "${mnt}/proc"
 mount --bind /dev "${mnt}/dev"
-
-# Mount an overlay for /var/lib so the /var/lib/nv_boot_control.conf file becomes writable
-mount -t tmpfs tmpfs ${mnt}/var/volatile
-mount-copybind ${mnt}/var/volatile/lib ${mnt}/var/lib/
+# Mount an overlay for /var/run so the /var/lib/nv_boot_control.conf symlink becomes writable
+mount -t tmpfs tmpfs ${mnt}/run
 
 # Run the update engine in the context of the just-installed rootfs
 # to ensure that the TNSPEC in the config file it uses matches the
