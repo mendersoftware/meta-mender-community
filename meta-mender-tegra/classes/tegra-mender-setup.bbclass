@@ -103,9 +103,6 @@ MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)
 
 def tegra_mender_uboot_feature(d):
     if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
-        # Note: mender-persist-systemd-machine-id is currently not compatible with
-        # mender's delta update feature for cboot builds.  See disussion at
-        # https://github.com/mendersoftware/meta-mender-community/pull/208#discussion_r549138930
         return " mender-persist-systemd-machine-id"
     return " mender-uboot mender-persist-systemd-machine-id"
 
