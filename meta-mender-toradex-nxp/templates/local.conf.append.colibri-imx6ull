@@ -1,0 +1,24 @@
+# Appended fragment from meta-mender-community/meta-mender-toradex-nxp/templates
+
+MACHINE = "colibri-imx6ull"
+
+INHERIT_remove_colibri-imx6ull = " mender-full "
+INHERIT_append_colibri-imx6ull = " mender-full-ubi "
+
+IMAGE_FSTYPES_remove_colibri-imx6ull = " mtdimg teziimg"
+
+IMAGE_CLASSES += "image_type_mender_tezi"
+IMAGE_FSTYPES_append = " mender_tezi"
+
+
+# Removed u-boot-env mtd partition: Env will be stored in UBI volumes "u-boot-env-1 / u-boot-env-2"
+MENDER_MTDIDS = "nand0=gpmi-nand"
+MENDER_MTDPARTS = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,-(ubi)"
+
+
+MENDER_ARTIFACT_NAME_colibri-imx6ull = "xpac-mender"
+MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx6ull = "512"
+MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
+
+# --space-fixup option required so images can be flashed using either nand.write from u-boot or toradex easy installer
+MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
