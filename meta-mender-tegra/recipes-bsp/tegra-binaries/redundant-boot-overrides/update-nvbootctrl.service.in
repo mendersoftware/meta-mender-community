@@ -1,6 +1,8 @@
 [Unit]
 Description=Update bootloader on successful boot
 ConditionPathExists=!@LOCALSTATEDIR@/lib/mender/dont-mark-next-boot-successful
+Requires=setup-nv-boot-control.service
+After=setup-nv-boot-control.service
 Before=network.target
 
 [Service]

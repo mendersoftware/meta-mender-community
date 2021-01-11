@@ -6,7 +6,7 @@ COPY_MACHINE_ID=@COPY_MACHINE_ID@
 
 cleanup() {
     [ -n "$mnt" ] || return
-    for d in sys proc dev; do
+    for d in sys proc dev run; do
 	if mountpoint -q "${mnt}/${d}"; then
 	    umount "${mnt}/${d}" >/dev/null 2>&1 || true
 	fi
@@ -42,7 +42,8 @@ if [ -z "$mnt" -o ! -d "$mnt" ]; then
     echo "ERR: could not create directory for mounting install partition" >&2
     exit 1
 fi
-mount "$devnam" "$mnt"
+# Support delta updates by mounting the rootfs read only.
+mount -o ro "$devnam" "$mnt"
 if [ ! -d "${mnt}/opt/ota_package" ]; then
     echo "ERR: Missing /opt/ota_package directory in installed rootfs" >&2
     cleanup
@@ -53,12 +54,13 @@ fi
 mount --bind /sys "${mnt}/sys"
 mount --bind /proc "${mnt}/proc"
 mount --bind /dev "${mnt}/dev"
+mount -t tmpfs tmpfs "${mnt}/run"
 # Run the update engine in the context of the just-installed rootfs
 # to ensure that the TNSPEC in the config file it uses matches the
 # TNSPEC in the update payload.  But first we have to set up the
 # configuration file with the TNSPEC.
 if [ -L "${mnt}/etc/nv_boot_control.conf" -a -x "${mnt}/usr/bin/setup-nv-boot-control" ]; then
-    rm "${mnt}/etc/nv_boot_control.conf"
+    mkdir -p "${mnt}/run/tegra-nv-bootctrl"
     if ! chroot "${mnt}" /usr/bin/setup-nv-boot-control; then
 	echo "ERR: could not initialize nv_boot_control.conf in new rootfs" >&2
     fi
@@ -69,9 +71,13 @@ if ! chroot "${mnt}" /usr/sbin/nv_update_engine --install no-reboot; then
     exit 1
 fi
 echo "Successful bootloader update"
-if [ -n "$COPY_MACHINE_ID" -a -f /etc/machine-id -a -f "${mnt}/etc/machine-id" ]; then
-    cp /etc/machine-id "${mnt}/etc/machine-id"
-    echo "Copied current /etc/machine-id to new rootfs"
+if [ -n "$COPY_MACHINE_ID" ]; then
+    curid=$(systemd-machine-id-setup --print)
+    storedid=$(chroot "${mnt}" /usr/bin/tegra-bootinfo -n -v machine_id 2>/dev/null)
+    if [ "$curid" != "$storedid" ]; then
+	chroot "${mnt}" /usr/bin/tegra-bootinfo --initialize 2>/dev/null
+	chroot "${mnt}" /usr/bin/tegra-bootinfo -V machine_id "$curid"
+    fi
 fi
 cleanup
 exit 0
