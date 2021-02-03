@@ -12,6 +12,9 @@ DISTRO ?= "fslc-framebuffer"
 
 IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
 
+MENDER_BOOT_PART_SIZE_MB = "32"
+MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+
 # Specific Configuration for Mender
 MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
 MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
