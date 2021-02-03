@@ -8,5 +8,5 @@ MENDER_UBOOT_AUTO_CONFIGURE = "0"
 BOOTENV_SIZE = "0x2000"
 
 SRC_URI += "\
-    file://0001-ARM-nitrogen8m-Add-support-to-mender.patch \
+    file://uboot-boundary-add-mender-support.patch \
 "
