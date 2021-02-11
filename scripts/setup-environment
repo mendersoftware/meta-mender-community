@@ -13,7 +13,6 @@ script_dir=$(dirname "$this_script")
 script_dir=$(readlink -f "$script_dir")
 
 mender_community_dir=${script_dir}/sources/meta-mender-community
-build_dir=${script_dir}/build
 
 target=""
 
@@ -52,6 +51,12 @@ if [ -z "${target}" ]; then
     return 1
 fi
 
+echo ${2}
+if [ -z "${2}" ]; then
+    build_dir=${script_dir}/build
+else
+    build_dir=${script_dir}/${2}
+fi
 target_templates=${mender_community_dir}/meta-mender-${target}/templates
 
 . ${script_dir}/sources/poky/oe-init-build-env ${build_dir}
