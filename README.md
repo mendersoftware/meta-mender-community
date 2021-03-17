@@ -106,6 +106,10 @@ We welcome and ask for your contribution. If you would like to contribute to
 Mender, please read our guide on how to best get started [contributing code or
 documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING.md).
 
+### Community maintainers
+
+A list of community maintainers and the description of the role is located [here](https://github.com/mendersoftware/meta-mender-community/wiki/Community-maintainers).
+
 ## License
 
 Mender is licensed under the Apache License, Version 2.0. See
