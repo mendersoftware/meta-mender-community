@@ -108,35 +108,7 @@ documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING
 
 ### Community maintainers
 
-| Meta layer                  |   Maintainer  |
-|-----------------------------|:-------------:|
-| meta-mender-atmel           |     None      |
-| meta-mender-beaglebone      |     None      |
-| meta-mender-clearfog        |     None      |
-| meta-mender-coral           |     None      |
-| meta-mender-intel           |     None      |
-| meta-mender-nxp             |     None      |
-| meta-mender-odroid          |     None      |
-| meta-mender-qemu            |     None      |
-| meta-mender-raspberrypi     |     None      |
-| meta-mender-rockchip        |     None      |
-| meta-mender-sunxi           |     None      |
-| meta-mender-tegra           |     None      |
-| meta-mender-toradex-nxp     |     None      |
-| meta-mender-up              |     None      |
-| meta-mender-update-modules  |     None      |
-| meta-mender-variscite       |     None      |
-
-
-At Northern.tech we believe that community members should have a say in what ends up in the community codebase.
-Community maintainers are the gatekeepers of codebase quality.
-
-Sometimes we don't have a specific board at hand to test a community PR which results in it going stale. 
-This is bad for both the community as well as us.
-
-Practically, the Community maintainer is the de facto reviewer of the PR for a certain meta-layer. 
-If the Community maintainer confirms a PR is of good quality, we default to merging it into the codebase.
-
+A list of community maintainers and the description of the role is located [here](https://github.com/mendersoftware/meta-mender-community/wiki/Community-maintainers).
 
 ## License
 
