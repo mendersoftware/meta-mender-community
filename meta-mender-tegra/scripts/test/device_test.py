@@ -22,14 +22,15 @@ class DeviceTest:
             '''
             argparser = argparse.ArgumentParser(prog=parent_test,
                                                 usage='%(prog)s [options]',
-                                                description=parent_description)
+                                                description=parent_description,
+                                                formatter_class=argparse.RawTextHelpFormatter)
             argparser.add_argument('-d',
                                    '--device',
                                    help='The IP address or name of the device')
 
             argparser.add_argument('-u',
                                    '--user',
-                                   help="The SSH username (default is {})".format(self.DEFAULT_USER))
+                                   help=f"The SSH username (default is {self.DEFAULT_USER})")
 
             argparser.add_argument('-p',
                                    '--password',
@@ -48,7 +49,7 @@ class DeviceTest:
             self.args = self.get_parser().parse_args()
 
             if self.args.user is None:
-                print("No user specified, using {}".format(self.DEFAULT_USER))
+                print(f"No user specified, using {self.DEFAULT_USER}")
                 self.args.user=self.DEFAULT_USER
         return self.args
 
@@ -61,20 +62,20 @@ class DeviceTest:
         if self.connection is None:
             if args.key is not None:
                 self.connection = Connection(
-                    host='{}@{}'.format(args.user, args.device),
+                    host=f'{args.user}@{args.device}',
                     connect_kwargs={
                         "key_filename": args.key,
                         "password": args.password
                     })
             elif args.password is not None:
                 self.connection = Connection(
-                    host='{}@{}'.format(args.user, args.device),
+                    host=f'{args.user}@{args.device}',
                     connect_kwargs={
                         "password": args.password
                     })
             else:
                 self.connection = Connection(
-                    host='{}@{}'.format(args.user, args.device),
+                    host=f'{args.user}@{args.device}',
                     connect_kwargs={
                         "password": "",
                         "look_for_keys": False
@@ -83,14 +84,19 @@ class DeviceTest:
 
     def wait_for_device(self):
         conn = self.get_connection()
-        print('Trying to connect to {}....'.format(self.get_args().device))
+        print(f'Trying to connect to {self.get_args().device}....')
         success = False
+        ip = None
+        quiet = False
         while not success:
             try:
                 conn.open()
                 success = True
             except Exception as e:
-                print('Exception connecting, retrying in 3 seconds..')
+                if not quiet:
+                    print(e)
+                    print('Exception connecting, retrying..')
+                    quiet = True
             time.sleep(3)
         time.sleep(15)
 
@@ -121,3 +127,7 @@ class DeviceTest:
         self.wait_for_device_removal()
         self.wait_for_device()
 
+    def get_machine_id(self):
+        conn = self.get_connection()
+        result = conn.run("systemd-machine-id-setup --print", hide=True)
+        return result.stdout
