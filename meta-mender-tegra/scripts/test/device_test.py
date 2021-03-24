@@ -126,8 +126,9 @@ class DeviceTest:
         result = conn.run("reboot", warn=True)
         self.wait_for_device_removal()
         self.wait_for_device()
+        self.get_machine_id() # This tests the connection
 
     def get_machine_id(self):
         conn = self.get_connection()
-        result = conn.run("systemd-machine-id-setup --print", hide=True)
+        result = conn.run("systemd-machine-id-setup --print", hide=True, timeout=3)
         return result.stdout
