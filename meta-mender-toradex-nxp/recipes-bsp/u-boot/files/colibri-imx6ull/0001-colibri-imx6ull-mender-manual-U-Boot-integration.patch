@@ -1,7 +1,26 @@
-Index: git/configs/colibri-imx6ull_defconfig
-===================================================================
---- git.orig/configs/colibri-imx6ull_defconfig
-+++ git/configs/colibri-imx6ull_defconfig
+From ddaa62a9aa9ea2c63c9c3789717501438b6cc6a3 Mon Sep 17 00:00:00 2001
+From: Adrian Antonana <adrian.antonana@plating.de>
+Date: Wed, 31 Mar 2021 10:21:42 +0200
+Subject: [PATCH] colibri imx6ull mender manual U-Boot integration
+
+---
+ configs/colibri-imx6ull_defconfig | 10 +++++++---
+ include/configs/colibri-imx6ull.h | 17 ++++++++++-------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
+
+diff --git a/configs/colibri-imx6ull_defconfig b/configs/colibri-imx6ull_defconfig
+index cf85716dae..30eac0bcbb 100644
+--- a/configs/colibri-imx6ull_defconfig
++++ b/configs/colibri-imx6ull_defconfig
+@@ -13,7 +13,7 @@ CONFIG_BOOTDELAY=1
+ # CONFIG_USE_BOOTCOMMAND is not set
+ # CONFIG_CONSOLE_MUX is not set
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdtfile imx6ull-colibri${variant}-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_CONSOLE_IS_IN_ENV=y
+ CONFIG_VERSION_VARIABLE=y
+ # CONFIG_DISPLAY_BOARDINFO is not set
 @@ -47,12 +47,12 @@ CONFIG_CMD_CACHE=y
  CONFIG_CMD_REGULATOR=y
  CONFIG_CMD_MTDPARTS=y
@@ -25,10 +44,10 @@ Index: git/configs/colibri-imx6ull_defconfig
 +CONFIG_ENV_UBI_PART="ubi"
 +CONFIG_ENV_UBI_VOLUME="u-boot-env-1"
 +CONFIG_ENV_UBI_VOLUME_REDUND="u-boot-env-2"
-Index: git/include/configs/colibri-imx6ull.h
-===================================================================
---- git.orig/include/configs/colibri-imx6ull.h
-+++ git/include/configs/colibri-imx6ull.h
+diff --git a/include/configs/colibri-imx6ull.h b/include/configs/colibri-imx6ull.h
+index 7bce86b219..3d56f5a6ba 100644
+--- a/include/configs/colibri-imx6ull.h
++++ b/include/configs/colibri-imx6ull.h
 @@ -50,18 +50,21 @@
  		"nand write ${loadaddr} u-boot2 ${filesize}\0"
  
@@ -58,3 +77,6 @@ Index: git/include/configs/colibri-imx6ull.h
  
  #define BOOT_TARGET_DEVICES(func) \
  	func(MMC, mmc, 0) \
+-- 
+2.31.0
+
