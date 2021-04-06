@@ -16,7 +16,6 @@ MENDER_MTDIDS = "nand0=gpmi-nand"
 MENDER_MTDPARTS = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,-(ubi)"
 
 
-MENDER_ARTIFACT_NAME_colibri-imx6ull = "xpac-mender"
 MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx6ull = "512"
 MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
 
