@@ -55,6 +55,7 @@ mount -t tmpfs tmpfs ${mnt}/run
 # TNSPEC in the update payload. But first we have to set up the
 # configuration file with the TNSPEC.
 if [ -L "${mnt}/etc/nv_boot_control.conf" -a -x "${mnt}/usr/bin/setup-nv-boot-control" ]; then
+    mkdir -p "${mnt}/run/tegra-nv-bootctrl"
     if ! chroot "${mnt}" /usr/bin/setup-nv-boot-control; then
 	echo "ERR: could not initialize nv_boot_control.conf in new rootfs" >&2
     fi
