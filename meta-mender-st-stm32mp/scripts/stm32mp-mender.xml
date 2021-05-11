@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <include name="default.xml"/>
+
+  <remote fetch="https://github.com/mendersoftware" name="mender"/>
+
+  <project name="meta-mender" remote="mender" revision="dunfell" path="layers/meta-mender"/>
+  <project name="meta-mender-community" remote="mender" revision="dunfell" path="layers/meta-mender-community">
+    <linkfile src="meta-mender-st-stm32mp/scripts/stm32mp-setup-mender.sh" dest="stm32mp-setup-mender.sh"/>
+  </project>
+
+</manifest>
