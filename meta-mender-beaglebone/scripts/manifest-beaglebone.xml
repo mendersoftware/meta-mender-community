@@ -2,8 +2,10 @@
 <manifest>
 
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="https://github.com/openembedded"  name="oe"/>
 
   <project name="poky" remote="yocto" revision="dunfell" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="dunfell" path="sources/meta-openembedded"/>
 
   <include name="scripts/mender.xml"/>
 
