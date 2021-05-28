@@ -1,0 +1,32 @@
+From 13576e8b12211f7c6182023d3819a47aa64c516b Mon Sep 17 00:00:00 2001
+From: Marek Belisko <marek.belisko@open-nandra.com>
+Date: Mon, 24 May 2021 12:40:59 +0200
+Subject: [PATCH] sunxi-common: Use for arm64 same path as for arm
+
+Without this fdtfile is set with prefix 'allwinner' and boot.scr cannot
+find devicetree.
+
+Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
+---
+ include/configs/sunxi-common.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index 0ef289f..78ff859 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -482,11 +482,7 @@ extern int soft_i2c_gpio_scl;
+ 	CONSOLE_STDIN_SETTINGS \
+ 	CONSOLE_STDOUT_SETTINGS
+ 
+-#ifdef CONFIG_ARM64
+-#define FDTFILE "allwinner/" CONFIG_DEFAULT_DEVICE_TREE ".dtb"
+-#else
+ #define FDTFILE CONFIG_DEFAULT_DEVICE_TREE ".dtb"
+-#endif
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	CONSOLE_ENV_SETTINGS \
+-- 
+2.7.4
+
