@@ -1,48 +1,44 @@
-From 268ae7f869ae7dc5a24239d1d4d71fdd4d82c779 Mon Sep 17 00:00:00 2001
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Date: Sat, 1 Aug 2020 18:14:51 +0200
+From bcc02e384981306648e8d4d1f6f508174441dc56 Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <texier.pj2@gmail.com>
+Date: Fri, 18 Jun 2021 22:52:49 +0200
 Subject: [PATCH] ARM: WaRP7: Add support to mender
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+[Pierre-Jean Texier: refresh patch for dunfell release]
+Signed-off-by: Pierre-Jean Texier <texier.pj2@gmail.com>
 ---
  configs/warp7_defconfig | 2 ++
- include/configs/warp7.h | 6 ++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/configs/warp7.h | 4 +---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/configs/warp7_defconfig b/configs/warp7_defconfig
-index 5b35113..1bffddc 100644
+index a5fb48ff1f..e9bb2c0657 100644
 --- a/configs/warp7_defconfig
 +++ b/configs/warp7_defconfig
-@@ -34,6 +34,8 @@ CONFIG_CMD_FS_GENERIC=y
- CONFIG_OF_CONTROL=y
+@@ -38,6 +38,8 @@ CONFIG_OF_CONTROL=y
  CONFIG_DEFAULT_DEVICE_TREE="imx7s-warp"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
  CONFIG_NET_RANDOM_ETHADDR=y
 +CONFIG_BOOTCOUNT_LIMIT=y
 +CONFIG_BOOTCOUNT_ENV=y
  CONFIG_DFU_MMC=y
- CONFIG_DM_GPIO=y
  CONFIG_DM_I2C=y
+ CONFIG_DM_MMC=y
 diff --git a/include/configs/warp7.h b/include/configs/warp7.h
-index 8ceaa0c..92091d1 100644
+index 39c00480bd..d795fabb1f 100644
 --- a/include/configs/warp7.h
 +++ b/include/configs/warp7.h
-@@ -116,14 +116,12 @@
- #define CONFIG_SYS_I2C_SPEED		100000
+@@ -146,9 +146,7 @@
  
- /* environment organization */
--#define CONFIG_ENV_SIZE			SZ_8K
-+
-+#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
- 
- #define CONFIG_ENV_OFFSET		(8 * SZ_64K)
  #define CONFIG_SYS_FSL_USDHC_NUM	1
  
 -#define CONFIG_SYS_MMC_ENV_DEV		0
 -#define CONFIG_SYS_MMC_ENV_PART		0
 -
- /* USB Configs */
- #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+ 
+ #define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
  
 -- 
-2.7.4
+2.17.1
 
