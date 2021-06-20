@@ -4,6 +4,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 
 SRC_URI = "git://github.com/mendersoftware/mender-update-modules.git"
 
-SRCREV = "c54c5c6d69aaf3e261d316eb1b1f9d6ae45f17a2"
+SRCREV = "54d3ed08a8b3bd0db8166321970bb1e601c2024f"
 
 S = "${WORKDIR}/git"
