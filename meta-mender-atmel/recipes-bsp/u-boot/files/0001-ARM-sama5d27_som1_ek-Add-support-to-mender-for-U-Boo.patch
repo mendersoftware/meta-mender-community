@@ -1,39 +1,51 @@
-From 39d15b16cfd4284b624f87553a7e2c451e33cd12 Mon Sep 17 00:00:00 2001
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Date: Sat, 1 Aug 2020 14:59:22 +0200
+From 2f3f7076c4a930517d5aa353247f3e64c4ae5c4a Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <texier.pj2@gmail.com>
+Date: Fri, 18 Jun 2021 16:00:47 +0200
 Subject: [PATCH] ARM: sama5d27_som1_ek: Add support to mender for U-Boot
  2019.04
 
 Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+[Pierre-Jean Texier: refresh for dunfell]
+Signed-off-by: Pierre-Jean Texier <texier.pj2@gmail.com>
 ---
- configs/sama5d27_som1_ek_mmc_defconfig |  8 ++++++--
+ configs/sama5d27_som1_ek_mmc_defconfig | 10 +++++++---
  include/configs/sama5d27_som1_ek.h     | 12 ++++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+ 2 files changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/configs/sama5d27_som1_ek_mmc_defconfig b/configs/sama5d27_som1_ek_mmc_defconfig
-index cbfc5ef..2a3533d 100644
+index 6713369cb9..103d511e92 100644
 --- a/configs/sama5d27_som1_ek_mmc_defconfig
 +++ b/configs/sama5d27_som1_ek_mmc_defconfig
-@@ -23,7 +23,7 @@ CONFIG_SYS_EXTRA_OPTIONS="SAMA5D2"
+@@ -8,7 +8,8 @@ CONFIG_SPL_LIBCOMMON_SUPPORT=y
+ CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_SYS_MALLOC_F_LEN=0x2000
+ CONFIG_NR_DRAM_BANKS=1
+-CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_SIZE=0x1000
++CONFIG_ENV_OFFSET=0x2000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_TEXT_BASE=0x200000
+ CONFIG_SPL_MMC_SUPPORT=y
+@@ -28,7 +29,7 @@ CONFIG_SYS_EXTRA_OPTIONS="SAMA5D2"
  CONFIG_SD_BOOT=y
  CONFIG_BOOTDELAY=3
  CONFIG_USE_BOOTARGS=y
 -CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait"
 +CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root='${mender_kernel_root}' rw rootwait"
- CONFIG_MISC_INIT_R=y
  # CONFIG_DISPLAY_BOARDINFO is not set
- CONFIG_SPL_SEPARATE_BSS=y
-@@ -39,14 +39,17 @@ CONFIG_CMD_DHCP=y
+ CONFIG_MISC_INIT_R=y
+ CONFIG_HUSH_PARSER=y
+@@ -42,14 +43,17 @@ CONFIG_CMD_DHCP=y
  CONFIG_CMD_PING=y
  CONFIG_CMD_EXT4=y
  CONFIG_CMD_FAT=y
 +CONFIG_CMD_FS_GENERIC=y
  CONFIG_OF_CONTROL=y
  CONFIG_SPL_OF_CONTROL=y
- CONFIG_DEFAULT_DEVICE_TREE="at91-sama5d27_som1_ek"
  CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-parent dmas dma-names"
 -CONFIG_ENV_IS_IN_FAT=y
 +CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
  CONFIG_DM=y
  CONFIG_SPL_DM=y
  CONFIG_SPL_DM_SEQ_ALIAS=y
@@ -42,21 +54,14 @@ index cbfc5ef..2a3533d 100644
  CONFIG_CLK=y
  CONFIG_SPL_CLK=y
  CONFIG_CLK_AT91=y
-@@ -96,4 +99,5 @@ CONFIG_W1=y
- CONFIG_W1_GPIO=y
- CONFIG_W1_EEPROM=y
- CONFIG_W1_EEPROM_DS24XXX=y
-+CONFIG_FAT_WRITE=y
- CONFIG_OF_LIBFDT_OVERLAY=y
 diff --git a/include/configs/sama5d27_som1_ek.h b/include/configs/sama5d27_som1_ek.h
-index f128bdb..480a959 100644
+index 8942d15934..856f7a9142 100644
 --- a/include/configs/sama5d27_som1_ek.h
 +++ b/include/configs/sama5d27_som1_ek.h
-@@ -40,6 +40,18 @@
- #define CONFIG_BOOTCOMMAND	"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x21000000 at91-sama5d27_som1_ek.dtb; " \
- 				"fatload mmc " CONFIG_ENV_FAT_DEVICE_AND_PART " 0x22000000 zImage; " \
+@@ -36,6 +36,18 @@
  				"bootz 0x22000000 - 0x21000000"
-+
+ #endif
+ 
 +#undef CONFIG_ENV_SIZE
 +#undef CONFIG_BOOTCOMMAND
 +
@@ -68,9 +73,10 @@ index f128bdb..480a959 100644
 +	"load ${mender_uboot_root} 0x22000000 /boot/zImage; " \
 +	"bootz 0x22000000 - 0x21000000; " \
 +	"run mender_try_to_recover"
- #endif
- 
- #ifdef CONFIG_QSPI_BOOT
++
+ /* SPL */
+ #define CONFIG_SPL_MAX_SIZE		0x10000
+ #define CONFIG_SPL_BSS_START_ADDR	0x20000000
 -- 
-2.7.4
+2.17.1
 
