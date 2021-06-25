@@ -20,6 +20,7 @@ IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 #
 # Settings for verdin-imx8mm
 #
+MENDER_BOOT_PART_SIZE_MB_verdin-imx8mm = "32"
 OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
 
 #
