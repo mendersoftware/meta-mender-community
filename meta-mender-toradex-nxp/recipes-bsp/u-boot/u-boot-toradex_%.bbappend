@@ -1,6 +1,7 @@
 RPROVIDES_${PN}_mender-uboot += "u-boot"
 
-MENDER_UBOOT_AUTO_CONFIGURE = "0"
+MENDER_UBOOT_AUTO_CONFIGURE = "1"
+MENDER_UBOOT_AUTO_CONFIGURE_colibri-imx7 = "0"
 
 FILESEXTRAPATHS_prepend_mender-uboot := "${THISDIR}/files:"
 SRC_URI_append_mender-uboot_colibri-imx7 = " \
