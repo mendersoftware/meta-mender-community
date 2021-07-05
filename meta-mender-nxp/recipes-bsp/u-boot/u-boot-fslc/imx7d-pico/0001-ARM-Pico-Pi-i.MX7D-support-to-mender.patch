@@ -1,69 +1,52 @@
-From ec904f738ea6c43db6efb05cf83a49461caa6621 Mon Sep 17 00:00:00 2001
-From: Joris Offouga <offougajoris@gmail.com>
-Date: Sun, 1 Sep 2019 21:47:19 +0200
+From 07b83256cfffb8ad7144ae16c52599aa84821f13 Mon Sep 17 00:00:00 2001
+From: Pierre-Jean Texier <texier.pj2@gmail.com>
+Date: Fri, 18 Jun 2021 20:14:34 +0200
 Subject: [PATCH] ARM Pico-Pi i.MX7D support to mender
 
 Signed-off-by: Joris Offouga <offougajoris@gmail.com>
+[Pierre-Jean Texier: refresh patch for dunfell release]
+Signed-off-by: Pierre-Jean Texier <texier.pj2@gmail.com>
 ---
- configs/pico-pi-imx7d_defconfig | 5 ++---
- include/configs/pico-imx7d.h    | 5 -----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ configs/pico-pi-imx7d_defconfig | 4 +++-
+ include/configs/pico-imx7d.h    | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/configs/pico-pi-imx7d_defconfig b/configs/pico-pi-imx7d_defconfig
-index 042affe01b..6bba547ac3 100644
+index c9e6abc7d2..c7d603e298 100644
 --- a/configs/pico-pi-imx7d_defconfig
 +++ b/configs/pico-pi-imx7d_defconfig
-@@ -14,7 +14,6 @@ CONFIG_IMX_RDC=y
- CONFIG_IMX_BOOTAUX=y
+@@ -18,7 +18,7 @@ CONFIG_IMX_BOOTAUX=y
+ CONFIG_SPL_TEXT_BASE=0x00911000
  CONFIG_DISTRO_DEFAULTS=y
  CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/mach-imx/spl_sd.cfg"
 -CONFIG_BOOTCOMMAND="run findfdt; run finduuid; run distro_bootcmd"
++# CONFIG_USE_BOOTCOMMAND is not set
  CONFIG_DEFAULT_FDT_FILE="imx7d-pico-pi.dtb"
  CONFIG_BOUNCE_BUFFER=y
- CONFIG_SPL_TEXT_BASE=0x00911000
-@@ -36,12 +35,13 @@ CONFIG_CMD_MMC=y
- CONFIG_CMD_USB=y
- CONFIG_CMD_USB_SDP=y
- CONFIG_CMD_USB_MASS_STORAGE=y
--# CONFIG_CMD_SETEXPR is not set
- # CONFIG_CMD_MII is not set
- CONFIG_CMD_CACHE=y
- CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_SPL_I2C_SUPPORT=y
+@@ -47,6 +47,8 @@ CONFIG_CMD_EXT4_WRITE=y
  CONFIG_OF_CONTROL=y
  CONFIG_DEFAULT_DEVICE_TREE="imx7d-pico-pi"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
 +CONFIG_BOOTCOUNT_LIMIT=y
 +CONFIG_BOOTCOUNT_ENV=y
  CONFIG_DFU_MMC=y
  CONFIG_USB_FUNCTION_FASTBOOT=y
  CONFIG_FASTBOOT_BUF_ADDR=0x82000000
-@@ -65,4 +65,3 @@ CONFIG_USB_GADGET_MANUFACTURER="FSL"
- CONFIG_USB_GADGET_VENDOR_NUM=0x0525
- CONFIG_USB_GADGET_PRODUCT_NUM=0xa4a5
- CONFIG_CI_UDC=y
--CONFIG_VIDEO=y
 diff --git a/include/configs/pico-imx7d.h b/include/configs/pico-imx7d.h
-index 91015402ef..a0edfa89a0 100644
+index 4dc206566e..18fcee9efc 100644
 --- a/include/configs/pico-imx7d.h
 +++ b/include/configs/pico-imx7d.h
-@@ -173,8 +173,6 @@
- #define CONFIG_VIDEO_BMP_LOGO
- #endif
- 
--/* FLASH and environment organization */
--#define CONFIG_ENV_SIZE			SZ_8K
- 
- /* Environment starts at 768k = 768 * 1024 = 786432 */
- #define CONFIG_ENV_OFFSET		786432
-@@ -191,9 +189,6 @@
+@@ -168,8 +168,7 @@
  
  #define CONFIG_SYS_FSL_USDHC_NUM		2
  
 -#define CONFIG_SYS_MMC_ENV_DEV			0
 -#define CONFIG_SYS_MMC_ENV_PART		0
--
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+ 
  /* USB Configs */
  #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
- #define CONFIG_MXC_USB_PORTSC			(PORT_PTS_UTMI | PORT_PTS_PTW)
 -- 
 2.17.1
 
