@@ -1,7 +1,7 @@
 
 # Appended fragment from meta-mender-community/meta-mender-toradex-nxp/templates
 
-MACHINE = "verdin-imx8mm"
+INHERIT += "mender-toradex"
 
 # Comment/remove below to enable GRUB integration instead of U-Boot
 MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
@@ -14,13 +14,25 @@ IMAGE_FSTYPES_remove = " teziimg"
 # Default is Image.gz, which is not compatible with GRUB
 KERNEL_IMAGETYPE_aarch64_mender-grub = "Image"
 
-# Nothing in boot part, just GRUB. Kernel and DTB is in /boot directory of
-# rootfs image
-IMAGE_BOOT_FILES = ""
-
-# boot.scr conflicts when using GRUB, it is added using _append which is why
-# it is not covered by previous statement.
+# boot.scr conflicts when using GRUB
 IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 
-# No SPL, otherwise this gets included in tezi image
+#
+# Settings for verdin-imx8mm
+#
+MENDER_BOOT_PART_SIZE_MB_verdin-imx8mm = "32"
 OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
+
+#
+# Settings for colibri-imx6ull
+#
+INHERIT_remove_colibri-imx6ull = " mender-full "
+INHERIT_append_colibri-imx6ull = " mender-full-ubi "
+IMAGE_FSTYPES_remove_colibri-imx6ull = " mtdimg teziimg"
+MENDER_MTDIDS = "${@bb.utils.contains('MACHINE', 'colibri-imx6ull', 'nand0=gpmi-nand', '', d)}"
+MENDER_MTDPARTS_colibri-imx6ull = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,-(ubi)"
+MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx6ull = "512"
+MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
+MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
+MENDER_FEATURES_ENABLE_remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
+MENDER_FEATURES_DISABLE_append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"

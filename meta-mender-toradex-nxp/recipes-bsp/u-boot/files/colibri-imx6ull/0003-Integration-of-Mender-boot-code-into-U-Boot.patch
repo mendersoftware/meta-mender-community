@@ -1,36 +1,39 @@
-From c6cb320ad3c4b0b85ed88644045e20ca46f1fc44 Mon Sep 17 00:00:00 2001
-From: Drew Moseley <drew@moseleynet.net>
-Date: Thu, 17 Jun 2021 16:31:36 -0400
-Subject: [PATCH] Integration of Mender boot code into toradex U-Boot
+From 1ffcd420fd1f68ac11195de4b6aac3a9f162c808 Mon Sep 17 00:00:00 2001
+From: Marcin Pasinski <marcin.pasinski@northern.tech>
+Date: Wed, 31 Jan 2018 18:10:04 +0100
+Subject: [PATCH] Integration of Mender boot code into U-Boot.
 
-Signed-off-by: Drew Moseley <drew@moseleynet.net>
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+Signed-off-by: Marcin Pasinski <marcin.pasinski@northern.tech>
 ---
- include/env_default.h     | 2 ++
+ include/env_default.h     | 3 +++
  scripts/Makefile.autoconf | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/include/env_default.h b/include/env_default.h
-index 56a8bae39a0..b6cd139ce81 100644
+index a657927e06f..8b7442c04de 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
-@@ -8,6 +8,7 @@
-  */
- 
+@@ -10,6 +10,8 @@
  #include <env_callback.h>
-+#include <env_mender.h>
+ #include <linux/stringify.h>
  
++#include <env_mender.h>
++
  #ifdef DEFAULT_ENV_INSTANCE_EMBEDDED
  env_t embedded_environment __UBOOT_ENV_SECTION__(environment) = {
-@@ -21,6 +22,7 @@ static char default_environment[] = {
+ 	ENV_CRC,	/* CRC Sum */
+@@ -22,6 +24,7 @@ static char default_environment[] = {
  #else
  const uchar default_environment[] = {
  #endif
-+MENDER_ENV_SETTINGS
++	MENDER_ENV_SETTINGS
  #ifndef CONFIG_USE_DEFAULT_ENV_FILE
  #ifdef	CONFIG_ENV_CALLBACK_LIST_DEFAULT
  	ENV_CALLBACK_VAR "=" CONFIG_ENV_CALLBACK_LIST_DEFAULT "\0"
 diff --git a/scripts/Makefile.autoconf b/scripts/Makefile.autoconf
-index 00b8fb34aa7..d500c48405b 100644
+index 00b8fb34aa7..e312c8037dc 100644
 --- a/scripts/Makefile.autoconf
 +++ b/scripts/Makefile.autoconf
 @@ -109,7 +109,8 @@ define filechk_config_h
@@ -38,7 +41,7 @@ index 00b8fb34aa7..d500c48405b 100644
  	echo \#include \<asm/config.h\>;				\
  	echo \#include \<linux/kconfig.h\>;				\
 -	echo \#include \<config_fallbacks.h\>;)
-+	echo \#include \<config_fallbacks.h\>;			\
++	echo \#include \<config_fallbacks.h\>;				\
 +	echo \#include \<config_mender.h\>;)
  endef
  

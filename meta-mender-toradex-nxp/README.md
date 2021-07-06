@@ -77,7 +77,7 @@ MACHINE=colibri-imx6ull bitbake tdx-reference-minimal-image
 
 The authors and maintainers of this layer are:
 
-- Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
+- Drew Moseley - <drew.moseley@toradex.com> - [drewmoseley](https://github.com/drewmoseley)
 - Ricardo Sanchez - <ricardo.sanchez@aerin.es>
 - Adrian Antonana - <adrian.antonana@plating.de>
 
