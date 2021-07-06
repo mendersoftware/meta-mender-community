@@ -1,0 +1,46 @@
+From 7dcb075779f1c255146aa349cd66a906ce7ab63d Mon Sep 17 00:00:00 2001
+From: Samuli Piippo <samuli.piippo@qt.io>
+Date: Fri, 19 May 2017 12:41:38 +0300
+Subject: [PATCH] apalis-imx6: test for Capacitive Touch Display 7" Parallel
+
+Test i2c bus if Capacitive Touch Display 7" Parallel display is present
+during boot. If found, enable it as the primary display in kernel args.
+
+Set imx6q-apalis-ixora-v1.1.dtb as the default dtb, as it provides
+support for the atmel_mxt_ts touch controller.
+---
+ include/configs/apalis_imx6.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/include/configs/apalis_imx6.h b/include/configs/apalis_imx6.h
+index db37fa7b731..3190aa881ca 100644
+--- a/include/configs/apalis_imx6.h
++++ b/include/configs/apalis_imx6.h
+@@ -198,7 +198,7 @@
+ 
+ 
+ #ifndef CONFIG_TDX_APALIS_IMX6_V1_0
+-#define FDT_FILE "imx6q-apalis-eval.dtb"
++#define FDT_FILE "imx6q-apalis-ixora-v1.1.dtb"
+ #define FDT_FILE_V1_0 "imx6q-apalis_v1_0-eval.dtb"
+ #else
+ #define FDT_FILE "imx6q-apalis_v1_0-eval.dtb"
+@@ -228,9 +228,14 @@
+ 		"|| setenv drive 2; mmc rescan; load ${interface} ${drive}:1" \
+ 		" ${loadaddr} flash_blk.img && " \
+ 		"source ${loadaddr}\0" \
+-	"setup=setenv setupargs fec_mac=${ethaddr} " \
++	"setup=run setupvideo; setenv setupargs fec_mac=${ethaddr} " \
+ 		"consoleblank=0 no_console_suspend=1 console=tty1 " \
+ 		"console=${console},${baudrate}n8\0 " \
++	"setupvideo=i2c dev 0; if i2c probe 4A; " \
++		"then setenv vidargs mxc_hdmi.only_cea=1 " \
++		"video=mxcfb0:dev=lcd,FusionF07A,if=RGB24 " \
++		"video=mxcfb1:off video=mxcfb2:off video=mxcfb3:off " \
++		"fbmem=32M; fi\0" \
+ 	"setupdate=run setsdupdate || run setusbupdate || run setethupdate\0" \
+ 	"setusbupdate=usb start && setenv interface usb; setenv drive 0; " \
+ 		"load ${interface} ${drive}:1 ${loadaddr} flash_blk.img && " \
+-- 
+2.32.0
+

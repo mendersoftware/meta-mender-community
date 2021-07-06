@@ -2,11 +2,11 @@
 # Based largely on meta-toradex-bsp-common/classes/image_type_tezi.bbclass
 
 # Make sure the full Mender multi-partition image is available
-IMAGE_TYPEDEP_mender_tezi_append = "${@bb.utils.contains('IMAGE_FSTYPES', 'sdimg', ' sdimg.bz2', '', d)} \
-                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'ubimg', ' ubimg.bz2', '', d)} \
-                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'gptimg', ' gptimg.bz2', '', d)} \
-                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'uefiimg', ' uefiimg.bz2', '', d)} \
-                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'biosimg', ' biosimg.bz2', '', d)}"
+IMAGE_TYPEDEP_mender_tezi_append = "${@bb.utils.contains('IMAGE_FSTYPES', 'sdimg', ' sdimg.xz', '', d)} \
+                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'ubimg', ' ubimg.xz', '', d)} \
+                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'gptimg', ' gptimg.xz', '', d)} \
+                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'uefiimg', ' uefiimg.xz', '', d)} \
+                                       ${@bb.utils.contains('IMAGE_FSTYPES', 'biosimg', ' biosimg.xz', '', d)}"
 
 # Figure out what type of image we are basing this on
 FULL_IMAGE_SUFFIX = ""
@@ -82,7 +82,7 @@ def rootfs_mender_tezi_emmc(d):
               "content": {
                   "rawfiles": [
                       {
-                          "filename": "%s.%s.bz2" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
+                          "filename": "%s.%s.xz" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
                       }
                   ]
               }
@@ -125,7 +125,7 @@ def rootfs_mender_tezi_rawnand(d):
           "name": "ubi",
           "content": {
             "rawfile": {
-              "filename": "%s.%s.bz2" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
+              "filename": "%s.%s.xz" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
             }
           }
         })
@@ -180,7 +180,7 @@ IMAGE_CMD_mender_tezi () {
 		     -chf ${IMGDEPLOYDIR}/${IMAGE_NAME}.mender_tezi.tar \
 		     ${WORKDIR}/image-json/image.json ${DEPLOY_DIR_IMAGE}/mender-tezi-metadata/* \
 		     $uboot_files \
-		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}.bz2
+		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}.xz
     ln -sf ${IMAGE_NAME}.mender_tezi.tar ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar
 }
 do_image_mender_tezi[dirs] += "${WORKDIR}/image-json ${DEPLOY_DIR_IMAGE}"
