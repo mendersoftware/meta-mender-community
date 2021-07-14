@@ -51,11 +51,3 @@ MACHINE=raspberrypi3 bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The authors and maintainers of this layer are:
-
-- Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
-- Drew Moseley - <drew.moseley@northern.tech> - [drewmoseley](https://github.com/drewmoseley)
-
-Always include the maintainers when suggesting code changes to this layer.

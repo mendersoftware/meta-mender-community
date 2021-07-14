@@ -54,11 +54,3 @@ MACHINE=imx7s-warp bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The author(s) and maintainer(s) of this layer are:
-
-- Pierre-Jean Texier - <texier.pj2@gmail.com> - [texierp](https://github.com/texierp)
-- Joris Offouga - <offougajoris@gmail.com> - [jorisoffouga](https://github.com/jorisoffouga)
-
-Always include the maintainers when suggesting code changes to this layer.

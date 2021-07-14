@@ -39,14 +39,6 @@ See the mender hub pages and the documentation for the `tegrademo-mender`
 distro on the [tegra-demo-distro](https://github.com/OE4T/tegra-demo-distro) repository
 for the most up to date instructions on starting out with mender and tegra.
 
-## Maintainer
-
-The author and maintainer of this layer is:
-
-- Dan Walkes - <danwalkes@trellis-logic.com> - [dwalkes](https://github.com/dwalkes)
-
-Always include the maintainers when suggesting code changes to this layer.
-
 ## Acknowlegements
 
 Special thanks to [Matt Madison](https://github.com/madisongh) for his contributions to
