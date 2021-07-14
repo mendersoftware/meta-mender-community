@@ -60,14 +60,6 @@ MACHINE=jetson-nano-qspi-sd bitbake core-image-base
 
 depending on the hardware platform in use.  See [meta-tegra release notes](https://github.com/madisongh/meta-tegra/wiki/L4T-R32.3.1-Notes) for details.
 
-## Maintainer
-
-The author and maintainer of this layer is:
-
-- Dan Walkes - <danwalkes@trellis-logic.com> - [dwalkes](https://github.com/dwalkes)
-
-Always include the maintainers when suggesting code changes to this layer.
-
 ## Acknowlegements
 
 Special thanks to [Matt Madison](https://github.com/madisongh) for his contributions to support zeus and later branches,

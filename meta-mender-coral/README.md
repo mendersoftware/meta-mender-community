@@ -44,10 +44,3 @@ MACHINE=coral-dev bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The authors and maintainers of this layer are:
-
-- Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
-
-Always include the maintainers when suggesting code changes to this layer.
