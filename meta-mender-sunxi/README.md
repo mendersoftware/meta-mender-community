@@ -51,11 +51,3 @@ MACHINE=orange-pi-zeo bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The authors and maintainers of this layer are:
-
-- Mirza Krak - <mirza.krak@northern.tech> - [mirzak](https://github.com/mirzak)
-- Marek Belisko - <marek.belisko@gmail.com> - [nandra](https://github.com/nandra)
-
-Always include the maintainers when suggesting code changes to this layer. Mender integration for SUNXI boards

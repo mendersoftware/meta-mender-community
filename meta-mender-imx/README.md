@@ -65,10 +65,3 @@ To contribute to the development of this BSP and/or submit patches for new board
   Path: sources/meta-mender-community/meta-mender-imx  
   GIT: https://github.com/mendersoftware/meta-mender-community.git
 
-## Maintainer
-
-The author(s) and maintainer(s) of this layer is(are):
-
-- Daniel Selvan D - <daniel.selvan@jasmin-infotech.com> - [danie007](https://github.com/danie007)
-
-Always include the maintainers when suggesting code changes to this layer.

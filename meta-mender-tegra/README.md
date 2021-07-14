@@ -51,10 +51,3 @@ MACHINE=jetson-nano bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The author and maintainer of this layer is:
-
-- Dan Walkes - <danwalkes@trellis-logic.com> - [dwalkes](https://github.com/dwalkes)
-
-Always include the maintainers when suggesting code changes to this layer.
