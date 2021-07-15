@@ -38,10 +38,3 @@ MACHINE=imx8mnevk bitbake core-image-base
 ```
 
 
-## Maintainer
-
-The author(s) and maintainer(s) of this layer are:
-
-- Drew Moseley - <drew.moseley@northern.tech> - [drewmoseley](https://github.com/drewmoseley)
-
-Always include the maintainers when suggesting code changes to this layer.
