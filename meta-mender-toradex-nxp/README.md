@@ -73,12 +73,3 @@ MACHINE=colibri-imx6ull bitbake tdx-reference-minimal-image
 - Current mender integration uses ubi volumes to store the redundant environment, this is why the regular u-boot-env partition has been removed from the MTDPARTS
 
 
-## Maintainer
-
-The authors and maintainers of this layer are:
-
-- Drew Moseley - <drew.moseley@toradex.com> - [drewmoseley](https://github.com/drewmoseley)
-- Ricardo Sanchez - <ricardo.sanchez@aerin.es>
-- Adrian Antonana - <adrian.antonana@plating.de>
-
-Always include the maintainers when suggesting code changes to this layer.
