@@ -1,4 +1,4 @@
-From 2919236e8f459d39f6dc904d5ad45c3b78df78a3 Mon Sep 17 00:00:00 2001
+From e6a9d3cd8bec8af068422e4168d4ae548f416211 Mon Sep 17 00:00:00 2001
 From: Adrian Antonana <adrian.antonana@plating.de>
 Date: Wed, 31 Mar 2021 10:21:42 +0200
 Subject: [PATCH] colibri imx6ull mender manual U-Boot integration
@@ -76,5 +76,5 @@ index 944c44930e9..913a32502b6 100644
  
  #if defined(CONFIG_TARGET_COLIBRI_IMX6ULL_NAND)
 -- 
-2.34.1
+2.36.1
 

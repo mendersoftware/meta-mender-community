@@ -1,4 +1,4 @@
-From cbabecb5f3a277f9e0f875ccaa0ae280fafb6605 Mon Sep 17 00:00:00 2001
+From d89ac1a7f228f957e22ccc2d0421d379f1650f49 Mon Sep 17 00:00:00 2001
 From: pagi <paul.giangrossi@qamcom.se>
 Date: Fri, 9 Jul 2021 08:29:09 +0200
 Subject: [PATCH] 0001-configs-toradex-board-specific-mender-integration
@@ -43,5 +43,5 @@ index d77b8ab5060..bbd4a7aaa59 100644
 -
  #endif	/* __CONFIG_H */
 -- 
-2.33.1
+2.33.0
 
