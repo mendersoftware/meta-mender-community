@@ -8,3 +8,16 @@ toradex_mender_update_fstab_file() {
     grep -v /dev/boot-part ${IMAGE_ROOTFS}${sysconfdir}/fstab > ${IMAGE_ROOTFS}${sysconfdir}/fstab.toradex
     mv ${IMAGE_ROOTFS}${sysconfdir}/fstab.toradex ${IMAGE_ROOTFS}${sysconfdir}/fstab
 }
+
+addhandler mender_tezi_sanity_handler
+mender_tezi_sanity_handler[eventmask] = "bb.event.ParseCompleted"
+python mender_tezi_sanity_handler() {
+  if d.getVar('FULL_IMAGE_SUFFIX') == "":
+    bb.fatal("Unable to determine FULL_IMAGE_SUFFIX for use with mender_tezi images.")
+
+  menderOffset = d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET")
+  bootromPayload = d.getVar("OFFSET_BOOTROM_PAYLOAD")
+  if (menderOffset != None) and (bootromPayload != None) and (menderOffset != bootromPayload):
+    bb.fatal("Error.  MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET (%s) != OFFSET_BOOTROM_PAYLOAD (%s)" % \
+             (d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET"), d.getVar("OFFSET_BOOTROM_PAYLOAD")))
+}
