@@ -15,10 +15,6 @@ FULL_IMAGE_SUFFIX_mender-image-ubi = "ubimg"
 FULL_IMAGE_SUFFIX_mender-image-uefi = "uefiimg"
 FULL_IMAGE_SUFFIX_mender-image-bios = "biosimg"
 FULL_IMAGE_SUFFIX_mender-image-gpt = "gptimg"
-python () {
-   if d.getVar('FULL_IMAGE_SUFFIX') == "":
-       bb.fatal("Unable to determine FULL_IMAGE_SUFFIX for use with mender_tezi images.")
-}
 
 # Do not include these image types:
 IMAGE_FSTYPES_remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz"
@@ -27,14 +23,6 @@ WKS_FILE_DEPENDS_append = " mender-tezi-metadata "
 
 do_image_mender_tezi[recrdeptask] += "do_deploy"
 RM_WORK_EXCLUDE += "${PN}"
-
-python() {
-  menderOffset = d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET")
-  bootromPayload = d.getVar("OFFSET_BOOTROM_PAYLOAD")
-  if (menderOffset != None) and (bootromPayload != None) and (menderOffset != bootromPayload):
-      bb.fatal("Error.  MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET (%s) != OFFSET_BOOTROM_PAYLOAD (%s)" % \
-                  (d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET"), d.getVar("OFFSET_BOOTROM_PAYLOAD")))
-}
 
 def rootfs_mender_tezi_emmc(d):
     from collections import OrderedDict
