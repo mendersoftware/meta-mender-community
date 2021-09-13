@@ -8,6 +8,7 @@ MENDER_RESERVED_SPACE_BOOTLOADER_DATA_mender-uboot_colibri-imx6ull ="0x40000"
 BOOTENV_SIZE_mender-uboot_colibri-imx6ull = "0x20000"
 
 RPROVIDES_${PN} += "u-boot"
+PROVIDES += "u-boot-default-env"
 
 # Apply custom patches for Toradex u-boot
 SRC_URI_append_mender-uboot = " \
