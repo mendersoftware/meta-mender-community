@@ -9,6 +9,7 @@ BOOTENV_SIZE_mender-uboot_colibri-imx6ull = "0x20000"
 
 PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot-default-env","",d)}"
 RPROVIDES:${PN} += "${@mender_feature_is_enabled("mender-uboot","u-boot","",d)}"
+PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot-default-env","",d)}"
 
 # Apply custom patches for Toradex u-boot
 SRC_URI:append_mender-uboot = " \
