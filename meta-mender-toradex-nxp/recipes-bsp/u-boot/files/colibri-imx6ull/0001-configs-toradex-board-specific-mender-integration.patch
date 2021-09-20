@@ -1,4 +1,4 @@
-From 4258db20b402248697a7bed92ca0f3a0206cdea5 Mon Sep 17 00:00:00 2001
+From 566fe92bd4290ad2a6fbde60df38be267a6d3e89 Mon Sep 17 00:00:00 2001
 From: Adrian Antonana <adrian.antonana@plating.de>
 Date: Wed, 31 Mar 2021 10:21:42 +0200
 Subject: [PATCH] colibri imx6ull mender manual U-Boot integration
@@ -45,12 +45,12 @@ index fa2e1203ac1..8aeb2589884 100644
 +CONFIG_ENV_UBI_VOLUME="u-boot-env-1"
 +CONFIG_ENV_UBI_VOLUME_REDUND="u-boot-env-2"
 diff --git a/include/configs/colibri-imx6ull.h b/include/configs/colibri-imx6ull.h
-index 6e896940161..b2cc5257899 100644
+index d7bac0a6bda..17d864331fc 100644
 --- a/include/configs/colibri-imx6ull.h
 +++ b/include/configs/colibri-imx6ull.h
-@@ -50,18 +50,20 @@
- 		"nand write ${loadaddr} u-boot2 ${filesize}\0"
- 
+@@ -63,19 +63,21 @@
+                 "bootm ${ramdisk_addr_r}\0"
+ #else /* CONFIG_TDX_EASY_INSTALLER */
  #define UBI_BOOTCMD \
 -	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
 +	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} rw rootfstype=ubifs " \
@@ -62,13 +62,14 @@ index 6e896940161..b2cc5257899 100644
 -		"ubi part ubi &&" \
 -		"ubi read ${kernel_addr_r} kernel && " \
 -		"ubi read ${fdt_addr_r} dtb && " \
--		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
 +		"run mender_setup; "                                   \
 +		"ubi part ${mender_mtd_ubi_dev_name} && "              \
 +		"ubifsmount ${mender_uboot_root_name} && "             \
 +		"ubifsload ${kernel_addr_r} /boot/zImage && "          \
 +		"ubifsload ${fdt_addr_r} /boot/${fdtfile} && "         \
 +		"bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
+ #endif /* CONFIG_TDX_EASY_INSTALLER */
  
  /* Run Distro Boot script if ubiboot fails */
 -#define CONFIG_BOOTCOMMAND "run ubiboot || run distro_bootcmd;"
@@ -77,5 +78,5 @@ index 6e896940161..b2cc5257899 100644
  #define BOOT_TARGET_DEVICES(func) \
  	func(MMC, mmc, 0) \
 -- 
-2.32.0
+2.33.0
 

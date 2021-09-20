@@ -1,22 +1,24 @@
-From a7e42482fc42c0fd9b6243003391e2b346d30b98 Mon Sep 17 00:00:00 2001
+From e5afdc987426f1feb07c4378e0670af9d7cd8d99 Mon Sep 17 00:00:00 2001
 From: pagi <paul.giangrossi@qamcom.se>
 Date: Fri, 9 Jul 2021 08:29:09 +0200
 Subject: [PATCH] 0001-configs-toradex-board-specific-mender-integration
 
 ---
- configs/apalis-imx8_defconfig | 4 +++-
+ configs/apalis-imx8_defconfig | 6 ++++--
  include/configs/apalis-imx8.h | 4 ----
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/configs/apalis-imx8_defconfig b/configs/apalis-imx8_defconfig
-index e213b6b42d..b72f651697 100644
+index 1cd29946228..44cc7ea6148 100644
 --- a/configs/apalis-imx8_defconfig
 +++ b/configs/apalis-imx8_defconfig
-@@ -3,7 +3,9 @@ CONFIG_ARCH_IMX8=y
+@@ -2,8 +2,10 @@ CONFIG_ARM=y
+ CONFIG_ARCH_IMX8=y
  CONFIG_SYS_TEXT_BASE=0x80020000
  CONFIG_SYS_MALLOC_F_LEN=0x8000
- CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_SIZE=0x2000
 -CONFIG_ENV_OFFSET=0xFFFFDE00
++CONFIG_ENV_SIZE=0x4000
 +CONFIG_ENV_OFFSET=0x800000
 +CONFIG_ENV_OFFSET_REDUND=0x1000000
 +CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
@@ -24,10 +26,10 @@ index e213b6b42d..b72f651697 100644
  CONFIG_BOOTAUX_RESERVED_MEM_BASE=0x88000000
  CONFIG_BOOTAUX_RESERVED_MEM_SIZE=0x08000000
 diff --git a/include/configs/apalis-imx8.h b/include/configs/apalis-imx8.h
-index 7c04a4e3e7..224d895cd1 100644
+index ad859cb6b62..2b5989ba31f 100644
 --- a/include/configs/apalis-imx8.h
 +++ b/include/configs/apalis-imx8.h
-@@ -126,10 +126,6 @@
+@@ -133,10 +133,6 @@
  #define CONFIG_SYS_MEMTEST_START	0x90000000
  #define CONFIG_SYS_MEMTEST_END		0xc0000000
  
@@ -38,3 +40,6 @@ index 7c04a4e3e7..224d895cd1 100644
  #define CONFIG_SYS_MMC_IMG_LOAD_PART	1
  
  /* On Apalis iMX8 USDHC1 is eMMC, USDHC2 is 8-bit and USDHC3 is 4-bit MMC/SD */
+-- 
+2.33.0
+
