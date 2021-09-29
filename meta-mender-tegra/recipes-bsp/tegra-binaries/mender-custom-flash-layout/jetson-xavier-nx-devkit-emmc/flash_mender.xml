@@ -214,7 +214,7 @@
             <description> **Required.** Slot B; contains slot status for A/B boot and A/B
               update. </description>
         </partition>
-        <partition name="xusb-fw" type="xusb_fw">
+        <partition name="xusb-fw" type="xusb_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 196608 </size>
@@ -226,7 +226,7 @@
             <description> **Required.** Slot A; contains XUSB module’s firmware file, making XUSB
               a true USB 3.0 compliant host controller. </description>
         </partition>
-        <partition name="xusb-fw_b" type="xusb_fw">
+        <partition name="xusb-fw_b" type="xusb_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 196608 </size>
