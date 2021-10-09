@@ -36,6 +36,9 @@ MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
 MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
 MENDER_FEATURES_ENABLE_remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
 MENDER_FEATURES_DISABLE_append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
+MENDER_RESERVED_SPACE_BOOTLOADER_DATA_colibri-imx6ull ="0x40000"
+MENDER_DATA_PART_SIZE_MB_colibri-imx6ull = "16"
+
 #
 # Settings for apalis-imx8
 #

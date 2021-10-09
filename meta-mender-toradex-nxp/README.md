@@ -65,7 +65,7 @@ MACHINE=verdin-imx8mm bitbake tdx-reference-minimal-image
 
 ## For colibri-imx6ull use the following procedure
 ```
-cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append.colibri-imx6ull >> conf/local.conf
+cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append  >> conf/local.conf
 
 MACHINE=colibri-imx6ull bitbake tdx-reference-minimal-image
 ```
