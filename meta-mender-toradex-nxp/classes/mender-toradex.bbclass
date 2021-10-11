@@ -21,3 +21,5 @@ python mender_tezi_sanity_handler() {
     bb.fatal("Error.  MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET (%s) != OFFSET_BOOTROM_PAYLOAD (%s)" % \
              (d.getVar("MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET"), d.getVar("OFFSET_BOOTROM_PAYLOAD")))
 }
+
+PREFERRED_RPROVIDER_u-boot-default-env = "u-boot-toradex"

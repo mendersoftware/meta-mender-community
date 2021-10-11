@@ -43,4 +43,10 @@ MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_apalis-imx8 = "0"
 MENDER_BOOT_PART_SIZE_MB_apalis-imx8 = "32"
 OFFSET_SPL_PAYLOAD_apalis-imx8 = ""
 MENDER_STORAGE_DEVICE_apalis-imx8 = "/dev/mmcblk0"
-MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "12288"
+MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "2048"
+#
+# Settings for apalis-imx6
+#
+MENDER_STORAGE_DEVICE_apalis-imx6 = "/dev/mmcblk2"
+MENDER_UBOOT_STORAGE_DEVICE_apalis-imx6 = "0"
+MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx6 = "2048"
