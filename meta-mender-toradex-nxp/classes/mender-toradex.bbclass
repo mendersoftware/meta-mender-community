@@ -23,3 +23,6 @@ python mender_tezi_sanity_handler() {
 }
 
 PREFERRED_RPROVIDER_u-boot-default-env = "u-boot-toradex"
+
+TORADEX_BSP_VERSION ??= "toradex-bsp-5.3.0"
+MACHINEOVERRIDES =. "${TORADEX_BSP_VERSION}:"
