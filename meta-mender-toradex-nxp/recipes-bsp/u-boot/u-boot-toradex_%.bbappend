@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend_mender-uboot := "${THISDIR}/files:"
+FILESEXTRAPATHS_prepend_mender-uboot := "${THISDIR}/files:${THISDIR}/files/${TORADEX_BSP_VERSION}:"
 
 require recipes-bsp/u-boot/u-boot-mender.inc
 
