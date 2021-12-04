@@ -55,6 +55,16 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIF
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_xavier-nx = "11"
 
+# Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit = "3"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit = "2"
+# Machine name changed for Nano-eMMC in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "19"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "18"
+# Added in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "4"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "2"
+
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
 
@@ -111,7 +121,9 @@ def tegra_mender_calc_total_size(d):
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
-TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT = "1024"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT_jetson-nano-2gb-devkit = "5120"
+TEGRA_MENDER_RESERVED_SPACE_MB ?= "${TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)}"
 
 def tegra_mender_uboot_feature(d):
