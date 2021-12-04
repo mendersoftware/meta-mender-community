@@ -122,3 +122,9 @@ def tegra_mender_uboot_feature(d):
 _MENDER_IMAGE_DEPS_EXTRA = ""
 _MENDER_IMAGE_DEPS_EXTRA_tegra = "tegra-state-scripts:do_deploy"
 do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
+
+# mender-setup-image adds kernel-image and kernel-devicetree
+# to MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but they should *not*
+# be included by default on cboot platforms.
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra194 = "kernel-image kernel-devicetree"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
