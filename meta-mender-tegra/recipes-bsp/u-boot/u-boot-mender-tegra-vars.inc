@@ -14,7 +14,10 @@ BOOTENV_SIZE ?= "${TEGRA_MENDER_BOOTENV_SIZE_DEFAULT}"
 # partition when using SPI flash.  Otherwise, we use the location of
 # the ENV partition on the SDcard - 0xC00000 (12582912).
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_tegra186 = "3911680"
-MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_tegra210 = "${@'3866624' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '3911680'}"
+# Env offset changed on t210 eMMC platforms in L4T R32.5.x and later
+TEGRA_210_EMMC_UBOOT_ENV_OFFSET_l4t-mender-32-4-3 = "3911680"
+TEGRA_210_EMMC_UBOOT_ENV_OFFSET = "3801088"
+MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_tegra210 = "${@'3866624' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '${TEGRA_210_EMMC_UBOOT_ENV_OFFSET}'}"
 MENDER_UBOOT_MMC_ENV_LINUX_DEVICE_PATH_tegra210 = "${@'/dev/mtd0' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else mender_get_uboot_env_mmc_linux_device_path(d)}"
 
 # Optionally use SDcard instead of SPI flash on Jetson Nano dev kits.
