@@ -22,5 +22,6 @@ do_install() {
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 RPROVIDES_${PN} += "libubootenv-bin u-boot-fw-utils"
+RDEPENDS_${PN} = "tegra-boot-tools"
 RCONFLICTS_${PN} = "libubootenv-bin"
 RREPLACES_${PN} = "libubootenv-bin"
