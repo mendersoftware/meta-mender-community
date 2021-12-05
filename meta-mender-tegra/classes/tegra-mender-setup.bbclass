@@ -140,3 +140,15 @@ do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 # be included by default on cboot platforms.
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra194 = "kernel-image kernel-devicetree"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+
+# Compatibility settings for handling the machine name changes
+# made in L4T R32.5.x, to allow for upgrades.  This does not
+# include jetson-nano-qspi-sd (now jetson-nano-devkit) due to
+# major changes in the flash layout.
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx1-devkit = " jetson-tx1"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit = " jetson-tx2"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-tx2i = " jetson-tx2i"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit = " jetson-xavier"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-nano-devkit-emmc = " jetson-nano-emmc"
