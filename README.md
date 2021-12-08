@@ -25,6 +25,7 @@ There are multiple types of layers included here.
 
 SoC-oriented:
 
+- meta-amlogic
 - meta-freescale
 - meta-sunxi
 - meta-rockchip
