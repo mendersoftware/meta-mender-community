@@ -3,7 +3,7 @@
 LABELCHARS="AB"
 
 echo "Verifying Tegra bootloader update"
-curslot=`nvbootctrl get-current-slot`
+curslot=`nvbootctrl get-current-slot 2>/dev/null || tegra-boot-control --current-slot 2>/dev/null`
 cfglbl="\"RootfsPart${LABELCHARS:$curslot:1}\""
 devnam=`grep -h "$cfglbl:" /etc/mender/mender.conf /var/lib/mender/mender.conf | cut -d: -f2 | cut -d, -f1 | tr -d '" '`
 if [ -z "$devnam" ]; then
@@ -14,7 +14,8 @@ fi
 # If the rootfs partitions are eMMC/SDcard device names, verify that
 # the mender boot partition in U-Boot and the Tegra bootloader boot
 # slot match.  If not, the Tegra bootloader update failed, and we
-# need to have Mender roll us back.
+# need to reset the boot slot to get the Tegra bootloader and Mender
+# resynchronized.
 if [ "${devnam##/dev/mmcblk}" != "${devnam}" ]; then
     bootpart=`fw_printenv -n mender_boot_part`
     if [ -z "$bootpart" ]; then
@@ -27,7 +28,10 @@ if [ "${devnam##/dev/mmcblk}" != "${devnam}" ]; then
 	exit 1
     fi
     if [ $bootpart -ne $devnampart ]; then
-	echo "Detected Tegra bootloader upgrade failure" >&2
+	altslot=$(expr 1 - $curslot)
+	echo "Detected Tegra bootloader upgrade failure, resetting boot slot to $altslot" >&2
+	echo "*** Reboot required ***" >&2
+	tegra-boot-control --set-active $altslot
 	exit 1
     fi
 fi

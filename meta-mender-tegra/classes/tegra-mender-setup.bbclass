@@ -1,3 +1,16 @@
+inherit l4t_bsp
+
+python () {
+    # insert l4t-mender-<version> as a machine-specific override for tegra platforms
+    machine_overrides = d.getVar('MACHINEOVERRIDES', False).split(':')
+    try:
+        i = machine_overrides.index('tegra')
+        l4t_ver = 'l4t-mender-%s' % d.getVar('L4T_VERSION').replace('.','-')
+        d.setVar('MACHINEOVERRIDES', ':'.join(machine_overrides[:i] + [l4t_ver] + machine_overrides[i:]))
+    except ValueError:
+        pass
+}
+
 def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
     return calc_rootfs_size_kb * 1024
 
@@ -41,6 +54,16 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra194 = "42"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_xavier-nx = "11"
+
+# Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit = "3"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit = "2"
+# Machine name changed for Nano-eMMC in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "19"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "18"
+# Added in L4T R32.5.x
+MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "4"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "2"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
@@ -98,7 +121,9 @@ def tegra_mender_calc_total_size(d):
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
-TEGRA_MENDER_RESERVED_SPACE_MB ?= "1024"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT = "1024"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT_jetson-nano-2gb-devkit = "5120"
+TEGRA_MENDER_RESERVED_SPACE_MB ?= "${TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)}"
 
 def tegra_mender_uboot_feature(d):
@@ -109,3 +134,21 @@ def tegra_mender_uboot_feature(d):
 _MENDER_IMAGE_DEPS_EXTRA = ""
 _MENDER_IMAGE_DEPS_EXTRA_tegra = "tegra-state-scripts:do_deploy"
 do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
+
+# mender-setup-image adds kernel-image and kernel-devicetree
+# to MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but they should *not*
+# be included by default on cboot platforms.
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra194 = "kernel-image kernel-devicetree"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+
+# Compatibility settings for handling the machine name changes
+# made in L4T R32.5.x, to allow for upgrades.  This does not
+# include jetson-nano-qspi-sd (now jetson-nano-devkit) due to
+# major changes in the flash layout.
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx1-devkit = " jetson-tx1"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit = " jetson-tx2"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-tx2i = " jetson-tx2i"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit = " jetson-xavier"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
+MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-nano-devkit-emmc = " jetson-nano-emmc"
