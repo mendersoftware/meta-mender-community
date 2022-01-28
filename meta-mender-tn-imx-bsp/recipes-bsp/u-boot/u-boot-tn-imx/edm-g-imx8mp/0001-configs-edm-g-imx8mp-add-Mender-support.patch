@@ -1,0 +1,95 @@
+From 7b3caa97fb0d514cb37e510fab9dc91334a1e427 Mon Sep 17 00:00:00 2001
+From: Ilya Ashchepkov <i.ashchepkov@velvetech.ru>
+Date: Thu, 27 Jan 2022 19:54:08 +0000
+Subject: [PATCH] configs: edm-g-imx8mp: add Mender support
+
+---
+ configs/edm-g-imx8mp_defconfig |  9 ++++++---
+ include/configs/edm-g-imx8mp.h | 18 +++++++++++-------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
+
+diff --git a/configs/edm-g-imx8mp_defconfig b/configs/edm-g-imx8mp_defconfig
+index 5d55972019..c736004c34 100644
+--- a/configs/edm-g-imx8mp_defconfig
++++ b/configs/edm-g-imx8mp_defconfig
+@@ -9,8 +9,12 @@ CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+-CONFIG_ENV_SIZE=0x1000
+-CONFIG_ENV_OFFSET=0x400000
++CONFIG_ENV_SIZE=0x2000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
+ CONFIG_DM_GPIO=y
+ CONFIG_TARGET_EDM_G_IMX8MP=y
+ CONFIG_SPL_SERIAL_SUPPORT=y
+@@ -60,7 +64,6 @@ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_CMD_FAT=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_DEFAULT_DEVICE_TREE="imx8mp-edm-g"
+-CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+diff --git a/include/configs/edm-g-imx8mp.h b/include/configs/edm-g-imx8mp.h
+index 23cb30b58c..b5c1f8c1e9 100644
+--- a/include/configs/edm-g-imx8mp.h
++++ b/include/configs/edm-g-imx8mp.h
+@@ -120,21 +120,22 @@
+ 	"mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mmcroot}\0 " \
+-	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
++	"mmcargs=setenv bootargs ${jh_clk} console=${console} root=${mender_kernel_root} rootwait\0 " \
++	"loadbootscript=ext4load ${mender_uboot_root} ${loadaddr} /boot/${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+ 	"baseboard=wb\0" \
+-	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
++	"loadimage=ext4load ${mender_uboot_root} ${loadaddr} /boot/${image}\0" \
+ 	"loadfdt=" \
+ 		"echo Loading fdt_file ${fdt_file}...; " \
+-		"fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
++		"ext4load ${mender_uboot_root} ${fdt_addr} /boot/${fdt_file}\0" \
+ 	"loadoverlay=" \
+ 		"fdt addr ${fdt_addr} && fdt resize ${fdt_buffer}; " \
+ 		"setexpr fdtovaddr ${fdt_addr} + 0xF0000; " \
+ 		"for ov in ${dtoverlay}; do " \
+ 			"echo Overlaying ${ov}...; " \
+-			"fatload mmc ${mmcdev}:${mmcpart} ${fdtovaddr} imx8mp-edm-g-${baseboard}-${ov}.dtbo && fdt apply ${fdtovaddr}; " \
++			"echo Loading imx8mp-edm-g-${baseboard}-${ov}.dtbo...; " \
++			"ext4load ${mender_uboot_root} ${fdtovaddr} /boot/imx8mp-edm-g-${baseboard}-${ov}.dtbo && fdt apply ${fdtovaddr}; " \
+ 		"done\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+@@ -174,9 +175,13 @@
+ 		   "if run loadbootscript; then " \
+ 			   "run bootscript; " \
+ 		   "else " \
++			   "run mender_setup; " \
+ 			   "if run loadimage; then " \
+ 				   "run mmcboot; " \
+-			   "else run netboot; " \
++				   "run mender_try_to_recover; " \
++			   "else " \
++				   "run mender_try_to_recover; " \
++				   "run netboot; " \
+ 			   "fi; " \
+ 		   "fi; " \
+ 	   "fi;"
+@@ -199,7 +204,6 @@
+ #define CONFIG_ENV_SPI_MODE		CONFIG_SF_DEFAULT_MODE
+ #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
+ 
+-#define CONFIG_SYS_MMC_ENV_DEV		1   /* USDHC2 */
+ #define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
+ 
+ /* Size of malloc() pool */
+-- 
+2.25.1
+
