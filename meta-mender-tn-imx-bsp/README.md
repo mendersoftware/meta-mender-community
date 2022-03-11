@@ -5,6 +5,7 @@ Mender integration layer for TechNexion family of boards.
 The supported and tested boards are:
 
 - [PICO-PI-IMX8M-MINI](https://hub.mender.io/t/technexion-pico-pi-imx8m-mini/2689)
+- EDM-G-IMX8M-PLUS
 
 Visit the individual board links above for more information on status of the
 integration and more detailed instructions on how to build and use images
