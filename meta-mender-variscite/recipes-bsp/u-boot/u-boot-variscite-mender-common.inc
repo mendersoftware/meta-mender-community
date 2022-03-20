@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/patches:"
 
-SRC_URI_append_imx6ul-var-dart = " \
+SRC_URI:append_imx6ul-var-dart = " \
     file://0001-mx6ul_var_dart-Remove-unneeded-boot-settings.patch \
     file://0001-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
@@ -8,12 +8,12 @@ SRC_URI_append_imx6ul-var-dart = " \
     file://0001-Add-Mender-MTD-variables-to-config-whitelist.patch \
     file://0001-imx6ul-var-dart-Find-splash-screen-on-active-rootfs-.patch \
 "
-SRC_URI_remove_imx6ul-var-dart = " \
+SRC_URI:remove_imx6ul-var-dart = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
     file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0004-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
 "
-SRC_URI_append_var-som-mx6 = " \
+SRC_URI:append_var-som-mx6 = " \
     file://0001-mx6var_som-Remove-unneeded-boot-settings.patch \
     file://0001-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0001-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \
@@ -25,7 +25,7 @@ SRC_URI_append_var-som-mx6 = " \
     file://0004-mx6var_som-Clear-MMC_BOOT_ENV_SETTINGS-when-configur.patch \
     file://0001-mx6var_som-Find-splash-screen-on-active-rootfs-with-.patch \
 "
-SRC_URI_remove_var-som-mx6 = " \
+SRC_URI:remove_var-som-mx6 = " \
     file://0006-env-Kconfig-Add-descriptions-so-environment-options-.patch \
     file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch \
     file://0004-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch \

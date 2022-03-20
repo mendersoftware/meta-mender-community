@@ -10,19 +10,19 @@ MACHINE ?= "imx7s-warp"
 
 DISTRO ?= "fslc-framebuffer"
 
-IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 
 MENDER_BOOT_PART_SIZE_MB = "32"
 MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
 
 # Specific Configuration for Mender
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 # Specific Kernel devicetree and U-Boot Configuration for Pico-Pi i.MX7D
 IMAGE_BOOT_FILES_imx7d-pico = "boot.scr"
-KERNEL_DEVICETREE_remove_imx7d-pico = "imx7d-pico-hobbit.dtb imx7d-pico-dwarf.dtb"
-UBOOT_CONFIG_remove_imx7d-pico = "dwarf hobbit generic nymph"
+KERNEL_DEVICETREE:remove_imx7d-pico = "imx7d-pico-hobbit.dtb imx7d-pico-dwarf.dtb"
+UBOOT_CONFIG:remove_imx7d-pico = "dwarf hobbit generic nymph"
 MENDER_UBOOT_STORAGE_INTERFACE_imx7d-pico = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE_imx7d-pico = "0"
 MENDER_STORAGE_DEVICE_imx7d-pico = "/dev/mmcblk2"

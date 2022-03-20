@@ -2,7 +2,7 @@
 # Based largely on meta-toradex-bsp-common/classes/image_type_tezi.bbclass
 
 # Make sure the full Mender multi-partition image is available
-IMAGE_TYPEDEP_mender_tezi_append = "${@bb.utils.contains('IMAGE_FSTYPES', 'sdimg', ' sdimg.gz', '', d)} \
+IMAGE_TYPEDEP:mender_tezi:append = "${@bb.utils.contains('IMAGE_FSTYPES', 'sdimg', ' sdimg.gz', '', d)} \
                                        ${@bb.utils.contains('IMAGE_FSTYPES', 'ubimg', ' ubimg.gz', '', d)} \
                                        ${@bb.utils.contains('IMAGE_FSTYPES', 'gptimg', ' gptimg.gz', '', d)} \
                                        ${@bb.utils.contains('IMAGE_FSTYPES', 'uefiimg', ' uefiimg.gz', '', d)} \
@@ -20,9 +20,9 @@ TEZI_AUTO_INSTALL ??= "false"
 TEZI_CONFIG_FORMAT ??= "2"
 
 # Do not include these image types:
-IMAGE_FSTYPES_remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz ${FULL_IMAGE_SUFFIX}.bz2"
+IMAGE_FSTYPES:remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz ${FULL_IMAGE_SUFFIX}.bz2"
 
-WKS_FILE_DEPENDS_append = " mender-tezi-metadata "
+WKS_FILE_DEPENDS:append = " mender-tezi-metadata "
 
 do_image_mender_tezi[recrdeptask] += "do_deploy"
 RM_WORK_EXCLUDE += "${PN}"
@@ -145,7 +145,7 @@ python rootfs_mender_tezi_json() {
         json.dump(data, outfile, indent=4)
 }
 
-IMAGE_CMD_mender_tezi () {
+IMAGE_CMD:mender_tezi () {
     cp ${IMGDEPLOYDIR}/image-${IMAGE_BASENAME}*.json ${WORKDIR}/image-json/image.json
 
     uboot_files=""
@@ -168,4 +168,4 @@ IMAGE_CMD_mender_tezi () {
 do_image_mender_tezi[dirs] += "${WORKDIR}/image-json ${DEPLOY_DIR_IMAGE}"
 do_image_mender_tezi[cleandirs] += "${WORKDIR}/image-json"
 do_image_mender_tezi[prefuncs] += "rootfs_mender_tezi_json"
-IMAGE_TYPEDEP_mender_tezi[vardepsexclude] = "SRCDATE"
+IMAGE_TYPEDEP:mender_tezi[vardepsexclude] = "SRCDATE"

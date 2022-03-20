@@ -3,9 +3,9 @@
 
 MACHINE ?= "tinker-rk3288"
 
-IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 
-IMAGE_FSTYPES_remove = "rockchip-gpt-img"
+IMAGE_FSTYPES:remove = "rockchip-gpt-img"
 
 MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-rockchip.img"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "64"
@@ -17,5 +17,5 @@ MENDER_UBOOT_STORAGE_DEVICE = "1"
 # but we need to satisfy a dependency that the sdimg format has.
 IMAGE_BOOT_FILES = "zImage"
 
-MENDER_FEATURES_ENABLE_append = " mender-image-sd"
-MENDER_FEATURES_DISABLE_append = " mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-image-uefi"

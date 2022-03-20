@@ -44,7 +44,7 @@ do_compile_tegra210() {
 }
 
 # Make sure scripts aren't left around from old builds
-do_deploy_prepend() {
+do_deploy:prepend() {
     rm -rf ${DEPLOYDIR}/mender-state-scripts
 }
 

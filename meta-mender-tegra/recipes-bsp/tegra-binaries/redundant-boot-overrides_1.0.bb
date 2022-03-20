@@ -36,4 +36,4 @@ do_install() {
     install -m 0644 ${B}/update-nvbootctrl.service ${D}${systemd_system_unitdir}/
 }
 
-SYSTEMD_SERVICE_${PN} = "update-nvbootctrl.service"
+SYSTEMD_SERVICE:${PN} = "update-nvbootctrl.service"

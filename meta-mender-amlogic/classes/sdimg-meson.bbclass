@@ -1,6 +1,6 @@
 inherit image_types
 
-DEPENDS_append_sdimg = " virtual/trusted-firmware-a"
+DEPENDS:append_sdimg = " virtual/trusted-firmware-a"
 
 SDIMG_COMMAND = "sdimg_command_meson_gx"
 SDIMG_COMMAND_amlogic-s400 = "sdimg_command_s400"
@@ -16,6 +16,6 @@ sdimg_command_s400 () {
 	dd if=${DEPLOY_DIR_IMAGE}/u-boot.bin.mmc.bin of=$outimagename conv=notrunc bs=512 seek=1
 }
 
-IMAGE_CMD_sdimg_append () {
+IMAGE_CMD:sdimg:append () {
 	${SDIMG_COMMAND}
 }
