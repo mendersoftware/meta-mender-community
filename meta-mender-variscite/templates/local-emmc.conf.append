@@ -10,6 +10,6 @@ MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "1"
 UBOOT_CONFIG_var-som-mx6 = "nand"
 # The imx6ul-var-dart board has either eMMC or NAND.
 # The board under test does not have eMMC.
-MENDER_FEATURES_ENABLE_append = " mender-image-sd "
+MENDER_FEATURES_ENABLE:append = " mender-image-sd "
 MENDER_STORAGE_TOTAL_SIZE_MB_var-som-mx6 = "1024"
 MENDER_STORAGE_TOTAL_SIZE_MB_imx6ul-var-dart = "1024"

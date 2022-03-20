@@ -5,7 +5,7 @@ MACHINE ?= "jetson-tx2"
 INHERIT += "tegra-mender-setup"
 
 # Grow the data partition by default
-MENDER_FEATURES_ENABLE_append = " mender-growfs-data"
+MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
 
 # Not required for mender support, but gives you access via SSH by default
 # Note that the ssh key will change on each upgrade.  To fix this you need to

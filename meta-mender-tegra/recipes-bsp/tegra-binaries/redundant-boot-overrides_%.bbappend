@@ -1,2 +1,2 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
-RDEPENDS_${PN} += "tegra-redundant-boot-nvbootctrl"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
+RDEPENDS:${PN} += "tegra-redundant-boot-nvbootctrl"

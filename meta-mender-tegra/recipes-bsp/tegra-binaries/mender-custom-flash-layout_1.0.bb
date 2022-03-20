@@ -7,7 +7,7 @@ SRC_URI = "file://flash_mender.xml"
 INHIBIT_DEFAULT_DEPS = "1"
 COMPATIBLE_MACHINE = "(tegra)"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-${@d.getVar('L4T_VERSION').replace('.', '-')}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}-${@d.getVar('L4T_VERSION').replace('.', '-')}:"
 
 S = "${WORKDIR}"
 

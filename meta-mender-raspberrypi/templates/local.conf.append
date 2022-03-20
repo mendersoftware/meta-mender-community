@@ -5,10 +5,10 @@ MACHINE ?= "raspberrypi3"
 
 RPI_USE_U_BOOT = "1"
 MENDER_BOOT_PART_SIZE_MB = "40"
-IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
-IMAGE_FSTYPES_remove += " rpi-sdimg"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+IMAGE_FSTYPES:remove += " rpi-sdimg"
 
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 ENABLE_UART = "1"

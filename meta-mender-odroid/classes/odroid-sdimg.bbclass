@@ -14,30 +14,30 @@ generic_odroid_xu_wic_cmd() {
     dd if=/dev/zero of=${outimgname} conv=notrunc count=32 bs=512 seek="2625"
 }
 
-IMAGE_CMD_wic_append_odroid-xu3() {
+IMAGE_CMD:wic:append_odroid-xu3() {
     generic_odroid_xu_wic_cmd
 }
 
-IMAGE_CMD_wic_append_odroid-xu4() {
+IMAGE_CMD:wic:append_odroid-xu4() {
     generic_odroid_xu_wic_cmd
 }
 
-IMAGE_CMD_wic_append_odroid-xu3-lite() {
+IMAGE_CMD:wic:append_odroid-xu3-lite() {
     generic_odroid_xu_wic_cmd
 }
 
-IMAGE_CMD_wic_append_odroid-hc1() {
+IMAGE_CMD:wic:append_odroid-hc1() {
     generic_odroid_xu_wic_cmd
 }
 
-IMAGE_CMD_wic_append_odroid-c1() {
+IMAGE_CMD:wic:append_odroid-c1() {
     outimgname="${IMGDEPLOYDIR}/${IMAGE_NAME}.$suffix"
     dd if=${DEPLOY_DIR_IMAGE}/bl1.bin.hardkernel   of=${outimgname} conv=notrunc bs=1 count=442
     dd if=${DEPLOY_DIR_IMAGE}/bl1.bin.hardkernel   of=${outimgname} conv=notrunc bs=512 skip=1 seek=1
     dd if=${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.${UBOOT_SUFFIX} of=${outimgname} conv=notrunc bs=512 seek=64
 }
 
-IMAGE_CMD_sdimg_append_odroid-c2() {
+IMAGE_CMD:sdimg:append_odroid-c2() {
     outimgname="${IMGDEPLOYDIR}/${IMAGE_NAME}.$suffix"
     dd if=${DEPLOY_DIR_IMAGE}/bl1.bin.hardkernel   of=${outimgname} conv=notrunc bs=1 count=442
     dd if=${DEPLOY_DIR_IMAGE}/bl1.bin.hardkernel   of=${outimgname} conv=notrunc bs=512 skip=1 seek=1

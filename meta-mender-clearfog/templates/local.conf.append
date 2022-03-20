@@ -11,11 +11,11 @@ MACHINE ?= "clearfog-base"
 # Refer: https://github.com/mirzak/meta-clearfog/blob/master/conf/machine/include/clearfog-common.inc#L8-L18
 UBOOT_BINARY ?= "u-boot-spl-sdhc.kwb"
 
-IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 
 MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-${MACHINE}.bin"
 MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "1"
 
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
