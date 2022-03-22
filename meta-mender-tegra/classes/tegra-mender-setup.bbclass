@@ -29,7 +29,7 @@ IMAGE_FSTYPES += "tegraflash"
 
 ARTIFACTIMG_FSTYPE = "ext4"
 # Generate dataimg for use with tegraflash
-IMAGE_TYPEDEP_tegraflash += " dataimg"
+IMAGE_TYPEDEP:tegraflash += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
 PREFERRED_PROVIDER_libubootenv_tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
@@ -90,8 +90,8 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
-MENDER_FEATURES_ENABLE_append_tegra = "${@tegra_mender_uboot_feature(d)}"
-MENDER_FEATURES_DISABLE_append_tegra = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append_tegra = "${@tegra_mender_uboot_feature(d)}"
+MENDER_FEATURES_DISABLE:append_tegra = " mender-grub mender-image-uefi"
 
 # Use these variables to adjust your total rootfs size across both
 # images. Rootfs size will be approximately 1/2 of
@@ -138,17 +138,17 @@ do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 # mender-setup-image adds kernel-image and kernel-devicetree
 # to MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but they should *not*
 # be included by default on cboot platforms.
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra194 = "kernel-image kernel-devicetree"
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS_remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove_tegra194 = "kernel-image kernel-devicetree"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
 
 # Compatibility settings for handling the machine name changes
 # made in L4T R32.5.x, to allow for upgrades.  This does not
 # include jetson-nano-qspi-sd (now jetson-nano-devkit) due to
 # major changes in the flash layout.
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx1-devkit = " jetson-tx1"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit = " jetson-tx2"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-tx2i = " jetson-tx2i"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit = " jetson-xavier"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
-MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-nano-devkit-emmc = " jetson-nano-emmc"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx1-devkit = " jetson-tx1"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit = " jetson-tx2"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit-tx2i = " jetson-tx2i"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-agx-xavier-devkit = " jetson-xavier"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
+MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-nano-devkit-emmc = " jetson-nano-emmc"

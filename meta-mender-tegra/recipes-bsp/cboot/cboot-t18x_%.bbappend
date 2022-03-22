@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = " machine-id"
+PACKAGECONFIG:append = " machine-id"

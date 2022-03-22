@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "fcb7ef9069d22a9ca0f76a94747d1ac4ac0f4c8e7a5e7323dc7c19be0f
 S = "${WORKDIR}/linux-${REVISION}"
 
 LINUX_VERSION ?= "4.14.52"
-LINUX_VERSION_EXTENSION_append = "-friendlyarm"
+LINUX_VERSION_EXTENSION:append = "-friendlyarm"
 
 PV = "${LINUX_VERSION}+git${REVISION}"
 

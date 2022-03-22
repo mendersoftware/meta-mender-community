@@ -16,8 +16,8 @@ MENDER_BOOT_PART_SIZE_MB = "0"
 MENDER_PARTITION_ALIGNMENT = "4194304"
 
 # Cleanup image types generated
-IMAGE_FSTYPES_remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
+IMAGE_FSTYPES:remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
 
 # disable uefi
-MENDER_FEATURES_ENABLE_append = " mender-uboot "
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-uboot "
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"

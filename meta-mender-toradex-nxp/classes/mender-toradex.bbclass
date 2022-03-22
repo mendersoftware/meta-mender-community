@@ -1,4 +1,4 @@
-ROOTFS_POSTPROCESS_COMMAND_append = " toradex_mender_update_fstab_file;"
+ROOTFS_POSTPROCESS_COMMAND:append = " toradex_mender_update_fstab_file;"
 toradex_mender_update_fstab_file() {
     # the Toradex BSP sets up a symlink called /dev/boot-part which is added to FSTAB.
     # The logic to determine which device node is the boot partition fails with the Mender

@@ -32,12 +32,12 @@ MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidc4 = "0"
 MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidhc2 = "0"
 
 # Target SDCard image with U-Boot
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image mender-image-sd"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-image-sd"
 # Do not use UEFI+Grub boot (even if possible)
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 # mender-image uses sdimg so remove wic image type
-IMAGE_FSTYPES_remove = "wic"
+IMAGE_FSTYPES:remove = "wic"
 # the sdimg-meson class will copy the bootloader in the first sector
 IMAGE_CLASSES = "sdimg-meson"
 
@@ -45,8 +45,8 @@ IMAGE_CLASSES = "sdimg-meson"
 KERNEL_IMAGETYPE = "fitImage"
 
 # Remove kernel Image from BOOT partition and disable it
-IMAGE_BOOT_FILES_remove = "Image"
-IMAGE_BOOT_FILES_remove = "fitImage"
+IMAGE_BOOT_FILES:remove = "Image"
+IMAGE_BOOT_FILES:remove = "fitImage"
 MENDER_BOOT_PART_SIZE_MB = "0"
 
 # 4MiB partition aligment

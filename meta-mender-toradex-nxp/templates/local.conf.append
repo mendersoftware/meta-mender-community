@@ -4,18 +4,18 @@
 INHERIT += "mender-toradex"
 
 # Comment/remove below to enable GRUB integration instead of U-Boot
-MENDER_FEATURES_ENABLE_append = " mender-uboot mender-image-sd"
-MENDER_FEATURES_DISABLE_append = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 IMAGE_CLASSES += "image_type_mender_tezi"
-IMAGE_FSTYPES_append = " mender_tezi"
-IMAGE_FSTYPES_remove = " teziimg"
+IMAGE_FSTYPES:append = " mender_tezi"
+IMAGE_FSTYPES:remove = " teziimg"
 
 # Default is Image.gz, which is not compatible with GRUB
-KERNEL_IMAGETYPE_aarch64_mender-grub = "Image"
+KERNEL_IMAGETYPE:aarch64_mender-grub = "Image"
 
 # boot.scr conflicts when using GRUB
-IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+IMAGE_BOOT_FILES:remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 
 #
 # Settings for verdin-imx8mm
@@ -26,16 +26,16 @@ OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
 #
 # Settings for colibri-imx6ull
 #
-INHERIT_remove_colibri-imx6ull = " mender-full "
-INHERIT_append_colibri-imx6ull = " mender-full-ubi "
-IMAGE_FSTYPES_remove_colibri-imx6ull = " mtdimg teziimg"
+INHERIT:remove_colibri-imx6ull = " mender-full "
+INHERIT:append_colibri-imx6ull = " mender-full-ubi "
+IMAGE_FSTYPES:remove_colibri-imx6ull = " mtdimg teziimg"
 MENDER_MTDIDS = "${@bb.utils.contains('MACHINE', 'colibri-imx6ull', 'nand0=gpmi-nand', '', d)}"
 MENDER_MTDPARTS_colibri-imx6ull = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,-(ubi)"
 MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx6ull = "512"
 MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
 MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
-MENDER_FEATURES_ENABLE_remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
-MENDER_FEATURES_DISABLE_append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
+MENDER_FEATURES_ENABLE:remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
+MENDER_FEATURES_DISABLE:append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
 #
 # Settings for apalis-imx8
 #
