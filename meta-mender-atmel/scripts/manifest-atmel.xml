@@ -2,8 +2,8 @@
   <manifest>
   <default sync-j="4" revision="dunfell"/>
 
-  <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
-  <remote fetch="git://github.com/linux4sam"        name="atmel"/>
+  <remote fetch="https://git.yoctoproject.org"        name="yocto"/>
+  <remote fetch="https://github.com/linux4sam"        name="atmel"/>
   <remote fetch="https://github.com/openembedded"   name="oe"/>
 
   <project name="poky" remote="yocto" revision="dunfell" path="sources/poky"/>
