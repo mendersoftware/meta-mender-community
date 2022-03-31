@@ -52,6 +52,7 @@ def rootfs_mender_tezi_emmc(d):
               "content": {
                   "rawfiles": [
                       {
+                          "dd_options": "bs=8M",
                           "filename": "%s.%s.bz2" % (imagename, image_suffix)
                       }
                   ]
@@ -101,6 +102,7 @@ def rootfs_mender_tezi_rawnand(d):
           "name": "ubi",
           "content": {
             "rawfile": {
+              "dd_options": "bs=8M",
               "filename": "%s.%s.bz2" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
             }
           }
