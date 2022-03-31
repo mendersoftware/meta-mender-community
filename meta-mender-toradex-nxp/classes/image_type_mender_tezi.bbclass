@@ -57,7 +57,11 @@ def rootfs_mender_tezi_emmc(d):
                   "rawfiles": [
                       {
                           "dd_options": "bs=8M",
+<<<<<<< HEAD
                           "filename": "%s.%s.gz" % (imagename, image_suffix)
+=======
+                          "filename": "%s.%s" % (imagename, image_suffix)
+>>>>>>> mender-tezi: Remove bz2 compression.
                       }
                   ]
               }
@@ -107,7 +111,11 @@ def rootfs_mender_tezi_rawnand(d):
           "content": {
             "rawfile": {
               "dd_options": "bs=8M",
+<<<<<<< HEAD
               "filename": "%s.%s.gz" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
+=======
+              "filename": "%s.%s" % (d.getVar("IMAGE_LINK_NAME"), d.getVar("FULL_IMAGE_SUFFIX"))
+>>>>>>> mender-tezi: Remove bz2 compression.
             }
           }
         })
@@ -162,7 +170,11 @@ IMAGE_CMD:mender_tezi () {
 		     -chf ${IMGDEPLOYDIR}/${IMAGE_NAME}.mender_tezi.tar \
 		     ${WORKDIR}/image-json/image.json ${DEPLOY_DIR_IMAGE}/mender-tezi-metadata/* \
 		     $uboot_files \
+<<<<<<< HEAD
 		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}.gz
+=======
+		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}
+>>>>>>> mender-tezi: Remove bz2 compression.
     ln -sf ${IMAGE_NAME}.mender_tezi.tar ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar
 }
 do_image_mender_tezi[dirs] += "${WORKDIR}/image-json ${DEPLOY_DIR_IMAGE}"
