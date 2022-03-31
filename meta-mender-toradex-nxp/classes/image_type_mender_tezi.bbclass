@@ -155,11 +155,12 @@ IMAGE_CMD_mender_tezi () {
     # The second adds back a subfolder
     ${IMAGE_CMD_TAR} --transform='s/.*\///' \
 		     --transform 's,^,${IMAGE_LINK_NAME}/,' \
-		     -chf ${IMGDEPLOYDIR}/${IMAGE_NAME}.mender_tezi.tar \
+		     -chf ${IMGDEPLOYDIR}/${IMAGE_NAME}.mender_tezi.tar.xz \
 		     ${WORKDIR}/image-json/image.json ${DEPLOY_DIR_IMAGE}/mender-tezi-metadata/* \
 		     $uboot_files \
+             --xz \
 		     ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${FULL_IMAGE_SUFFIX}
-    ln -sf ${IMAGE_NAME}.mender_tezi.tar ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar
+    ln -sf ${IMAGE_NAME}.mender_tezi.tar.xz ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.mender_tezi.tar.xz
 }
 do_image_mender_tezi[dirs] += "${WORKDIR}/image-json ${DEPLOY_DIR_IMAGE}"
 do_image_mender_tezi[cleandirs] += "${WORKDIR}/image-json"
