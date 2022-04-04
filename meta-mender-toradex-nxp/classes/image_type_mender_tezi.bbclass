@@ -17,7 +17,7 @@ FULL_IMAGE_SUFFIX_mender-image-bios = "biosimg"
 FULL_IMAGE_SUFFIX_mender-image-gpt = "gptimg"
 
 # Do not include these image types:
-IMAGE_FSTYPES:remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz"
+IMAGE_FSTYPES:remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz ${FULL_IMAGE_SUFFIX}.bz2"
 
 WKS_FILE_DEPENDS:append = " mender-tezi-metadata "
 
