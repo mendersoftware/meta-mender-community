@@ -16,6 +16,9 @@ FULL_IMAGE_SUFFIX_mender-image-uefi = "uefiimg"
 FULL_IMAGE_SUFFIX_mender-image-bios = "biosimg"
 FULL_IMAGE_SUFFIX_mender-image-gpt = "gptimg"
 
+TEZI_AUTO_INSTALL ??= "false"
+TEZI_CONFIG_FORMAT ??= "2"
+
 # Do not include these image types:
 IMAGE_FSTYPES_remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz ${FULL_IMAGE_SUFFIX}.bz2"
 
@@ -116,7 +119,7 @@ python rootfs_mender_tezi_json() {
     from collections import OrderedDict
     from datetime import datetime
 
-    data = OrderedDict({ "config_format": 2, "autoinstall": False })
+    data = OrderedDict({ "config_format": d.getVar('TEZI_CONFIG_FORMAT'), "autoinstall": oe.types.boolean(d.getVar('TEZI_AUTO_INSTALL')) })
 
     data["name"] = d.getVar('SUMMARY')
     data["description"] = d.getVar('DESCRIPTION')
