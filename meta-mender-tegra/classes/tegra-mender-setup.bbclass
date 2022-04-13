@@ -32,9 +32,9 @@ ARTIFACTIMG_FSTYPE = "ext4"
 IMAGE_TYPEDEP:tegraflash += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_PROVIDER_libubootenv_tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
+PREFERRED_PROVIDER_libubootenv:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_RPROVIDER_libubootenv-bin_tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
+PREFERRED_RPROVIDER_libubootenv-bin:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
 IMAGE_BOOT_FILES = "u-boot-dtb.bin"
@@ -43,27 +43,27 @@ IMAGE_BOOT_FILES = "u-boot-dtb.bin"
 # You will need to update these partition values when you update the flash layout.  One way to find the correct number is to
 # boot into an emergency shell and examine the /dev/mmcblk* devices,
 # or use the uboot console to look at mtdparts
-MENDER_DATA_PART_NUMBER_DEFAULT_tegra186 = "34"
-MENDER_DATA_PART_NUMBER_DEFAULT_tegra194 = "43"
-MENDER_DATA_PART_NUMBER_DEFAULT_tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
-MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-emmc = "19"
-MENDER_DATA_PART_NUMBER_DEFAULT_xavier-nx = "12"
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra186 = "34"
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra194 = "43"
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
+MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-emmc = "19"
+MENDER_DATA_PART_NUMBER_DEFAULT:xavier-nx = "12"
 MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra186 = "33"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra194 = "42"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-emmc = "18"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_xavier-nx = "11"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra186 = "33"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra194 = "42"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:xavier-nx = "11"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit = "3"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit = "2"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit = "2"
 # Machine name changed for Nano-eMMC in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "19"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "18"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit-emmc = "18"
 # Added in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "4"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "2"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-2gb-devkit = "2"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
@@ -90,8 +90,8 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
-MENDER_FEATURES_ENABLE:append_tegra = "${@tegra_mender_uboot_feature(d)}"
-MENDER_FEATURES_DISABLE:append_tegra = " mender-grub mender-image-uefi"
+MENDER_FEATURES_ENABLE:append:tegra = "${@tegra_mender_uboot_feature(d)}"
+MENDER_FEATURES_DISABLE:append:tegra = " mender-grub mender-image-uefi"
 
 # Use these variables to adjust your total rootfs size across both
 # images. Rootfs size will be approximately 1/2 of
@@ -122,9 +122,9 @@ def tegra_mender_calc_total_size(d):
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT = "1024"
-TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT_jetson-nano-2gb-devkit = "5120"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT:jetson-nano-2gb-devkit = "5120"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "${TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT}"
-MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT_tegra = "${@tegra_mender_calc_total_size(d)}"
+MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT:tegra = "${@tegra_mender_calc_total_size(d)}"
 
 def tegra_mender_uboot_feature(d):
     if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
@@ -132,23 +132,23 @@ def tegra_mender_uboot_feature(d):
     return " mender-uboot mender-persist-systemd-machine-id"
 
 _MENDER_IMAGE_DEPS_EXTRA = ""
-_MENDER_IMAGE_DEPS_EXTRA_tegra = "tegra-state-scripts:do_deploy"
+_MENDER_IMAGE_DEPS_EXTRA:tegra = "tegra-state-scripts:do_deploy"
 do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 
 # mender-setup-image adds kernel-image and kernel-devicetree
 # to MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but they should *not*
 # be included by default on cboot platforms.
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove_tegra194 = "kernel-image kernel-devicetree"
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove_tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra194 = "kernel-image kernel-devicetree"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
 
 # Compatibility settings for handling the machine name changes
 # made in L4T R32.5.x, to allow for upgrades.  This does not
 # include jetson-nano-qspi-sd (now jetson-nano-devkit) due to
 # major changes in the flash layout.
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx1-devkit = " jetson-tx1"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit = " jetson-tx2"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit-tx2i = " jetson-tx2i"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-agx-xavier-devkit = " jetson-xavier"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
-MENDER_DEVICE_TYPES_COMPATIBLE:append_jetson-nano-devkit-emmc = " jetson-nano-emmc"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx1-devkit = " jetson-tx1"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit = " jetson-tx2"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit-tx2i = " jetson-tx2i"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit = " jetson-xavier"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
+MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-nano-devkit-emmc = " jetson-nano-emmc"
