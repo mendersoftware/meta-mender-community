@@ -13,7 +13,7 @@ Download the source:
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-amlogic/scripts/manifest-amlogic.xml \
-           -b dunfell
+           -b kirkstone
     $ repo sync
 
 Setup environment
