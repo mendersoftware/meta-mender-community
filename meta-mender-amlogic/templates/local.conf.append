@@ -44,6 +44,9 @@ IMAGE_CLASSES = "sdimg-meson"
 # Use fitImage
 KERNEL_IMAGETYPE = "fitImage"
 
+# TOFIX: kernel-devicetree isn't installed anymore with kirkstone
+MACHINE_EXTRA_RRECOMMENDS += " kernel-devicetree"
+
 # Remove kernel Image from BOOT partition and disable it
 IMAGE_BOOT_FILES:remove = "Image"
 IMAGE_BOOT_FILES:remove = "fitImage"
