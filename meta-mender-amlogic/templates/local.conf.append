@@ -23,13 +23,13 @@ MENDER_UBOOT_STORAGE_DEVICE = "1"
 # If not (like libretech-cc, libretech-ac, odroid-c2, odroid-n2, odroid-c4...)
 # 0: SDCard
 # 1: eMMC
-MENDER_UBOOT_STORAGE_DEVICE_libretech-cc = "0"
-MENDER_UBOOT_STORAGE_DEVICE_libretech-ac = "0"
-MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidc2 = "0"
-MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidn2 = "0"
-MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidn2plus = "0"
-MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidc4 = "0"
-MENDER_UBOOT_STORAGE_DEVICE_hardkernel-odroidhc2 = "0"
+MENDER_UBOOT_STORAGE_DEVICE:libretech-cc = "0"
+MENDER_UBOOT_STORAGE_DEVICE:libretech-ac = "0"
+MENDER_UBOOT_STORAGE_DEVICE:hardkernel-odroidc2 = "0"
+MENDER_UBOOT_STORAGE_DEVICE:hardkernel-odroidn2 = "0"
+MENDER_UBOOT_STORAGE_DEVICE:hardkernel-odroidn2plus = "0"
+MENDER_UBOOT_STORAGE_DEVICE:hardkernel-odroidc4 = "0"
+MENDER_UBOOT_STORAGE_DEVICE:hardkernel-odroidhc2 = "0"
 
 # Target SDCard image with U-Boot
 MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-image-sd"
@@ -43,6 +43,9 @@ IMAGE_CLASSES = "sdimg-meson"
 
 # Use fitImage
 KERNEL_IMAGETYPE = "fitImage"
+
+# TOFIX: kernel-devicetree isn't installed anymore with kirkstone
+MACHINE_EXTRA_RRECOMMENDS += " kernel-devicetree"
 
 # Remove kernel Image from BOOT partition and disable it
 IMAGE_BOOT_FILES:remove = "Image"
