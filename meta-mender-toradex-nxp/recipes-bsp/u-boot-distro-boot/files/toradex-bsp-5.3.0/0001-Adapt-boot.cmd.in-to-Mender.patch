@@ -1,5 +1,5 @@
---- boot.cmd.in	2021-09-22 09:52:04.808040275 -0400
-+++ boot.cmd.in	2021-09-22 14:49:40.853746348 -0400
+--- boot.cmd.in.orig	2021-10-26 09:39:21.849423315 -0400
++++ boot.cmd.in	2021-10-26 15:52:29.774684942 -0400
 @@ -3,33 +3,9 @@
  # Copyright 2020 Toradex
  #
@@ -36,7 +36,7 @@
  
  if test ${devtype} = "ubi"; then
      echo "This script is not meant to distro boot from raw NAND flash."
-@@ -38,34 +14,20 @@
+@@ -38,34 +14,20 @@ fi
  
  test -n ${m4boot} || env set m4boot ';'
  test -n ${fdtfile} || env set fdtfile ${fdt_file}
@@ -81,7 +81,7 @@
  
  if test -n ${setup}; then
      run setup
-@@ -79,52 +41,16 @@
+@@ -79,52 +41,17 @@ then
      env set bootcmd_unzip 'unzip ${kernel_addr_load} ${kernel_addr_r}'
  else
      env set bootcmd_unzip ';'
@@ -89,13 +89,13 @@
 -    then
 -        env set kernel_addr_load ${ramdisk_addr_r}
 -    else
-         env set kernel_addr_load ${kernel_addr_r}
+-        env set kernel_addr_load ${kernel_addr_r}
 -    fi
 -fi
 -
 -# Set dynamic commands
 -env set set_bootcmd_kernel 'env set bootcmd_kernel "${load_cmd} \\${kernel_addr_load} \\${kernel_image}"'
--env set set_load_overlays_file 'env set load_overlays_file "${load_cmd} \\${loadaddr} \\${overlays_file}; env import -t \\${loadaddr} \\${filesize}"'
+-env set set_load_overlays_file 'env set load_overlays_file "${load_cmd} \\${loadaddr} \\${overlays_file} && env import -t \\${loadaddr} \\${filesize}"'
 -if test ${kernel_image} = "fitImage"
 -then
 -    env set fdt_high
@@ -112,14 +112,15 @@
 -
 -# Set static commands
 -if test ${root_devtype} = "nfs-dhcp"; then
--    env set rootfsargs_set 'env set rootfsargs "root=/dev/nfs ip=dhcp nfsroot=${rootpath}"'
+-    env set rootfsargs_set 'env set rootfsargs "root=/dev/nfs ip=dhcp"'
 -else
 -    if test ${root_devtype} = "nfs-static"; then
--        env set rootfsargs_set 'env set rootfsargs "root=/dev/nfs nfsroot=${serverip}:${rootpath}"'
+-        env set rootfsargs_set 'env set rootfsargs "root=/dev/nfs nfsroot=${serverip}:/${rootpath}"'
 -    else
 -        env set uuid_set 'part uuid ${root_devtype} ${root_devnum}:${root_part} uuid'
 -        env set rootfsargs_set 'run uuid_set && env set rootfsargs root=PARTUUID=${uuid} ro rootwait'
 -    fi
++    env set kernel_addr_load ${kernel_addr_r}
  fi
  
 +env set rootfsargs_set 'env set rootfsargs root=${mender_kernel_root} ro rootwait'
@@ -137,5 +138,8 @@
  run bootcmd_prepare
 +run mender_setup
  run bootcmd_run
--
+ 
 +run mender_try_to_recover
+-- 
+2.34.1
+
