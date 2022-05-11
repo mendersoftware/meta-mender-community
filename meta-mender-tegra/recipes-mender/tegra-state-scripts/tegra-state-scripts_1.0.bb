@@ -12,7 +12,7 @@ S = "${WORKDIR}"
 inherit mender-state-scripts
 
 PERSIST_MACHINE_ID=""
-PERSIST_MACHINE_ID_mender-persist-systemd-machine-id = "yes"
+PERSIST_MACHINE_ID:mender-persist-systemd-machine-id = "yes"
 
 # We have a different install script for U-Boot vs. cboot, since
 # the mechanism for determining boot partitions is different between
