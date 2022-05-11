@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:prepend_mender-uboot := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend:mender-uboot := "${THISDIR}/files:"
 
 include ${@mender_feature_is_enabled("mender-uboot","recipes-bsp/u-boot/u-boot-mender.inc","",d)}
 
@@ -12,6 +12,6 @@ RPROVIDES:${PN} += "${@mender_feature_is_enabled("mender-uboot","u-boot","",d)}"
 PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot-default-env","",d)}"
 
 # Apply custom patches for Toradex u-boot
-SRC_URI:append_mender-uboot = " \
+SRC_URI:append:mender-uboot = " \
     file://0001-configs-toradex-board-specific-mender-integration.patch \
 "
