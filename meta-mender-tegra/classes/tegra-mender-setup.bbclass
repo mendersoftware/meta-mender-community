@@ -56,13 +56,13 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:xavier-nx = "11"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit = "3"
+MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit = "3"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit = "2"
 # Machine name changed for Nano-eMMC in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-devkit-emmc = "19"
+MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit-emmc = "19"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit-emmc = "18"
 # Added in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT_jetson-nano-2gb-devkit = "4"
+MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-2gb-devkit = "4"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-2gb-devkit = "2"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
