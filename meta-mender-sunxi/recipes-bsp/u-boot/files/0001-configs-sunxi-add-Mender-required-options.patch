@@ -1,43 +1,17 @@
-From c338d50eb7e8e9d4ea4883a8f50894ca0a48c9ec Mon Sep 17 00:00:00 2001
-From: Marek Belisko <marek.belisko@open-nandra.com>
-Date: Wed, 5 Aug 2020 20:59:01 +0200
-Subject: [PATCH] configs: sunxi: add Mender required options
-
-Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
-Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
----
- include/configs/sunxi-common.h | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 0ef289f..d8ca72f 100644
+index c576d65efa..bc5b76172c 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -125,6 +125,10 @@
- 
- #if defined(CONFIG_ENV_IS_IN_MMC)
- 
+@@ -259,6 +259,12 @@
+ 			"run bootcmd_mmc1; "				\
+ 		"fi\0"
+
++/*
++ * Mender
++ */
 +#define CONFIG_BOOTCOUNT_LIMIT
 +#define CONFIG_BOOTCOUNT_ENV
-+#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 +
- #ifdef CONFIG_ARM64
- /*
-  * This is actually (CONFIG_ENV_OFFSET -
-@@ -134,13 +138,6 @@
- #define CONFIG_BOARD_SIZE_LIMIT		0x7e000
- #endif
- 
--#if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
--/* If we have two devices (most likely eMMC + MMC), favour the eMMC */
--#define CONFIG_SYS_MMC_ENV_DEV		1
--#else
--/* Otherwise, use the only device we have */
--#define CONFIG_SYS_MMC_ENV_DEV		0
--#endif
- #define CONFIG_SYS_MMC_MAX_DEVICE	4
- #endif
- 
--- 
-2.7.4
+ #define BOOTENV_DEV_NAME_MMC_AUTO(devtypeu, devtypel, instance) \
+ 	"mmc_auto "
 
