@@ -1,11 +1,30 @@
+From 3218db275004b69251dd8d48738259a0d3931256 Mon Sep 17 00:00:00 2001
+From: Kas User <kas@example.com>
+Date: Tue, 14 Jun 2022 14:48:26 +0000
+Subject: [PATCH] update sunxi patch
+
+Signed-off-by: Kas User <kas@example.com>
+---
+ include/configs/sunxi-common.h | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index c576d65efa..bc5b76172c 100644
+index 7260eb72a4..669b8e806c 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -259,6 +259,12 @@
+@@ -105,7 +105,7 @@
+  * (CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR * 512)), but the value will be used
+  * directly in a makefile, without the preprocessor expansion.
+  */
+-#define CONFIG_BOARD_SIZE_LIMIT		0x7e000
++#define CONFIG_BOARD_SIZE_LIMIT		0xaffff
+ #endif
+ 
+ #define CONFIG_SYS_MMC_MAX_DEVICE	4
+@@ -257,6 +257,12 @@
  			"run bootcmd_mmc1; "				\
  		"fi\0"
-
+ 
 +/*
 + * Mender
 + */
@@ -14,4 +33,7 @@ index c576d65efa..bc5b76172c 100644
 +
  #define BOOTENV_DEV_NAME_MMC_AUTO(devtypeu, devtypel, instance) \
  	"mmc_auto "
+ 
+-- 
+2.25.1
 
