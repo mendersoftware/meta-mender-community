@@ -32,7 +32,8 @@ def rootfs_mender_tezi_emmc(d):
     offset_bootrom = d.getVar('OFFSET_BOOTROM_PAYLOAD')
     offset_spl = d.getVar('OFFSET_SPL_PAYLOAD')
     imagename = d.getVar('IMAGE_LINK_NAME')
-    image_suffix = d.getVar("FULL_IMAGE_SUFFIX")
+    image_suffix = d.getVar('FULL_IMAGE_SUFFIX')
+    storage_device = os.path.basename(d.getVar('MENDER_STORAGE_DEVICE'))
 
     bootpart_rawfiles = []
 
@@ -50,7 +51,7 @@ def rootfs_mender_tezi_emmc(d):
 
     return [
         OrderedDict({
-          "name": "mmcblk0",
+          "name": storage_device,
           "table_type": "gpt",
               "content": {
                   "rawfiles": [
@@ -62,7 +63,7 @@ def rootfs_mender_tezi_emmc(d):
               }
         }),
         OrderedDict({
-          "name": "mmcblk0boot0",
+          "name": "%sboot0" % (storage_device),
           "erase": True,
           "content": {
             "filesystem_type": "raw",
