@@ -1,12 +1,10 @@
---- boot.cmd.in.orig	2022-06-13 07:29:05.128770364 +0000
-+++ boot.cmd.in	2022-06-13 15:14:30.754269214 +0000
-@@ -1,35 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0+ OR MIT
- #
+--- boot.cmd.in.orig	2022-05-04 17:11:45.617164243 -0400
++++ boot.cmd.in	2022-05-04 17:17:32.098033569 -0400
+@@ -3,33 +3,9 @@
  # Copyright 2020 Toradex
-+# With Mender integration.
  #
  # Toradex boot script.
++# With Mender integration.
  #
 -# Allows to change boot and rootfs devices independently.
 -# Supports:
@@ -83,7 +81,7 @@
  
  if test -n ${setup}; then
      run setup
-@@ -79,52 +41,17 @@
+@@ -79,52 +41,18 @@
      env set bootcmd_unzip 'unzip ${kernel_addr_load} ${kernel_addr_r}'
  else
      env set bootcmd_unzip ';'
@@ -91,20 +89,20 @@
 -    then
 -        env set kernel_addr_load ${ramdisk_addr_r}
 -    else
--        env set kernel_addr_load ${kernel_addr_r}
+         env set kernel_addr_load ${kernel_addr_r}
 -    fi
 -fi
 -
 -# Set dynamic commands
 -env set set_bootcmd_kernel 'env set bootcmd_kernel "${load_cmd} \\${kernel_addr_load} \\${kernel_image}"'
--env set set_load_overlays_file 'env set load_overlays_file "${load_cmd} \\${loadaddr} \\${overlays_file}; env import -t \\${loadaddr} \\${filesize}"'
+-env set set_load_overlays_file 'env set load_overlays_file "${load_cmd} \\${loadaddr} \\${overlays_file} && env import -t \\${loadaddr} \\${filesize}"'
 -if test ${kernel_image} = "fitImage"
 -then
 -    env set fdt_high
 -    env set fdt_resize true
 -    env set set_bootcmd_dtb 'env set bootcmd_dtb "true"'
--    env set set_apply_overlays 'env set apply_overlays "for overlay_file in \"\\${fdt_overlays}\"; do env set fitconf_fdt_overlays \"\\"\\${fitconf_fdt_overlays}#conf@\\${overlay_file}\\"\"; env set overlay_file; done; true"'
--    env set bootcmd_boot 'echo "Bootargs: \${bootargs}" && bootm ${ramdisk_addr_r}#conf@\${fdtfile}\${fitconf_fdt_overlays}'
+-    env set set_apply_overlays 'env set apply_overlays "for overlay_file in \"\\${fdt_overlays}\"; do env set fitconf_fdt_overlays \"\\"\\${fitconf_fdt_overlays}#conf-\\${overlay_file}\\"\"; env set overlay_file; done; true"'
+-    env set bootcmd_boot 'echo "Bootargs: \${bootargs}" && bootm ${ramdisk_addr_r}#conf-\${fdtfile}\${fitconf_fdt_overlays}'
 -else
 -    env set fdt_resize 'fdt addr ${fdt_addr_r} && fdt resize 0x20000'
 -    env set set_bootcmd_dtb 'env set bootcmd_dtb "echo Loading DeviceTree: \\${fdtfile}; ${load_cmd} \\${fdt_addr_r} \\${fdtfile}"'
@@ -122,7 +120,6 @@
 -        env set uuid_set 'part uuid ${root_devtype} ${root_devnum}:${root_part} uuid'
 -        env set rootfsargs_set 'run uuid_set && env set rootfsargs root=PARTUUID=${uuid} ro rootwait'
 -    fi
-+    env set kernel_addr_load ${kernel_addr_r}
  fi
  
 +env set rootfsargs_set 'env set rootfsargs root=${mender_kernel_root} ro rootwait'
@@ -134,7 +131,7 @@
 -fi
 +env set bootcmd_overlays 'run load_overlays_file && run fdt_resize && run apply_overlays'
  env set bootcmd_prepare 'run set_bootcmd_kernel; run set_bootcmd_dtb; run set_load_overlays_file; run set_apply_overlays'
--env set bootcmd_run 'run m4boot; run bootcmd_dtb && run bootcmd_overlays && run bootcmd_args && run bootcmd_kernel && run bootcmd_unzip && run bootcmd_boot; echo "Booting from ${devtype} failed!" && false'
+ env set bootcmd_run 'run m4boot; run bootcmd_dtb && run bootcmd_overlays && run bootcmd_args && run bootcmd_kernel && run bootcmd_unzip && run bootcmd_boot; echo "Booting from ${devtype} failed!" && false'
 +env set bootcmd_run 'run m4boot; run bootcmd_dtb && run bootcmd_overlays && run bootcmd_args && run bootcmd_kernel && run bootcmd_unzip && run bootcmd_boot; echo "Booting from ${devtype} failed!"'
  
  run bootcmd_prepare
