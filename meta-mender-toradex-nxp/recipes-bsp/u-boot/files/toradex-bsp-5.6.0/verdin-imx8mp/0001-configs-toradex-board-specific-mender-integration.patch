@@ -1,0 +1,67 @@
+From b5efb76a9017e9217a03c890b70b7b3f32b293e8 Mon Sep 17 00:00:00 2001
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Fri, 10 Jun 2022 14:22:11 +0000
+Subject: [PATCH] configs: verdin-imx8mp: mender integration
+
+Apply configuration changes for Mender.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/verdin-imx8mp_defconfig |  7 ++++---
+ include/configs/verdin-imx8mp.h | 14 +++-----------
+ 2 files changed, 7 insertions(+), 14 deletions(-)
+
+diff --git a/configs/verdin-imx8mp_defconfig b/configs/verdin-imx8mp_defconfig
+index ba98e49515..7464b0d33f 100644
+--- a/configs/verdin-imx8mp_defconfig
++++ b/configs/verdin-imx8mp_defconfig
+@@ -11,9 +11,11 @@ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+ CONFIG_SYS_I2C_MXC_I2C4=y
+-CONFIG_ENV_SIZE=0x2000
++CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ # Bogus, gets overwritten in include/configs/verdin-imx8mp.h
+-CONFIG_ENV_OFFSET=0x400000
+ CONFIG_DM_GPIO=y
+ CONFIG_TARGET_VERDIN_IMX8MP=y
+ CONFIG_SPL_SERIAL_SUPPORT=y
+@@ -68,7 +70,6 @@ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_DEFAULT_DEVICE_TREE="imx8mp-verdin"
+ # SPL recovery crashes otherwise
+-CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+diff --git a/include/configs/verdin-imx8mp.h b/include/configs/verdin-imx8mp.h
+index e854ef6d2d..138d00a559 100644
+--- a/include/configs/verdin-imx8mp.h
++++ b/include/configs/verdin-imx8mp.h
+@@ -124,17 +124,9 @@
+ 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
+ 
+ #define CONFIG_ENV_OVERWRITE
+-#if defined(CONFIG_ENV_IS_IN_MMC)
+-/* Environment in eMMC, before config block at the end of 1st "boot sector" */
+-#undef CONFIG_ENV_SIZE
+-#undef CONFIG_ENV_OFFSET
+-
+-#define CONFIG_ENV_SIZE		0x2000
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE + \
+-					 CONFIG_TDX_CFG_BLOCK_OFFSET)
+-#define CONFIG_SYS_MMC_ENV_DEV		2
+-#define CONFIG_SYS_MMC_ENV_PART		1
+-#endif
++
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
+ 
+ #define CONFIG_SYS_BOOTM_LEN		SZ_64M /* Increase max gunzip size */
+ 
+-- 
+2.30.2
+

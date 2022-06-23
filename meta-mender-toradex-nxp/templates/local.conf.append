@@ -24,6 +24,16 @@ MENDER_BOOT_PART_SIZE_MB_verdin-imx8mm = "32"
 OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
 
 #
+# Settings for verdin-imx8mp
+#
+MENDER_BOOT_PART_SIZE_MB_verdin-imx8mp = "32"
+OFFSET_SPL_PAYLOAD_verdin-imx8mp = ""
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_verdin-imx8mp = "0"
+MENDER_UBOOT_STORAGE_INTERFACE_verdin-imx8mp = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE_verdin-imx8mp = "2"
+MENDER_STORAGE_DEVICE_verdin-imx8mp = "/dev/mmcblk2"
+
+#
 # Settings for colibri-imx6ull
 #
 INHERIT_remove_colibri-imx6ull = " mender-full "
