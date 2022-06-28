@@ -3,7 +3,6 @@
 
 # Comment/remove below to enable GRUB integration instead of U-Boot
 MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
-MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 #
 # Settings for verdin-imx8mp

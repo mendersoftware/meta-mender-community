@@ -3,7 +3,6 @@
 Mender integration layer for Toradex family of boards.
 
 The supported and tested boards are:
-
 - [Toradex Verdin iMX8M Mini](https://hub.mender.io/t/toradex-verdin-imx8m-mini/2908)
 - [Toradex Verdin iMX8M Plus](https://hub.mender.io/t/toradex-verdin-imx8m-plus/5026)
 - [Toradex Colibri i.MX6ULL](https://hub.mender.io/t/toradex-colibri-i-mx6ull/4102/2)
