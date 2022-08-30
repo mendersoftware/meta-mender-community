@@ -57,6 +57,11 @@ MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "2048"
 #
 # Settings for apalis-imx6
 #
+TEZI_STORAGE_DEVICE_apalis-imx6 = "mmcblk0"
 MENDER_STORAGE_DEVICE_apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE_apalis-imx6 = "0"
 MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx6 = "2048"
+
+# Append the Mender provided bootargs to tdxargs
+# the Toradex boot.scr will overwrite bootargs so we stash the context in tdxargs
+MENDER_UBOOT_POST_SETUP_COMMANDS_append = " ; setenv tdxargs \${tdxargs} \${bootargs}; "
