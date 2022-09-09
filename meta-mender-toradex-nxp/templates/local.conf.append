@@ -34,6 +34,15 @@ MENDER_UBOOT_STORAGE_DEVICE_verdin-imx8mp = "2"
 MENDER_STORAGE_DEVICE_verdin-imx8mp = "/dev/mmcblk2"
 
 #
+# Settings for colibri-imx8x
+#
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_colibri-imx8x = "0"
+MENDER_BOOT_PART_SIZE_MB_colibri-imx8x = "32"
+OFFSET_SPL_PAYLOAD_colibri-imx8x = ""
+MENDER_STORAGE_DEVICE_colibri-imx8x = "/dev/mmcblk0"
+MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx8x = "2048"
+
+#
 # Settings for colibri-imx6ull
 #
 INHERIT_remove_colibri-imx6ull = " mender-full "
@@ -46,6 +55,7 @@ MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
 MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
 MENDER_FEATURES_ENABLE_remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
 MENDER_FEATURES_DISABLE_append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
+
 #
 # Settings for apalis-imx8
 #
@@ -54,6 +64,7 @@ MENDER_BOOT_PART_SIZE_MB_apalis-imx8 = "32"
 OFFSET_SPL_PAYLOAD_apalis-imx8 = ""
 MENDER_STORAGE_DEVICE_apalis-imx8 = "/dev/mmcblk0"
 MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "2048"
+
 #
 # Settings for apalis-imx6
 #

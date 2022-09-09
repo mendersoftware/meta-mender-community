@@ -1,0 +1,65 @@
+From 371c2ba438dbe451d90dff7026bd85af845d6015 Mon Sep 17 00:00:00 2001
+From: Adrian Antonana <adrian.antonana@plating.de>
+Date: Fri, 9 Sep 2022 07:54:14 +0200
+Subject: [PATCH] configs toradex board specific mender integration
+
+---
+ configs/colibri-imx8x_defconfig |  6 ++++--
+ include/configs/colibri-imx8x.h | 10 ++--------
+ 2 files changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/configs/colibri-imx8x_defconfig b/configs/colibri-imx8x_defconfig
+index 256159b0608..156f9d00f27 100644
+--- a/configs/colibri-imx8x_defconfig
++++ b/configs/colibri-imx8x_defconfig
+@@ -2,8 +2,10 @@ CONFIG_ARM=y
+ CONFIG_ARCH_IMX8=y
+ CONFIG_SYS_TEXT_BASE=0x80020000
+ CONFIG_SYS_MALLOC_F_LEN=0x8000
+-CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_OFFSET=0xFFFFDE00
++CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_DM_GPIO=y
+ CONFIG_BOOTAUX_RESERVED_MEM_BASE=0x88000000
+ CONFIG_BOOTAUX_RESERVED_MEM_SIZE=0x08000000
+diff --git a/include/configs/colibri-imx8x.h b/include/configs/colibri-imx8x.h
+index fbb811cbb78..e2b49d54a99 100644
+--- a/include/configs/colibri-imx8x.h
++++ b/include/configs/colibri-imx8x.h
+@@ -91,7 +91,7 @@
+ 	"boot_scripts=" BOOT_SCRIPT "\0" \
+ 	"boot_script_dhcp=" BOOT_SCRIPT "\0" \
+ 	"bootcmd_mfg=select_dt_from_module_version && fastboot 0\0" \
+-	"console=ttyLP3,115200 earlycon=lpuart32,0x5a090000,115200\0" \
++	"console=ttyLP3\0" \
+ 	"fdt_addr=0x83000000\0"	\
+ 	"fdt_high=\0" \
+ 	"fdt_board=eval-v3\0" \
+@@ -99,7 +99,7 @@
+ 	"image=Image\0" \
+ 	"initrd_addr=0x83800000\0" \
+ 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
+-		"root=PARTUUID=${uuid} rootwait " \
++		"rootwait " \
+ 	"mmcdev=" __stringify(CONFIG_SYS_MMC_ENV_DEV) "\0" \
+ 	"mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
+ 	"panel=NULL\0" \
+@@ -123,12 +123,6 @@
+ 
+ #define CONFIG_SYS_MMC_IMG_LOAD_PART	1
+ 
+-/* Environment in eMMC, before config block at the end of 1st "boot sector" */
+-#define CONFIG_SYS_MMC_ENV_DEV		0	/* USDHC1 eMMC */
+-#define CONFIG_SYS_MMC_ENV_PART		1
+-
+-#define CONFIG_SYS_MMC_IMG_LOAD_PART	1
+-
+ /* On Colibri iMX8X USDHC1 is eMMC, USDHC2 is 4-bit SD */
+ #define CONFIG_SYS_FSL_USDHC_NUM	2
+ 
+-- 
+2.37.3
+
