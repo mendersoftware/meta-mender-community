@@ -10,11 +10,11 @@ IMAGE_TYPEDEP:mender_tezi:append = "${@bb.utils.contains('IMAGE_FSTYPES', 'sdimg
 
 # Figure out what type of image we are basing this on
 FULL_IMAGE_SUFFIX = ""
-FULL_IMAGE_SUFFIX_mender-image-sd = "sdimg"
-FULL_IMAGE_SUFFIX_mender-image-ubi = "ubimg"
-FULL_IMAGE_SUFFIX_mender-image-uefi = "uefiimg"
-FULL_IMAGE_SUFFIX_mender-image-bios = "biosimg"
-FULL_IMAGE_SUFFIX_mender-image-gpt = "gptimg"
+FULL_IMAGE_SUFFIX:mender-image-sd = "sdimg"
+FULL_IMAGE_SUFFIX:mender-image-ubi = "ubimg"
+FULL_IMAGE_SUFFIX:mender-image-uefi = "uefiimg"
+FULL_IMAGE_SUFFIX:mender-image-bios = "biosimg"
+FULL_IMAGE_SUFFIX:mender-image-gpt = "gptimg"
 
 TEZI_AUTO_INSTALL ??= "false"
 TEZI_CONFIG_FORMAT ??= "2"
