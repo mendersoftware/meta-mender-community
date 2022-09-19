@@ -1,5 +1,5 @@
---- boot.cmd.in.orig	2022-05-04 17:11:45.617164243 -0400
-+++ boot.cmd.in	2022-05-04 17:17:32.098033569 -0400
+--- boot.cmd.in.old
++++ boot.cmd.in
 @@ -3,33 +3,9 @@
  # Copyright 2020 Toradex
  #
@@ -36,7 +36,7 @@
  
  if test ${devtype} = "ubi"; then
      echo "This script is not meant to distro boot from raw NAND flash."
-@@ -38,34 +14,20 @@
+@@ -38,34 +14,20 @@ fi
  
  test -n ${m4boot} || env set m4boot ';'
  test -n ${fdtfile} || env set fdtfile ${fdt_file}
@@ -81,15 +81,16 @@
  
  if test -n ${setup}; then
      run setup
-@@ -79,52 +41,18 @@
-     env set bootcmd_unzip 'unzip ${kernel_addr_load} ${kernel_addr_r}'
- else
-     env set bootcmd_unzip ';'
--    if test ${kernel_image} = "fitImage"
--    then
--        env set kernel_addr_load ${ramdisk_addr_r}
--    else
-         env set kernel_addr_load ${kernel_addr_r}
+@@ -84,53 +46,19 @@ else
+         env set bootcmd_unzip 'unzip ${kernel_addr_load} ${kernel_addr_r}'
+     else
+         env set bootcmd_unzip ';'
+-        if test ${kernel_image} = "fitImage"
+-        then
+-            env set kernel_addr_load ${ramdisk_addr_r}
+-        else
+-            env set kernel_addr_load ${kernel_addr_r}
+-        fi
 -    fi
 -fi
 -
@@ -119,7 +120,8 @@
 -    else
 -        env set uuid_set 'part uuid ${root_devtype} ${root_devnum}:${root_part} uuid'
 -        env set rootfsargs_set 'run uuid_set && env set rootfsargs root=PARTUUID=${uuid} ro rootwait'
--    fi
++        env set kernel_addr_load ${kernel_addr_r}
+     fi
  fi
  
 +env set rootfsargs_set 'env set rootfsargs root=${mender_kernel_root} ro rootwait'
