@@ -16,14 +16,14 @@ This layer depends on:
 
 ```
 URI: https://git.toradex.com/meta-toradex-nxp.git
-branch: dunfell
+branch: kirkstone-6.x.y
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
@@ -40,7 +40,7 @@ repo init -u https://git.toradex.com/toradex-manifest.git \
     -m tdxref/default.xml
 
 wget --directory-prefix .repo/local_manifests \
-    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/dunfell/scripts/mender-no-setup.xml
+    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/kirkstone-next/scripts/mender-no-setup.xml
 
 repo sync
 
