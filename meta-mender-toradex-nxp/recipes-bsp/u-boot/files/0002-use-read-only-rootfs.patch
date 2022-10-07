@@ -1,0 +1,13 @@
+diff --git a/include/configs/colibri-imx6ull.h b/include/configs/colibri-imx6ull.h
+index ecb6642ef6..533c3de696 100644
+--- a/include/configs/colibri-imx6ull.h
++++ b/include/configs/colibri-imx6ull.h
+@@ -73,7 +73,7 @@
+                 "bootm ${ramdisk_addr_r}\0"
+ #else /* CONFIG_TDX_EASY_INSTALLER */
+ #define UBI_BOOTCMD \
+-	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} rw rootfstype=ubifs " \
++	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} ro rootfstype=ubifs " \
+ 		"ubi.fm_autoconvert=1\0" \
+ 	"ubiboot=run setup; " \
+ 		"setenv bootargs ${defargs} ${ubiargs} ${mtdparts} " \

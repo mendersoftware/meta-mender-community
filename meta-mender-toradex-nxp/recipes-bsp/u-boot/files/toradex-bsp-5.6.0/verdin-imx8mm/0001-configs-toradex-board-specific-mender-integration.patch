@@ -1,0 +1,56 @@
+From e1cef1b71ffa402ce355c2bf7287b9a7888020d2 Mon Sep 17 00:00:00 2001
+From: Mirza Krak <mirza.krak@northern.tech>
+Date: Mon, 30 Nov 2020 09:53:07 +0100
+Subject: [PATCH] configs: verdin-imx8mm: mender integration
+
+Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
+---
+ configs/verdin-imx8mm_defconfig |  6 ++++--
+ include/configs/verdin-imx8mm.h | 14 +++-----------
+ 2 files changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/configs/verdin-imx8mm_defconfig b/configs/verdin-imx8mm_defconfig
+index f3a7e006e93..c42b25c6df7 100644
+--- a/configs/verdin-imx8mm_defconfig
++++ b/configs/verdin-imx8mm_defconfig
+@@ -10,8 +10,10 @@ CONFIG_SYS_MALLOC_F_LEN=0x10000
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+-CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_OFFSET=0xFFFFDE0
++CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_DM_GPIO=y
+ CONFIG_TARGET_VERDIN_IMX8MM=y
+ CONFIG_SPL_MMC_SUPPORT=y
+diff --git a/include/configs/verdin-imx8mm.h b/include/configs/verdin-imx8mm.h
+index 72e758ec8aa..aa2e3be305c 100644
+--- a/include/configs/verdin-imx8mm.h
++++ b/include/configs/verdin-imx8mm.h
+@@ -121,17 +121,9 @@
+         (CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
+ 
+ #define CONFIG_ENV_OVERWRITE
+-#if defined(CONFIG_ENV_IS_IN_MMC)
+-/* Environment in eMMC, before config block at the end of 1st "boot sector" */
+-#undef CONFIG_ENV_SIZE
+-#undef CONFIG_ENV_OFFSET
+-
+-#define CONFIG_ENV_SIZE		0x2000
+-#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE + \
+-					 CONFIG_TDX_CFG_BLOCK_OFFSET)
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#define CONFIG_SYS_MMC_ENV_PART	1
+-#endif
++
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
+ 
+ #define CONFIG_SYS_BOOTM_LEN		(64 << 20) /* Increase max gunzip size */
+ 
+-- 
+2.33.0
+
