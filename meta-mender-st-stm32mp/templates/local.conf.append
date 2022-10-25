@@ -40,7 +40,7 @@ ENABLE_FLASHLAYOUT_CONFIG = "0"
 # These are originally added in mender-setup-image.inc
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:mender-image:arm = "kernel-devicetree"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append:mender-image:arm = " kernel-imagebootfs"
-MENDER_STORAGE_TOTAL_SIZE_MB = "2046"
+MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
 
 # # Upstream PR: https://github.com/STMicroelectronics/meta-st-stm32mp/pull/11
 PREFERRED_PROVIDER_u-boot="u-boot-stm32mp"
@@ -49,14 +49,13 @@ PREFERRED_PROVIDER_virtual/bootloader="u-boot-stm32mp"
 # # Add custom image class that appends STM32MP bootloader to the gptimg
 IMAGE_CLASSES += "stm32mp-gptimg"
 
-MENDER_UBOOT_STORAGE_DEVICE = "1"
 
-MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}3"
-MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}5"
-MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}6"
+MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6"
+MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7"
+MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}8"
 
 # Default for MENDER_DATA_PART_NUMBER is 4
-MENDER_DATA_PART_NUMBER = "7"
+MENDER_DATA_PART_NUMBER = "9"
 MENDER_DATA_PART_SIZE_MB = "10"
 
 IMAGE_FSTYPES:append = " gptimg.gz"
@@ -64,9 +63,7 @@ IMAGE_FSTYPES:append = " gptimg.gz"
 IMAGE_BOOT_FILES = "stm32mp1-boot.scr;boot.scr"
 
 # # # Specify device tree
-KERNEL_DEVICETREE="stm32mp153a-ground4-mx.dtb"
-# UBOOT_DEVICETREE = "stm32mp153a-ground4-mx.dtb"
-# MENDER_DTB_NAME_FORCE = "stm32mp153a-ground4-mx.dtb"
+KERNEL_DEVICETREE="stm32mp157d-dk1.dtb"
 
 # Maps to CONFIG_ENV_OFFSET 0x900000
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "9437184"
