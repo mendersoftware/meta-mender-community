@@ -80,7 +80,7 @@ that have Mender integrated.
 ## Flash the image from scratch:
 
 
-   * For firs time board flash you need to build image according ST wiki without mender layers and save the bootloaders files:
+   * For firs time board flash to eMMC you need to build image according ST wiki without mender layers and save the bootloaders files:
         * tmp-glibc/deploy/images/stm32mp1-disco/arm-trusted-firmware/tf-a-stm32mp157d-dk1-usb.stm32
         * tmp-glibc/deploy/images/stm32mp1-disco/fip/fip-stm32mp157d-dk1-trusted.bin
         * tmp-glibc/deploy/images/stm32mp1-disco/flashlayout_st-image-core\trusted\FlashLayout_emmc_stm32mp157d-dk1-trusted.tsv
@@ -93,12 +93,17 @@ that have Mender integrated.
     #Opt	Id	Name	Type	IP	Offset	Binary
 -	0x01	fsbl-boot	Binary	    none	0x0	        arm-trusted-firmware/tf-a-stm32mp157d-dk1-usb.stm32
 -	0x03	fip-boot	FIP	        none	0x0	        /fip/fip-stm32mp157d-dk1-trusted.bin
-P	0x04	fsbl1		Binary		mmc0	boot1		arm-trusted-firmware/tf-a-stm32mp157d-dk1-emmc.stm32
-P	0x05	fsbl2		Binary		mmc0	boot2		arm-trusted-firmware/tf-a-stm32mp157d-dk1-emmc.stm32
-P	0x10	emmc	    RawImage	mmc0	0x0	        st-image-core-stm32mp1-disco.img
+P	0x04	fsbl1		Binary		mmc1	boot1		arm-trusted-firmware/tf-a-stm32mp157d-dk1-emmc.stm32
+P	0x05	fsbl2		Binary		mmc1	boot2		arm-trusted-firmware/tf-a-stm32mp157d-dk1-emmc.stm32
+P	0x10	emmc	    RawImage	mmc1	0x0	        st-image-core-stm32mp1-disco.img
 ```
     
 * First 0x01 - 0x04 partitions are files from the regular ST wiki build without mender layers. 
 * The 0x10 partition are the image that you build with mender layers. 
 * Burn the board with STM32CubeProgrammer (you can find help in ST wiki).
+    
+    * for SD card we need to change the stm32mp-gptimg.bbclass and add fsbl1 ,fsbl2 to the first partitions ( see the quotes in this class)
+    * end change the tsv file:
+        * remove partition 0x04 and 0x05. 
+        * change 0x10 to: sdcard	    RawImage	mmc0	0x0	        st-image-core-stm32mp1-disco.img
 

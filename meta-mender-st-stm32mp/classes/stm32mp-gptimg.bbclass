@@ -15,6 +15,13 @@ IMAGE_CMD:gptimg:append:stcommon() {
     rm "$wks"
 
     cat >> "$wks" <<EOF
+# For SD card setup you need to add the fsbls:
+#part fsbl1 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-stm32mp157d-dk1-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K --align 17
+#part fsbl2 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-stm32mp157d-dk1-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K
+# also you need to change in conf/local.conf file the mender parameters according partitions that changed in this class pgtimg: 
+# MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6" ->  8
+# MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7" -> 9
+# MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}8" -> 10
 
 part metadata1 --source rawcopy --fsoptions "noauto" --part-name=metadata1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K --align 420
 part metadata2 --source rawcopy --fsoptions "noauto" --part-name=metadata2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K 
