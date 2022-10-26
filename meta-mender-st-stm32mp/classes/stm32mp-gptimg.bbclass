@@ -18,8 +18,8 @@ IMAGE_CMD:gptimg:append:stcommon() {
 
 part metadata1 --source rawcopy --fsoptions "noauto" --part-name=metadata1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K --align 420
 part metadata2 --source rawcopy --fsoptions "noauto" --part-name=metadata2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K 
-part fip-a  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-a --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp153a-ground4-mx-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="4FD84C93-54EF-463F-A7EF-AE25FF887087" --fixed-size 4096K
-part fip-b  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-b --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp153a-ground4-mx-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="09C54952-D5BF-45AF-ACEE-335303766FB3" --fixed-size 4096K
+part fip-a  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-a --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp157d-dk1-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="4FD84C93-54EF-463F-A7EF-AE25FF887087" --fixed-size 4096K
+part fip-b  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-b --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp157d-dk1-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="09C54952-D5BF-45AF-ACEE-335303766FB3" --fixed-size 4096K
 
 part u-boot-env --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=u-boot-env --sourceparams="file=${WORKDIR}/uboot.env" --ondisk mmcblk --align $boot_env_align_kb
 part --source rootfs --rootfs-dir ${WORKDIR}/bootfs/ --ondisk "$ondisk_dev" --fstype=vfat --label boot --align $alignment_kb --fixed-size ${MENDER_BOOT_PART_SIZE_MB} --active $boot_part_params
