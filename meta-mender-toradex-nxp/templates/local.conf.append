@@ -22,6 +22,7 @@ IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 #
 MENDER_BOOT_PART_SIZE_MB_verdin-imx8mm = "32"
 OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
+KERNEL_DEVICETREE_verdin-imx8mm = "freescale/imx8mm-verdin-wifi-dahlia.dtb"
 
 #
 # Settings for verdin-imx8mp
@@ -32,6 +33,7 @@ MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_verdin-imx8mp = "0"
 MENDER_UBOOT_STORAGE_INTERFACE_verdin-imx8mp = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE_verdin-imx8mp = "2"
 MENDER_STORAGE_DEVICE_verdin-imx8mp = "/dev/mmcblk2"
+KERNEL_DEVICETREE_verdin-imx8mp = "freescale/imx8mp-verdin-wifi-dahlia.dtb"
 
 #
 # Settings for colibri-imx8x
@@ -41,6 +43,7 @@ MENDER_BOOT_PART_SIZE_MB_colibri-imx8x = "32"
 OFFSET_SPL_PAYLOAD_colibri-imx8x = ""
 MENDER_STORAGE_DEVICE_colibri-imx8x = "/dev/mmcblk0"
 MENDER_STORAGE_TOTAL_SIZE_MB_colibri-imx8x = "2048"
+KERNEL_DEVICETREE_colibri-imx8x = "freescale/imx8qxp-colibri-iris-v2.dtb"
 
 #
 # Settings for colibri-imx6ull
@@ -55,6 +58,9 @@ MENDER_STORAGE_PEB_SIZE_colibri-imx6ull = "131072"
 MKUBIFS_ARGS_colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
 MENDER_FEATURES_ENABLE_remove_colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
 MENDER_FEATURES_DISABLE_append_colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
+KERNEL_DEVICETREE_colibri-imx6ull = "imx6ull-colibri-wifi-eval-v3.dtb"
+# meta-freescale-3rdparty appends to KERNEL_DEVICETREE so explicitly remove those.
+KERNEL_DEVICETREE_remove_colibri-imx6ull = "imx6ull-colibri-aster.dtb imx6ull-colibri-iris.dtb imx6ull-colibri-iris-v2.dtb imx6ull-colibri-wifi-aster.dtb imx6ull-colibri-wifi-iris.dtb imx6ull-colibri-wifi-iris-v2.dtb"
 
 #
 # Settings for apalis-imx8
@@ -64,6 +70,7 @@ MENDER_BOOT_PART_SIZE_MB_apalis-imx8 = "32"
 OFFSET_SPL_PAYLOAD_apalis-imx8 = ""
 MENDER_STORAGE_DEVICE_apalis-imx8 = "/dev/mmcblk0"
 MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "2048"
+KERNEL_DEVICETREE_apalis-imx8 = "freescale/imx8qm-apalis-v1.1-ixora-v1.2.dtb"
 
 #
 # Settings for apalis-imx6
@@ -72,6 +79,7 @@ TEZI_STORAGE_DEVICE_apalis-imx6 = "mmcblk0"
 MENDER_STORAGE_DEVICE_apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE_apalis-imx6 = "0"
 MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx6 = "2048"
+KERNEL_DEVICETREE_apalis-imx6 = "imx6q-apalis-ixora-v1.1.dtb"
 
 # Append the Mender provided bootargs to tdxargs
 # the Toradex boot.scr will overwrite bootargs so we stash the context in tdxargs

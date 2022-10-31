@@ -1,19 +1,19 @@
-From e1cef1b71ffa402ce355c2bf7287b9a7888020d2 Mon Sep 17 00:00:00 2001
+From 5fae5b0ef943bb5b6ed8df6e7889da1af6e36b55 Mon Sep 17 00:00:00 2001
 From: Mirza Krak <mirza.krak@northern.tech>
 Date: Mon, 30 Nov 2020 09:53:07 +0100
 Subject: [PATCH] configs: verdin-imx8mm: mender integration
 
 Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
 ---
- configs/verdin-imx8mm_defconfig |  6 ++++--
+ configs/verdin-imx8mm_defconfig |  8 +++++---
  include/configs/verdin-imx8mm.h | 14 +++-----------
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ 2 files changed, 8 insertions(+), 14 deletions(-)
 
 diff --git a/configs/verdin-imx8mm_defconfig b/configs/verdin-imx8mm_defconfig
-index f3a7e006e93..c42b25c6df7 100644
+index ff4febcd33f..58155ba633e 100644
 --- a/configs/verdin-imx8mm_defconfig
 +++ b/configs/verdin-imx8mm_defconfig
-@@ -10,8 +10,10 @@ CONFIG_SYS_MALLOC_F_LEN=0x10000
+@@ -10,14 +10,16 @@ CONFIG_SYS_MALLOC_F_LEN=0x10000
  CONFIG_SYS_I2C_MXC_I2C1=y
  CONFIG_SYS_I2C_MXC_I2C2=y
  CONFIG_SYS_I2C_MXC_I2C3=y
@@ -26,11 +26,18 @@ index f3a7e006e93..c42b25c6df7 100644
  CONFIG_DM_GPIO=y
  CONFIG_TARGET_VERDIN_IMX8MM=y
  CONFIG_SPL_MMC_SUPPORT=y
+ CONFIG_SPL_SERIAL_SUPPORT=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdtfile imx8mm-verdin-${variant}-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SPL_DRIVERS_MISC_SUPPORT=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_SPL=y
 diff --git a/include/configs/verdin-imx8mm.h b/include/configs/verdin-imx8mm.h
-index 72e758ec8aa..aa2e3be305c 100644
+index 87e73c26a7b..06fb01787fc 100644
 --- a/include/configs/verdin-imx8mm.h
 +++ b/include/configs/verdin-imx8mm.h
-@@ -121,17 +121,9 @@
+@@ -135,17 +135,9 @@
          (CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
  
  #define CONFIG_ENV_OVERWRITE
@@ -52,5 +59,5 @@ index 72e758ec8aa..aa2e3be305c 100644
  #define CONFIG_SYS_BOOTM_LEN		(64 << 20) /* Increase max gunzip size */
  
 -- 
-2.33.0
+2.25.1
 

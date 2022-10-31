@@ -1,4 +1,4 @@
-From b5efb76a9017e9217a03c890b70b7b3f32b293e8 Mon Sep 17 00:00:00 2001
+From fc8ba43eda469411e5a436d3ae5fc6f6eeaff3b2 Mon Sep 17 00:00:00 2001
 From: Leon Anavi <leon.anavi@konsulko.com>
 Date: Fri, 10 Jun 2022 14:22:11 +0000
 Subject: [PATCH] configs: verdin-imx8mp: mender integration
@@ -7,12 +7,12 @@ Apply configuration changes for Mender.
 
 Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- configs/verdin-imx8mp_defconfig |  7 ++++---
+ configs/verdin-imx8mp_defconfig |  9 +++++----
  include/configs/verdin-imx8mp.h | 14 +++-----------
- 2 files changed, 7 insertions(+), 14 deletions(-)
+ 2 files changed, 8 insertions(+), 15 deletions(-)
 
 diff --git a/configs/verdin-imx8mp_defconfig b/configs/verdin-imx8mp_defconfig
-index ba98e49515..7464b0d33f 100644
+index ba98e49515c..acce33cc248 100644
 --- a/configs/verdin-imx8mp_defconfig
 +++ b/configs/verdin-imx8mp_defconfig
 @@ -11,9 +11,11 @@ CONFIG_SYS_I2C_MXC_I2C1=y
@@ -29,6 +29,15 @@ index ba98e49515..7464b0d33f 100644
  CONFIG_DM_GPIO=y
  CONFIG_TARGET_VERDIN_IMX8MP=y
  CONFIG_SPL_SERIAL_SUPPORT=y
+@@ -36,7 +38,7 @@ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/toradex/verdin-imx8mp/imximage.cfg"
+ CONFIG_BOOTDELAY=1
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdtfile imx8mp-verdin-${variant}-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile  ${mender_dtb_name}"
+ CONFIG_LOG=y
+ CONFIG_BOARD_LATE_INIT=y
+ # CONFIG_DISPLAY_BOARDINFO is not set
 @@ -68,7 +70,6 @@ CONFIG_CMD_EXT4_WRITE=y
  CONFIG_OF_CONTROL=y
  CONFIG_DEFAULT_DEVICE_TREE="imx8mp-verdin"
@@ -38,7 +47,7 @@ index ba98e49515..7464b0d33f 100644
  CONFIG_SYS_RELOC_GD_ENV_ADDR=y
  CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
 diff --git a/include/configs/verdin-imx8mp.h b/include/configs/verdin-imx8mp.h
-index e854ef6d2d..138d00a559 100644
+index e854ef6d2db..138d00a559b 100644
 --- a/include/configs/verdin-imx8mp.h
 +++ b/include/configs/verdin-imx8mp.h
 @@ -124,17 +124,9 @@
@@ -63,5 +72,5 @@ index e854ef6d2d..138d00a559 100644
  #define CONFIG_SYS_BOOTM_LEN		SZ_64M /* Increase max gunzip size */
  
 -- 
-2.30.2
+2.25.1
 
