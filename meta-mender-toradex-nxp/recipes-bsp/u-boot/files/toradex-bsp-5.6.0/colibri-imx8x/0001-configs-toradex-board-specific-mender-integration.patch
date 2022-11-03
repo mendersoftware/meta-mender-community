@@ -1,15 +1,15 @@
-From 371c2ba438dbe451d90dff7026bd85af845d6015 Mon Sep 17 00:00:00 2001
+From fc1e5be974ec5aa546a20d244aa4253accd2898e Mon Sep 17 00:00:00 2001
 From: Adrian Antonana <adrian.antonana@plating.de>
 Date: Fri, 9 Sep 2022 07:54:14 +0200
 Subject: [PATCH] configs toradex board specific mender integration
 
 ---
- configs/colibri-imx8x_defconfig |  6 ++++--
+ configs/colibri-imx8x_defconfig |  8 +++++---
  include/configs/colibri-imx8x.h | 10 ++--------
- 2 files changed, 6 insertions(+), 10 deletions(-)
+ 2 files changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/configs/colibri-imx8x_defconfig b/configs/colibri-imx8x_defconfig
-index 256159b0608..156f9d00f27 100644
+index 256159b0608..8b910142858 100644
 --- a/configs/colibri-imx8x_defconfig
 +++ b/configs/colibri-imx8x_defconfig
 @@ -2,8 +2,10 @@ CONFIG_ARM=y
@@ -25,6 +25,15 @@ index 256159b0608..156f9d00f27 100644
  CONFIG_DM_GPIO=y
  CONFIG_BOOTAUX_RESERVED_MEM_BASE=0x88000000
  CONFIG_BOOTAUX_RESERVED_MEM_SIZE=0x08000000
+@@ -17,7 +19,7 @@ CONFIG_FIT=y
+ CONFIG_FIT_VERBOSE=y
+ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdtfile ${soc}-colibri-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/toradex/colibri-imx8x/colibri-imx8x-imximage.cfg"
+ CONFIG_BOOTDELAY=1
+ CONFIG_LOG=y
 diff --git a/include/configs/colibri-imx8x.h b/include/configs/colibri-imx8x.h
 index fbb811cbb78..e2b49d54a99 100644
 --- a/include/configs/colibri-imx8x.h
@@ -61,5 +70,5 @@ index fbb811cbb78..e2b49d54a99 100644
  #define CONFIG_SYS_FSL_USDHC_NUM	2
  
 -- 
-2.37.3
+2.25.1
 

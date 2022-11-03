@@ -1,15 +1,15 @@
-From cdcef7f862ddac91472f62314646a6d3977929d5 Mon Sep 17 00:00:00 2001
+From fe1c77a6e14a8d4c5cc09857a91448725b6b3a73 Mon Sep 17 00:00:00 2001
 From: pagi <paul.giangrossi@qamcom.se>
 Date: Fri, 9 Jul 2021 08:29:09 +0200
 Subject: [PATCH] 0001-configs-toradex-board-specific-mender-integration
 
 ---
- configs/apalis-imx8_defconfig | 6 ++++--
+ configs/apalis-imx8_defconfig | 8 +++++---
  include/configs/apalis-imx8.h | 6 +-----
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/configs/apalis-imx8_defconfig b/configs/apalis-imx8_defconfig
-index 42700e4571..d0acca8dd2 100644
+index 42700e45715..47ed2118197 100644
 --- a/configs/apalis-imx8_defconfig
 +++ b/configs/apalis-imx8_defconfig
 @@ -2,8 +2,10 @@ CONFIG_ARM=y
@@ -25,8 +25,17 @@ index 42700e4571..d0acca8dd2 100644
  CONFIG_DM_GPIO=y
  CONFIG_BOOTAUX_RESERVED_MEM_BASE=0x88000000
  CONFIG_BOOTAUX_RESERVED_MEM_SIZE=0x08000000
+@@ -17,7 +19,7 @@ CONFIG_FIT=y
+ CONFIG_FIT_VERBOSE=y
+ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdtfile ${soc}-apalis${variant}-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/toradex/apalis-imx8/apalis-imx8-imximage.cfg"
+ CONFIG_BOOTDELAY=1
+ CONFIG_LOG=y
 diff --git a/include/configs/apalis-imx8.h b/include/configs/apalis-imx8.h
-index 5532f8e03f..b590835d33 100644
+index 5532f8e03ff..b590835d336 100644
 --- a/include/configs/apalis-imx8.h
 +++ b/include/configs/apalis-imx8.h
 @@ -111,7 +111,7 @@
@@ -50,5 +59,5 @@ index 5532f8e03f..b590835d33 100644
  
  /* On Apalis iMX8 USDHC1 is eMMC, USDHC2 is 8-bit and USDHC3 is 4-bit MMC/SD */
 -- 
-2.37.3
+2.25.1
 
