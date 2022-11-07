@@ -8,6 +8,8 @@ The supported and tested boards are:
  - [Pico-Pi i.MX7D](https://hub.mender.io/t/technexion-pico-pi-imx7/136)
  - [Nitrogen8M](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
  - [Nitrogen8MM](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
+ - [Nitrogen8MM](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
+ - [Nitrogen8MP](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
  - [i.MX7D SABRE](https://hub.mender.io/t/nxp-i-mx7d-sabre/1279)
 
 
@@ -21,19 +23,19 @@ This layer depends on:
 
 ```
 URI: https://github.com/Freescale/meta-freescale-3rdparty
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/Freescale/meta-freescale-distro
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/boundarydevices/meta-boundary
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
@@ -47,7 +49,7 @@ that have Mender integrated.
 mkdir mender-nxp && cd mender-nxp
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-nxp/scripts/manifest-nxp.xml \
-          -b dunfell
+          -b kirkstone-next
 repo sync
 source setup-environment nxp
 MACHINE=imx7s-warp bitbake core-image-base
