@@ -1,15 +1,15 @@
-From 3e9f1c1bb6d32e5087aead5473e4e21eaeaccddc Mon Sep 17 00:00:00 2001
+From 0502710a5a6595760e3c1b9e529ed92d0c8eef04 Mon Sep 17 00:00:00 2001
 From: pagi <paul.giangrossi@qamcom.se>
 Date: Fri, 9 Jul 2021 08:29:09 +0200
 Subject: [PATCH] 0001-configs-toradex-board-specific-mender-integration
 
 ---
- configs/apalis_imx6_defconfig |  6 ++++--
- include/configs/apalis_imx6.h | 12 ++----------
+ configs/apalis_imx6_defconfig |  8 ++++++--
+ include/configs/apalis_imx6.h | 10 ----------
  2 files changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/configs/apalis_imx6_defconfig b/configs/apalis_imx6_defconfig
-index 02167536d4b..71c0e8560da 100644
+index 02167536d4b..5acb11bb731 100644
 --- a/configs/apalis_imx6_defconfig
 +++ b/configs/apalis_imx6_defconfig
 @@ -4,8 +4,10 @@ CONFIG_SYS_TEXT_BASE=0x17800000
@@ -25,24 +25,29 @@ index 02167536d4b..71c0e8560da 100644
  CONFIG_MX6_DDRCAL=y
  CONFIG_TARGET_APALIS_IMX6=y
  CONFIG_DM_GPIO=y
+@@ -19,6 +21,8 @@ CONFIG_AHCI=y
+ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_FIT=y
+ CONFIG_FIT_VERBOSE=y
++CONFIG_USE_PREBOOT=y
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/mach-imx/spl_sd.cfg,MX6Q"
+ CONFIG_BOOTDELAY=1
+ CONFIG_SYS_CONSOLE_IS_IN_ENV=y
 diff --git a/include/configs/apalis_imx6.h b/include/configs/apalis_imx6.h
-index d77b8ab5060..17c873690ae 100644
+index d77b8ab5060..2f1cfb7e71f 100644
 --- a/include/configs/apalis_imx6.h
 +++ b/include/configs/apalis_imx6.h
-@@ -126,10 +126,10 @@
- 	"scriptaddr=0x17000000\0"
- 
- #ifndef CONFIG_TDX_APALIS_IMX6_V1_0
--#define FDT_FILE "imx6q-apalis-eval.dtb"
-+#define FDT_FILE "${mender_dtb_name}"
- #define FDT_FILE_V1_0 "imx6q-apalis_v1_0-eval.dtb"
- #else
--#define FDT_FILE "imx6q-apalis_v1_0-eval.dtb"
-+#define FDT_FILE "${mender_dtb_name}"
- #endif
- 
- #if defined(CONFIG_TDX_EASY_INSTALLER)
-@@ -193,12 +193,4 @@
+@@ -149,8 +149,6 @@
+ 	"boot_file=zImage\0" \
+ 	"console=ttymxc0\0" \
+ 	"defargs=enable_wait_mode=off vmalloc=400M\0" \
+-	"fdt_file=" FDT_FILE "\0" \
+-	"fdtfile=" FDT_FILE "\0" \
+ 	"fdt_fixup=;\0" \
+ 	MEM_LAYOUT_ENV_SETTINGS \
+ 	UBOOT_UPDATE \
+@@ -193,12 +191,4 @@
  #define CONFIG_SYS_INIT_SP_ADDR \
  	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
  
