@@ -1,4 +1,4 @@
-From e6a9d3cd8bec8af068422e4168d4ae548f416211 Mon Sep 17 00:00:00 2001
+From da6c6498214b4c630f7568067aa9910c8045b6e4 Mon Sep 17 00:00:00 2001
 From: Adrian Antonana <adrian.antonana@plating.de>
 Date: Wed, 31 Mar 2021 10:21:42 +0200
 Subject: [PATCH] colibri imx6ull mender manual U-Boot integration
@@ -9,21 +9,21 @@ Subject: [PATCH] colibri imx6ull mender manual U-Boot integration
  2 files changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/configs/colibri-imx6ull_defconfig b/configs/colibri-imx6ull_defconfig
-index c7ac275daf5..75c6c9bc709 100644
+index 97f8d2e0fa..37c9cd0dda 100644
 --- a/configs/colibri-imx6ull_defconfig
 +++ b/configs/colibri-imx6ull_defconfig
-@@ -13,9 +13,9 @@ CONFIG_FIT_VERBOSE=y
- CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/toradex/colibri-imx6ull/imximage.cfg,MX6ULL,IMX_NAND"
+@@ -16,9 +16,9 @@ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_FIT=y
+ CONFIG_FIT_VERBOSE=y
  CONFIG_BOOTDELAY=1
- CONFIG_USE_BOOTCOMMAND=y
 -CONFIG_BOOTCOMMAND="run ubiboot || run distro_bootcmd;"
 +CONFIG_BOOTCOMMAND="run ubiboot; run mender_try_to_recover;"
  CONFIG_USE_PREBOOT=y
 -CONFIG_PREBOOT="test -n ${fdtfile} || setenv fdtfile imx6ull-colibri${variant}-${fdt_board}.dtb"
 +CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
  CONFIG_SYS_CONSOLE_IS_IN_ENV=y
- CONFIG_VERSION_VARIABLE=y
  # CONFIG_DISPLAY_BOARDINFO is not set
+ CONFIG_DISPLAY_BOARDINFO_LATE=y
 @@ -48,12 +48,12 @@ CONFIG_CMD_CACHE=y
  CONFIG_CMD_REGULATOR=y
  CONFIG_CMD_MTDPARTS=y
@@ -33,14 +33,14 @@ index c7ac275daf5..75c6c9bc709 100644
  CONFIG_CMD_UBI=y
  # CONFIG_ISO_PARTITION is not set
  CONFIG_OF_CONTROL=y
- CONFIG_DEFAULT_DEVICE_TREE="imx6ull-colibri"
+ CONFIG_ENV_OVERWRITE=y
 -CONFIG_ENV_IS_IN_NAND=y
 +CONFIG_ENV_IS_IN_UBI=y
  CONFIG_SYS_RELOC_GD_ENV_ADDR=y
  CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
- CONFIG_IP_DEFRAG=y
-@@ -94,3 +94,7 @@ CONFIG_USB_GADGET_DOWNLOAD=y
- CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VERSION_VARIABLE=y
+@@ -97,3 +97,7 @@ CONFIG_CI_UDC=y
+ CONFIG_USB_GADGET_DOWNLOAD=y
  CONFIG_OF_LIBFDT_OVERLAY=y
  CONFIG_FDT_FIXUP_PARTITIONS=y
 +CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
@@ -48,12 +48,12 @@ index c7ac275daf5..75c6c9bc709 100644
 +CONFIG_ENV_UBI_VOLUME="u-boot-env-1"
 +CONFIG_ENV_UBI_VOLUME_REDUND="u-boot-env-2"
 diff --git a/include/configs/colibri-imx6ull.h b/include/configs/colibri-imx6ull.h
-index 944c44930e9..913a32502b6 100644
+index 1722966de3..8914f42bcf 100644
 --- a/include/configs/colibri-imx6ull.h
 +++ b/include/configs/colibri-imx6ull.h
-@@ -73,15 +73,17 @@
-                 "bootm ${ramdisk_addr_r}\0"
- #else /* CONFIG_TDX_EASY_INSTALLER */
+@@ -50,15 +50,17 @@
+ 	"scriptaddr=0x88280000\0"
+ 
  #define UBI_BOOTCMD \
 -	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
 +	"ubiargs=ubi.mtd=${mender_mtd_ubi_dev_name} root=${mender_kernel_root} rw rootfstype=ubifs " \
@@ -65,16 +65,16 @@ index 944c44930e9..913a32502b6 100644
 -		"ubi part ubi &&" \
 -		"ubi read ${kernel_addr_r} kernel && " \
 -		"ubi read ${fdt_addr_r} dtb && " \
--		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
+-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
 +		"run mender_setup; "                                   \
 +		"ubi part ${mender_mtd_ubi_dev_name} && "              \
 +		"ubifsmount ${mender_uboot_root_name} && "             \
 +		"ubifsload ${kernel_addr_r} /boot/zImage && "          \
 +		"ubifsload ${fdt_addr_r} /boot/${fdtfile} && "         \
 +		"bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
- #endif /* CONFIG_TDX_EASY_INSTALLER */
  
  #if defined(CONFIG_TARGET_COLIBRI_IMX6ULL_NAND)
+ /* Run Distro Boot script if ubiboot fails */
 -- 
-2.36.1
+2.38.1
 

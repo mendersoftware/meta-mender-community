@@ -1,56 +1,54 @@
-From e1cef1b71ffa402ce355c2bf7287b9a7888020d2 Mon Sep 17 00:00:00 2001
+From 57aec20b4916e52233045699f230734a52059f08 Mon Sep 17 00:00:00 2001
 From: Mirza Krak <mirza.krak@northern.tech>
 Date: Mon, 30 Nov 2020 09:53:07 +0100
 Subject: [PATCH] configs: verdin-imx8mm: mender integration
 
 Signed-off-by: Mirza Krak <mirza.krak@northern.tech>
 ---
- configs/verdin-imx8mm_defconfig |  6 ++++--
- include/configs/verdin-imx8mm.h | 14 +++-----------
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ configs/verdin-imx8mm_defconfig | 8 +++++---
+ include/configs/verdin-imx8mm.h | 3 +++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/configs/verdin-imx8mm_defconfig b/configs/verdin-imx8mm_defconfig
-index f3a7e006e93..c42b25c6df7 100644
+index 69b12868fa..48e547e51e 100644
 --- a/configs/verdin-imx8mm_defconfig
 +++ b/configs/verdin-imx8mm_defconfig
-@@ -10,8 +10,10 @@ CONFIG_SYS_MALLOC_F_LEN=0x10000
- CONFIG_SYS_I2C_MXC_I2C1=y
- CONFIG_SYS_I2C_MXC_I2C2=y
- CONFIG_SYS_I2C_MXC_I2C3=y
+@@ -6,8 +6,10 @@ CONFIG_SYS_MALLOC_F_LEN=0x10000
+ CONFIG_SPL_GPIO=y
+ CONFIG_SPL_LIBCOMMON_SUPPORT=y
+ CONFIG_SPL_LIBGENERIC_SUPPORT=y
 -CONFIG_ENV_SIZE=0x2000
--CONFIG_ENV_OFFSET=0xFFFFDE0
+-CONFIG_ENV_OFFSET=0xFFFFDE00
 +CONFIG_ENV_SIZE=0x4000
 +CONFIG_ENV_OFFSET=0x800000
 +CONFIG_ENV_OFFSET_REDUND=0x1000000
 +CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
  CONFIG_DM_GPIO=y
- CONFIG_TARGET_VERDIN_IMX8MM=y
- CONFIG_SPL_MMC_SUPPORT=y
+ CONFIG_DEFAULT_DEVICE_TREE="imx8mm-verdin"
+ CONFIG_SPL_TEXT_BASE=0x7E1000
+@@ -70,7 +72,7 @@ CONFIG_SPL_OF_CONTROL=y
+ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+-CONFIG_SYS_MMC_ENV_PART=1
++CONFIG_SYS_MMC_ENV_PART=0
+ CONFIG_USE_ETHPRIME=y
+ CONFIG_ETHPRIME="eth0"
+ CONFIG_VERSION_VARIABLE=y
 diff --git a/include/configs/verdin-imx8mm.h b/include/configs/verdin-imx8mm.h
-index 72e758ec8aa..aa2e3be305c 100644
+index 3dd334ceec..7276a8839b 100644
 --- a/include/configs/verdin-imx8mm.h
 +++ b/include/configs/verdin-imx8mm.h
-@@ -121,17 +121,9 @@
-         (CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
+@@ -86,6 +86,9 @@
+ /* Environment in eMMC, before config block at the end of 1st "boot sector" */
+ #endif
  
- #define CONFIG_ENV_OVERWRITE
--#if defined(CONFIG_ENV_IS_IN_MMC)
--/* Environment in eMMC, before config block at the end of 1st "boot sector" */
--#undef CONFIG_ENV_SIZE
--#undef CONFIG_ENV_OFFSET
--
--#define CONFIG_ENV_SIZE		0x2000
--#define CONFIG_ENV_OFFSET		(-CONFIG_ENV_SIZE + \
--					 CONFIG_TDX_CFG_BLOCK_OFFSET)
--#define CONFIG_SYS_MMC_ENV_DEV		0
--#define CONFIG_SYS_MMC_ENV_PART	1
--#endif
-+
 +#define CONFIG_BOOTCOUNT_ENV
 +#define CONFIG_BOOTCOUNT_LIMIT
++
+ #define CONFIG_SYS_SDRAM_BASE           0x40000000
  
- #define CONFIG_SYS_BOOTM_LEN		(64 << 20) /* Increase max gunzip size */
- 
+ /* SDRAM configuration */
 -- 
-2.33.0
+2.38.1
 

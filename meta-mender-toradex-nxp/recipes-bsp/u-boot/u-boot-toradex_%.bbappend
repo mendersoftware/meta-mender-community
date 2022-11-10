@@ -8,6 +8,7 @@ MENDER_RESERVED_SPACE_BOOTLOADER_DATA:mender-uboot:colibri-imx6ull ="0x40000"
 BOOTENV_SIZE:mender-uboot:colibri-imx6ull = "0x20000"
 
 PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot-default-env","",d)}"
+PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot","",d)}"
 RPROVIDES:${PN} += "${@mender_feature_is_enabled("mender-uboot","u-boot","",d)}"
 PROVIDES += "${@mender_feature_is_enabled("mender-uboot","u-boot-default-env","",d)}"
 
