@@ -6,9 +6,7 @@ The supported and tested boards are:
 - [Toradex Verdin iMX8M Mini](https://hub.mender.io/t/toradex-verdin-imx8m-mini/2908)
 - [Toradex Verdin iMX8M Plus](https://hub.mender.io/t/toradex-verdin-imx8m-plus/5026)
 - [Toradex Apalis iMX6](https://hub.mender.io/t/toradex-nxp-i-mx-6-computer-on-module-apalis-imx6/2331)
-- [Toradex Apalis iMX8](https://hub.mender.io/t/toradex-apalis-i-mx8/4103)
 - [Toradex Colibri iMX6ULL](https://hub.mender.io/t/toradex-colibri-i-mx6ull/4102)
-- [Toradex Colibri iMX8X](https://hub.mender.io/t/toradex-colibri-i-mx6ull/4102)
 
 Visit the individual board links above for more information on status of the
 integration and more detailed instructions on how to build and use images
