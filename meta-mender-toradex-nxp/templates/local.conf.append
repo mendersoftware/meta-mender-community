@@ -32,6 +32,7 @@ MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET:verdin-imx8mp = "0"
 MENDER_UBOOT_STORAGE_INTERFACE:verdin-imx8mp = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE:verdin-imx8mp = "2"
 MENDER_STORAGE_DEVICE:verdin-imx8mp = "/dev/mmcblk2"
+MENDER_STORAGE_TOTAL_SIZE_MB:verdin-imx8mp = "2048"
 
 #
 # Settings for colibri-imx8x
