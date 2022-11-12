@@ -18,6 +18,7 @@ FULL_IMAGE_SUFFIX:mender-image-gpt = "gptimg"
 
 TEZI_AUTO_INSTALL ??= "false"
 TEZI_CONFIG_FORMAT ??= "2"
+TEZI_STORAGE_DEVICE ??= "${@os.path.basename(d.getVar('MENDER_STORAGE_DEVICE'))}"
 
 # Do not include these image types:
 IMAGE_FSTYPES:remove = "${SOC_DEFAULT_IMAGE_FSTYPES} tar.xz ${FULL_IMAGE_SUFFIX}.bz2"
@@ -33,7 +34,7 @@ def rootfs_mender_tezi_emmc(d):
     offset_spl = d.getVar('OFFSET_SPL_PAYLOAD')
     imagename = d.getVar('IMAGE_LINK_NAME')
     image_suffix = d.getVar('FULL_IMAGE_SUFFIX')
-    storage_device = os.path.basename(d.getVar('MENDER_STORAGE_DEVICE'))
+    storage_device = d.getVar('TEZI_STORAGE_DEVICE')
 
     bootpart_rawfiles = []
 

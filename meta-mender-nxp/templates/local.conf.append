@@ -12,8 +12,8 @@ DISTRO ?= "fslc-framebuffer"
 
 IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 
-MENDER_BOOT_PART_SIZE_MB = "32"
-MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+MENDER_BOOT_PART_SIZE_MB = "64"
+MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
 
 # Specific Configuration for Mender
 MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
@@ -41,3 +41,6 @@ MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2:imx7s-warp = "0xE0000"
 IMAGE_BOOT_FILES:imx7dsabresd = "boot.scr"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1:imx7dsabresd = "0xC0000"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2:imx7dsabresd = "0xE0000"
+
+# Specific Congifuration for nitrogen8mp
+MENDER_STORAGE_DEVICE:nitrogen8mp = "/dev/mmcblk2"
