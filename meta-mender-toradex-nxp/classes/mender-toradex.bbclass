@@ -9,6 +9,16 @@ toradex_mender_update_fstab_file() {
     mv ${IMAGE_ROOTFS}${sysconfdir}/fstab.toradex ${IMAGE_ROOTFS}${sysconfdir}/fstab
 }
 
+ROOTFS_POSTPROCESS_COMMAND:append = " toradex_mender_update_devicetree_overlays;"
+toradex_mender_update_devicetree_overlays() {
+    # the Toradex BSP uses Device Tree overlays which are normally populated to the boot
+    # partition using WIC and bootimg-partition types. Since Mender does not use that partition
+    # type we have to account for that here. We want it in a POSTPROCESS_COMMAND so that it
+    # applies to all images
+    cp ${DEPLOY_DIR_IMAGE}/overlays.txt ${IMAGE_ROOTFS}/boot/overlays.txt
+    cp -R ${DEPLOY_DIR_IMAGE}/overlays/ ${IMAGE_ROOTFS}/boot/overlays
+}
+
 addhandler mender_tezi_sanity_handler
 mender_tezi_sanity_handler[eventmask] = "bb.event.ParseCompleted"
 python mender_tezi_sanity_handler() {

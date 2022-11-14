@@ -15,7 +15,11 @@ IMAGE_FSTYPES:remove = " teziimg"
 KERNEL_IMAGETYPE:aarch64_mender-grub = "Image"
 
 # boot.scr conflicts when using GRUB
-IMAGE_BOOT_FILES:remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+IMAGE_BOOT_FILES:remove:mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+
+# Remove files from boot partition that are loaded by Mender
+# from the root partitions; this allows the files to be updated OTA
+IMAGE_BOOT_FILES:remove:mender-uboot = "zImage ${KERNEL_DEVICETREE} overlays.txt overlays/*;overlays/"
 
 #
 # Settings for verdin-imx8mm
@@ -71,4 +75,7 @@ TEZI_STORAGE_DEVICE:apalis-imx6 = "mmcblk0"
 MENDER_STORAGE_DEVICE:apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE:apalis-imx6 = "0"
 MENDER_STORAGE_TOTAL_SIZE_MB:apalis-imx6 = "2048"
-                                         
+
+# Make sure the Toradex boot script finds the overlays and overlays.txt file in
+# the /boot directory of the rootfs partition
+MENDER_UBOOT_POST_SETUP_COMMANDS:append = " ; setenv overlays_file /boot/overlays.txt ; setenv overlays_prefix boot/overlays/ "
