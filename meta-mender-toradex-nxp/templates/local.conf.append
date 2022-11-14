@@ -17,6 +17,10 @@ KERNEL_IMAGETYPE_aarch64_mender-grub = "Image"
 # boot.scr conflicts when using GRUB
 IMAGE_BOOT_FILES_remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 
+# Remove files from boot partition that are loaded by Mender
+# from the root partitions; this allows the files to be updated OTA
+IMAGE_BOOT_FILES_remove_mender-uboot = "zImage ${KERNEL_DEVICETREE} overlays.txt overlays/*;overlays/"
+
 #
 # Settings for verdin-imx8mm
 #
@@ -84,3 +88,7 @@ KERNEL_DEVICETREE_apalis-imx6 = "imx6q-apalis-ixora-v1.1.dtb"
 # Append the Mender provided bootargs to tdxargs
 # the Toradex boot.scr will overwrite bootargs so we stash the context in tdxargs
 MENDER_UBOOT_POST_SETUP_COMMANDS_append = " ; setenv tdxargs \${tdxargs} \${bootargs}; "
+
+# Make sure the Toradex boot script finds the overlays and overlays.txt file in
+# the /boot directory of the rootfs partition
+MENDER_UBOOT_POST_SETUP_COMMANDS_append = " ; setenv overlays_file /boot/overlays.txt ; setenv overlays_prefix boot/overlays/ "
