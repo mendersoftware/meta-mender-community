@@ -1,18 +1,18 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot-fslc:"
 
-SRC_URI:append_imx7s-warp = " \
+SRC_URI:append:imx7s-warp = " \
 	file://0001-ARM-WaRP7-Add-support-to-mender.patch \
 "
-BOOTENV_SIZE_imx7s-warp = "0x2000"
+BOOTENV_SIZE:imx7s-warp = "0x2000"
 
-SRC_URI:append_imx7d-pico = " \
+SRC_URI:append:imx7d-pico = " \
 	file://0001-ARM-Pico-Pi-i.MX7D-support-to-mender.patch \
 "
-BOOTENV_SIZE_imx7d-pico = "0x2000"
+BOOTENV_SIZE:imx7d-pico = "0x2000"
 
-SRC_URI:append_imx7dsabresd = " \
+SRC_URI:append:imx7dsabresd = " \
 	file://0001-mx7dsabresd-Add-support-to-mender.patch \
 "
-BOOTENV_SIZE_imx7dsabresd = "0x2000"
+BOOTENV_SIZE:imx7dsabresd = "0x2000"
 
 MENDER_UBOOT_AUTO_CONFIGURE = "0"

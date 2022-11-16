@@ -5,6 +5,7 @@ INHERIT += "mender-toradex"
 
 # Comment/remove below to enable GRUB integration instead of U-Boot
 MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 IMAGE_CLASSES += "image_type_mender_tezi"
 IMAGE_FSTYPES:append = " mender_tezi"
@@ -19,8 +20,8 @@ IMAGE_BOOT_FILES:remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
 #
 # Settings for verdin-imx8mm
 #
-MENDER_BOOT_PART_SIZE_MB_verdin-imx8mm = "32"
-OFFSET_SPL_PAYLOAD_verdin-imx8mm = ""
+MENDER_BOOT_PART_SIZE_MB:verdin-imx8mm = "32"
+OFFSET_SPL_PAYLOAD:verdin-imx8mm = ""
 
 #
 # Settings for verdin-imx8mp
@@ -31,6 +32,16 @@ MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET:verdin-imx8mp = "0"
 MENDER_UBOOT_STORAGE_INTERFACE:verdin-imx8mp = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE:verdin-imx8mp = "2"
 MENDER_STORAGE_DEVICE:verdin-imx8mp = "/dev/mmcblk2"
+MENDER_STORAGE_TOTAL_SIZE_MB:verdin-imx8mp = "2048"
+
+#
+# Settings for colibri-imx8x
+#
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET:colibri-imx8x = "0"
+MENDER_BOOT_PART_SIZE_MB:colibri-imx8x = "32"
+OFFSET_SPL_PAYLOAD:colibri-imx8x = ""
+MENDER_STORAGE_DEVICE:colibri-imx8x = "/dev/mmcblk0"
+MENDER_STORAGE_TOTAL_SIZE_MB:colibri-imx8x = "2048"
 
 #
 # Settings for colibri-imx6ull
@@ -48,14 +59,16 @@ MENDER_FEATURES_DISABLE:append:colibri-imx6ull = " mender-grub mender-image-uefi
 #
 # Settings for apalis-imx8
 #
-MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET_apalis-imx8 = "0"
-MENDER_BOOT_PART_SIZE_MB_apalis-imx8 = "32"
-OFFSET_SPL_PAYLOAD_apalis-imx8 = ""
-MENDER_STORAGE_DEVICE_apalis-imx8 = "/dev/mmcblk0"
-MENDER_STORAGE_TOTAL_SIZE_MB_apalis-imx8 = "2048"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET:apalis-imx8 = "0"
+MENDER_BOOT_PART_SIZE_MB:apalis-imx8 = "32"
+OFFSET_SPL_PAYLOAD:apalis-imx8 = ""
+MENDER_STORAGE_DEVICE:apalis-imx8 = "/dev/mmcblk0"
+MENDER_STORAGE_TOTAL_SIZE_MB:apalis-imx8 = "2048"
 #
 # Settings for apalis-imx6
 #
+TEZI_STORAGE_DEVICE:apalis-imx6 = "mmcblk0"
 MENDER_STORAGE_DEVICE:apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE:apalis-imx6 = "0"
 MENDER_STORAGE_TOTAL_SIZE_MB:apalis-imx6 = "2048"
+                                         

@@ -44,7 +44,7 @@ revision: HEAD
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: kirkstone-next
+branch: kirkstone
 revision: HEAD
 ```
 
@@ -55,7 +55,7 @@ that have Mender integrated.
 
 1. Setup enviroment with ST [wiki](https://wiki.st.com/stm32mpu/wiki/STM32MP1_Distribution_Package).
 2. Add meta-mender layer - kirkstone branch
-3. Add meta-mender-community layer - kirkstone-next branch
+3. Add meta-mender-community layer - kirkstone branch
 4. run init script of meta-mender-community layer in meta-mender-st-stm32mp/scripts
 ```
 . stm32mp-setup-mender.sh
