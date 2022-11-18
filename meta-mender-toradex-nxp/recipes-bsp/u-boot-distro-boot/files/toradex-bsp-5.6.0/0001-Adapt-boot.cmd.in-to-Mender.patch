@@ -1,5 +1,5 @@
---- boot.cmd.in.orig	2022-05-04 17:11:45.617164243 -0400
-+++ boot.cmd.in	2022-05-04 17:17:32.098033569 -0400
+--- boot.cmd.in.orig	2022-11-14 13:05:03.731252900 -0500
++++ boot.cmd.in	2022-11-14 13:05:55.301297974 -0500
 @@ -3,33 +3,9 @@
  # Copyright 2020 Toradex
  #
@@ -71,7 +71,7 @@
 +# Set dynamic commands
 +env set load_prefix 'boot/'
 +env set load_cmd 'load ${mender_uboot_root}'
-+env set load_cmd_boot 'load ${mender_uboot_boot}'
++env set load_cmd_boot 'load ${mender_uboot_root}'
 +env set set_bootcmd_kernel 'env set bootcmd_kernel "${load_cmd} \\${kernel_addr_load} \\${load_prefix}\\${kernel_image}"'
 +env set set_load_overlays_file 'env set load_overlays_file "${load_cmd_boot} \\${loadaddr} \\${overlays_file}; env import -t \\${loadaddr} \\${filesize}"'
 +env set fdt_resize 'fdt addr ${fdt_addr_r} && fdt resize 0x20000'
