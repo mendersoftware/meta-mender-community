@@ -15,13 +15,18 @@ IMAGE_FSTYPES:remove = " teziimg"
 KERNEL_IMAGETYPE:aarch64_mender-grub = "Image"
 
 # boot.scr conflicts when using GRUB
-IMAGE_BOOT_FILES:remove_mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+IMAGE_BOOT_FILES:remove:mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+
+# Remove files from boot partition that are loaded by Mender
+# from the root partitions; this allows the files to be updated OTA
+IMAGE_BOOT_FILES:remove:mender-uboot = "zImage ${KERNEL_DEVICETREE} overlays.txt overlays/*;overlays/"
 
 #
 # Settings for verdin-imx8mm
 #
 MENDER_BOOT_PART_SIZE_MB:verdin-imx8mm = "32"
 OFFSET_SPL_PAYLOAD:verdin-imx8mm = ""
+KERNEL_DEVICETREE:verdin-imx8mm = "freescale/imx8mm-verdin-wifi-dahlia.dtb"
 
 #
 # Settings for verdin-imx8mp
@@ -33,6 +38,7 @@ MENDER_UBOOT_STORAGE_INTERFACE:verdin-imx8mp = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE:verdin-imx8mp = "2"
 MENDER_STORAGE_DEVICE:verdin-imx8mp = "/dev/mmcblk2"
 MENDER_STORAGE_TOTAL_SIZE_MB:verdin-imx8mp = "2048"
+KERNEL_DEVICETREE:verdin-imx8mp = "freescale/imx8mp-verdin-wifi-dahlia.dtb"
 
 #
 # Settings for colibri-imx8x
@@ -42,6 +48,7 @@ MENDER_BOOT_PART_SIZE_MB:colibri-imx8x = "32"
 OFFSET_SPL_PAYLOAD:colibri-imx8x = ""
 MENDER_STORAGE_DEVICE:colibri-imx8x = "/dev/mmcblk0"
 MENDER_STORAGE_TOTAL_SIZE_MB:colibri-imx8x = "2048"
+KERNEL_DEVICETREE:colibri-imx8x = "freescale/imx8qxp-colibri-iris-v2.dtb"
 
 #
 # Settings for colibri-imx6ull
@@ -56,6 +63,8 @@ MENDER_STORAGE_PEB_SIZE:colibri-imx6ull = "131072"
 MKUBIFS_ARGS:colibri-imx6ull = "-m ${MENDER_FLASH_MINIMUM_IO_UNIT} -e ${MENDER_UBI_LEB_SIZE} -c ${MENDER_MAXIMUM_LEB_COUNT} --space-fixup"
 MENDER_FEATURES_ENABLE:remove:colibri-imx6ull = " mender-image-sd mender-image-grub mender-image-uefi"
 MENDER_FEATURES_DISABLE:append:colibri-imx6ull = " mender-grub mender-image-uefi mender-image-sd"
+KERNEL_DEVICETREE:colibri-imx6ull = "imx6ull-colibri-wifi-eval-v3.dtb"
+
 #
 # Settings for apalis-imx8
 #
@@ -64,6 +73,8 @@ MENDER_BOOT_PART_SIZE_MB:apalis-imx8 = "32"
 OFFSET_SPL_PAYLOAD:apalis-imx8 = ""
 MENDER_STORAGE_DEVICE:apalis-imx8 = "/dev/mmcblk0"
 MENDER_STORAGE_TOTAL_SIZE_MB:apalis-imx8 = "2048"
+KERNEL_DEVICETREE:apalis-imx8 = "freescale/imx8qm-apalis-v1.1-ixora-v1.2.dtb"
+
 #
 # Settings for apalis-imx6
 #
@@ -71,4 +82,12 @@ TEZI_STORAGE_DEVICE:apalis-imx6 = "mmcblk0"
 MENDER_STORAGE_DEVICE:apalis-imx6 = "/dev/mmcblk2"
 MENDER_UBOOT_STORAGE_DEVICE:apalis-imx6 = "0"
 MENDER_STORAGE_TOTAL_SIZE_MB:apalis-imx6 = "2048"
-                                         
+KERNEL_DEVICETREE:apalis-imx6 = "imx6q-apalis-ixora-v1.1.dtb"
+
+# Append the Mender provided bootargs to tdxargs
+# the Toradex boot.scr will overwrite bootargs so we stash the context in tdxargs
+MENDER_UBOOT_POST_SETUP_COMMANDS:append = " ; setenv tdxargs \${tdxargs} \${bootargs}; "
+
+# Make sure the Toradex boot script finds the overlays and overlays.txt file in
+# the /boot directory of the rootfs partition
+MENDER_UBOOT_POST_SETUP_COMMANDS:append = " ; setenv overlays_file /boot/overlays.txt ; setenv overlays_prefix boot/overlays/ "
