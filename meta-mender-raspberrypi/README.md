@@ -22,14 +22,14 @@ This layer depends on:
 
 ```
 URI: https://github.com/agherzan/meta-raspberrypi
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
@@ -44,7 +44,7 @@ that have Mender integrated.
 mkdir mender-raspberrypi && cd mender-raspberrypi
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-raspberrypi/scripts/manifest-raspberrypi.xml \
-           -b dunfell
+           -b kirkstone
 repo sync
 source setup-environment raspberrypi
 MACHINE=raspberrypi3 bitbake core-image-base
