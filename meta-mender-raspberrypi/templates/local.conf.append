@@ -4,7 +4,7 @@
 MACHINE ?= "raspberrypi3"
 
 RPI_USE_U_BOOT = "1"
-MENDER_BOOT_PART_SIZE_MB = "40"
+MENDER_BOOT_PART_SIZE_MB = "64"
 IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 IMAGE_FSTYPES:remove = " rpi-sdimg"
 
