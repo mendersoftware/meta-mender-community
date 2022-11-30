@@ -14,4 +14,6 @@ BBLAYERS ?= " \
   ${TOPDIR}/../sources/meta-mender/meta-mender-demo \
   ${TOPDIR}/../sources/meta-mender-community/meta-mender-atmel \
   ${TOPDIR}/../sources/meta-openembedded/meta-oe \
+  ${TOPDIR}/../sources/meta-arm/meta-arm-toolchain \
+  ${TOPDIR}/../sources/meta-arm/meta-arm \
 "
