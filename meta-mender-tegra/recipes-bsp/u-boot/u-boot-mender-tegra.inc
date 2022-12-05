@@ -8,7 +8,6 @@ ADDITIONAL_PATCHES = " \
     file://0015-Update-TX1-nano-emmc-defconfigs-for-new-UBENV-locati.patch \
     file://0017-Jetson-Xavier-NX-TX2-NX-mender.patch \
 "
-ADDITIONAL_PATCHES:l4t-mender-32-4-3 = ""
 SRC_URI:append:mender-uboot = "${ADDITIONAL_PATCHES}"
 
 do_provide_mender_defines:append:tegra210() {
