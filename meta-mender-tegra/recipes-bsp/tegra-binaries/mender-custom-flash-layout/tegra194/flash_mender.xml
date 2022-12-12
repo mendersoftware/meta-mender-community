@@ -136,7 +136,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> slot_metadata.bin </filename>
+            <filename> SMDFILE </filename>
             <description> **Required.** Slot A; contains slot status for A/B boot and A/B
               update. </description>
         </partition>
@@ -147,7 +147,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> slot_metadata.bin </filename>
+            <filename> SMDFILE </filename>
             <description> **Required.** Slot B; contains slot status for A/B boot and A/B
               update. </description>
         </partition>
@@ -261,7 +261,7 @@
             <description> **Required.** Slot B; contains microcode associated with execution
               and optimization of ARM code. </description>
         </partition>
-        <partition name="cpu-bootloader" type="bootloader" oem_sign="true">
+        <partition name="cpu-bootloader" type="bootloader_stage2" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1409024 </size>
@@ -272,7 +272,7 @@
             <description> **Required.** Slot A; contains CBoot, the final boot stage CPU Bootloader
               binary that loads the binary in the kernel partition.  </description>
         </partition>
-        <partition name="cpu-bootloader_b" type="bootloader" oem_sign="true">
+        <partition name="cpu-bootloader_b" type="bootloader_stage2" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1409024 </size>
@@ -283,7 +283,7 @@
             <description> **Required.** Slot B; contains CBoot, the final boot stage CPU Bootloader
               binary that loads the binary in the kernel partition.  </description>
         </partition>
-        <partition name="bootloader-dtb" type="data" oem_sign="true">
+        <partition name="bootloader-dtb" type="bl_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 524288 </size>
@@ -294,7 +294,7 @@
             <description> **Required.** Slot A; contains Bootloader device tree blob
               (DTB). </description>
         </partition>
-        <partition name="bootloader-dtb_b" type="data" oem_sign="true">
+        <partition name="bootloader-dtb_b" type="bl_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 524288 </size>
@@ -305,7 +305,7 @@
             <description> **Required.** Slot B; contains Bootloader device tree blob
               (DTB). </description>
         </partition>
-        <partition name="secure-os" type="data" oem_sign="true">
+        <partition name="secure-os" type="tos" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2621440 </size>
@@ -315,7 +315,7 @@
             <filename> TOSFILE </filename>
             <description> **Required.** Slot A; contains the trusted OS. </description>
         </partition>
-        <partition name="secure-os_b" type="data" oem_sign="true">
+        <partition name="secure-os_b" type="tos" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2621440 </size>
@@ -325,7 +325,7 @@
             <filename> TOSFILE </filename>
             <description> **Required.** Slot B; contains the trusted OS. </description>
         </partition>
-        <partition name="eks" type="data" oem_sign="true">
+        <partition name="eks" type="eks" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 65536 </size>
@@ -335,7 +335,7 @@
             <filename> EKSFILE </filename>
             <description> **Optional.** Slot A; contains the encrypted keys. </description>
         </partition>
-        <partition name="eks_b" type="data" oem_sign="true">
+        <partition name="eks_b" type="eks" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 65536 </size>
@@ -345,7 +345,7 @@
             <filename> EKSFILE </filename>
             <description> **Optional.** Slot B; contains the encrypted keys. </description>
         </partition>
-        <partition name="bpmp-fw" type="data" oem_sign="true">
+        <partition name="bpmp-fw" type="bpmp_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1572864 </size>
@@ -355,7 +355,7 @@
             <filename> BPFFILE </filename>
             <description> **Required.** Slot A; contains BPMP firmware. </description>
         </partition>
-        <partition name="bpmp-fw_b" type="data" oem_sign="true">
+        <partition name="bpmp-fw_b" type="bpmp_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1572864 </size>
@@ -365,7 +365,7 @@
             <filename> BPFFILE </filename>
             <description> **Required.** Slot B; contains BPMP firmware. </description>
         </partition>
-        <partition name="bpmp-fw-dtb" type="data" oem_sign="true">
+        <partition name="bpmp-fw-dtb" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -376,7 +376,7 @@
             <description> **Required.** Slot A; contains BPMP firmware device tree blob
               (DTB). </description>
         </partition>
-        <partition name="bpmp-fw-dtb_b" type="data" oem_sign="true">
+        <partition name="bpmp-fw-dtb_b" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -387,7 +387,7 @@
             <description> **Required.** Slot B; contains BPMP firmware device tree blob
               (DTB). </description>
         </partition>
-        <partition name="xusb-fw" type="data">
+        <partition name="xusb-fw" type="xusb_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 163840 </size>
@@ -398,7 +398,7 @@
             <description> **Required.** Slot A; contains XUSB module’s firmware file, making XUSB
               a true USB 3.0 compliant host controller. </description>
         </partition>
-        <partition name="xusb-fw_b" type="data">
+        <partition name="xusb-fw_b" type="xusb_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 163840 </size>
@@ -409,7 +409,7 @@
             <description> **Required.** Slot B; contains XUSB module’s firmware file, making XUSB
               a true USB 3.0 compliant host controller. </description>
         </partition>
-        <partition name="rce-fw" type="data" oem_sign="true">
+        <partition name="rce-fw" type="rce_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -419,7 +419,7 @@
             <filename> CAMERAFW </filename>
             <description> **Required.** Slot A; contains `camera-rtcpu-rce` firmware. </description>
         </partition>
-        <partition name="rce-fw_b" type="data" oem_sign="true">
+        <partition name="rce-fw_b" type="rce_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -429,7 +429,7 @@
             <filename> CAMERAFW </filename>
             <description> **Required.** Slot B; contains `camera-rtcpu-rce` firmware. </description>
         </partition>
-        <partition name="adsp-fw" type="data" oem_sign="true">
+        <partition name="adsp-fw" type="ape_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2097152 </size>
@@ -439,7 +439,7 @@
             <filename> adsp-fw.bin </filename>
             <description> **Required.** Slot A; contains ADSP software. </description>
         </partition>
-        <partition name="adsp-fw_b" type="data" oem_sign="true">
+        <partition name="adsp-fw_b" type="ape_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2097152 </size>
@@ -449,7 +449,7 @@
             <filename> adsp-fw.bin </filename>
             <description> **Required.** Slot B; contains ADSP software. </description>
         </partition>
-        <partition name="sce-fw" type="data" oem_sign="true">
+        <partition name="sce-fw" type="sce_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -458,7 +458,7 @@
             <percent_reserved> 0 </percent_reserved>
             <description> **Required.** Contains `camera-rtcpu-sce` firmware. </description>
         </partition>
-        <partition name="sce-fw_b" type="data" oem_sign="true">
+        <partition name="sce-fw_b" type="sce_fw" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
@@ -549,7 +549,7 @@
             <filename> BOOTCTRL-FILE </filename>
             <description> **Optional.** Slot B; reserved for future use by boot control data; removable </description>
         </partition>
-        <partition name="kernel" type="data" oem_sign="true">
+        <partition name="kernel" type="kernel" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> LNXSIZE </size>
@@ -559,7 +559,7 @@
             <filename> LNXFILE </filename>
             <description> **Required.** Slot A; contains the Linux kernel. </description>
         </partition>
-        <partition name="kernel_b" type="data" oem_sign="true">
+        <partition name="kernel_b" type="kernel" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> LNXSIZE </size>
@@ -569,7 +569,7 @@
             <filename> LNXFILE </filename>
             <description> **Required.** Slot B; contains the Linux kernel. </description>
         </partition>
-        <partition name="kernel-dtb" type="data" oem_sign="true">
+        <partition name="kernel-dtb" type="kernel_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 524288 </size>
@@ -579,7 +579,7 @@
             <filename> DTB_FILE </filename>
             <description> **Required.** Slot A; contains kernel device tree blob. </description>
         </partition>
-        <partition name="kernel-dtb_b" type="data" oem_sign="true">
+        <partition name="kernel-dtb_b" type="kernel_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 524288 </size>

@@ -148,7 +148,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> slot_metadata.bin </filename>
+            <filename> SMDFILE </filename>
             <description> **Required.** Slot A; contains slot status for A/B boot and A/B
               update. </description>
         </partition>
@@ -159,7 +159,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> slot_metadata.bin </filename>
+            <filename> SMDFILE </filename>
             <description> **Required.** Slot B; contains slot status for A/B boot and A/B
               update. </description>
         </partition>
