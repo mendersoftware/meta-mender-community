@@ -1,4 +1,4 @@
-From 01df6062dff7240fef99c77f3a6a8dcb2f0f0521 Mon Sep 17 00:00:00 2001
+From 15fde14880d51e186f91731505d12b4f1afde9a6 Mon Sep 17 00:00:00 2001
 From: Marek Belisko <marek.belisko@open-nandra.com>
 Date: Mon, 24 May 2021 10:30:36 +0200
 Subject: [PATCH] sunxi-common: Increase SIZE_LIMIT to fit with mender
@@ -10,10 +10,10 @@ Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 0ef289f..1482fe6 100644
+index 0ad7cabc3a..f4388ea5fa 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -131,7 +131,7 @@
+@@ -109,7 +109,7 @@
   * (CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR * 512)), but the value will be used
   * directly in a makefile, without the preprocessor expansion.
   */
@@ -21,7 +21,7 @@ index 0ef289f..1482fe6 100644
 +#define CONFIG_BOARD_SIZE_LIMIT		0xaffff
  #endif
  
- #if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
+ #define CONFIG_SYS_MMC_MAX_DEVICE	4
 -- 
-2.7.4
+2.25.1
 
