@@ -49,7 +49,7 @@ that have Mender integrated.
 mkdir mender-nxp && cd mender-nxp
 repo init -u https://github.com/mendersoftware/meta-mender-community \
           -m meta-mender-nxp/scripts/manifest-nxp.xml \
-          -b kirkstone-next
+          -b kirkstone
 repo sync
 source setup-environment nxp
 MACHINE=imx7s-warp bitbake core-image-base
