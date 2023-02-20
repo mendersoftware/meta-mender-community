@@ -3,9 +3,10 @@
   <default sync-j="4" revision="dunfell"/>
 
   <remote fetch="https://github.com/mendersoftware" name="mender"/>
+  <remote fetch="https://github.com/estape11" name="mender-temp"/>
 
   <project name="meta-mender" remote="mender" revision="dunfell" path="sources/meta-mender"/>
-  <project name="meta-mender-community" remote="mender" revision="dunfell" path="sources/meta-mender-community">
+  <project name="meta-mender-community" remote="mender-temp" revision="dunfell" path="sources/meta-mender-community">
     <copyfile dest="setup-environment" src="scripts/setup-environment"/>
   </project>
 

@@ -1,0 +1,37 @@
+From b13c811789c04ffd1cdd6ed8d19a0ee19c91cbba Mon Sep 17 00:00:00 2001
+From: Esteban AP <esteban.aguero@northern.tech>
+Date: Fri, 17 Feb 2023 19:53:37 +0000
+Subject: [PATCH] uboot cmds modifications to use mender variables
+
+Signed-off-by: Esteban AP <esteban.aguero@northern.tech>
+---
+ include/configs/smarc-rzg2l.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/include/configs/smarc-rzg2l.h b/include/configs/smarc-rzg2l.h
+index f543b34f40..cd9ed66aef 100644
+--- a/include/configs/smarc-rzg2l.h
++++ b/include/configs/smarc-rzg2l.h
+@@ -61,14 +61,14 @@
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"bootm_size=0x10000000 \0" \
+-	"prodsdbootargs=setenv bootargs rw rootwait earlycon root=/dev/mmcblk1p1 \0" \
+-	"prodemmcbootargs=setenv bootargs rw rootwait earlycon root=/dev/mmcblk0p1 \0" \
+-	"bootimage=unzip 0x4A080000 0x48080000; booti 0x48080000 - 0x48000000 \0" \
++	"prodsdbootargs=setenv bootargs rw rootwait earlycon root=${mender_boot_part_name} \0" \
++	"prodemmcbootargs=setenv bootargs rw rootwait earlycon \0" \
++	"bootimage=booti 0x48080000 - 0x48000000 \0" \
+ 	"emmcload=ext4load mmc 0:1 0x4A080000 boot/Image.gz;ext4load mmc 0:1 0x48000000 boot/r9a07g044l-smarc-rzg2l.dtb;run prodemmcbootargs \0" \
+-	"sd1load=ext4load mmc 1:1 0x4A080000 boot/Image.gz;ext4load mmc 1:1 0x48000000 boot/r9a07g044l-smarc-rzg2l.dtb;run prodsdbootargs \0" \
++	"sd1load=fatload mmc 1:1 0x48080000 Image-smarc-rzg2l.bin;fatload mmc 1:1 0x48000000 Image-r9a07g044l2-smarc.dtb;run prodsdbootargs \0" \
+ 	"bootcmd_check=if mmc dev 1; then run sd1load; else run emmcload; fi \0"
+ 
+-#define CONFIG_BOOTCOMMAND	"env default -a;run bootcmd_check;run bootimage"
++#define CONFIG_BOOTCOMMAND	"run mender_setup;run bootcmd_check;run bootimage"
+ 
+ /* For board */
+ /* Ethernet RAVB */
+-- 
+2.25.1
+

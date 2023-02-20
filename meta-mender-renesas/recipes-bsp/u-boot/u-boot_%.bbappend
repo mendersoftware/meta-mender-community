@@ -1,0 +1,1 @@
+require u-boot-rzg2l.inc

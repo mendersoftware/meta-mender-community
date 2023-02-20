@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+    <remote fetch="https://git.yoctoproject.org/git" name="yocto" />
+    <remote fetch="https://github.com/openembedded" name="oe" />
+    <remote fetch="https://github.com/renesas-rz" name="renesas" />
+    <remote fetch="https://github.com/meta-qt5" name="qt5" />
+
+    <project name="poky" remote="yocto" revision="refs/tags/dunfell-23.0.17" path="sources/poky" />
+    <project name="meta-openembedded" remote="oe"
+        revision="deee226017877d51188e0a46f9e6b93c10ffbb34" path="sources/meta-openembedded" />
+    <project name="meta-gplv2" remote="yocto" revision="60b251c25ba87e946a0ca4cdc8d17b1cb09292ac"
+        path="sources/meta-gplv2" />
+    <project name="meta-renesas" remote="renesas" revision="refs/tags/BSP-3.0.1"
+        path="sources/meta-renesas" />
+    <project name="meta-qt5" remote="qt5" revision="c1b0c9f546289b1592d7a895640de103723a0305"
+        path="sources/meta-qt5" />
+    <project name="meta-virtualization" remote="yocto"
+        revision="a63a54df3170fed387f810f23cdc2f483ad587df"
+        path="sources/meta-virtualization" />
+
+    <include name="scripts/mender.xml" />
+
+</manifest>
