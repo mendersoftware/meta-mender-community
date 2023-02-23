@@ -8,6 +8,7 @@
 #    - nitrogen8mn
 #    - nitrogen8mp
 #    - imx7dsabresd
+#    - cubox-i
 #
 MACHINE ?= "imx7s-warp"
 
@@ -48,3 +49,13 @@ MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2:imx7dsabresd = "0xE0000"
 
 # Specific Congifuration for nitrogen8mp
 MENDER_STORAGE_DEVICE:nitrogen8mp = "/dev/mmcblk2"
+
+# Specific Congifuration for cubox-i (HummingBoard)
+MENDER_IMAGE_BOOTLOADER_FILE:cubox-i = "SPL_UBOOT"
+IMAGE_BOOT_FILES:cubox-i = "boot.scr"
+MENDER_STORAGE_DEVICE:cubox-i = "/dev/mmcblk1"
+MENDER_UBOOT_STORAGE_INTERFACE:cubox-i = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE:cubox-i = "1"
+# Use a single dtb and fix the warning:
+# Found more than one dtb specified
+KERNEL_DEVICETREE:cubox-i="imx6q-hummingboard.dtb"
