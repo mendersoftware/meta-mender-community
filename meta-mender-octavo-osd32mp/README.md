@@ -38,8 +38,8 @@ information about the `STM32_Cube_Programmer` including installation instruction
     $ cd mender-osd32mp
     $ repo init \
            -u https://github.com/mendersoftware/meta-mender-community \
-           -m meta-mender-octavo-stm32mp/scripts/manifest-octavo-osd32mp.xml \
-           -b kirkstone
+           -m meta-mender-octavo-osd32mp/scripts/manifest-octavo-osd32mp.xml \
+           -b kirkstone-next
     $ repo sync
 ```
 
@@ -50,8 +50,8 @@ information about the `STM32_Cube_Programmer` including installation instruction
     $ cd mender-osd32mp
     $ repo init \
            -u https://github.com/amsobr/meta-mender-community \
-           -m meta-mender-octavo-stm32mp/scripts/manifest-octavo-osd32mp.xml \
-           -b kirkstone
+           -m meta-mender-octavo-osd32mp/scripts/manifest-octavo-osd32mp.xml \
+           -b kirkstone-next
     $ repo sync
 ```
 
@@ -59,7 +59,7 @@ information about the `STM32_Cube_Programmer` including installation instruction
 2. Setup environment:
 
 ```
-    $ TEMPLATECONF=$(pwd)/meta-mender-octavo-osd32mp/templates . layers/openembedded-core/oe-init-build-env
+    $ . setup-environment octavo-osd32mp
 ```
 
 3. Build:
