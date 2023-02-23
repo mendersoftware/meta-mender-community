@@ -36,6 +36,7 @@ Vendor-oriented:
 - meta-variscite
 - meta-phytec
 - meta-toradex-nxp
+- meta-mender-octavo-osd32mp
 
 Naming of integration layers follows the upstream naming conventions with SoM
 vendor layer name having priority. The convention is:
