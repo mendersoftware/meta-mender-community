@@ -3,7 +3,7 @@
     <remote name="github" fetch="https://github.com"/>
 
     <project name="mendersoftware/meta-mender" path="layers/meta-mender" remote="github" revision="kirkstone" >
-        <copyfile dest="setup-environment" src="scripts/setup-environment">
+        <copyfile dest="setup-environment" src="scripts/setup-environment" />
     </project>
     <project name="amsobr/meta-mender-community" path="layers/meta-mender-community" remote="github" revision="kirkstone" />
 </manifest>
