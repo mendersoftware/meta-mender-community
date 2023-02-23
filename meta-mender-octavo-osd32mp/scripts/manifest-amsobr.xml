@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-    <include name="openstlinux.xml" />
-
     <remote name="github" fetch="https://github.com"/>
 
     <project name="mendersoftware/meta-mender" path="layers/meta-mender" remote="github" revision="kirkstone" />
     <project name="amsobr/meta-mender-community" path="layers/meta-mender-community" remote="github" revision="kirkstone" />
-
 </manifest>
