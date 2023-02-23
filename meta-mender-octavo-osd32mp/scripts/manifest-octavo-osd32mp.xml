@@ -15,6 +15,6 @@
   <project name="meta-st-scripts" path="layers/meta-st/scripts" revision="bc063e7af04d04aff66401eb73610381bebc49a0"/>
   <project name="openembedded-core" path="layers/openembedded-core" remote="oe" revision="f7766da462905ec67bf549d46b8017be36cd5b2a"/>
   <!--include name="scripts/mender-no-setup-layers.xml" / -->
-  <include name="manifest-amsobr.xml" />
+  <include name="meta-mender-octavo-osd32mp/scripts/manifest-amsobr.xml" />
 
 </manifest>
