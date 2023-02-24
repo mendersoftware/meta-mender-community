@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+  <!--
+   This manifest tracks https://github.com/STMicroelectronics/oe-manifest which is
+   the starting point for ST's OE distribution for the STM32MP SoC.
+
+   Current release:
+      openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23
+      "STM32MP1 Ecosystem v4.1.0"
+  -->
   <remote name="github" fetch="https://github.com"/>
   <remote name="oe" fetch="http://git.openembedded.org"/>
   <remote name="OpenSTLinux" fetch="https://github.com/STMicroelectronics"/>
@@ -14,7 +22,5 @@
   <project name="meta-st-stm32mp-addons" path="layers/meta-st/meta-st-stm32mp-addons" revision="f1a18b73343afd8dd5f9aa7f5b605d139fb9e4a8"/>
   <project name="meta-st-scripts" path="layers/meta-st/scripts" revision="bc063e7af04d04aff66401eb73610381bebc49a0"/>
   <project name="openembedded-core" path="layers/openembedded-core" remote="oe" revision="f7766da462905ec67bf549d46b8017be36cd5b2a"/>
-  <!--include name="scripts/mender-no-setup-layers.xml" / -->
-  <include name="meta-mender-octavo-osd32mp/scripts/manifest-amsobr.xml" />
-
+  <include name="scripts/mender-layers.xml" />
 </manifest>

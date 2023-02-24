@@ -34,27 +34,14 @@ information about the `STM32_Cube_Programmer` including installation instruction
 1. Download the source:
 
 ```
-    $ mkdir mender-osd32mp
-    $ cd mender-osd32mp
-    $ repo init \
-           -u https://github.com/mendersoftware/meta-mender-community \
-           -m meta-mender-octavo-osd32mp/scripts/manifest-octavo-osd32mp.xml \
-           -b kirkstone-next
-    $ repo sync
+mkdir mender-osd32mp
+cd mender-osd32mp
+repo init \
+    -u https://github.com/mendersoftware/meta-mender-community \
+    -m meta-mender-octavo-osd32mp/scripts/manifest-octavo-osd32mp.xml \
+    -b kirkstone
+repo sync
 ```
-
-**NOTE:** Using the provisional mender-community the sources should be set up as shown below:
-
-```
-    $ mkdir mender-osd32mp
-    $ cd mender-osd32mp
-    $ repo init \
-           -u https://github.com/amsobr/meta-mender-community \
-           -m meta-mender-octavo-osd32mp/scripts/manifest-octavo-osd32mp.xml \
-           -b kirkstone-next
-    $ repo sync
-```
-
 
 2. Setup environment:
 
