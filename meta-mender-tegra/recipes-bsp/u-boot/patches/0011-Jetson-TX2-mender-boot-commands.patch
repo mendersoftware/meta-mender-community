@@ -11,11 +11,11 @@ and setup.
  include/env_mender.h  | 9 ++++++---
  2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/include/env_default.h b/include/env_default.h
-index 641742bead..c2e5bc062f 100644
---- a/include/env_default.h
-+++ b/include/env_default.h
-@@ -34,8 +34,8 @@ const uchar default_environment[] = {
+Index: git/include/env_default.h
+===================================================================
+--- git.orig/include/env_default.h
++++ git/include/env_default.h
+@@ -37,8 +37,8 @@ const char default_environment[] = {
  #ifdef	CONFIG_USE_BOOTARGS
  	"bootargs="	CONFIG_BOOTARGS			"\0"
  #endif
@@ -26,11 +26,11 @@ index 641742bead..c2e5bc062f 100644
  #endif
  #ifdef	CONFIG_RAMBOOTCOMMAND
  	"ramboot="	CONFIG_RAMBOOTCOMMAND		"\0"
-diff --git a/include/env_mender.h b/include/env_mender.h
-index 0605f6a9fa..d6aa6edd9d 100644
---- a/include/env_mender.h
-+++ b/include/env_mender.h
-@@ -147,9 +147,12 @@
+Index: git/include/env_mender.h
+===================================================================
+--- git.orig/include/env_mender.h
++++ git/include/env_mender.h
+@@ -146,9 +146,12 @@
  
  #define CONFIG_MENDER_BOOTCOMMAND                                       \
      "run mender_setup; "                                                \
@@ -46,6 +46,3 @@ index 0605f6a9fa..d6aa6edd9d 100644
      "run mender_try_to_recover"
  
  #endif /* !MENDER_AUTO_PROBING */
--- 
-2.26.2
-

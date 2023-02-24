@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="dunfell"/>
 
   <remote fetch="https://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="https://github.com/linux4sam"        name="atmel"/>
   <remote fetch="https://github.com/openembedded"   name="oe"/>
 
-  <project name="poky" remote="yocto" revision="dunfell" path="sources/poky"/>
-  <project name="meta-atmel" remote="atmel" revision="dunfell" path="sources/meta-atmel"/>
-  <project name="meta-openembedded" remote="oe" revision="dunfell" path="sources/meta-openembedded"/>
+  <project name="poky" remote="yocto" revision="kirkstone" path="sources/poky"/>
+  <project name="meta-atmel" remote="atmel" revision="kirkstone" path="sources/meta-atmel"/>
+  <project name="meta-openembedded" remote="oe" revision="kirkstone" path="sources/meta-openembedded"/>
+  <project name="meta-arm" remote="yocto" revision="kirkstone" path="sources/meta-arm"/>
 
   <include name="scripts/mender.xml"/>
 

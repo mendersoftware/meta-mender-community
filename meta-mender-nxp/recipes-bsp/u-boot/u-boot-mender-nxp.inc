@@ -15,4 +15,9 @@ SRC_URI:append:imx7dsabresd = " \
 "
 BOOTENV_SIZE:imx7dsabresd = "0x2000"
 
+SRC_URI:append:cubox-i = " \
+	file://0001-configs-mx6cuboxi_defconfig-Enable-Mender.patch \
+"
+BOOTENV_SIZE:cubox-i = "0x2000"
+
 MENDER_UBOOT_AUTO_CONFIGURE = "0"
