@@ -12,7 +12,17 @@ fi
 script_dir=$(dirname "$this_script")
 script_dir=$(readlink -f "$script_dir")
 
-mender_community_dir=${script_dir}/sources/meta-mender-community
+if [ -d ${script_dir}/sources/meta-mender-community ]; then
+    mender_community_dir=${script_dir}/sources/meta-mender-community
+    layers_dir=sources
+elif [ -d ${script_dir}/layers/meta-mender-community ]; then
+    mender_community_dir=${script_dir}/layers/meta-mender-community
+    layers_dir=layers
+else
+    echo "Sorry, can't seem to find meta-mender-community (tried sources, layers)"
+    return 1
+fi
+
 build_dir=${script_dir}/build
 
 target=""
@@ -56,9 +66,13 @@ fi
 
 target_templates=${mender_community_dir}/meta-mender-${target}/templates
 
-. ${script_dir}/sources/poky/oe-init-build-env ${build_dir}
 
-if [ -f ${build_dir}/conf/mender_append_complete ]; then
+if [ -f ${script_dir}/${layers_dir}/poky/oe-init-build-env ]; then
+    . ${script_dir}/${layers_dir}/poky/oe-init-build-env ${build_dir}
+elif [ -f ${script_dir}/${layers_dir}/openembedded-core/oe-init-build-env ]; then
+    . ${script_dir}/${layers_dir}/openembedded-core/oe-init-build-env ${build_dir}
+else
+    echo "Sorry, can't find oe-init-build-env."
     return 1
 fi
 
