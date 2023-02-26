@@ -22,12 +22,10 @@ General documentation regarding ST's distribution for the STM32MP1, which is
 the SoC the OSD32MP module is based upon.
 - [Octavo Systems OSD32MP1-RED](https://octavosystems.com/octavo_products/osd32mp1-red/) -
 product page of the OSD32MP1-RED board.
-- [OSD32MP1-RED Getting Started] - information about the board connectors and
+- [OSD32MP1-RED Getting Started](https://octavosystems.com/app_notes/osd32mp1-red-getting-started/) - information about the board connectors and
 DIP switches, including references to further information resources.
 - [STM32CubeProgrammer](https://wiki.st.com/stm32mpu/wiki/STM32CubeProgrammer) -
 information about the `STM32_Cube_Programmer` including installation instructions.
-
-
 
 ## Using this layer
 
@@ -68,3 +66,19 @@ to flash the board:
     $ cd tmp-glibc/deploy/images/osd32mp1-emmc-mender
     $ STM32_Programmer_CLI -c port=usb1 -w flashlayout_st-image-core/trusted/FlashLayout_emmc_stm32mp157c-osd32mp1-red-trusted.tsv
 ```
+
+### Making image metadata compatible with ST flashlayout
+
+OpenSTLinux uses some non-trivial logic to process the OE metadata and the files
+generated during the build to create the flashlayout file. This flashlayout is
+thoroughly documented in ST's wiki (see above). Its contents determine what will
+be flashed onto the eMMC on the target board.
+
+This integration assumes that the image being built is `st-image-core`. There
+is an append to the image recipe whose purpose is to ensure that the dataimg
+image file ends up with an extension recognized by ST's SDK when the flashlayout
+is being generated - `.ext4`
+
+When using a different image, (core-image-minimal or your own) make sure that
+there is a link to the dataimg file that ends with the `.ext4` extension by
+appending to `IMAGE_CMD:dataimg` in your image recipe.
