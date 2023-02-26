@@ -35,6 +35,7 @@ targets=(
     "coral"
     "intel"
     "nxp"
+    "octavo-osd32mp"
     "odroid"
     "qemu"
     "raspberrypi"
