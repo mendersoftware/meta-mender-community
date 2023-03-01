@@ -138,10 +138,10 @@ index 000000000..83116d103
 +#include "stm32mp15-fw-config.dtsi"
 diff --git a/fdts/stm32mp157c-osd32mp1-red.dts b/fdts/stm32mp157c-osd32mp1-red.dts
 new file mode 100644
-index 000000000..6bdc22130
+index 000000000..0509f30c6
 --- /dev/null
 +++ b/fdts/stm32mp157c-osd32mp1-red.dts
-@@ -0,0 +1,139 @@
+@@ -0,0 +1,225 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
 +/*
 + * Copyright (C) STMicroelectronics 2019 - All Rights Reserved
@@ -281,3 +281,89 @@ index 000000000..6bdc22130
 +	mmc-ddr-3_3v;
 +	status = "okay";
 +};
++
++
++&rcc {
++	st,hsi-cal;
++	st,csi-cal;
++	st,cal-sec = <60>;
++	st,clksrc = <
++		CLK_MPU_PLL1P
++		CLK_AXI_PLL2P
++		CLK_MCU_PLL3P
++		CLK_PLL12_HSE
++		CLK_PLL3_HSE
++		CLK_PLL4_HSE
++		CLK_RTC_LSE
++		CLK_MCO1_DISABLED
++		CLK_MCO2_DISABLED
++	>;
++
++	st,clkdiv = <
++		1 /*MPU*/
++		0 /*AXI*/
++		0 /*MCU*/
++		1 /*APB1*/
++		1 /*APB2*/
++		1 /*APB3*/
++		1 /*APB4*/
++		2 /*APB5*/
++		23 /*RTC*/
++		0 /*MCO1*/
++		0 /*MCO2*/
++	>;
++
++	st,pkcs = <
++		CLK_CKPER_HSE
++		CLK_ETH_PLL3Q
++		CLK_SDMMC12_PLL4P
++		CLK_DSI_DSIPLL
++		CLK_STGEN_HSE
++		CLK_USBPHY_HSE
++		CLK_SPI2S1_PLL3Q
++		CLK_SPI2S23_CKPER
++		CLK_SPI45_PCLK2
++		CLK_SPI6_DISABLED
++		CLK_I2C46_HSI
++		CLK_SDMMC3_PLL4P
++                CLK_USBO_USBPHY
++		CLK_ADC_CKPER
++		CLK_CEC_LSE
++		CLK_I2C12_HSI
++		CLK_I2C35_HSI
++		CLK_UART1_DISABLED
++		CLK_UART24_HSI
++		CLK_UART35_HSI
++		CLK_UART6_DISABLED
++		CLK_UART78_DISABLED
++		CLK_SPDIF_DISABLED
++		CLK_SAI1_DISABLED
++		CLK_SAI2_DISABLED
++		CLK_SAI3_DISABLED
++		CLK_SAI4_DISABLED
++		CLK_RNG1_LSI
++		CLK_LPTIM1_DISABLED
++		CLK_LPTIM23_DISABLED
++		CLK_LPTIM45_DISABLED
++	>;
++
++	pll1:st,pll@0 {
++		cfg = < 2 80 0 1 1 PQR(1,0,0) >;
++		frac = < 0x800>;
++	};
++
++	pll2:st,pll@1 {
++		cfg = < 2 65 1 0 0 PQR(1,1,1) >;
++		frac = < 0x1400>;
++	};
++
++	pll3:st,pll@2 {
++		cfg = < 1 61 3 5 36 PQR(1,1,0) >;
++		frac = < 0x1000 >;
++	};
++
++	pll4: st,pll@3 {
++		cfg = < 3 98 5 7 7 PQR(1,1,1) >;
++	};
++};
++

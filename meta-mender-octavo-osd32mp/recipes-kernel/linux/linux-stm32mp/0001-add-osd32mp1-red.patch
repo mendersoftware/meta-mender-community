@@ -1,9 +1,39 @@
+diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
+index 4a7d413d1..9cdfe5855 100644
+--- a/arch/arm/boot/dts/stm32mp151.dtsi
++++ b/arch/arm/boot/dts/stm32mp151.dtsi
+@@ -1668,6 +1668,7 @@ ethernet0: ethernet@5800a000 {
+ 			compatible = "st,stm32mp1-dwmac", "snps,dwmac-4.20a";
+ 			reg = <0x5800a000 0x2000>;
+ 			reg-names = "stmmaceth";
++			st,eth-clk-sel = <1>;
+ 			interrupts-extended = <&intc GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&exti 70 IRQ_TYPE_LEVEL_HIGH>;
+ 			interrupt-names = "macirq",
+@@ -1677,13 +1678,15 @@ ethernet0: ethernet@5800a000 {
+ 				      "mac-clk-rx",
+ 				      "eth-ck",
+ 				      "ptp_ref",
+-				      "ethstp";
++				      "ethstp",
++				      "syscfg-clk";
+ 			clocks = <&rcc ETHMAC>,
+ 				 <&rcc ETHTX>,
+ 				 <&rcc ETHRX>,
+ 				 <&rcc ETHCK_K>,
+ 				 <&rcc ETHPTP_K>,
+-				 <&rcc ETHSTP>;
++				 <&rcc ETHSTP>,
++				 <&rcc SYSCFG>;
+ 			st,syscon = <&syscfg 0x4>;
+ 			snps,mixed-burst;
+ 			snps,pbl = <2>;
 diff --git a/arch/arm/boot/dts/stm32mp157c-osd32mp1-red-pinctrl.dtsi b/arch/arm/boot/dts/stm32mp157c-osd32mp1-red-pinctrl.dtsi
 new file mode 100644
-index 000000000..f3f636957
+index 000000000..99fefcbc4
 --- /dev/null
 +++ b/arch/arm/boot/dts/stm32mp157c-osd32mp1-red-pinctrl.dtsi
-@@ -0,0 +1,1845 @@
+@@ -0,0 +1,1761 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
 +/*
 + * Copyright (C) STMicroelectronics 2017 - All Rights Reserved
@@ -82,7 +112,7 @@ index 000000000..f3f636957
 +
 +	ethernet0_rgmii_pins_a: ethernet0-rgmii-0 {
 +		pins1 {
-+			pinmux = <STM32_PINMUX('G', 5, AF11)>, /* ETH_RGMII_CLK125 */
++			pinmux = //<STM32_PINMUX('G', 5, AF11)>, /* ETH_RGMII_CLK125 <<<---------?????????? */
 +				 <STM32_PINMUX('G', 4, AF11)>, /* ETH_RGMII_GTX_CLK */
 +				 <STM32_PINMUX('G', 13, AF11)>, /* ETH_RGMII_TXD0 */
 +				 <STM32_PINMUX('G', 14, AF11)>, /* ETH_RGMII_TXD1 */
@@ -113,7 +143,7 @@ index 000000000..f3f636957
 +
 +	ethernet0_rgmii_sleep_pins_a: ethernet0-rgmii-sleep-0 {
 +		pins1 {
-+			pinmux = <STM32_PINMUX('G', 5, ANALOG)>, /* ETH_RGMII_CLK125 */
++			pinmux = //<STM32_PINMUX('G', 5, ANALOG)>, /* ETH_RGMII_CLK125 */
 +				 <STM32_PINMUX('G', 4, ANALOG)>, /* ETH_RGMII_GTX_CLK */
 +				 <STM32_PINMUX('G', 13, ANALOG)>, /* ETH_RGMII_TXD0 */
 +				 <STM32_PINMUX('G', 14, ANALOG)>, /* ETH_RGMII_TXD1 */
@@ -133,7 +163,7 @@ index 000000000..f3f636957
 +
 +	ethernet0_rgmii_pins_b: ethernet0-rgmii-1 {
 +		pins1 {
-+			pinmux = <STM32_PINMUX('G', 5, AF11)>, /* ETH_RGMII_CLK125 */
++			pinmux = //<STM32_PINMUX('G', 5, AF11)>, /* ETH_RGMII_CLK125 */
 +				 <STM32_PINMUX('G', 4, AF11)>, /* ETH_RGMII_GTX_CLK */
 +				 <STM32_PINMUX('G', 13, AF11)>, /* ETH_RGMII_TXD0 */
 +				 <STM32_PINMUX('G', 14, AF11)>, /* ETH_RGMII_TXD1 */
@@ -1690,90 +1720,6 @@ index 000000000..f3f636957
 +				 <STM32_PINMUX('D', 3, ANALOG)>; /* USART2_CTS_NSS */
 +		};
 +	};
-+
-+
-+	usart3_pins: usart3-0 {
-+		pins1 {
-+			pinmux = <STM32_PINMUX('B', 10, AF7)>, /* USART3_TX */
-+				 <STM32_PINMUX('G', 8, AF8)>; /* USART3_RTS */
-+			bias-disable;
-+			drive-push-pull;
-+			slew-rate = <0>;
-+		};
-+		pins2 {
-+			pinmux = <STM32_PINMUX('B', 12, AF8)>, /* USART3_RX */
-+				 <STM32_PINMUX('D', 11, AF7)>; /* USART3_CTS_NSS */
-+			bias-pull-up;
-+		};
-+	};
-+
-+	usart3_idle_pins: usart3-idle-0 {
-+		pins1 {
-+			pinmux = <STM32_PINMUX('B', 10, ANALOG)>, /* USART3_TX */
-+				 <STM32_PINMUX('D', 11, ANALOG)>; /* USART3_CTS_NSS */
-+		};
-+		pins2 {
-+			pinmux = <STM32_PINMUX('G', 8, AF8)>; /* USART3_RTS */
-+			bias-disable;
-+			drive-push-pull;
-+			slew-rate = <0>;
-+		};
-+		pins3 {
-+			pinmux = <STM32_PINMUX('B', 12, AF8)>; /* USART3_RX */
-+			bias-pull-up;
-+		};
-+	};
-+
-+	usart3_sleep_pins: usart3-sleep-0 {
-+		pins {
-+			pinmux = <STM32_PINMUX('B', 10, ANALOG)>, /* USART3_TX */
-+				 <STM32_PINMUX('G', 8, ANALOG)>, /* USART3_RTS */
-+				 <STM32_PINMUX('D', 11, ANALOG)>, /* USART3_CTS_NSS */
-+				 <STM32_PINMUX('B', 12, ANALOG)>; /* USART3_RX */
-+		};
-+	};
-+
-+	usart6_pins: usart6-0 {
-+		pins1 {
-+			pinmux = <STM32_PINMUX('C', 6, AF7)>, /* USART6_TX */
-+				 <STM32_PINMUX('G', 12, AF7)>; /* USART6_RTS */
-+			bias-disable;
-+			drive-push-pull;
-+			slew-rate = <0>;
-+		};
-+		pins2 {
-+			pinmux = <STM32_PINMUX('G', 9, AF7)>, /* USART6_RX */
-+				 <STM32_PINMUX('G', 13, AF7)>; /* USART6_CTS_NSS */
-+			bias-disable;
-+		};
-+	};
-+
-+	usart6_idle_pins: usart6-idle-0 {
-+		pins1 {
-+			pinmux = <STM32_PINMUX('C', 6, ANALOG)>, /* USART6_TX */
-+				 <STM32_PINMUX('G', 13, ANALOG)>; /* USART6_CTS_NSS */
-+		};
-+		pins2 {
-+			pinmux = <STM32_PINMUX('G', 12, AF7)>; /* USART6_RTS */
-+			bias-disable;
-+			drive-push-pull;
-+			slew-rate = <0>;
-+		};
-+		pins3 {
-+			pinmux = <STM32_PINMUX('G', 9, AF7)>; /* USART6_RX */
-+			bias-disable;
-+		};
-+	};
-+
-+	usart6_sleep_pins: usart6-sleep-0 {
-+		pins {
-+			pinmux = <STM32_PINMUX('C', 6, ANALOG)>, /* USART6_TX */
-+				 <STM32_PINMUX('G', 12, ANALOG)>, /* USART6_RTS */
-+				 <STM32_PINMUX('G', 13, ANALOG)>, /* USART6_CTS_NSS */
-+				 <STM32_PINMUX('G', 9, ANALOG)>; /* USART6_RX */
-+		};
-+	};
-+
 +};
 +
 +&pinctrl_z {
@@ -1851,10 +1797,10 @@ index 000000000..f3f636957
 +};
 diff --git a/arch/arm/boot/dts/stm32mp157c-osd32mp1-red.dts b/arch/arm/boot/dts/stm32mp157c-osd32mp1-red.dts
 new file mode 100644
-index 000000000..edefff07e
+index 000000000..da9cfffb9
 --- /dev/null
 +++ b/arch/arm/boot/dts/stm32mp157c-osd32mp1-red.dts
-@@ -0,0 +1,793 @@
+@@ -0,0 +1,772 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
 +/*
 + * Copyright (C) STMicroelectronics 2019 - All Rights Reserved
@@ -2061,6 +2007,27 @@ index 000000000..edefff07e
 +
 +&dts {
 +	status = "okay";
++};
++
++&ethernet0 {
++	pinctrl-names = "default", "sleep";
++	pinctrl-0 = <&ethernet0_rgmii_pins_a>;
++	pinctrl-1 = <&ethernet0_rgmii_sleep_pins_a>;
++	phy-mode = "rgmii-id";
++	max-speed = <1000>;
++	phy-handle = <&phy0>;
++	st,ext-clk-sel;
++	nvmem-cells = <&ethernet_mac_address>;
++	nvmem-cell-names = "mac-address";
++	status = "okay";
++	mdio0 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
++		phy0: ethernet-phy@3 {
++			reg = <3>;
++		};
++	};
 +};
 +
 +&gpu {
@@ -2444,15 +2411,6 @@ index 000000000..edefff07e
 +	status = "disabled";
 +};
 +
-+&usart3 {
-+	pinctrl-names = "default", "sleep", "idle";
-+	pinctrl-0 = <&usart3_pins_c>;
-+	pinctrl-1 = <&usart3_sleep_pins_c>;
-+	pinctrl-2 = <&usart3_idle_pins_c>;
-+	uart-has-rtscts;
-+	status = "disabled";
-+};
-+
 +&usbh_ehci {
 +	phys = <&usbphyc_port0>;
 +	phy-names = "usb";
@@ -2614,37 +2572,4 @@ index 000000000..edefff07e
 +	status = "okay";
 +};
 +
-+/* USART3 for BT840 module */
-+&usart3 {
-+	pinctrl-names = "default", "idle", "sleep";
-+	pinctrl-0 = <&usart3_pins>;
-+	pinctrl-1 = <&usart3_idle_pins>;
-+	pinctrl-2 = <&usart3_sleep_pins>;
-+	status = "okay";
-+};
-+
-+/* USART6 for the LTE modem
-+ * NB: not strictly needed as the modem will be handled through
-+ * the USB interface.
-+ * In either case serial access to the modem may be useful for debgging
-+ * through AT commands.
-+ */
-+&usart6 {
-+	pinctrl-names = "default", "idle", "sleep";
-+	pinctrl-0 = <&usart6_pins>;
-+	pinctrl-1 = <&usart6_idle_pins>;
-+	pinctrl-2 = <&usart6_sleep_pins>;
-+	status = "okay";
-+
-+};
-+
-+
-+/* UART8 to GPS receiver, no flow control */
-+&uart8 {
-+	pinctrl-names = "default", "sleep";
-+	pinctrl-0 = <&uart8_pins>;
-+	pinctrl-1 = <&uart8_pins_sleep>;
-+	status = "okay";
-+
-+};
 +
