@@ -1,0 +1,76 @@
+From 88dda1867d0f79b83e0817b309ec08cc60f49eea Mon Sep 17 00:00:00 2001
+From: Esteban AP <esteban.aguero@northern.tech>
+Date: Thu, 16 Feb 2023 21:00:10 +0000
+Subject: [PATCH] conf for smarc-rzf2l renesas board for mender support
+
+Signed-off-by: Esteban AP <esteban.aguero@northern.tech>
+---
+ configs/smarc-rzg2l_defconfig | 38 +++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
+
+diff --git a/configs/smarc-rzg2l_defconfig b/configs/smarc-rzg2l_defconfig
+index 5453d9e93d..1f608870b6 100644
+--- a/configs/smarc-rzg2l_defconfig
++++ b/configs/smarc-rzg2l_defconfig
+@@ -2,8 +2,6 @@ CONFIG_ARM=y
+ CONFIG_ARCH_CPU_INIT=y
+ CONFIG_ARCH_RMOBILE=y
+ CONFIG_SYS_TEXT_BASE=0x50000000
+-CONFIG_ENV_SIZE=0x20000
+-CONFIG_ENV_OFFSET=0xFFFE0000
+ CONFIG_DM_GPIO=y
+ CONFIG_RCAR_GEN3=y
+ CONFIG_R9A07G044L=y
+@@ -13,7 +11,7 @@ CONFIG_SMBIOS_PRODUCT_NAME=""
+ CONFIG_SPL=n
+ CONFIG_FIT=y
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="rw rootwait earlycon root=/dev/mmcblk0p1"
++CONFIG_BOOTARGS="rw rootwait earlycon "
+ CONFIG_SUPPORT_RAW_INITRD=y
+ CONFIG_DEFAULT_FDT_FILE="smarc-rzg2l.dtb"
+ CONFIG_VERSION_VARIABLE=y
+@@ -71,8 +69,36 @@ CONFIG_USB_EHCI_GENERIC=y
+ CONFIG_USB_STORAGE=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
+ CONFIG_SMBIOS_MANUFACTURER=""
+-CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+-CONFIG_SYS_MMC_ENV_DEV=0
+-CONFIG_SYS_MMC_ENV_PART=2
+ CONFIG_SYS_I2C_RZG2L_RIIC=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0xFFFE0000
++CONFIG_ENV_OFFSET_REDUND=0xFFFC0000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
++CONFIG_SYS_MMC_ENV_DEV=0
++CONFIG_SYS_MMC_ENV_PART=2
++# CONFIG_ENV_IS_NOWHERE is not set
++# CONFIG_ENV_IS_IN_EEPROM is not set
++# CONFIG_ENV_IS_IN_FAT is not set
++# CONFIG_ENV_IS_IN_EXT4 is not set
++# CONFIG_ENV_IS_IN_FLASH is not set
++# CONFIG_ENV_IS_IN_NAND is not set
++# CONFIG_ENV_IS_IN_NVRAM is not set
++# CONFIG_ENV_IS_IN_ONENAND is not set
++# CONFIG_ENV_IS_IN_REMOTE is not set
++# CONFIG_ENV_IS_IN_SPI_FLASH is not set
++# CONFIG_ENV_IS_IN_UBI is not set
++# CONFIG_MMC=y #TEMP QUITANDOLO
++CONFIG_ENV_IS_IN_MMC=y
++# CONFIG_BOOTCOUNT_BOOTLIMIT is not set
++# CONFIG_BOOTCOUNT_GENERIC is not set
++# CONFIG_BOOTCOUNT_EXT is not set
++# CONFIG_BOOTCOUNT_AM33XX is not set
++# CONFIG_BOOTCOUNT_AM33XX_NVMEM is not set
++# CONFIG_BOOTCOUNT_RAM is not set
++# CONFIG_BOOTCOUNT_I2C is not set
++# CONFIG_BOOTCOUNT_AT91 is not set
++# CONFIG_BOOTCOUNT_MEM is not set
++# CONFIG_BOOTCOUNT_ALEN is not set
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
+\ No newline at end of file
+-- 
+2.25.1
+

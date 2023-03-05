@@ -1,0 +1,28 @@
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+QT_LAYER = "${@os.path.isdir("${TOPDIR}/../sources/meta-qt5")}"
+RZ_FEATURE = "${@os.path.isdir("${TOPDIR}/../sources/meta-rz-features")}"
+VIRTUALIZATION_LAYER = "${@os.path.isdir("${TOPDIR}/../sources/meta-virtualization")}"
+
+BBLAYERS ?= " \
+  ${TOPDIR}/../sources/meta-gplv2 \
+  ${TOPDIR}/../sources/poky/meta \
+  ${TOPDIR}/../sources/poky/meta-poky \
+  ${TOPDIR}/../sources/poky/meta-yocto-bsp \
+  ${TOPDIR}/../sources/meta-renesas \
+  ${TOPDIR}/../sources/meta-openembedded/meta-oe \
+  ${TOPDIR}/../sources/meta-openembedded/meta-python \
+  ${TOPDIR}/../sources/meta-openembedded/meta-multimedia \
+  ${@'${TOPDIR}/../sources/meta-qt5' if '${QT_LAYER}' == 'True' else ''} \
+  ${@'${TOPDIR}/../sources/meta-rz-features' if '${RZ_FEATURE}' == 'True' else ''} \
+  ${@'${TOPDIR}/../sources/meta-openembedded/meta-filesystems' if '${VIRTUALIZATION_LAYER}' == 'True' else ''} \
+  ${@'${TOPDIR}/../sources/meta-openembedded/meta-networking' if '${VIRTUALIZATION_LAYER}' == 'True' else ''} \
+  ${@'${TOPDIR}/../sources/meta-virtualization' if '${VIRTUALIZATION_LAYER}' == 'True' else ''} \
+  ${TOPDIR}/../sources/meta-mender/meta-mender-core \
+  ${TOPDIR}/../sources/meta-mender-community/meta-mender-renesas \
+  "
