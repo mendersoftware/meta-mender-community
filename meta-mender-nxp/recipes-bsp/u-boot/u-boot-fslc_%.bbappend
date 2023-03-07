@@ -1,3 +1,5 @@
+FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot-fslc/patches:"
+
 require recipes-bsp/u-boot/u-boot-mender.inc
 require u-boot-mender-nxp.inc
 
