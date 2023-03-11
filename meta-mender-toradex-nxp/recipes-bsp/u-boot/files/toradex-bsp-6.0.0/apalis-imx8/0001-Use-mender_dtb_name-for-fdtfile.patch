@@ -17,15 +17,15 @@ diff --git a/configs/apalis-imx8_defconfig b/configs/apalis-imx8_defconfig
 index 173a445233..382472efcf 100644
 --- a/configs/apalis-imx8_defconfig
 +++ b/configs/apalis-imx8_defconfig
-@@ -74,6 +74,8 @@ CONFIG_FSL_LPUART=y
- CONFIG_DM_THERMAL=y
- CONFIG_IMX_SCU_THERMAL=y
- # CONFIG_EFI_LOADER is not set
-+CONFIG_USE_PREBOOT=y
+@@ -23,7 +25,7 @@ CONFIG_FIT_VERBOSE=y
+ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_BOOTDELAY=1
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="test -n ${fdtfile} || setenv fdtfile ${soc}-apalis${variant}-${fdt_board}.dtb"
 +CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
- CONFIG_CMD_BOOTCOUNT=y
- CONFIG_BOOTCOUNT_LIMIT=y
- CONFIG_BOOTCOUNT_ENV=y
+ CONFIG_LOG=y
+ # CONFIG_DISPLAY_BOARDINFO is not set
+ CONFIG_DISPLAY_BOARDINFO_LATE=y
 -- 
 2.38.1
 
