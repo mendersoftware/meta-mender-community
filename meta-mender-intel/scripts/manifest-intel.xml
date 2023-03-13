@@ -3,8 +3,8 @@
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
 
-  <project name="poky" remote="yocto" revision="dunfell" path="sources/poky"/>
-  <project name="meta-intel" remote="yocto" revision="dunfell" path="sources/meta-intel"/>
+  <project name="poky" remote="yocto" revision="kirkstone" path="sources/poky"/>
+  <project name="meta-intel" remote="yocto" revision="kirkstone" path="sources/meta-intel"/>
 
   <include name="scripts/mender.xml"/>
 
