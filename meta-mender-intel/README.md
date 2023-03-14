@@ -23,14 +23,14 @@ This layer depends on:
 
 ```
 URI: https://git.yoctoproject.org/git/meta-intel
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: dunfell
+branch: kirkstone
 revision: HEAD
 ```
 
@@ -45,7 +45,7 @@ that have Mender integrated.
 mkdir mender-intel && cd mender-intel
 repo init -u https://github.com/mendersoftware/meta-mender-community \
            -m meta-mender-intel/scripts/manifest-intel.xml \
-           -b dunfell
+           -b kirkstone
 repo sync
 source setup-environment intel
 bitbake core-image-base
