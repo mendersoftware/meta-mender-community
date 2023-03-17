@@ -6,6 +6,7 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
+  ${TOPDIR}/../sources/meta-openembedded/meta-oe \
   ${TOPDIR}/../sources/poky/meta \
   ${TOPDIR}/../sources/poky/meta-poky \
   ${TOPDIR}/../sources/poky/meta-yocto-bsp \
@@ -13,4 +14,3 @@ BBLAYERS ?= " \
   ${TOPDIR}/../sources/meta-mender/meta-mender-core \
   ${TOPDIR}/../sources/meta-mender/meta-mender-demo \
 "
-
