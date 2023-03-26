@@ -1,41 +1,44 @@
-This README file contains information on the contents of the meta-zedboard layer.
+meta-mender-zedboard
 
-Please see the corresponding sections below for details.
+Mender integration for Zedboard
+
+The tested boards is:
+
+Xilinx zynq 7000 SoC developement Board - Zedboard
+
 
 Dependencies
-============
+This layer depends on:
 
-  URI: <first dependency>
-  branch: <branch name>
+URI: https://github.com/openembedded/meta-openembedded.git
+layers: meta-oe
+branch: warrior
+revision: HEAD
 
-  URI: <second dependency>
-  branch: <branch name>
-
-  .
-  .
-  .
-
-Patches
-=======
-
-Please submit any patches against the meta-zedboard layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
-
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
-
-Table of Contents
-=================
-
-  I. Adding the meta-zedboard layer to your build
- II. Misc
+URI: https://github.com/mendersoftware/meta-mender
+layers: meta-mender-core
+branch: warrior
+revision: HEAD
 
 
-I. Adding the meta-zedboard layer to your build
-=================================================
+Quick Start
 
-Run 'bitbake-layers add-layer meta-zedboard'
+The following commands will setup the environment and allow you to build images that have Mender integrated.
 
-II. Misc
-========
+git clone -b warrior https://git.yoctoproject.org/poky
+cd poky
+git clone -b warrior https://github.com/openembedded/meta-openembedded.git
+git clone -b warrior https://github.com/mendersoftware/meta-mender
+git clone -b warrior https://github.com/nikitarathore/meta-mender-zedboard.git 
 
---- replace with specific information about the meta-zedboard layer ---
+source oe-init-build-env
+
+add the layers -
+bitbake-layers add-layer ../meta-openembedded/meta-oe
+bitbake-layers add-layer ../meta-mender/meta-mender-core
+bitbake-layers add-layer ../meta-mender-zedboard
+
+To build the image-
+bitbake core-image-base
+
+This will generate the disk image (.sdimg) and a .mender rootfs file.
