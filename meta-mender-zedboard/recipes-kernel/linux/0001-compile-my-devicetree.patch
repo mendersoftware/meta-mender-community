@@ -1,0 +1,75 @@
+diff --git a/arch/arm/boot/dts/zynq-zed.dts b/arch/arm/boot/dts/zynq-zed.dts
+index 2d531a6ea2ca..db563f752a5d 100644
+--- a/arch/arm/boot/dts/zynq-zed.dts
++++ b/arch/arm/boot/dts/zynq-zed.dts
+@@ -13,6 +13,7 @@ / {
+ 	aliases {
+ 		ethernet0 = &gem0;
+ 		serial0 = &uart1;
++		serial1 = &uart0;
+ 		spi0 = &qspi;
+ 		mmc0 = &sdhci0;
+ 	};
+@@ -98,8 +99,62 @@ &uart1 {
+ 	status = "okay";
+ };
+ 
++&uart0 {
++	u-boot,dm-pre-reloc;
++	status = "okay";
++};
++
+ &usb0 {
+ 	status = "okay";
+ 	dr_mode = "host";
+ 	usb-phy = <&usb_phy0>;
+ };
++
++&pinctrl0 {
++	pinctrl_uart0_default: uart0-default {
++		mux {
++			groups = "uart0_9_grp";
++			function = "uart0";
++		};
++
++		conf {
++			groups = "uart0_9_grp";
++			slew-rate = <0>;
++			io-standard = <1>;
++		};
++
++		conf-rx {
++			pins = "MIO11";
++			bias-high-impedance;
++		};
++
++		conf-tx {
++			pins = "MIO10";
++			bias-disable;
++		};
++	};
++
++	pinctrl_uart1_default: uart1-default {
++		mux {
++			groups = "uart1_10_grp";
++			function = "uart1";
++		};
++
++		conf {
++			groups = "uart1_10_grp";
++			slew-rate = <0>;
++			io-standard = <1>;
++		};
++
++		conf-rx {
++			pins = "MIO49";
++			bias-high-impedance;
++		};
++
++		conf-tx {
++			pins = "MIO48";
++			bias-disable;
++		};
++	};
++};
++

@@ -1,0 +1,76 @@
+diff --git a/configs/zynq_zed_defconfig b/configs/zynq_zed_defconfig
+index 20bbb7bd38..a88f0a4311 100644
+--- a/configs/zynq_zed_defconfig
++++ b/configs/zynq_zed_defconfig
+@@ -31,7 +31,6 @@ CONFIG_CMD_TFTPPUT=y
+ CONFIG_CMD_CACHE=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_DEFAULT_DEVICE_TREE="zynq-zed"
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+ CONFIG_NET_RANDOM_ETHADDR=y
+ CONFIG_SPL_DM_SEQ_ALIAS=y
+ CONFIG_DFU_MMC=y
+@@ -66,3 +65,7 @@ CONFIG_USB_GADGET_PRODUCT_NUM=0x0300
+ CONFIG_CI_UDC=y
+ CONFIG_USB_GADGET_DOWNLOAD=y
+ CONFIG_USB_FUNCTION_THOR=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_ENV_IS_IN_SPI_FLASH=n
++CONFIG_ENV_IS_IN_MMC=y
+diff --git a/include/configs/zynq-common.h b/include/configs/zynq-common.h
+index 1fc899bcd4..a35efd5b3d 100644
+--- a/include/configs/zynq-common.h
++++ b/include/configs/zynq-common.h
+@@ -218,14 +218,21 @@
+ #include <config_distro_bootcmd.h>
+ #endif /* CONFIG_SPL_BUILD */
+ 
++
++/* Enable Bootcount */
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++
++
+ /* Default environment */
+ #ifndef CONFIG_EXTRA_ENV_SETTINGS
+ #define CONFIG_EXTRA_ENV_SETTINGS	\
+-	"kernel_image=uImage\0"	\
++        "ethaddr=00:0a:35:00:01:22\0"	\
++	"kernel_image=boot/uImage\0"	\
+ 	"kernel_load_address=0x2080000\0" \
+ 	"ramdisk_image=uramdisk.image.gz\0"	\
+ 	"ramdisk_load_address=0x4000000\0"	\
+-	"devicetree_image=devicetree.dtb\0"	\
++	"devicetree_image=boot/zynq_zed.dtb\0"	\
+ 	"devicetree_load_address=0x2000000\0"	\
+ 	"bitstream_image=system.bit.bin\0"	\
+ 	"boot_image=BOOT.bin\0"	\
+@@ -242,8 +249,8 @@
+ 	"script_offset_f=0xFC0000\0"	\
+ 	"script_size_f=0x40000\0"	\
+ 	"bootenv=uEnv.txt\0" \
+-	"loadbootenv=load mmc 0 ${loadbootenv_addr} ${bootenv}\0" \
+-	"importbootenv=echo Importing environment from SD ...; " \
++	"loadbootenv=fatload ${mender_uboot_boot} ${loadbootenv_addr} ${bootenv}\0" \
++        "importbootenv=echo Importing environment from ${mender_uboot_boot} ...; " \
+ 		"env import -t ${loadbootenv_addr} $filesize\0" \
+ 	"sd_uEnvtxt_existence_test=test -e mmc 0 /uEnv.txt\0" \
+ 	"preboot=if test $modeboot = sdboot && env run sd_uEnvtxt_existence_test; " \
+@@ -280,12 +287,11 @@
+ 			"run uenvcmd; " \
+ 		"fi\0" \
+ 	"sdboot=run xilinxcmd && if mmcinfo; then " \
+-			"run uenvboot; " \
++			"run mender_setup;"\
+ 			"echo Copying Linux from SD to RAM... && " \
+-			"load mmc 0 ${kernel_load_address} ${kernel_image} && " \
+-			"load mmc 0 ${devicetree_load_address} ${devicetree_image} && " \
+-			"load mmc 0 ${ramdisk_load_address} ${ramdisk_image} && " \
+-			"bootm ${kernel_load_address} ${ramdisk_load_address} ${devicetree_load_address}; " \
++			"load ${mender_uboot_root} ${kernel_load_address} ${kernel_image} && " \
++			"load ${mender_uboot_root} ${devicetree_load_address} ${devicetree_image} && " \
++			"bootm ${kernel_load_address} - ${devicetree_load_address}; " \
+ 		"fi\0" \
+ 	"usbboot=run xilinxcmd && if usb start; then " \
+ 			"run uenvboot; " \
