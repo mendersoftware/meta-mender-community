@@ -46,7 +46,3 @@ EOF
     BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$wicout/" ${WIC_CREATE_EXTRA_ARGS}
     mv "$wicout/$(basename "${wks%.wks}")"*.direct "$outimgname"
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 9a09902 (commit for sign-off)
