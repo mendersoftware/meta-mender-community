@@ -16,8 +16,8 @@ IMAGE_CMD:gptimg:append:stcommon() {
 
     cat >> "$wks" <<EOF
 # For SD card setup you need to add the fsbls:
-#part fsbl1 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-stm32mp157d-dk1-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K --align 17
-#part fsbl2 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-stm32mp157d-dk1-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K
+#part fsbl1 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-${MACHINE}-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K --align 17
+#part fsbl2 --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fsbl2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/tf-a-${MACHINE}-sdcard.stm32" --ondisk mmcblk --part-type 0x8301 --fixed-size 256K
 # also you need to change in conf/local.conf file the mender parameters according partitions that changed in this class pgtimg: 
 # MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6" ->  8
 # MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7" -> 9
@@ -25,8 +25,8 @@ IMAGE_CMD:gptimg:append:stcommon() {
 
 part metadata1 --source rawcopy --fsoptions "noauto" --part-name=metadata1 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K --align 420
 part metadata2 --source rawcopy --fsoptions "noauto" --part-name=metadata2 --sourceparams="file=${DEPLOY_DIR_IMAGE}/arm-trusted-firmware/metadata.bin" --ondisk mmcblk --part-type 0x8301 --fixed-size 512K 
-part fip-a  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-a --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp157d-dk1-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="4FD84C93-54EF-463F-A7EF-AE25FF887087" --fixed-size 4096K
-part fip-b  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-b --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-stm32mp157d-dk1-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="09C54952-D5BF-45AF-ACEE-335303766FB3" --fixed-size 4096K
+part fip-a  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-a --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-${MACHINE}-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="4FD84C93-54EF-463F-A7EF-AE25FF887087" --fixed-size 4096K
+part fip-b  --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=fip-b --sourceparams="file=${DEPLOY_DIR_IMAGE}/fip/fip-${MACHINE}-trusted.bin" --ondisk mmcblk --part-type 19d5df83-11b0-457b-be2c-7559c13142a5 --uuid="09C54952-D5BF-45AF-ACEE-335303766FB3" --fixed-size 4096K
 
 part u-boot-env --source rawcopy --fstype=ext4 --fsoptions "noauto" --part-name=u-boot-env --sourceparams="file=${WORKDIR}/uboot.env" --ondisk mmcblk --align $boot_env_align_kb
 part --source rootfs --rootfs-dir ${WORKDIR}/bootfs/ --ondisk "$ondisk_dev" --fstype=vfat --label boot --align $alignment_kb --fixed-size ${MENDER_BOOT_PART_SIZE_MB} --active $boot_part_params

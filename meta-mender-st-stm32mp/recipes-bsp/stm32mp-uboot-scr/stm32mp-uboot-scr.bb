@@ -11,6 +11,7 @@ KERNEL_BOOTCMD ?= "bootm"
 do_compile() {
     sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
         -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+        -e 's/@@MACHINE@@/${MACHINE}/' \
            "${WORKDIR}/boot.cmd.in" > "${WORKDIR}/boot.cmd"
     mkimage -A arm -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" stm32mp1-boot.scr
 }
