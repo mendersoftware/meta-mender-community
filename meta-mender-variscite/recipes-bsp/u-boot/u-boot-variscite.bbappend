@@ -17,3 +17,6 @@ do_deploy:append_var-som-mx6() {
 do_deploy:append_imx6ul-var-dart() {
     make_u_boot_spl_image
 }
+
+# For imx8mm-var-dart
+MENDER_UBOOT_AUTO_CONFIGURE = "0"

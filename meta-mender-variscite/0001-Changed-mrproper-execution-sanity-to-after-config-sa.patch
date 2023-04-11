@@ -1,0 +1,28 @@
+From 763ca5f9506d56368170db33eeab12aaabe03d1e Mon Sep 17 00:00:00 2001
+From: Esteban AP <esteban.aguero@northern.tech>
+Date: Wed, 5 Apr 2023 20:03:48 -0600
+Subject: [PATCH] Changed mrproper execution (sanity) to after config sanity
+ check
+
+Signed-off-by: Esteban AP <esteban.aguero@northern.tech>
+---
+ meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc b/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
+index 07f7f076..4b5a78f1 100644
+--- a/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
++++ b/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
+@@ -266,6 +266,9 @@ do_configure:prepend:mender-uboot() {
+         fi
+     done
+     unset IFS
++
++    # For Variscite
++    oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE} mrproper
+ }
+ 
+ do_compile:append:mender-uboot:mender-ubi() {
+-- 
+2.25.1
+

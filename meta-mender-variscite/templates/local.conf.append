@@ -1,7 +1,18 @@
 
 # Appended fragment from meta-mender-community/meta-mender-variscite/templates
 
+# Setting systemd as default
+DISTRO_FEATURES:append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd" 
+
 DISTRO ?= 'fslc-x11'
+
+# Mender Server Variables
+MENDER_SERVER_URL = "https://hosted.mender.io"
+MENDER_TENANT_TOKEN = "TOKEN"
+
+# Mender Setup
+MENDER_ARTIFACT_NAME = "var-release-1"
 
 # This will make sure that our SPL + u-boot.img is embedded in the sdimg at
 # a 1kb offset.
@@ -18,6 +29,8 @@ MENDER_PARTITION_ALIGNMENT = "4194304"
 # Cleanup image types generated
 IMAGE_FSTYPES:remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
 
-# disable uefi
-MENDER_FEATURES_ENABLE:append = " mender-uboot "
+# Mender features
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image"
+
+# Disable uefi
 MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
