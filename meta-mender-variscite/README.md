@@ -9,9 +9,7 @@ ultimately all of them, but to be able to do that we need to collaborate.
 
 Supported SoMs:
 
-- imx6ul-var-dart - DART-6UL (uSD/eMMC, WiFi)
 - imx8mm-var-dart - [i.MX8M Mini](https://www.variscite.com/product/system-on-module-som/cortex-a53-krait/dart-mx8m-mini-nxp-i-mx8m-mini/) (uSD)
-- var-som-solo - i.MX6 Solo (uSD)
 
 ## Dependencies
 This layer depends on:
@@ -66,15 +64,8 @@ bitbake-layers add-layer ../sources/meta-mender-community/meta-mender-variscite
 
 - Apply the local.conf changes
 ```bash
+cat ../sources/meta-mender-community/templates/local.conf.append >> conf/local.conf
 cat ../sources/meta-mender-community/meta-mender-variscite/templates/local.conf.append >> conf/local.conf
-```
-
-For `imx8mm-var-dart` board, run:
-```bash
-cat ../sources/meta-mender-community/meta-mender-variscite/templates/local-sdcard-imx8mm.conf.append >> conf/local.conf
-```
-For the other boards, run:
-```bash
 cat ../sources/meta-mender-community/meta-mender-variscite/templates/local-sdcard.conf.append >> conf/local.conf
 ```
 
