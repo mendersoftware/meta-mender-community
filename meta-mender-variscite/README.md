@@ -69,13 +69,6 @@ cat ../sources/meta-mender-community/meta-mender-variscite/templates/local.conf.
 cat ../sources/meta-mender-community/meta-mender-variscite/templates/local-sdcard.conf.append >> conf/local.conf
 ```
 
-- Apply the patch to fix u-boot sanity check
-```bash
-cp ../sources/meta-mender-community/meta-mender-variscite/0001-Changed-mrproper-execution-sanity-to-after-config-sa.patch ../sources/meta-mender/meta-mender-core/recipes-bsp/u-boot 
-cd ../sources/meta-mender/meta-mender-core/recipes-bsp/u-boot 
-git am 0001-Changed-mrproper-execution-sanity-to-after-config-sa.patch
-```
-
 - Build the image
 ```bash
 bitbake core-image-base
