@@ -1,18 +1,7 @@
 
 # Appended fragment from meta-mender-community/meta-mender-variscite/templates
 
-# Setting systemd as default
-DISTRO_FEATURES:append = " systemd"
-VIRTUAL-RUNTIME_init_manager = "systemd" 
-
 DISTRO ?= 'fslc-x11'
-
-# Mender Server Variables
-MENDER_SERVER_URL = "https://hosted.mender.io"
-MENDER_TENANT_TOKEN = "TOKEN"
-
-# Mender Setup
-MENDER_ARTIFACT_NAME = "var-release-1"
 
 # This will make sure that our SPL + u-boot.img is embedded in the sdimg at
 # a 1kb offset.
