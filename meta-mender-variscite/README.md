@@ -41,7 +41,7 @@ repo sync -j$(nproc)
 cd sources
 git clone https://github.com/mendersoftware/meta-mender.git \
          -b kirkstone
-git clone https://github.com/estape11/meta-mender-community.git \
+git clone https://github.com/mendersoftware/meta-mender-community.git \
          -b kirkstone
 cd ..
 ```
