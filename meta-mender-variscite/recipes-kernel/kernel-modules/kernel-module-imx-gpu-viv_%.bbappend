@@ -1,0 +1,1 @@
+KERNEL_SRC:imx8mm-var-dart = "git://github.com/nxp-imx/linux-imx.git;protocol=https;branch=${SRCBRANCH}"

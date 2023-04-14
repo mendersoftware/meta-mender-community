@@ -1,11 +1,16 @@
 
 # Appended fragment from meta-mender-community/meta-mender-variscite/templates
-# SDCard Settings
-MENDER_STORAGE_DEVICE_var-som-mx6 = "/dev/mmcblk1"
-MENDER_UBOOT_STORAGE_DEVICE_var-som-mx6 = "0"
-MENDER_STORAGE_DEVICE_imx6ul-var-dart = "/dev/mmcblk0"
-UBOOT_CONFIG_var-som-mx6 = "sd"
-UBOOT_CONFIG_imx6ul-var-dart = "sd"
-MENDER_FEATURES_ENABLE:append = " mender-image-sd "
-MENDER_STORAGE_TOTAL_SIZE_MB_var-som-mx6 = "1024"
-MENDER_STORAGE_TOTAL_SIZE_MB_imx6ul-var-dart = "1024"
+
+MENDER_FEATURES_ENABLE:append:imx8mm-var-dart = " mender-image-sd "
+MENDER_IMAGE_BOOTLOADER_FILE:imx8mm-var-dart = "imx-boot"
+MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET:imx8mm-var-dart = "66"
+
+# SDCard Settings imx8mm-var-dart
+MENDER_STORAGE_DEVICE_BASE:imx8mm-var-dart = "/dev/mmcblk1p"
+MENDER_STORAGE_DEVICE:imx8mm-var-dart = "/dev/mmcblk1"
+
+# Uboot configuration
+UBOOT_CONFIG:imx8mm-var-dart = "sd"
+
+# SD size image
+MENDER_STORAGE_TOTAL_SIZE_MB:imx8mm-var-dart = "8192"
