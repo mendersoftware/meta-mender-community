@@ -1,19 +1,14 @@
-DEPENDS += "u-boot-mkimage-native"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-UBOOT_ROCKCHIP_BINARY = "u-boot-rockchip.img"
-UBOOT_IMAGE_ROCKCHIP ?= "u-boot-rockchip-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
-UBOOT_SYMLINK_ROCKCHIP ?= "u-boot-rockchip-${MACHINE}.${UBOOT_SUFFIX}"
+MENDER_UBOOT_AUTO_CONFIGURE = "0"
 
-do_compile:append_rk3288() {
-    mkimage -n ${SOC_FAMILY} -T rksd -d ${B}/${SPL_BINARY} ${B}/${UBOOT_ROCKCHIP_BINARY}
-    cat ${B}/${UBOOT_BINARY} >>${B}/${UBOOT_ROCKCHIP_BINARY}
-}
+SRC_URI += "\
+	file://0001-Mender-updates.patch \
+	file://0002-firefly-rk3288-Drop-ENV_OFFSET.patch \
+	file://0003-rock-pi-e-Drop-ENV_OFFSET.patch \
+	file://boot.cmd \
+"
 
-do_deploy:append_rk3288() {
-    install -m 644 ${B}/${UBOOT_ROCKCHIP_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE_ROCKCHIP}
-
-    cd ${DEPLOYDIR}
-    rm -f ${UBOOT_ROCKCHIP_BINARY} ${UBOOT_SYMLINK_ROCKCHIP}
-    ln -sf ${UBOOT_IMAGE_ROCKCHIP} ${UBOOT_SYMLINK_ROCKCHIP}
-    ln -sf ${UBOOT_IMAGE_ROCKCHIP} ${UBOOT_ROCKCHIP_BINARY}
-}
+# setup name for u-boot script
+UBOOT_ENV_SUFFIX = "scr"
+UBOOT_ENV = "boot"
