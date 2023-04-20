@@ -17,13 +17,10 @@ Dependencies
   URI: https://github.com/mendersoftware/meta-mender
   branch: kirkstone
 
-Patches
-=======
+Contributions
+=============
 
-Please submit any patches against the meta-mender-qemu-community layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
-
-Maintainer: Josef Holzmayr <jester@theyoctojester.info>
+Please the README file in the top level directory.
 
 Table of Contents
 =================
