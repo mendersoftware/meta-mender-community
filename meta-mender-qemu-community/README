@@ -1,0 +1,47 @@
+This README file contains information on the contents of the meta-mender-qemu-community layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: kirkstone
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: kirkstone
+
+  URI: https://git.yoctoproject.org/meta-arm
+  branch: kirkstone
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: kirkstone
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-qemu-community layer to your build
+ II. Misc
+
+
+I. Adding the meta-mender-qemu-community layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-qemu-community'
+
+II. Misc
+========
+
+The layer supports building for QEMU Aarch64 with EFI. Add the following to your configuration:
+
+```
+EFI_PROVIDER = "grub-efi"
+MACHINE_FEATURES += "efi"
+MENDER_EFI_LOADER = "edk2-firmware"
+MENDER_STORAGE_DEVICE = "/dev/vda"
+```
