@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <manifest>
-  <default sync-j="4" revision="thud"/>
+  <default sync-j="4" revision="kirkstone"/>
 
   <remote fetch="git://git.yoctoproject.org"        name="yocto"/>
   <remote fetch="git://git.openembedded.org"        name="oe"/>
 
-  <project name="poky" remote="yocto" revision="thud" path="sources/poky"/>
-  <project name="meta-openembedded" remote="oe" revision="thud" path="sources/meta-openembedded"/>
-  <project name="meta-rockchip" remote="yocto" revision="thud" path="sources/meta-rockchip"/>
+  <project name="poky" remote="yocto" revision="kirkstone" path="sources/poky"/>
+  <project name="meta-openembedded" remote="oe" revision="kirkstone" path="sources/meta-openembedded"/>
+  <project name="meta-rockchip" remote="yocto" revision="kirkstone" path="sources/meta-rockchip"/>
 
   <include name="scripts/mender.xml"/>
 
