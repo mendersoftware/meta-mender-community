@@ -6,7 +6,7 @@ MACHINE ?= "rock-pi-e"
 MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
 MENDER_UBOOT_STORAGE_DEVICE = "1"
 
-MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-client-install mender-image-sd"
+MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
 MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
 
 # install only boot.scr. We don't need fitImage in boot partition
