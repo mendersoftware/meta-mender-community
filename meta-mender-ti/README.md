@@ -7,10 +7,12 @@ generic Mender integation.
 Supported targets:
 
 - [BeaglePlay](https://beagleboard.org/play) (default)
+- [BeagleBone AI-64](https://beagleboard.org/ai-64)
 
 Addititional information can be found on the [Mender Hub](https://hub.mender.io):
 
 - [BeaglePlay](https://hub.mender.io/t/beagleplay/5792)
+- [BeagleBone AI-64](https://hub.mender.io/t/beaglebone-ai-64/5793)
 
 ## Dependencies
 
