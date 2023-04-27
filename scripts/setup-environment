@@ -43,6 +43,7 @@ targets=(
     "rockchip"
     "sunxi"
     "tegra"
+    "ti"
     "up"
     "variscite")
 
