@@ -6,6 +6,7 @@ SRC_URI += "\
 	file://0001-Mender-updates.patch \
 	file://0002-firefly-rk3288-Drop-ENV_OFFSET.patch \
 	file://0003-rock-pi-e-Drop-ENV_OFFSET.patch \
+	file://0004-mmc-dwmmc-only-clear-handled-interrupts.patch \
 	file://boot.cmd \
 "
 
