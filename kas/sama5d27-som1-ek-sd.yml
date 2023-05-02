@@ -1,0 +1,7 @@
+header:
+  version: 11
+  includes:
+  - mender-base.yml
+  - includes/atmel.yml
+
+machine: sama5d27-som1-ek-sd
