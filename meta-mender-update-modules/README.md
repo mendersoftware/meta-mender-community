@@ -7,7 +7,7 @@ This repository contains Yocto recipes for community supported Update Modules. A
 
 There are a couple of general-purpose Update Modules bundled together with the [Mender client source code](https://github.com/mendersoftware/mender/tree/master/support/modules), these can be installed using [meta-mender](https://github.com/mendersoftware/meta-mender).
 
-![Mender logo](https://mender.io/user/pages/resources/06.digital-assets/mender.io.png)
+![Mender logo](https://github.com/mendersoftware/mender/raw/master/mender_logo.png)
 
 ## Getting started
 
