@@ -1,0 +1,57 @@
+From c0327b5134e34d231cb90f298215067a52dbcc49 Mon Sep 17 00:00:00 2001
+From: Marek Belisko <marek.belisko@open-nandra.com>
+Date: Thu, 25 May 2023 11:59:41 +0200
+Subject: [PATCH] Added mender support
+
+Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
+---
+ configs/imx8mq_evk_voipac_defconfig | 5 +++--
+ include/configs/imx8mq_evk_voipac.h | 7 ++++++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/configs/imx8mq_evk_voipac_defconfig b/configs/imx8mq_evk_voipac_defconfig
+index 88f5dec..bcd7b9a 100644
+--- a/configs/imx8mq_evk_voipac_defconfig
++++ b/configs/imx8mq_evk_voipac_defconfig
+@@ -9,8 +9,8 @@ CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+-CONFIG_ENV_SIZE=0x1000
+-CONFIG_ENV_OFFSET=0x400000
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x800000
+ CONFIG_DM_GPIO=y
+ CONFIG_TARGET_IMX8MQ_EVK_VOIPAC=y
+ CONFIG_SPL_MMC_SUPPORT=y
+@@ -114,3 +114,4 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_DISPLAY=y
+ CONFIG_VIDEO_IMX8M_DCSS=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
++CONFIG_CMD_FS_GENERIC=y
+diff --git a/include/configs/imx8mq_evk_voipac.h b/include/configs/imx8mq_evk_voipac.h
+index 9b9c266..532fb60 100644
+--- a/include/configs/imx8mq_evk_voipac.h
++++ b/include/configs/imx8mq_evk_voipac.h
+@@ -159,7 +159,7 @@
+ 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
+ 
+ #define CONFIG_ENV_OVERWRITE
+-#define CONFIG_SYS_MMC_ENV_DEV		1   /* USDHC2 */
++#define CONFIG_SYS_MMC_ENV_DEV		0   /* USDHC1 */
+ #define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
+ 
+ /* Size of malloc() pool */
+@@ -242,4 +242,9 @@
+ #include "imx8mq_evk_android.h"
+ #endif
+ 
++/* mender defines */
++#define CONFIG_BOOTCOUNT_LIMIT
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
++
+ #endif
+-- 
+2.7.4
+

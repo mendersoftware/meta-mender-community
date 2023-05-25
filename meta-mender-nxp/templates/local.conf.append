@@ -41,3 +41,9 @@ MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7s-warp = "0xE0000"
 IMAGE_BOOT_FILES_imx7dsabresd = "boot.scr"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1_imx7dsabresd = "0xC0000"
 MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2_imx7dsabresd = "0xE0000"
+
+# Specific Configuration for imx8mq Voipac
+IMAGE_BOOT_FILES_imx8mq-voipac = "boot.scr"
+MENDER_UBOOT_STORAGE_INTERFACE_imx8mq-voipac = "mmc"
+MENDER_UBOOT_STORAGE_DEVICE_imx8mq-voipac = "0"
+MENDER_STORAGE_DEVICE_imx8mq-voipac = "/dev/mmcblk0"

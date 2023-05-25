@@ -6,6 +6,7 @@
   <remote fetch="https://github.com/Freescale"      name="freescale"/>
   <remote fetch="git://git.openembedded.org"	     name="oe"/>
   <remote fetch="https://github.com/boundarydevices" name="boundary"/>
+  <remote fetch="https://github.com/voipac" name="voipac"/>
 
   <project name="poky" remote="yocto" path="sources/poky"/>
   <project name="meta-freescale" remote="yocto" path="sources/meta-freescale"/>
@@ -13,6 +14,7 @@
   <project name="meta-freescale-distro" remote="freescale" path="sources/meta-freescale-distro"/>
   <project name="meta-openembedded" remote="oe" path="sources/meta-openembedded"/>
   <project name="meta-boundary" remote="boundary" path="sources/meta-boundary"/>
+  <project name="meta-imx8m-voipac" remote="voipac" path="sources/meta-voipac"/>
   
   <include name="scripts/mender.xml"/>
 
