@@ -2,6 +2,7 @@ SRC_URI = " \
     file://redundant-boot-commit-check-script-uboot \
     file://redundant-boot-install-script \
     file://redundant-boot-install-script-uboot \
+    file://switch-rootfs \
 "
 
 LICENSE = "Apache-2.0"
@@ -41,6 +42,10 @@ do_compile:tegra186() {
 
 do_compile:tegra210() {
     cp ${S}/redundant-boot-install-script-uboot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_80_bl-update
+}
+
+do_compile:tegra234() {
+    cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
 }
 
 # Make sure scripts aren't left around from old builds

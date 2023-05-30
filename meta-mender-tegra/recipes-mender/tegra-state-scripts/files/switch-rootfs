@@ -1,0 +1,26 @@
+#!/bin/sh
+echo "$(mender show-artifact): $(basename "$0") was called!" >&2
+
+get_bootpart() {
+	local current_slot=`nvbootctrl get-current-slot 2>/dev/null`
+	if [ -z "$current_slot" ]; then
+    		echo "ERR: could not identify current boot slot" >&2
+    		echo "UNKNOWN"
+    		return
+    	fi
+	echo "$current_slot"
+}
+
+current_slot=`get_bootpart`
+echo "current_slot=$current_slot" >&2
+
+next_slot=
+if [ $current_slot = "0" ]; then
+	next_slot="1"
+else
+	next_slot="0"
+fi
+
+echo "next_slot=$next_slot" >&2
+nvbootctrl set-active-boot-slot $next_slot
+exit 0

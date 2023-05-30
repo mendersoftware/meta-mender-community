@@ -23,5 +23,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 RPROVIDES:${PN} += "libubootenv-bin u-boot-fw-utils"
 RDEPENDS:${PN} = "tegra-boot-tools"
+RDEPENDS:${PN}:tegra234 = ""
 RCONFLICTS:${PN} = "libubootenv-bin"
 RREPLACES:${PN} = "libubootenv-bin"

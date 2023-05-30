@@ -35,6 +35,8 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
 PREFERRED_PROVIDER_libubootenv:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
 PREFERRED_RPROVIDER_libubootenv-bin:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
+PREFERRED_PROVIDER_libubootenv:tegra234 = "libubootenv-fake"
+
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
 IMAGE_BOOT_FILES = "u-boot-dtb.bin"
@@ -48,12 +50,14 @@ MENDER_DATA_PART_NUMBER_DEFAULT:tegra194 = "43"
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-emmc = "19"
 MENDER_DATA_PART_NUMBER_DEFAULT:xavier-nx = "12"
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra234 = "16"
 MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra186 = "33"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra194 = "42"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:xavier-nx = "11"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit = "3"
