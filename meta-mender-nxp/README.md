@@ -9,6 +9,7 @@ The supported and tested boards are:
  - [Nitrogen8M](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
  - [Nitrogen8MM](https://hub.mender.io/t/boundary-devices-nitrogen8m/409)
  - [i.MX7D SABRE](https://hub.mender.io/t/nxp-i-mx7d-sabre/1279)
+ - [iMX8M Dev Kit by Voipac](https://hub.mender.io/t/voipac-imx8mq-industrial-development-kit/5865)
 
 
 Visit the individual board links above for more information on status of the
