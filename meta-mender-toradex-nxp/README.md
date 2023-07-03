@@ -37,8 +37,9 @@ that have Mender integrated.
 
 ```
 mkdir mender-toradex && cd mender-toradex
+export TORADEX_BSP_VERSION=6.2.0
 repo init -u https://git.toradex.com/toradex-manifest.git \
-    -b refs/tags/6.0.0 \
+    -b refs/tags/${TORADEX_BSP_VERSION} \
     -m tdxref/default.xml
 
 wget --directory-prefix .repo/local_manifests \
