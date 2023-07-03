@@ -58,6 +58,9 @@ echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender/meta-mender-demo \"" >> co
 cat ../layers/meta-mender-community/templates/local.conf.append >> conf/local.conf
 cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append >> conf/local.conf
 
+# Omit this, if you intend to refuse the Freescale EULA. Please read it and in case you accept it
+echo "\nACCEPT_FSL_EULA = \"1\"" >> conf/local.conf
+
 MACHINE=blah bitbake tdx-reference-minimal-image
 ```
 
