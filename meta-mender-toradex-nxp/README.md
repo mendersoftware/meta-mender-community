@@ -37,16 +37,20 @@ that have Mender integrated.
 
 ```
 mkdir mender-toradex && cd mender-toradex
+
+# Select the appropriate Toradex BSP version:
+export TORADEX_BSP_VERSION=6.2.0
+
 repo init -u https://git.toradex.com/toradex-manifest.git \
-    -b refs/tags/6.0.0 \
+    -b refs/tags/${TORADEX_BSP_VERSION} \
     -m tdxref/default.xml
 
 wget --directory-prefix .repo/local_manifests \
-    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/kirkstone/scripts/mender-no-setup.xml
+    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/kirkstone/scripts/mender-no-setup-layers.xml
 
 repo sync
 
-. export
+. ./export
 
 echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender/meta-mender-core \"" >> conf/bblayers.conf
 echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender-community/meta-mender-toradex-nxp \"" >> conf/bblayers.conf
@@ -56,6 +60,11 @@ echo "BBLAYERS += \" \${TOPDIR}/../layers/meta-mender/meta-mender-demo \"" >> co
 
 cat ../layers/meta-mender-community/templates/local.conf.append >> conf/local.conf
 cat ../layers/meta-mender-community/meta-mender-toradex-nxp/templates/local.conf.append >> conf/local.conf
+
+echo "TORADEX_BSP_VERSION = \"toradex-bsp-${TORADEX_BSP_VERSION}\"" >> conf/local.conf
+
+You need to accept the Freescale EULA at ‘…/sources/meta-freescale/EULA’. Please read it and in case you accept it, run:
+echo "ACCEPT_FSL_EULA = \"1\"" >> conf/local.conf 
 
 MACHINE=blah bitbake tdx-reference-minimal-image
 ```
