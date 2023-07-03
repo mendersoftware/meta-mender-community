@@ -43,7 +43,7 @@ repo init -u https://git.toradex.com/toradex-manifest.git \
     -m tdxref/default.xml
 
 wget --directory-prefix .repo/local_manifests \
-    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/kirkstone/scripts/mender-no-setup.xml
+    https://raw.githubusercontent.com/mendersoftware/meta-mender-community/kirkstone/scripts/mender-no-setup-layers.xml
 
 repo sync
 
