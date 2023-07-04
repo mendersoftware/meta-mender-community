@@ -1,16 +1,5 @@
 inherit l4t_bsp
 
-python () {
-    # insert l4t-mender-<version> as a machine-specific override for tegra platforms
-    machine_overrides = d.getVar('MACHINEOVERRIDES', False).split(':')
-    try:
-        i = machine_overrides.index('tegra')
-        l4t_ver = 'l4t-mender-%s' % d.getVar('L4T_VERSION').replace('.','-')
-        d.setVar('MACHINEOVERRIDES', ':'.join(machine_overrides[:i] + [l4t_ver] + machine_overrides[i:]))
-    except ValueError:
-        pass
-}
-
 def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
     return calc_rootfs_size_kb * 1024
 
