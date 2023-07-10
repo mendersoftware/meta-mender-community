@@ -129,8 +129,8 @@ python rootfs_mender_tezi_json() {
     data["release_date"] = datetime.strptime(d.getVar('SRCDATE'), '%Y%m%d').date().isoformat()
     data["prepare_script"] = "prepare.sh"
     data["wrapup_script"] = "wrapup.sh"
-    data["marketing"] = "marketing_mender_toradex.tar"
-    data["icon"] = "mender_toradex_linux.png"
+    data["marketing"] = "mender-tezi-metadata/marketing_mender_toradex.tar"
+    data["icon"] = "mender-tezi-metadata/mender_toradex_linux.png"
 
     product_ids = d.getVar('TORADEX_PRODUCT_IDS')
     if product_ids is None:
