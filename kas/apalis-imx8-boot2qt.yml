@@ -1,0 +1,70 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/nxp.yml
+
+repos:
+  openembedded-core:
+    refspec: f7766da462905ec67bf549d46b8017be36cd5b2a
+  meta-yocto:
+    url: https://git.yoctoproject.org/git/meta-yocto
+    refspec: ca9c465e37b693ab768ee8e21a929d1c18956e98
+    layers:
+      meta-poky:
+  meta-openembedded:
+    refspec: a8055484f2829e8dfd03d5c8520b2c611aa7ebd2
+    layers:
+      meta-python:
+      meta-multimedia:
+      meta-networking:
+      meta-initramfs:
+  meta-qt6:
+    url: git://code.qt.io/yocto/meta-qt6
+    refspec: c06b8b3e34f0dccfebb795a279010db1ab68ed2e
+  meta-boot2qt:
+    url: git://code.qt.io/yocto/meta-boot2qt
+    refspec: 7ec529584af7375e1a460b5093ccc42d406c6541
+    layers:
+      meta-boot2qt:
+      meta-boot2qt-distro:
+  meta-toradex-bsp-common:
+    url: https://git.toradex.com/meta-toradex-bsp-common.git
+    refspec: 1a14c2724ab0cbcf3d01042fed7b60b48c8ab836
+  meta-toradex-nxp:
+    url: https://git.toradex.com/meta-toradex-nxp.git
+    refspec: 364341c23ea49fb875e84f980b208699311aaf9c
+  meta-mender-community:
+    layers:
+      meta-mender-toradex-nxp:
+
+machine: apalis-imx8
+
+distro: b2qt
+
+local_conf_header:
+  qt: |
+    LICENSE_FLAGS_ACCEPTED = "commercial"
+    QT_SDK_PATH = ""
+
+  toradex: |
+    INHERIT += "mender-toradex"
+    INHERIT += "mender-full"
+    MENDER_UBOOT_POST_SETUP_COMMANDS:append = " ; setenv tdxargs \${tdxargs} \${bootargs}; "
+    MENDER_UBOOT_POST_SETUP_COMMANDS:append = " ; setenv overlays_file /boot/overlays.txt ; setenv overlays_prefix boot/overlays/ "
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    IMAGE_CLASSES += "image_type_mender_tezi"
+    IMAGE_FSTYPES:append = " mender_tezi"
+    IMAGE_FSTYPES:remove = " teziimg"
+    KERNEL_IMAGETYPE:aarch64_mender-grub = "Image"
+    IMAGE_BOOT_FILES:remove:mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
+    IMAGE_BOOT_FILES:remove:mender-uboot = "zImage ${KERNEL_DEVICETREE} overlays.txt overlays/*;overlays/"
+
+  apalis-imx8: |
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "0"
+    MENDER_BOOT_PART_SIZE_MB = "32"
+    OFFSET_SPL_PAYLOAD = ""
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+    KERNEL_DEVICETREE = "freescale/imx8qm-apalis-v1.1-ixora-v1.2.dtb"

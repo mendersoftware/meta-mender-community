@@ -81,6 +81,8 @@ jobs:
             experimental: true
           - board: apalis-imx8
             experimental: true
+          - board: apalis-imx8-boot2qt
+            experimental: true
           - board: stm32mp15-disco
             experimental: true
           - board: rock-pi-e
