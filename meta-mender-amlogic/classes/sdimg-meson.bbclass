@@ -1,9 +1,9 @@
 inherit image_types
 
-DEPENDS:append_sdimg = " virtual/trusted-firmware-a"
+DEPENDS:append:sdimg = " virtual/trusted-firmware-a"
 
 SDIMG_COMMAND = "sdimg_command_meson_gx"
-SDIMG_COMMAND_amlogic-s400 = "sdimg_command_s400"
+SDIMG_COMMAND:amlogic-s400 = "sdimg_command_s400"
 
 sdimg_command_meson_gx () {
 	outimagename="${IMGDEPLOYDIR}/${IMAGE_NAME}.$suffix"
