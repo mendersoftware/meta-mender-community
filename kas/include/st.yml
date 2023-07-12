@@ -1,0 +1,51 @@
+header:
+  version: 11
+
+repos:
+  # needs a specific version due to versioned overrides, like gstreamer
+  openembedded-core:
+    url: http://git.openembedded.org/openembedded-core
+    refspec: f7766da462905ec67bf549d46b8017be36cd5b2a
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-gnome:
+      meta-initramfs:
+      meta-multimedia:
+      meta-networking:
+      meta-webserver:
+      meta-filesystems:
+      meta-perl:
+  meta-qt5:
+    url: https://github.com/meta-qt5/meta-qt5
+    refspec: 5b71df60e523423b9df6793de9387f87a149ac42
+  meta-st-openstlinux:
+    url: https://github.com/STMicroelectronics/meta-st-openstlinux
+    refspec: cb736b403d0fef2a02390695613b6b4bb13ca1b7
+  meta-st-stm32mp:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp
+    refspec: ca501bd7dbe023682903ceedddaacd940b0898f4
+  meta-st-stm32mp-addons:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp-addons
+    refspec: f1a18b73343afd8dd5f9aa7f5b605d139fb9e4a8
+  meta-st-scripts:
+    url: https://github.com/STMicroelectronics/meta-st-scripts
+    refspec: bc063e7af04d04aff66401eb73610381bebc49a0
+    layers:
+      bitbake: excluded
+
+distro: openstlinux-weston
+
+local_conf_header:
+  st: |
+    MENDER_FEATURES_ENABLE:append = " \
+      mender-client-install \
+      mender-systemd \
+      mender-uboot \
+      mender-growfs-data \
+      mender-image \
+    "
+    MENDER_FEATURES_DISABLE:append = " \
+      mender-grub \
+      mender-image-uefi \
+    "

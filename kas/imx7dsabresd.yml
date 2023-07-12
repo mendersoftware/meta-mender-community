@@ -1,0 +1,13 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/nxp.yml
+
+machine: imx7dsabresd
+
+local_conf_header:
+  imx7dsabresd: |
+    IMAGE_BOOT_FILES = "boot.scr"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0xC0000"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0xE0000"

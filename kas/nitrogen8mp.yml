@@ -1,0 +1,13 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/poky.yml
+  - kas/include/nxp.yml
+  - kas/include/boundarydevices.yml
+
+machine: nitrogen8mp
+
+local_conf_header:
+  nitrogen8mp: |
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk2"

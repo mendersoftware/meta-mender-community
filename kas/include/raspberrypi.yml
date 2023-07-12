@@ -1,0 +1,19 @@
+header:
+  version: 11
+
+repos:
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    refspec: kirkstone
+
+  meta-mender:
+    layers:
+      meta-mender-raspberrypi:
+
+local_conf_header:
+  raspberrypi: |
+    RPI_USE_U_BOOT = "1"
+    ENABLE_UART = "1"
+    MENDER_BOOT_PART_SIZE_MB = "100"
+    IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+    IMAGE_FSTYPES:remove = " rpi-sdimg"

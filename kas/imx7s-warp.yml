@@ -1,0 +1,17 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/poky.yml
+  - kas/include/nxp.yml
+
+machine: imx7s-warp
+
+local_conf_header:
+  imx7s-warp: |
+    IMAGE_BOOT_FILES = "boot.scr"
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_UBOOT_STORAGE_DEVICE = "0"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk2"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0xC0000"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0xE0000"

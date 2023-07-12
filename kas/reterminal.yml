@@ -1,0 +1,16 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/raspberrypi.yml
+
+repos:
+  meta-seeed-cm4:
+    url: https://github.com/theyoctojester/meta-seeed-cm4.git
+    refspec: kirkstone
+
+  meta-openembedded:
+    layers:
+      meta-python:
+
+machine: seeed-reterminal

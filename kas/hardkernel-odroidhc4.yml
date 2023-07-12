@@ -1,0 +1,11 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/amlogic.yml
+
+machine: hardkernel-odroidhc4
+
+local_conf_header:
+  hardkernel-odroidhc4: |
+    MENDER_UBOOT_STORAGE_DEVICE = "0"

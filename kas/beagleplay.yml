@@ -1,0 +1,16 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/ti.yml
+
+machine: beagleplay
+
+local_conf_header:
+  beagleplay: |
+    MENDER_FEATURES_ENABLE:append = " mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = "mender-image-uefi"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_BOOT_PART_SIZE_MB = "128"
+    MENDER_PARTITION_ALIGNMENT = "1048576"
+    IMAGE_FSTYPES:remove = "wic wic.bmap mender.bmap sdimg.bmap"

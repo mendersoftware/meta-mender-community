@@ -1,0 +1,32 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/qemu.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-qemu-community:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    refspec: kirkstone
+    layers:
+      meta-oe:
+
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    refspec: kirkstone
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+local_conf_header:
+  efi: |
+    EFI_PROVIDER = "grub-efi"
+    MACHINE_FEATURES += "efi"
+    MENDER_EFI_LOADER = "edk2-firmware"
+    MENDER_STORAGE_DEVICE = "/dev/vda"
+
+machine: qemuarm64

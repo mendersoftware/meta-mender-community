@@ -1,0 +1,13 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/qemu.yml
+
+machine: vexpress-qemu-flash
+
+local_conf_header:
+# this deliberately overrides the fragment from mender-base.yml!
+  mender: |
+    INHERIT += "mender-full-ubi"
+    MENDER_ARTIFACT_NAME = "gha_autobuild"

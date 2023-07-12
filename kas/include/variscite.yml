@@ -1,0 +1,18 @@
+header:
+  version: 11
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-multimedia:
+      meta-networking:
+      meta-filesystems:
+  meta-variscite-bsp:
+    url: https://github.com/varigit/meta-variscite-bsp
+    refspec: 9bd972eece1e17cfb928863de8b2ae399a073c54
+  meta-mender-community:
+    layers:
+      meta-mender-variscite:
+
+distro: fslc-x11

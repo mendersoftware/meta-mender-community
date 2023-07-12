@@ -1,0 +1,12 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/st.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-octavo-osd32mp:
+
+machine: osd32mp1-emmc-mender

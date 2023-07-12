@@ -2,6 +2,6 @@ header:
   version: 11
   includes:
   - kas/include/mender-base.yml
-  - kas/include/atmel.yml
+  - kas/include/raspberrypi.yml
 
-machine: sama5d27-som1-ek-sd
+machine: raspberrypi2

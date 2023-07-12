@@ -1,0 +1,16 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/nxp.yml
+  - kas/include/toradex.yml
+
+machine: apalis-imx6
+
+local_conf_header:
+  apalis-imx6: |
+    TEZI_STORAGE_DEVICE = "mmcblk0"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk2"
+    MENDER_UBOOT_STORAGE_DEVICE = "0"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+    KERNEL_DEVICETREE = "imx6q-apalis-ixora-v1.1.dtb"

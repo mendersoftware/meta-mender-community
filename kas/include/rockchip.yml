@@ -1,0 +1,29 @@
+header:
+  version: 11
+
+repos:
+  meta-arm:
+    url: git://git.yoctoproject.org/meta-arm.git
+    refspec: kirkstone
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+  meta-rockchip:
+    url: git://git.yoctoproject.org/meta-rockchip.git
+    refspec: 1f5e7b10eef4e4906daee7e7f03211823f832ce7
+
+  meta-mender-community:
+    layers:
+      meta-mender-rockchip:
+
+local_conf_header:
+  rockchip: |
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_UBOOT_STORAGE_DEVICE = "1"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-client-install mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    IMAGE_BOOT_FILES:remove = "fitImage"
+    IMAGE_BOOT_FILES:append = "boot.scr"
+    IMAGE_FSTYPES:remove = "wic wic.bmap mender.bmap"
+    IMAGE_CLASSES += "rockchip-sdimg"
+    MENDER_PARTITION_ALIGNMENT = "10485760"

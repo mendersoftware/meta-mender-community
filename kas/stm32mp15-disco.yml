@@ -1,0 +1,35 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/st.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-st-stm32mp:
+
+local_conf_header:
+  stm32mp15-disco: |
+    EXTRA_IMAGECMD:ext4:remove = "-L"
+    IMAGE_CLASSES:remove = "st-partitions-image"
+    WKS_FILE_DEPENDS:remove = "st-image-bootfs st-image-vendorfs st-image-userfs"
+    ENABLE_FLASHLAYOUT_CONFIG = "0"
+    MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:mender-image:arm = "kernel-devicetree"
+    MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append:mender-image:arm = " kernel-imagebootfs"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+    PREFERRED_PROVIDER_u-boot="u-boot-stm32mp"
+    PREFERRED_PROVIDER_virtual/bootloader="u-boot-stm32mp"
+    IMAGE_CLASSES += "stm32mp-gptimg"
+    MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6"
+    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7"
+    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}8"
+    MENDER_DATA_PART_NUMBER = "9"
+    MENDER_DATA_PART_SIZE_MB = "10"
+    IMAGE_FSTYPES:append = " gptimg.gz"
+    IMAGE_BOOT_FILES = "stm32mp1-boot.scr;boot.scr"
+    KERNEL_DEVICETREE="stm32mp157d-dk1.dtb"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "9437184"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "9699328"
+
+machine: stm32mp15-disco

@@ -1,0 +1,29 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/poky.yml
+  - kas/include/nxp.yml
+  - kas/include/variscite.yml
+
+local_conf_header:
+  fsl: |
+    ACCEPT_FSL_EULA = "1"
+
+  imx8mm-var-dart: |
+    MENDER_IMAGE_BOOTLOADER_FILE = "u-boot-spl.img"
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "2"
+    IMAGE_BOOT_FILES = ""
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    MENDER_PARTITION_ALIGNMENT = "4194304"
+    IMAGE_FSTYPES:remove = "tar.gz ext4 wic.gz wic.bmap multiubi mender.bmap"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "66"
+    MENDER_STORAGE_DEVICE_BASE = "/dev/mmcblk1p"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    UBOOT_CONFIG = "sd"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "8192"
+
+machine: imx8mm-var-dart
