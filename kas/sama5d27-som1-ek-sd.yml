@@ -1,7 +1,7 @@
 header:
   version: 11
   includes:
-  - kas/include/mender-base.yml
+  - kas/include/mender-full.yml
   - kas/include/atmel.yml
 
 machine: sama5d27-som1-ek-sd

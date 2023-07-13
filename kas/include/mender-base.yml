@@ -35,8 +35,7 @@ local_conf_header:
     PACKAGE_CLASSES = "package_ipk"
     INIT_MANAGER = "systemd"
   
-  mender: |
-    INHERIT += "mender-full"
+  mender-artifact: |
     MENDER_ARTIFACT_NAME = "gha_autobuild"
 
 target:

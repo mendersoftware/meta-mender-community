@@ -1,0 +1,8 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+
+local_conf_header:
+  mender-full: |
+    INHERIT += "mender-full-ubi"

@@ -1,7 +1,7 @@
 header:
   version: 11
   includes:
-  - kas/include/mender-base.yml
+  - kas/include/mender-full-ubi.yml
   - kas/include/nxp.yml
   - kas/include/toradex.yml
 
@@ -9,8 +9,6 @@ machine: colibri-imx6ull
 
 local_conf_header:
   colibri-imx8x: |
-    INHERIT:remove = " mender-full "
-    INHERIT:append = " mender-full-ubi "
     IMAGE_FSTYPES:remove = " mtdimg teziimg"
     MENDER_MTDIDS = "nand0=gpmi-nand"
     MENDER_MTDPARTS = "gpmi-nand:512k(mx6ull-bcb),1536k(u-boot1)ro,1536k(u-boot2)ro,-(ubi)"
