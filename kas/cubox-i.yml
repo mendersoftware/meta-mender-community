@@ -2,6 +2,7 @@ header:
   version: 11
   includes:
   - kas/include/mender-full.yml
+  - kas/include/poky.yml
   - kas/include/nxp.yml
 
 machine: cubox-i
