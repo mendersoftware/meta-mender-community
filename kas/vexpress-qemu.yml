@@ -5,3 +5,7 @@ header:
   - kas/include/qemu.yml
 
 machine: vexpress-qemu
+
+local_conf_header:
+  mender-efi: |
+    MENDER_EFI_LOADER = ""
