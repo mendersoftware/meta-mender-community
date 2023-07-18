@@ -15,7 +15,7 @@ repos:
 
   meta-mender-community:
     layers:
-      meta-mender-tegra:
+      meta-mender-tegra/meta-mender-tegra-jetpack4:
 
 local_conf_header:
   tegra: |
