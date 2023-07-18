@@ -1,0 +1,42 @@
+header:
+  version: 11
+
+distro: ""
+
+repos:
+  openembedded-core:
+    url: http://git.openembedded.org/openembedded-core
+    refspec: b67e714b367a08fdeeeff68c2d9495ec9bc07304
+    layers:
+      meta:
+
+  bitbake:
+    url: http://git.openembedded.org/bitbake
+    refspec: 2802adb572eb73a3eb2725a74a9bbdaafc543fa7
+    path: "openembedded-core/bitbake"
+    layers:
+      bitbake: excluded
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    refspec: 571e36e20e9d1f27af0eb4545291beeb64f280e2
+    layers:
+      meta-oe:
+
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    refspec: 73a5d1098282d968901ee581c85f28cfbe928242
+    layers:
+      meta-mender-core:
+
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_ipk"
+    INIT_MANAGER = "systemd"
+  
+  mender-artifact: |
+    MENDER_ARTIFACT_NAME = "gha_autobuild"
+
+target:
+  - core-image-minimal

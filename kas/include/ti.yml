@@ -1,0 +1,15 @@
+header:
+  version: 11
+
+repos:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    refspec: kirkstone
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+  meta-ti:
+    url: https://git.yoctoproject.org/meta-ti
+    refspec: kirkstone
+    layers:
+      meta-ti-bsp:

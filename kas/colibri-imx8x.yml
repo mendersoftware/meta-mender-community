@@ -1,0 +1,17 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/nxp.yml
+  - kas/include/toradex.yml
+
+machine: colibri-imx8x
+
+local_conf_header:
+  colibri-imx8x: |
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "0"
+    MENDER_BOOT_PART_SIZE_MB = "32"
+    OFFSET_SPL_PAYLOAD = ""
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+    KERNEL_DEVICETREE = "freescale/imx8qxp-colibri-iris-v2.dtb"

@@ -1,0 +1,7 @@
+header:
+  version: 11
+
+repos:
+  meta-mender:
+    layers:
+      meta-mender-qemu:

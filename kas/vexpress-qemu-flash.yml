@@ -1,0 +1,7 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full-ubi.yml
+  - kas/include/qemu.yml
+
+machine: vexpress-qemu-flash

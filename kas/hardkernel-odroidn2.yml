@@ -1,0 +1,11 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/amlogic.yml
+
+machine: hardkernel-odroidn2
+
+local_conf_header:
+  hardkernel-odroidn2: |
+    MENDER_UBOOT_STORAGE_DEVICE = "0"

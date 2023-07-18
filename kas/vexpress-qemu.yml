@@ -1,0 +1,11 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+  - kas/include/qemu.yml
+
+machine: vexpress-qemu
+
+local_conf_header:
+  mender-efi: |
+    MENDER_EFI_LOADER = ""

@@ -1,0 +1,19 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/nxp.yml
+  - kas/include/toradex.yml
+
+machine: verdin-imx8mp
+
+local_conf_header:
+  verdin-imx8mp: |
+    MENDER_BOOT_PART_SIZE_MB = "32"
+    OFFSET_SPL_PAYLOAD = ""
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "0"
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_UBOOT_STORAGE_DEVICE = "2"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk2"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
+    KERNEL_DEVICETREE = "freescale/imx8mp-verdin-wifi-dahlia.dtb"

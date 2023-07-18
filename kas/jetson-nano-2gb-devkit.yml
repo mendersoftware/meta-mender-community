@@ -1,0 +1,8 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/poky.yml
+  - kas/include/tegra.yml
+
+machine: jetson-nano-2gb-devkit

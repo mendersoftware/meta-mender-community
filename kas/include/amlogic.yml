@@ -1,0 +1,28 @@
+header:
+  version: 11
+
+repos:
+  meta-meson:
+    url: https://github.com/superna9999/meta-meson
+    refspec: 2255f691bef0fd23228b777c2043548581917382
+
+  meta-mender-community:
+    layers:
+      meta-mender-amlogic:
+
+local_conf_header:
+  amlogic: |
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    IMAGE_FSTYPES:remove = "wic"
+    IMAGE_CLASSES = "sdimg-meson"
+    KERNEL_IMAGETYPE = "fitImage"
+    MACHINE_EXTRA_RRECOMMENDS += " kernel-devicetree"
+    IMAGE_BOOT_FILES:remove = "Image"
+    IMAGE_BOOT_FILES:remove = "fitImage"
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    MENDER_PARTITION_ALIGNMENT = "4194304"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET = "4194304"
+    MENDER_RESERVED_SPACE_BOOTLOADER_DATA = "8388608"

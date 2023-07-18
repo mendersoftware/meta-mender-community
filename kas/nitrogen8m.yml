@@ -1,0 +1,9 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/poky.yml
+  - kas/include/nxp.yml
+  - kas/include/boundarydevices.yml
+
+machine: nitrogen8m

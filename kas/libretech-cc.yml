@@ -1,0 +1,11 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/amlogic.yml
+
+machine: libretech-cc
+
+local_conf_header:
+  libretech-cc: |
+    MENDER_UBOOT_STORAGE_DEVICE = "0"

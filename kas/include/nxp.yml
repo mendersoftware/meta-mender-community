@@ -1,0 +1,29 @@
+header:
+  version: 11
+
+repos:
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale.git
+    refspec: 82cbf4e5adac1017adc1e4a2ce056c57b3148ba0
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty.git
+    refspec: bf12dc09d88a53d7345377de277fbcc20ed87235
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro.git
+    refspec: d5bbb487b2816dfc74984a78b67f7361ce404253
+
+  meta-mender-community:
+    layers:
+      meta-mender-nxp:
+
+distro: fslc-framebuffer
+
+local_conf_header:
+  nxp: |
+    ACCEPT_FSL_EULA = "1"
+    MENDER_BOOT_PART_SIZE_MB = "64"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
+    IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+    IMAGE_FSTYPES:remove = " rpi-sdimg"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
