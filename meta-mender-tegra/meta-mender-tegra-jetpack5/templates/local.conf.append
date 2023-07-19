@@ -1,0 +1,14 @@
+# See README for other supported options
+MACHINE ?= "jetson-tx2"
+
+# Tegra specific mender setup variables
+INHERIT += "tegra-mender-setup"
+
+# Grow the data partition by default
+MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
+
+# Not required for mender support, but gives you access via SSH by default
+# Note that the ssh key will change on each upgrade.  To fix this you need to
+# symlink /etc/dropbear/dropbear_rsa_host_key to the data partition or use an
+# overlay setup that maps the key to the data partition
+EXTRA_IMAGE_FEATURES += " ssh-server-dropbear"
