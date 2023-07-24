@@ -10,8 +10,6 @@ repos:
     refspec: kirkstone-l4t-r32.7.x
 
   meta-openembedded:
-    url: https://git.openembedded.org/meta-openembedded
-    refspec: kirkstone
     layers:
       meta-python:
 
