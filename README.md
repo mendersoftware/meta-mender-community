@@ -25,18 +25,17 @@ There are multiple types of layers included here.
 
 SoC-oriented:
 
-- meta-amlogic
-- meta-freescale
-- meta-sunxi
-- meta-rockchip
-- meta-renesas
+- meta-mender-amlogic
+- meta-mender-nxp
+- meta-mender-tegra
+...
 
 Vendor-oriented:
 
-- meta-variscite
-- meta-phytec
-- meta-toradex-nxp
+- meta-mender-raspberrypi
+- meta-mender-toradex-nxp
 - meta-mender-octavo-osd32mp
+...
 
 Naming of integration layers follows the upstream naming conventions with SoM
 vendor layer name having priority. The convention is:
@@ -59,7 +58,7 @@ For an introduction on `kas`, please see the [tutorial article](https://hub.mend
 
 #### Building an image for a supported board
 
-##### TL;DR
+##### Quick start
 
 To build an image using `kas`, you simply call it with the `build` verb and the desired configuration. Example for the Raspberry Pi 4, 64bit:
 ```
@@ -171,9 +170,10 @@ We welcome and ask for your contribution. If you would like to contribute to
 Mender, please read our guide on how to best get started [contributing code or
 documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING.md).
 
-### Community maintainers
-
-A list of community maintainers and the description of the role is located [here](https://github.com/mendersoftware/meta-mender-community/wiki/Community-maintainers).
+Community contributed layers will be co-maintained by the Mender team on a best-effort
+base. Coordination of reviews and merges happens case by case and based on responsiveness,
+respectively activity. Reviews and acknowledgements by the original contributors are explicitly
+not required for further contributions, in order to not block development and maintenance.
 
 ## License
 
