@@ -47,10 +47,73 @@ vendor layer name having priority. The convention is:
 
 This should make it clear which layer is targeting what BSP.
 
-### Manifest files
+## Build setup
+
+Traditionally `meta-mender-community` has required board integrations to provide build setup configuration through the [repo](https://gerrit.googlesource.com/git-repo) tool by Google. As it has a number of shortcomings, things are being moved to [kas](https://github.com/siemens/kas).
+
+All submitted board integrations need to provide a build setup strategy. New `repo`-based setups will usually be rejected.
+
+### `kas`
+
+For an introduction on `kas`, please see the [tutorial article](https://hub.mender.io/t/using-kas-to-reproduce-your-yocto-builds/6020) on the Mender Hub.
+
+#### Building an image for a supported board
+
+##### TL;DR
+
+To build an image using `kas`, you simply call it with the `build` verb and the desired configuration. Example for the Raspberry Pi 4, 64bit:
+```
+kas build meta-mender-community/kas/raspberrypi4-64.yml
+```
+
+##### A full getting started build procedure
+
+Install the `kas` tool (optionally, you can install globally for all users. Run as `root`, respectively under `sudo` then):
+```
+pip install kas
+```
+
+Clone this repository:
+```
+git clone https://github.com/mendersoftware/meta-mender-community
+```
+
+Create a build directory and change into it:
+```
+mkdir -p meta-mender-community/my-build && cd meta-mender-community/my-build
+```
+
+Call kas to build for the Raspberry Pi 4, 64bit:
+```
+kas build ../kas/raspberrypi4-64.yml
+```
+
+The canonical build structure including resulting deployable images is located under `meta-mender-community/my-build/build`.
+
+#### Adding a new build configuration
+
+In the most straightforward case, a board integration can simply consist of a `kas` configuration file. Those are located in the `kas` top level directory.
+
+Some relevant best practises:
+- if possible, common parts of board integrations should be factored out into includes. Those are located in the `kas/include` directory.
+- the `mender-full.yml` or `mender-full-ubi.yml` includes should be used as baseline
+- a minimal approach concerning image and `DISTRO` should be preferred
+  - the default image is `core-image-minimal`, consider keeping it unless your platform has specific requirements
+  - the default `DISTRO` is a `nodistro`, pure OpenEmbedded setup. While selecting a larger or custom `DISTRO` is acceptable, consider being as slim as possible to provide the highest degree of freedom to your users.
+
+Requirements:
+- revisions of metadata layers defined in the configurations must be fixed. Exception: the `master` branch which tracks the Yocto Project / OpenEmbedded upstream
+- the primary targetted branch must be a Yocto Project LTS correlated one
+- add your board to the automated build configuration at `.github/workflows/build.yml`, marked as `experimental`. It will be moved out of experimental after a number of successful builds by the Mender team.
+
+### Google repo
+
+**Note: `repo` support is currently kept for compatibility reasons but will be removed in the future.**
+
+#### Manifest files
 
 The google repo tool and associated manifest files are used for managing the
-list of repositories needed for these builds. The common manifest
+list of repositories needed for these builds. The common manifests
 (meta-mender-community/scripts/mender.xml) is included by board-specific
 manifests and include the required Mender layers:
 
@@ -64,7 +127,7 @@ Each integration layer should provide a manifest file, e.g
 
     meta-mender-community/meta-mender-sunxi/scripts/manifest-sunxi.xml
 
-### Templates and configuration fragments
+#### Templates and configuration fragments
 
 To use this layer:
 
@@ -115,7 +178,7 @@ A list of community maintainers and the description of the role is located [here
 ## License
 
 Mender is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/sumo/LICENSE) for the
+[LICENSE](https://github.com/mendersoftware/meta-mender-community/blob/master/LICENSE) for the
 full license text.
 
 
