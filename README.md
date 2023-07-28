@@ -170,9 +170,10 @@ We welcome and ask for your contribution. If you would like to contribute to
 Mender, please read our guide on how to best get started [contributing code or
 documentation](https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING.md).
 
-### Community maintainers
-
-A list of community maintainers and the description of the role is located [here](https://github.com/mendersoftware/meta-mender-community/wiki/Community-maintainers).
+Community contributed layers will be co-maintained by the Mender team on a best-effort
+base. Coordination of reviews and merges happens case by case and based on responsiveness,
+respectively activity. Reviews and acknowledgements by the original contributors are explicitly
+not required for further contributions, in order to not block development and maintenance.
 
 ## License
 
