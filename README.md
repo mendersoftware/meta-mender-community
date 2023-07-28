@@ -25,17 +25,17 @@ There are multiple types of layers included here.
 
 SoC-oriented:
 
-- meta-amlogic
-- meta-freescale
-- meta-sunxi
-- meta-rockchip
-- meta-renesas
+- meta-mender-amlogic
+- meta-mender-nxp
+- meta-mender-tegra
+...
 
 Vendor-oriented:
 
-- meta-variscite
-- meta-phytec
-- meta-toradex-nxp
+- meta-mender-raspberrypi
+- meta-mender-toradex-nxp
+- meta-mender-octavo-osd32mp
+...
 
 Naming of integration layers follows the upstream naming conventions with SoM
 vendor layer name having priority. The convention is:
