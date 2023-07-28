@@ -59,7 +59,7 @@ For an introduction on `kas`, please see the [tutorial article](https://hub.mend
 
 #### Building an image for a supported board
 
-##### TL;DR
+##### Quick start
 
 To build an image using `kas`, you simply call it with the `build` verb and the desired configuration. Example for the Raspberry Pi 4, 64bit:
 ```
