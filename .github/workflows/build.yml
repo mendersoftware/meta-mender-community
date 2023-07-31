@@ -74,7 +74,10 @@ jobs:
           verdin-imx8mp,
           imx8mm-var-dart,
           sama5d27-som1-ek-sd,
-          sama5d3-xplained
+          sama5d3-xplained,
+          intel-corei7-64,
+          intel-corei7-64-sdcard,
+          intel-nuc-ssd,
         ]
         experimental: [false]
         include:
