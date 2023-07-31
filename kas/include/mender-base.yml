@@ -6,26 +6,26 @@ distro: ""
 repos:
   openembedded-core:
     url: http://git.openembedded.org/openembedded-core
-    refspec: b67e714b367a08fdeeeff68c2d9495ec9bc07304
+    refspec: e7d3e02a624f7ce23d012bb11ad1df2049066b37
     layers:
       meta:
 
   bitbake:
     url: http://git.openembedded.org/bitbake
-    refspec: 2802adb572eb73a3eb2725a74a9bbdaafc543fa7
+    refspec: 907416ee1062f87f5844ab0638b54616abfc1a22
     path: "openembedded-core/bitbake"
     layers:
       bitbake: excluded
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: 571e36e20e9d1f27af0eb4545291beeb64f280e2
+    refspec: 346753705e49a2486867dc150181a1c7f4d69377
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    refspec: 73a5d1098282d968901ee581c85f28cfbe928242
+    refspec: c0f539ffedba6070963abe64c67c4c5d8b1ec872
     layers:
       meta-mender-core:
 
