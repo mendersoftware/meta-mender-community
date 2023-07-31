@@ -68,7 +68,6 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          colibri-imx6ull,
           colibri-imx8x,
           verdin-imx8mm,
           verdin-imx8mp,
@@ -86,6 +85,8 @@ jobs:
         experimental: [false]
         include:
           - board: apalis-imx6
+            experimental: true
+          - board: colibri-imx6ull,
             experimental: true
           - board: stm32mp15-disco
             experimental: true
