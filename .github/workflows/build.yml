@@ -68,27 +68,27 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          colibri-imx6ull,
           colibri-imx8x,
           verdin-imx8mm,
           verdin-imx8mp,
           imx8mm-var-dart,
           sama5d27-som1-ek-sd,
-          sama5d3-xplained
+          sama5d3-xplained,
+          intel-corei7-64,
+          intel-corei7-64-sdcard,
+          intel-nuc-ssd,
+          cubox-i,
+          rock-pi-e,
+          apalis-imx8, 
+          apalis-imx8-boot2qt
         ]
         experimental: [false]
         include:
-          - board: cubox-i
-            experimental: true
           - board: apalis-imx6
             experimental: true
-          - board: apalis-imx8
-            experimental: true
-          - board: apalis-imx8-boot2qt
+          - board: colibri-imx6ull,
             experimental: true
           - board: stm32mp15-disco
-            experimental: true
-          - board: rock-pi-e
             experimental: true
 
     runs-on: [self-hosted, linux, x64]

@@ -1,0 +1,12 @@
+header:
+  version: 11
+  includes:
+  - kas/intel-corei7-64.yml
+
+local_conf_header:
+  intel-corei7-64-sdcard: |
+    # Note that this setting has been verified for booting from a SD card.
+    # You might need to change the setting if you are planning to boot from
+    # a different storage medium.
+    MENDER_STORAGE_DEVICE = "/dev/sda"
+
