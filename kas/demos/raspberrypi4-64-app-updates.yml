@@ -1,0 +1,33 @@
+header:
+  version: 11
+  includes:
+  - kas/raspberrypi4-64.yml
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-networking:
+      meta-filesystems:
+
+  meta-virtualization:
+    url: git://git.yoctoproject.org/meta-virtualization
+    refspec: master
+
+  meta-mender:
+    layers:
+      meta-mender-demo:
+  
+  meta-mender-community:
+    layers:
+      meta-mender-update-modules:
+      kas/demos/meta-mender-demo-app-updates:
+
+local_conf_header:
+  app-updates: |
+    MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT = "2048"
+    BBMASK += "meta-virtualization/dynamic-layers/raspberrypi"
+    DISTRO_FEATURES:append = " virtualization"
+
+target:
+  - mender-app-update-image

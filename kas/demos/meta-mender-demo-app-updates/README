@@ -1,0 +1,60 @@
+This README file contains information on the contents of the meta-mender-demo-app-updates layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: master / mickledore
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: master-next
+
+  URI: https://git.yoctoproject.org/meta-virtualization
+  branch: master / mickledore
+
+  URI: https://github.com/agherzan/meta-raspberrypi
+  branch: master / mickledore
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-demo-app-updates layer to your build
+ II. Purpose
+III. Included functionality
+
+
+I. Adding the meta-mender-demo-app-updates layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-demo-app-updates'
+
+II. Purpose
+===========
+
+The layer contains an example setup for a Yocto build which is enabled
+to receive docker-compose orchestrated application updates, as described
+in the [Mender documentation](https://docs.mender.io/artifact-creation/create-an-artifact/docker-compose).
+
+The example image "mender-app-update-image" installs the required Update Module
+onto a `core-image-full-cmdline` image.
+
+III. Included functionality
+===========================
+
+The docker-compose based Update Module requires
+- docker & docker-compose to be installed
+- the respective kernel features to be enabled
+- the `iptables` NAT/masquerading functionality to be built in.
+
+The former two are provided by the `meta-virtualization`.
+
+For the Raspberry Pi, an example kernel configuration fragment is supplied that
+configures `iptables` as required. To use the layer on different board, porting
+the `netfilter.cfg` fragment is probably required.
