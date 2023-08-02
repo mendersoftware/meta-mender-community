@@ -4,4 +4,4 @@ header:
   - kas/include/mender-full.yml
   - kas/include/raspberrypi.yml
 
-machine: raspberrypi4
+machine: raspberrypi4-64
