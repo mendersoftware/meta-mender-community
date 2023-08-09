@@ -1,7 +1,0 @@
-header:
-  version: 11
-  includes:
-  - kas/include/mender-full.yml
-  - kas/include/atmel.yml
-
-machine: sama5d3-xplained

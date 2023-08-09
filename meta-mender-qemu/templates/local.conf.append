@@ -1,4 +1,0 @@
-
-# Appended fragment from meta-mender-community/meta-mender-qemu/templates
-
-MACHINE ?= "qemux86-64"

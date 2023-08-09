@@ -28,30 +28,6 @@ jobs:
           beaglebone,
           beaglebone-ai64,
           beagleplay,
-          hardkernel-odroidc2,
-          hardkernel-odroidc4,
-          hardkernel-odroidhc4,
-          hardkernel-odroidn2,
-          hardkernel-odroidn2plus,
-          imx7d-pico,
-          imx7s-warp,
-          jetson-agx-xavier-devkit,
-          jetson-nano-2gb-devkit,
-          jetson-nano-devkit-emmc,
-          jetson-nano-devkit,
-          jetson-tx2-devkit-4gb,
-          jetson-tx2-devkit-tx2i,
-          jetson-tx2-devkit,
-          jetson-xavier-nx-devkit-emmc,
-          jetson-xavier-nx-devkit-tx2-nx,
-          jetson-xavier-nx-devkit,
-          libretech-ac,
-          libretech-cc,
-          nitrogen8m,
-          nitrogen8mm,
-          nitrogen8mn,
-          nitrogen8mp,
-          osd32mp1-emmc-mender,
           raspberrypi,
           raspberrypi-cm,
           raspberrypi0,
@@ -68,28 +44,8 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          colibri-imx6ull,
-          colibri-imx8x,
-          verdin-imx8mm,
-          verdin-imx8mp,
-          imx8mm-var-dart,
-          sama5d27-som1-ek-sd,
-          sama5d3-xplained
         ]
         experimental: [false]
-        include:
-          - board: cubox-i
-            experimental: true
-          - board: apalis-imx6
-            experimental: true
-          - board: apalis-imx8
-            experimental: true
-          - board: apalis-imx8-boot2qt
-            experimental: true
-          - board: stm32mp15-disco
-            experimental: true
-          - board: rock-pi-e
-            experimental: true
 
     runs-on: [self-hosted, linux, x64]
     container:
