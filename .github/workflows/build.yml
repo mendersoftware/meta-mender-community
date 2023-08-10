@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        board: [
+        target: [
           beaglebone,
           beaglebone-ai64,
           beagleplay,
@@ -58,4 +58,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: enter build dir and build
-        run: mkdir -p $BUILDDIR/${{ matrix.board }} && cd $BUILDDIR/${{ matrix.board }} && kas build ../../kas/${{ matrix.board }}.yml
+        run: mkdir -p $BUILDDIR/${{ matrix.target }} && cd $BUILDDIR/${{ matrix.target }} && kas build ../../kas/${{ matrix.target }}.yml
