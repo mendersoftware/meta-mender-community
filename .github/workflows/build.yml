@@ -44,6 +44,7 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
+          demos/raspberrypi4-64-app-updates
         ]
         experimental: [false]
 
@@ -58,4 +59,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: enter build dir and build
-        run: mkdir -p $BUILDDIR/${{ matrix.target }} && cd $BUILDDIR/${{ matrix.target }} && kas build ../../kas/${{ matrix.target }}.yml
+        run: mkdir -p $BUILDDIR/${{ matrix.target }} && cd $BUILDDIR/${{ matrix.target }} && kas build $GITHUB_WORKSPACE/kas/${{ matrix.target }}.yml
