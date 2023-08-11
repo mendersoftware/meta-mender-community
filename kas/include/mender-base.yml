@@ -6,26 +6,27 @@ distro: ""
 repos:
   openembedded-core:
     url: http://git.openembedded.org/openembedded-core
-    refspec: b67e714b367a08fdeeeff68c2d9495ec9bc07304
+    refspec: mickledore
     layers:
       meta:
 
+  # the yocto-4.2.2 tag corresponds to mickledore
   bitbake:
     url: http://git.openembedded.org/bitbake
-    refspec: 2802adb572eb73a3eb2725a74a9bbdaafc543fa7
+    refspec: yocto-4.2.2
     path: "openembedded-core/bitbake"
     layers:
       bitbake: excluded
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: 571e36e20e9d1f27af0eb4545291beeb64f280e2
+    refspec: mickledore
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    refspec: 73a5d1098282d968901ee581c85f28cfbe928242
+    refspec: master-next
     layers:
       meta-mender-core:
 

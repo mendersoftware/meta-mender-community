@@ -11,13 +11,13 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: kirkstone
+    refspec: mickledore
     layers:
       meta-oe:
 
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    refspec: kirkstone
+    refspec: mickledore
     layers:
       meta-arm:
       meta-arm-toolchain:
