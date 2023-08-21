@@ -4,12 +4,12 @@ header:
 repos:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    refspec: kirkstone
+    refspec: mickledore
     layers:
       meta-arm:
       meta-arm-toolchain:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
-    refspec: kirkstone
+    refspec: master
     layers:
       meta-ti-bsp:
