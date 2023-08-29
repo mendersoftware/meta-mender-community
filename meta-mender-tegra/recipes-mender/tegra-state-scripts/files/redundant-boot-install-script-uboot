@@ -1,11 +1,22 @@
 #!/bin/sh
 
+# Note: only stderr is saved into Mender logs, for everything else use the logfile
+script_name=$(basename "$0")
+# Usually the script file is located at /data/mender/scripts/<script_name> but it might vary.
+# We want to store logs at /data/mender/<script_name>.log
+script_path=$(readlink -f "$0")
+logfile="${script_path%/*}/../${script_name}.log"
+# Create an array to store temporary file names
+temp_files=()
+
 mnt=
 UBOOTVARS="bootcount mender_boot_part mender_boot_part_hex upgrade_available"
 ubvarfile=
 install_fwenv=
 
+
 cleanup() {
+    echo "Cleaning up" | tee -a $logfile
     [ -n "$mnt" ] || return
     for d in sys proc dev run; do
 	if mountpoint -q "${mnt}/${d}"; then
@@ -16,6 +27,10 @@ cleanup() {
         umount "$mnt" >/dev/null 2>&1 || true
     fi
     rmdir "$mnt" >/dev/null 2>&1 || true
+    # Remove all temporary files
+    for temp_file in "${temp_files[@]}"; do
+        rm -f "$temp_file"
+    done
 }
 
 save_vars() {
@@ -26,17 +41,18 @@ save_vars() {
     done
 }
 
-echo "Installing NVIDIA bootloader update payload"
+echo "Installing NVIDIA uboot bootloader update payload - $(date)" | tee -a $logfile
 
 new_boot_part=`fw_printenv -n mender_boot_part`
 mnt=`mktemp -d -t nvbup.XXXXXX`
 if [ -z "$mnt" -o ! -d "$mnt" ]; then
-    echo "ERR: could not create directory for mounting install partition" >&2
+    echo "ERR: could not create directory for mounting install partition" | tee -a $logfile >&2
     exit 1
 fi
+echo "Mounting /dev/mmcblk0p${new_boot_part} on $mnt" | tee -a $logfile
 mount -o ro /dev/mmcblk0p${new_boot_part} "$mnt"
 if [ ! -d "${mnt}/opt/ota_package" ]; then
-    echo "ERR: Missing /opt/ota_package directory in installed rootfs" >&2
+    echo "ERR: Missing /opt/ota_package directory in installed rootfs" | tee -a $logfile >&2
     cleanup
     exit 1
 fi
@@ -56,39 +72,49 @@ if [ -e "$mnt/usr/share/u-boot/fw_env.config" ]; then
     fi
 fi
 
-if ! chroot "${mnt}" /usr/bin/tegra-bootloader-update --dry-run /opt/ota_package/bl_update_payload >/dev/null 2>&1; then
+temp_output_file=$(mktemp -t tegraup.XXXXXX)
+temp_files+=("$temp_output_file")
+if ! chroot "${mnt}" /usr/bin/tegra-bootloader-update --dry-run /opt/ota_package/bl_update_payload > $temp_output_file 2>&1; then
     # If the tool reports that the version partitions are corrupted, this is an update on a tegra210
     # device with the old partition layout where the U-Boot environment overwrote the version partition(s),
     # in which case we recover via complete initialization.
     if chroot "${mnt}" /usr/bin/tegra-bootloader-update --dry-run /opt/ota_package/bl_update_payload 2>&1 | grep -q 'version partitions are corrupted'; then
 	# For the recoverable case, we will have also detected a change the U-Boot environment change
 	if [ -n "$install_fwenv" ]; then
-	    echo "Detected bootloader partition upgrade, reinitializing" >&2
-	    if ! chroot "${mnt}" /usr/bin/tegra-bootloader-update --initialize /opt/ota_package/bl_update_payload; then
-		echo "ERR: bootloader re-initialization failed" >&2
+	    echo "Detected bootloader partition upgrade, reinitializing" | tee -a $logfile  >&2
+        temp_output_file_initlialize=$(mktemp -t tegraupinit.XXXXXX)
+        temp_files+=("$temp_output_file_initlialize")
+	    if ! chroot "${mnt}" /usr/bin/tegra-bootloader-update --initialize /opt/ota_package/bl_update_payload > $temp_output_file_initlialize 2>&1; then
+		echo "ERR: bootloader re-initialization failed" | tee -a $logfile  >&2
+        cat $temp_output_file_initlialize >&2
+        cat $temp_output_file_initlialize >> $logfile
 		cleanup
 		exit 1
 	    fi
 	else
-        echo "WARN: VER partitions are corrupted" >&2
-        echo "WARN: Please refer to https://github.com/OE4T/tegra-demo-distro/pull/113 for additional context" >&2
-        echo "WARN: Attempting update anyway" >&2
+        echo "WARN: VER partitions are corrupted" | tee -a $logfile  >&2
+        echo "WARN: Please refer to https://github.com/OE4T/tegra-demo-distro/pull/113 for additional context" | tee -a $logfile >&2
+        echo "WARN: Attempting update anyway" | tee -a $logfile  >&2
 	fi
     else
-	echo "ERR: cannot perform bootloader update" >&2
+	echo "ERR: cannot perform bootloader update" | tee -a $logfile >&2
 	cleanup
 	exit 1
     fi
-elif ! chroot "${mnt}" /usr/bin/tegra-bootloader-update /opt/ota_package/bl_update_payload; then
-    echo "ERR: bootloader update failed" >&2
+elif ! chroot "${mnt}" /usr/bin/tegra-bootloader-update /opt/ota_package/bl_update_payload > $temp_output_file 2>&1; then
+    echo "ERR: bootloader update failed" | tee -a $logfile >&2
+    cat $temp_output_file >&2
+    cat $temp_output_file >> $logfile
     cleanup
     exit 1
 fi
+rm $temp_output_file
 # If the U-Boot environment config has changed, propagate the important variables
 # to the new environment
 if [ -n "$install_fwenv" ]; then
+    echo "Restoring U-Boot environment" | tee -a $logfile
     if ! chroot "${mnt}" /usr/bin/fw_setenv -c /usr/share/u-boot/fw_env.config -s /run/$(basename "$ubvarfile"); then
-	echo "ERR: could not restore U-Boot environment after bootloader update" >&2
+	echo "ERR: could not restore U-Boot environment after bootloader update" | tee -a $logfile >&2
 	cleanup
 	exit 1
     fi
@@ -96,6 +122,6 @@ if [ -n "$install_fwenv" ]; then
 	cp $mnt/usr/share/u-boot/fw_env.config $(readlink /etc/fw_env.config)
     fi
 fi
-echo "Successful bootloader update"
+echo "Successful bootloader update" | tee -a $logfile
 cleanup
 exit 0

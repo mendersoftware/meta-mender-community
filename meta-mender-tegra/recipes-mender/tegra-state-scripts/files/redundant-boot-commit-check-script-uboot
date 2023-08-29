@@ -1,15 +1,24 @@
 #!/bin/sh
 
+# Note: only stderr is saved into Mender logs, for everything else use the logfile
+script_name=$(basename "$0")
+# Usually the script file is located at /data/mender/scripts/<script_name> but it might vary.
+# We want to store logs at /data/mender/<script_name>.log
+script_path=$(readlink -f "$0")
+logfile="${script_path%/*}/../${script_name}.log"
+
 LABELCHARS="AB"
 
-echo "Verifying Tegra bootloader update"
+echo "Verifying Tegra bootloader update - $(date)" | tee -a $logfile
 curslot=`nvbootctrl get-current-slot 2>/dev/null || tegra-boot-control --current-slot 2>/dev/null`
 cfglbl="\"RootfsPart${LABELCHARS:$curslot:1}\""
 devnam=`grep -h "$cfglbl:" /etc/mender/mender.conf /var/lib/mender/mender.conf | cut -d: -f2 | cut -d, -f1 | tr -d '" '`
 if [ -z "$devnam" ]; then
-    echo "ERR: could not determine expected mender device name for boot slot $curslot" >&2
+    echo "ERR: could not determine expected mender device name for boot slot $curslot" | tee -a $logfile >&2
     exit 1
 fi
+
+echo "Device name for boot slot $curslot: $devnam" | tee -a $logfile
 
 # If the rootfs partitions are eMMC/SDcard device names, verify that
 # the mender boot partition in U-Boot and the Tegra bootloader boot
@@ -19,20 +28,20 @@ fi
 if [ "${devnam##/dev/mmcblk}" != "${devnam}" ]; then
     bootpart=`fw_printenv -n mender_boot_part`
     if [ -z "$bootpart" ]; then
-	echo "ERR: could not retrieve mender_boot_part from U-Boot env" >&2
-	exit 1
+        echo "ERR: could not retrieve mender_boot_part from U-Boot env" | tee -a $logfile  >&2
+        exit 1
     fi
     devnampart=`expr "${devnam##/dev/mmcblk*p}" \+ 0 2>/dev/null`
     if [ -z "$devnampart" ]; then
-	echo "ERR: could not extract partition number from rootfs device name" >&2
-	exit 1
+        echo "ERR: could not extract partition number from rootfs device name" | tee -a $logfile  >&2
+        exit 1
     fi
     if [ $bootpart -ne $devnampart ]; then
-	altslot=$(expr 1 - $curslot)
-	echo "Detected Tegra bootloader upgrade failure, resetting boot slot to $altslot" >&2
-	echo "*** Reboot required ***" >&2
-	tegra-boot-control --set-active $altslot
-	exit 1
+        altslot=$(expr 1 - $curslot)
+        echo "Detected Tegra bootloader upgrade failure, resetting boot slot to $altslot" | tee -a $logfile  >&2
+        echo "*** Reboot required ***" | tee -a $logfile  >&2
+        tegra-boot-control --set-active $altslot
+        exit 1
     fi
 fi
 exit 0
