@@ -1,0 +1,49 @@
+#
+
+MACHINE ?= "smarc-rzg2l"
+
+SOC_FAMILY = "r9a07g044l"
+
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+SDKIMAGE_FEATURES_append = " staticdev-pkgs dev-pkgs dbg-pkgs"
+DISTRO_FEATURES_append = " pam"
+DISTRO_FEATURES_append = " wayland"
+DISTRO_FEATURES_remove = " x11"
+
+CIP_CORE = "1"
+
+INCOMPATIBLE_LICENSE = "GPLv3 GPLv3+"
+
+LICENSE_FLAGS_WHITELIST = " \
+	commercial_gstreamer1.0-plugins-ugly commercial_mpeg2dec \
+	commercial_gst-plugins-bad commercial_faad2 commercial_faac \
+	commercial_gstreamer1.0-libav commercial_ffmpeg commercial_x264 \
+"
+
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "armv7vethf-neon-vfpv4"
+USE_32BIT_PKGS = "1"
+
+DISTRO_FEATURES_append = "${@oe.utils.conditional('VIRTUALIZATION_CHECK', 'True', ' virtualization', '', d)}"
+
+# Mender Configuration
+MENDER_DEVICE_TYPE = "smarc-rzg2l"
+PREFERRED_VERSION_mender-client = "3.4.0"
+
+ARTIFACTIMG_FSTYPE = "ext4"
+
+MENDER_FEATURES_ENABLE:append = " mender-uboot"
+MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+
+WHITELIST_GPL-3.0 += "parted"
+
+IMAGE_INSTALL:append = " \
+   libubootenv \
+   libubootenv-bin \
+"
+
+# Mender Storage Configuration
+MENDER_STORAGE_DEVICE_BASE = "/dev/mmcblk1p"
+MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
