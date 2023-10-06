@@ -8,8 +8,6 @@ on:
 
 env:
   BUILDDIR: gh
-  DL_DIR: ${{ vars.BUILD_DL_DIR }}
-  SSTATE_DIR: ${{ vars.BUILD_SSTATE_DIR }}
 
 jobs:
   prepare:
@@ -17,6 +15,11 @@ jobs:
     steps:
       - name: Clean up
         run: rm -fR $BUILDDIR
+      - uses: actions/checkout@v3
+      - name: cache metadata layers
+        run: ./ci/update-repos
+        env:
+          LAYERCACHE: ${{ vars.PERSISTENT_DIR }}/layers
 
   build:
     needs: [prepare]
@@ -24,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [
+        board: [
           beaglebone,
           beaglebone-ai64,
           beagleplay,
@@ -54,10 +57,14 @@ jobs:
       # the container image needs to be effectively hardcoded, it seems.
       image: ghcr.io/theyoctojester/devcontainer-base-yoep:main
       volumes:
-        - ${{ vars.KAS_DL_DIR }}:${{ vars.BUILD_DL_DIR }}
-        - ${{ vars.KAS_SSTATE_DIR }}:${{ vars.BUILD_SSTATE_DIR }}
+        - ${{ vars.PERSISTENT_DIR }}/downloads:${{ vars.BUILD_DL_DIR }}
+        - ${{ vars.PERSISTENT_DIR }}/sstate-cache:${{ vars.BUILD_SSTATE_DIR }}
+        - ${{ vars.PERSISTENT_DIR }}/layers:${{ vars.BUILD_LAYERCACHE_DIR }}
       options: --user ${{ vars.KAS_UID }}:${{ vars.KAS_GID }}
     steps:
-      - uses: actions/checkout@v3
       - name: enter build dir and build
-        run: mkdir -p $BUILDDIR/${{ matrix.target }} && cd $BUILDDIR/${{ matrix.target }} && kas build $GITHUB_WORKSPACE/kas/${{ matrix.target }}.yml
+        env:
+          DL_DIR: ${{ vars.BUILD_DL_DIR}}
+          SSTATE_DIR: ${{ vars.BUILD_SSTATE_DIR}}
+          KAS_REPO_REF_DIR: ${{ vars.BUILD_LAYERCACHE_DIR}}
+        run: mkdir -p $BUILDDIR/${{ matrix.board }} && cd $BUILDDIR/${{ matrix.board }} && kas build ../../kas/${{ matrix.board }}.yml
