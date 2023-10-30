@@ -1,0 +1,36 @@
+This README file contains information on the contents of the meta-mender-client-only layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: kirkstone
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: kirkstone
+
+Contributions
+=============
+
+Please see the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-qemu-client-only layer to your build
+ II. Misc
+
+
+I. Adding the meta-mender-qemu-client-only layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-client-only'
+
+II. Misc
+========
+
+This layer enables the Mender client to be installed and operated without the full integration. With the layer added to the build, you can add `mender-client` and optionally `mender-connect` to the `IMAGE_INSTALL` variable and have those installed. The `MACHINE` will be used as device type.
+
+With client and connect installed, you can use all Update Modules and the Troubleshoot AddOn. Installing a root filesystem update is not supported.
