@@ -80,11 +80,11 @@ that have Mender integrated.
 ## Flash the image from scratch:
 
 
-   * For firs time board flash to eMMC you need to build image according ST wiki without mender layers and save the bootloaders files:
+   * For first time board flash to eMMC you need to build image according ST wiki without mender layers and save the bootloaders files:
         * tmp-glibc/deploy/images/stm32mp1-disco/arm-trusted-firmware/tf-a-stm32mp157d-dk1-usb.stm32
         * tmp-glibc/deploy/images/stm32mp1-disco/fip/fip-stm32mp157d-dk1-trusted.bin
         * tmp-glibc/deploy/images/stm32mp1-disco/flashlayout_st-image-core\trusted\FlashLayout_emmc_stm32mp157d-dk1-trusted.tsv
-    This files need to add to the STM32CubeProgrammer on the firs burning stage.
+    This files need to add to the STM32CubeProgrammer on the first burning stage.
    
    * Build the mender image according quick start
    * Change the name of gptimg to ".img"    
