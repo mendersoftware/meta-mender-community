@@ -47,7 +47,8 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          imx93-var-som
+          imx93-var-som,
+          x86-virtual
         ]
         experimental: [false]
         subpath: [.]
