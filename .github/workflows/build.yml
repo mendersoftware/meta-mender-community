@@ -83,7 +83,8 @@ jobs:
           cubox-i,
           rock-pi-e,
           apalis-imx8, 
-          apalis-imx8-boot2qt
+          apalis-imx8-boot2qt,
+          x86-virtual
         ]
         experimental: [false]
         include:
