@@ -5,6 +5,7 @@ Mender integration layer for NVIDIA Tegra hardware.
 The supported and tested boards are:
 
 - AGX Orin
+- AGX Jetson
 
 Visit the individual board links above for more information on status of the
 integration and more detailed instructions on how to build and use images

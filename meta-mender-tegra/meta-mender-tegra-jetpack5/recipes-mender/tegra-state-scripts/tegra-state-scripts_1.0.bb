@@ -20,6 +20,11 @@ do_compile:tegra234() {
     cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
 }
 
+do_compile:tegra194() {
+    cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
+}
+
+
 # Make sure scripts aren't left around from old builds
 do_deploy:prepend() {
     rm -rf ${DEPLOYDIR}/mender-state-scripts
