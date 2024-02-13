@@ -5,28 +5,17 @@ EXTRADEPS:tegra194 = "tegra-bup-payload libubootenv-fake mender-update-verifier"
 EXTRADEPS:tegra234 = "tegra-bup-payload libubootenv-fake mender-update-verifier"
 RDEPENDS:${PN} += "${EXTRADEPS}"
 
-FILESEXTRAPATHS:prepend:tegra234 := "${THISDIR}/files/tegra234:"
-FILESEXTRAPATHS:prepend:tegra194 := "${THISDIR}/files/tegra194:"
-
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:remove:mender-persist-systemd-machine-id = " \
     file://mender-client-set-systemd-machine-id.sh \
 "
-SRC_URI:append:tegra234:mender-persist-systemd-machine-id = " \
-    file://tegra234-mender-client-set-systemd-machine-id.sh \
-    file://efi_systemd_machine_id.sh \
-"
-SRC_URI:append:tegra194:mender-persist-systemd-machine-id = " \
-    file://tegra194-mender-client-set-systemd-machine-id.sh \
+SRC_URI:append:mender-persist-systemd-machine-id = " \
+    file://tegra-mender-client-set-systemd-machine-id.sh \
     file://efi_systemd_machine_id.sh \
 "
 
-do_install:prepend:tegra234:class-target:mender-persist-systemd-machine-id() {
+do_install:prepend:class-target:mender-persist-systemd-machine-id() {
     install -d -m 755 ${D}${bindir}
     install -m 755 ${WORKDIR}/efi_systemd_machine_id.sh ${D}${bindir}/
-    cp ${WORKDIR}/tegra234-mender-client-set-systemd-machine-id.sh ${WORKDIR}/mender-client-set-systemd-machine-id.sh 
-}
-do_install:prepend:tegra194:class-target:mender-persist-systemd-machine-id() {
-    install -d -m 755 ${D}${bindir}
-    install -m 755 ${WORKDIR}/efi_systemd_machine_id.sh ${D}${bindir}/
-    cp ${WORKDIR}/tegra194-mender-client-set-systemd-machine-id.sh ${WORKDIR}/mender-client-set-systemd-machine-id.sh 
+    cp ${WORKDIR}/tegra-mender-client-set-systemd-machine-id.sh ${WORKDIR}/mender-client-set-systemd-machine-id.sh 
 }

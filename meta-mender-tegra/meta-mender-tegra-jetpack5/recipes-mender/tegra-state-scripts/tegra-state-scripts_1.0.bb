@@ -7,23 +7,16 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 S = "${WORKDIR}"
 
+RDEPENDS:${PN} = "tegra-uefi-capsules"
+
 inherit mender-state-scripts
 
 PERSIST_MACHINE_ID=""
 PERSIST_MACHINE_ID:mender-persist-systemd-machine-id = "yes"
 
 do_compile() {
-    :
-}
-
-do_compile:tegra234() {
     cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
 }
-
-do_compile:tegra194() {
-    cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
-}
-
 
 # Make sure scripts aren't left around from old builds
 do_deploy:prepend() {
