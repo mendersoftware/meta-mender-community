@@ -40,9 +40,6 @@ PREFERRED_PROVIDER_libubootenv:tegra234 = "libubootenv-fake"
 PREFERRED_PROVIDER_libubootenv:tegra194 = "libubootenv-fake"
 MENDER_FEATURES_DISABLE:append:tegra194 = " mender-uboot"
 
-# Enable redundant flash layout for mender
-USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"
-
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
 IMAGE_BOOT_FILES = "u-boot-dtb.bin"

@@ -35,7 +35,6 @@ fi
 
 echo "next_slot=$next_slot" >&2
 nvbootctrl set-active-boot-slot $next_slot
-oe4t-set-uefi-OSIndications
 reset_unbootable_status $next_slot
 
 exit 0
