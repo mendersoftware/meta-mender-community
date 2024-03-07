@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Clean up
         run: rm -fR $BUILDDIR
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: cache metadata layers
         run: ./ci/update-repos
         env:
