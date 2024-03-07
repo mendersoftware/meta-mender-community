@@ -1,0 +1,72 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/poky.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-variscite:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    refspec: 75cf318cef3b4ee81fad2782cf063ecd69ba8842
+    layers:
+      meta-filesystems:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-python:
+
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    refspec: 0e043288fd0b17fbf31cf00ae33045107a991144
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale
+    refspec: 9b00d40b787c2b7105ce209f5635cc1a0cab81ca
+
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty
+    refspec: 93ba05e3a16a028b770fa1e813b13eb87a59ac63
+
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro
+    refspec: b09c18a3f649f0cf1b40432bb39e76ba16fe94e2
+
+  meta-nxp:
+    url: https://github.com/nxp-imx/meta-imx
+    refspec: 6efe87f014c5bdcbda30f06156ee11d8bc3dc7fe
+    layers:
+      meta-bsp:
+      meta-sdk:
+
+  meta-variscite-bsp-common:
+    url: https://github.com/varigit/meta-variscite-bsp-common
+    refspec: d2767459431ed22dcff652882fdc3bcec18d86b3
+
+  meta-variscite-bsp-imx:
+    url: https://github.com/varigit/meta-variscite-bsp-imx
+    refspec: 4042782abe9ca03a50d7b007afb79d1f380dcf86
+
+local_conf_header:
+  imx93-var-som: |
+    MENDER_BOOT_PART_SIZE_MB = "64"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    IMAGE_BOOT_FILES = ""
+    MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "64"
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    MENDER_PARTITION_ALIGNMENT = "8388608"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART = "1"
+    ACCEPT_FSL_EULA = "1"
+
+machine: imx93-var-som
+distro: fsl-imx-xwayland

@@ -44,6 +44,7 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
+          imx93-var-som,
           demos/raspberrypi4-64-app-updates
         ]
         experimental: [false]
