@@ -12,7 +12,7 @@ repos:
 
   meta-virtualization:
     url: git://git.yoctoproject.org/meta-virtualization
-    refspec: master
+    refspec: mickledore
 
   meta-mender:
     layers:
