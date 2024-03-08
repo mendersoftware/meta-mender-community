@@ -47,10 +47,14 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          imx93-var-som,
-          demos/raspberrypi4-64-app-updates
+          imx93-var-som
         ]
         experimental: [false]
+        subpath: [.]
+        include:
+          - board: raspberrypi4-64-app-updates
+            subpath: demos
+            experimental: true
 
     runs-on: [self-hosted, linux, x64]
     container:
@@ -67,4 +71,4 @@ jobs:
           DL_DIR: ${{ vars.BUILD_DL_DIR}}
           SSTATE_DIR: ${{ vars.BUILD_SSTATE_DIR}}
           KAS_REPO_REF_DIR: ${{ vars.BUILD_LAYERCACHE_DIR}}
-        run: mkdir -p $BUILDDIR/${{ matrix.board }} && cd $BUILDDIR/${{ matrix.board }} && kas build ../../kas/${{ matrix.board }}.yml
+        run: mkdir -p $BUILDDIR/${{ matrix.board }} && cd $BUILDDIR/${{ matrix.board }} && kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml
