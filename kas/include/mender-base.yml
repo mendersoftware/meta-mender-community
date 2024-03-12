@@ -1,21 +1,16 @@
 header:
   version: 11
 
-distro: ""
+distro: "poky"
 
 repos:
-  openembedded-core:
-    url: http://git.openembedded.org/openembedded-core
-    refspec: d63af11e92094487d6e358f27283e5385937e7a8
+  poky:
+    url: http://git.yoctoproject.org/poky
+    refspec: d34002348374669528bb884c2d7be1b91938f471
     layers:
       meta:
-
-  bitbake:
-    url: http://git.openembedded.org/bitbake
-    refspec: 40fd5f4eef7460ca67f32cfce8e229e67e1ff607
-    path: "openembedded-core/bitbake"
-    layers:
-      bitbake: excluded
+      meta-poky:
+      meta-yocto-bsp:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
