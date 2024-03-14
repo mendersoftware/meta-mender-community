@@ -34,6 +34,7 @@ local_conf_header:
     CONF_VERSION = "2"
     PACKAGE_CLASSES = "package_ipk"
     INIT_MANAGER = "systemd"
+    INHERIT += "rm_work"
   
   mender-artifact: |
     MENDER_ARTIFACT_NAME = "gha_autobuild"
