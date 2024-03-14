@@ -6,26 +6,26 @@ distro: ""
 repos:
   openembedded-core:
     url: http://git.openembedded.org/openembedded-core
-    refspec: e7d3e02a624f7ce23d012bb11ad1df2049066b37
+    refspec: d63af11e92094487d6e358f27283e5385937e7a8
     layers:
       meta:
 
   bitbake:
     url: http://git.openembedded.org/bitbake
-    refspec: 907416ee1062f87f5844ab0638b54616abfc1a22
+    refspec: 40fd5f4eef7460ca67f32cfce8e229e67e1ff607
     path: "openembedded-core/bitbake"
     layers:
       bitbake: excluded
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: 346753705e49a2486867dc150181a1c7f4d69377
+    refspec: fda737ec0cc1d2a5217548a560074a8e4d5ec580
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    refspec: c0f539ffedba6070963abe64c67c4c5d8b1ec872
+    refspec: b0ddecea00090fb82de0e088767aeb4d4f7cab64
     layers:
       meta-mender-core:
 
@@ -34,6 +34,7 @@ local_conf_header:
     CONF_VERSION = "2"
     PACKAGE_CLASSES = "package_ipk"
     INIT_MANAGER = "systemd"
+    INHERIT += "rm_work"
   
   mender-artifact: |
     MENDER_ARTIFACT_NAME = "gha_autobuild"
