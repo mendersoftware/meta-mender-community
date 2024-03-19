@@ -12,7 +12,7 @@ IMAGE_FSTYPES:append = " mender_tezi"
 IMAGE_FSTYPES:remove = " teziimg"
 
 # Default is Image.gz, which is not compatible with GRUB
-KERNEL_IMAGETYPE:aarch64_mender-grub = "Image"
+KERNEL_IMAGETYPE:aarch64:mender-grub = "Image"
 
 # boot.scr conflicts when using GRUB
 IMAGE_BOOT_FILES:remove:mender-grub = "boot.scr-verdin-imx8mm;boot.scr"
