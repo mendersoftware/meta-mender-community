@@ -45,3 +45,18 @@ MACHINE_FEATURES += "efi"
 MENDER_EFI_LOADER = "edk2-firmware"
 MENDER_STORAGE_DEVICE = "/dev/vda"
 ```
+
+Running the `qemuarm64` machine:
+
+```
+cd tmp/deploy/qemuarm64
+qemu-system-aarch64 \
+  -machine virt \
+  -name "Virtual ARM64" \
+  -m 4G \
+  -smp 6 \
+  -cpu cortex-a57 \
+  -drive file=./core-image-minimal-qemuarm64.uefiimg,if=virtio,format=raw \
+  -bios ./QEMU_EFI.fd \
+  -nographic
+```
