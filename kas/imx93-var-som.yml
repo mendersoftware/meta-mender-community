@@ -2,6 +2,7 @@ header:
   version: 11
   includes:
   - kas/include/mender-full.yml
+  - kas/include/arm.yml
 
 repos:
   meta-mender-community:
@@ -17,13 +18,6 @@ repos:
       meta-networking:
       meta-oe:
       meta-python:
-
-  meta-arm:
-    url: https://git.yoctoproject.org/meta-arm
-    refspec: 0e043288fd0b17fbf31cf00ae33045107a991144
-    layers:
-      meta-arm:
-      meta-arm-toolchain:
 
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale

@@ -2,6 +2,7 @@ header:
   version: 11
   includes:
   - kas/include/mender-full.yml
+  - kas/include/arm.yml
   - kas/include/ti.yml
 
 machine: beagleplay

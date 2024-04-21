@@ -2,25 +2,13 @@ header:
   version: 11
   includes:
   - kas/include/mender-full.yml
+  - kas/include/arm.yml
   - kas/include/qemu.yml
 
 repos:
   meta-mender-community:
     layers:
       meta-mender-qemu-community:
-
-  meta-openembedded:
-    url: https://git.openembedded.org/meta-openembedded
-    refspec: mickledore
-    layers:
-      meta-oe:
-
-  meta-arm:
-    url: https://git.yoctoproject.org/meta-arm
-    refspec: mickledore
-    layers:
-      meta-arm:
-      meta-arm-toolchain:
 
 local_conf_header:
   efi: |

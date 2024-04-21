@@ -2,12 +2,6 @@ header:
   version: 11
 
 repos:
-  meta-arm:
-    url: https://git.yoctoproject.org/meta-arm
-    refspec: mickledore
-    layers:
-      meta-arm:
-      meta-arm-toolchain:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
     refspec: master
