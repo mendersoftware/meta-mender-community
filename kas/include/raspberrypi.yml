@@ -4,7 +4,7 @@ header:
 repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    refspec: mickledore
+    refspec: 54f6b3c660ad7de9e2e6d5c0e8befe82405c262a
 
   meta-mender:
     layers:

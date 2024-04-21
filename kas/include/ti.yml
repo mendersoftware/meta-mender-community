@@ -4,6 +4,6 @@ header:
 repos:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
-    refspec: master
+    refspec: scarthgap
     layers:
       meta-ti-bsp:
