@@ -47,7 +47,6 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          imx93-var-som,
           x86-virtual
         ]
         experimental: [false]
@@ -55,6 +54,8 @@ jobs:
         include:
           - board: raspberrypi4-64-app-updates
             subpath: demos
+            experimental: true
+          - board: imx93-var-som
             experimental: true
 
     runs-on: [self-hosted, linux, x64]
