@@ -1,0 +1,37 @@
+From 4c9af572a970ac725cc81cc034ced32b1f236788 Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Tue, 5 Mar 2024 13:11:15 +0100
+Subject: [PATCH 2/2] u-boot-variscite: Mender integration to bootcmd
+
+Call the mender_setup script and pass the root partition to
+the kernel cmdline.
+
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+---
+ include/configs/imx93_var_som.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/configs/imx93_var_som.h b/include/configs/imx93_var_som.h
+index 20ab6b6f61..ae1c059f26 100644
+--- a/include/configs/imx93_var_som.h
++++ b/include/configs/imx93_var_som.h
+@@ -78,7 +78,7 @@
+ 	"optargs=setenv bootargs ${bootargs} ${kernelargs};\0" \
+ 	"mmcargs=setenv bootargs ${jh_clk} console=${console} \
+ 		${cma_size} cma_name=linux,cma \
+-		root=/dev/mmcblk${mmcblk}p${mmcpart} rootwait rw\0 " \
++		root=${mender_boot_part_name} rootwait rw\0 " \
+ 	"bootenv=uEnv.txt\0" \
+ 	"loadbootscript=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bootdir}/${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+@@ -163,6 +163,7 @@
+ 			"setenv cma_size cma=128M; " \
+ 		"fi;\0" \
+ 	"bsp_bootcmd=echo Running BSP bootcmd ...; " \
++		"run mender_setup; " \
+ 		"run ramsize_check; " \
+ 		"mmc dev ${mmcdev}; if mmc rescan; then " \
+ 		   "if test ${use_m33} = yes && run loadm33bin; then " \
+-- 
+2.39.2
+

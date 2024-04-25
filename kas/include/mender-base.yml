@@ -1,32 +1,26 @@
 header:
   version: 11
 
-distro: ""
+distro: poky
 
 repos:
-  openembedded-core:
-    url: http://git.openembedded.org/openembedded-core
-    refspec: mickledore
+  poky:
+    url: git://git.yoctoproject.org/poky
+    refspec: scarthgap
     layers:
       meta:
-
-  # the yocto-4.2.2 tag corresponds to mickledore
-  bitbake:
-    url: http://git.openembedded.org/bitbake
-    refspec: yocto-4.2.2
-    path: "openembedded-core/bitbake"
-    layers:
-      bitbake: excluded
+      meta-poky:
+      meta-yocto-bsp:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: mickledore
+    refspec: scarthgap
     layers:
       meta-oe:
 
   meta-mender:
-    url: https://github.com/mendersoftware/meta-mender.git
-    refspec: master-next
+    url: https://github.com/theyoctojester/meta-mender.git
+    refspec: scarthgap
     layers:
       meta-mender-core:
 

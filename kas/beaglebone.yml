@@ -4,11 +4,6 @@ header:
   - kas/include/mender-full.yml
 
 repos:
-  meta-yocto:
-    url: git://git.yoctoproject.org/meta-yocto
-    refspec: mickledore
-    layers:
-      meta-yocto-bsp:
   meta-mender-community:
     layers:
       meta-mender-beaglebone:

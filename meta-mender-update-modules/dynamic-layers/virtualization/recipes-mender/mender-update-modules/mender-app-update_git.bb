@@ -10,7 +10,7 @@ SRCREV = "c9f28c6c6a8c4cfb5297520c0da832177be87002"
 
 S = "${WORKDIR}/git"
 
-RDEPENDS:${PN} = "docker-compose jq mender-client xdelta3"
+RDEPENDS:${PN} = "docker-compose jq mender-update xdelta3"
 
 inherit allarch
 

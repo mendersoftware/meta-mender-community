@@ -1,0 +1,63 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/arm.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-variscite:
+
+  meta-openembedded:
+    layers:
+      meta-filesystems:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-python:
+
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale
+    refspec: scarthgap
+
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty
+    refspec: scarthgap
+
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro
+    refspec: scarthgap
+
+  meta-nxp:
+    url: https://github.com/nxp-imx/meta-imx
+    refspec: scarthgap
+    layers:
+      meta-bsp:
+      meta-sdk:
+
+  meta-variscite-bsp-common:
+    url: https://github.com/varigit/meta-variscite-bsp-common
+    refspec: scarthgap
+
+  meta-variscite-bsp-imx:
+    url: https://github.com/varigit/meta-variscite-bsp-imx
+    refspec: scarthgap
+
+local_conf_header:
+  imx93-var-som: |
+    MENDER_BOOT_PART_SIZE_MB = "64"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    IMAGE_BOOT_FILES = ""
+    MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "64"
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    MENDER_PARTITION_ALIGNMENT = "8388608"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART = "1"
+    ACCEPT_FSL_EULA = "1"
+
+machine: imx93-var-som
+distro: fsl-imx-xwayland
