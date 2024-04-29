@@ -1,5 +1,6 @@
 SRC_URI = " \
     file://switch-rootfs \
+    file://verify-slot \
 "
 
 LICENSE = "Apache-2.0"
@@ -14,6 +15,7 @@ PERSIST_MACHINE_ID:mender-persist-systemd-machine-id = "yes"
 
 do_compile() {
     cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
+    cp ${S}/verify-slot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_50_verify-slot
 }
 
 # Make sure scripts aren't left around from old builds
