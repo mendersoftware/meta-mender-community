@@ -1,3 +1,6 @@
+DEPENDS += "mender-custom-flash-layout"
+MENDER_PARTITION_FILE:tegra194 = "${STAGING_DATADIR}/mender-flash-layout/flash_mender.xml"
+PARTITION_FILE:tegra194 = "${MENDER_PARTITION_FILE}"
 
 do_install:append() {
     cat <<EOF >${WORKDIR}/UDA.xml
