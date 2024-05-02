@@ -6,6 +6,7 @@ The supported and tested boards are:
 
 - AGX Orin
 - AGX Xavier
+- Orin Nano
 
 Visit the individual board links above for more information on status of the
 integration and more detailed instructions on how to build and use images
@@ -41,6 +42,7 @@ for the most up to date instructions on starting out with mender and tegra.
 The following configuration files for building using the `kas` tool are provided:
 
 - [jetson-agx-orin-devkit.yml](../../kas/jetson-agx-orin-devkit.yml)
+- [jetson-orin-nano-devkit.yml](../../kas/jetson-orin-nano-devkit.yml)
 
 ## Acknowlegements
 

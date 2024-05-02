@@ -61,6 +61,7 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra210 = "${@'15' if (d.getVar('TEGRA_SPIF
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:xavier-nx = "11"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
+MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit = "3"
@@ -147,6 +148,7 @@ do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 # be included by default on cboot platforms.
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra194 = "kernel-image kernel-devicetree"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra234 = "kernel-image kernel-devicetree"
 
 # Compatibility settings for handling the machine name changes
 # made in L4T R32.5.x, to allow for upgrades.  This does not
