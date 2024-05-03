@@ -15,8 +15,6 @@ repos:
     branch: scarthgap
 
   meta-mender-community:
-    url: https://github.com/leon-anavi/meta-mender-community.git
-    branch: rpi5-scarthgap
     layers:
       meta-mender-raspberrypi-community:
 
