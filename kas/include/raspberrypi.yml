@@ -1,14 +1,24 @@
 header:
-  version: 11
+  version: 14
 
 repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    refspec: 54f6b3c660ad7de9e2e6d5c0e8befe82405c262a
+    commit: 1879cb831f4ea3e532cb5ce9fa0f32be917e8fa3
+
+  meta-lts-mixins:
+    url: https://git.yoctoproject.org/meta-lts-mixins
+    branch: scarthgap/u-boot
 
   meta-mender:
+    url: https://github.com/TheYoctoJester/meta-mender.git
+    branch: scarthgap
+
+  meta-mender-community:
+    url: https://github.com/leon-anavi/meta-mender-community.git
+    branch: rpi5-scarthgap
     layers:
-      meta-mender-raspberrypi:
+      meta-mender-raspberrypi-community:
 
 local_conf_header:
   raspberrypi: |
@@ -17,3 +27,7 @@ local_conf_header:
     MENDER_BOOT_PART_SIZE_MB = "100"
     IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
     IMAGE_FSTYPES:remove = " rpi-sdimg"
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"
+    KERNEL_IMAGETYPE_UBOOT:raspberrypi5 ?= "Image"
+    KERNEL_BOOTCMD:raspberrypi5 ?= "booti"
+    UBOOT_MACHINE:raspberrypi5 = "rpi_arm64_config"
