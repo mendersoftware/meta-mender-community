@@ -2,6 +2,10 @@ header:
   version: 11
   includes:
   - kas/include/mender-full.yml
-  - kas/include/tegra-jetpack4.yml
+  - kas/include/tegra-jetpack5.yml
 
 machine: jetson-agx-xavier-devkit
+
+repos:
+  meta-tegra:
+    refspec: eb2bcfbfca44d100205c2d865a1ab5add1c4f264
