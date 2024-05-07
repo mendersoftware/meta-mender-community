@@ -13,14 +13,12 @@ get_bootpart() {
 }
 
 reset_unbootable_status() {
+	source /usr/bin/uefi_common.func
+
 	local AB="AB"
 	local slot="Slot${AB:$1:1}"
-	local varname="781e084c-a330-417c-b678-38e696380cb9-RootfsStatus${slot}"
-
-	local f=$(mktemp)
-	printf "\x00\x00\x00\x00" > $f
-	efivar -n "${varname}" -f $f -w
-	rm ${f}
+	local value="\x00\x00\x00\x00"
+	set_efi_var "RootfsStatus${slot}" "781e084c-a330-417c-b678-38e696380cb9" "$value"
 }
 
 current_slot=`get_bootpart`

@@ -20,3 +20,6 @@ EOF
     mv ${D}${datadir}/tegraflash/${PARTITION_LAYOUT_EXTERNAL}.patched ${D}${datadir}/tegraflash/${PARTITION_LAYOUT_EXTERNAL}
 }
 
+do_install:append:tegra194() {
+    # Do nothing
+}
