@@ -16,7 +16,7 @@ repos:
 
   meta-mender-community:
     layers:
-      meta-mender-raspberrypi-community:
+      meta-mender-raspberrypi:
 
 local_conf_header:
   raspberrypi: |
