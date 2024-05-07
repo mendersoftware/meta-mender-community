@@ -5,3 +5,9 @@ header:
   - kas/include/raspberrypi.yml
 
 machine: raspberrypi5
+
+local_conf_header:
+  raspberrypi5: |
+    KERNEL_IMAGETYPE_UBOOT ?= "Image"
+    KERNEL_BOOTCMD ?= "booti"
+    UBOOT_MACHINE = "rpi_arm64_config"

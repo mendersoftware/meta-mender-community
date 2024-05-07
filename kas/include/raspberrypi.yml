@@ -26,6 +26,3 @@ local_conf_header:
     IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
     IMAGE_FSTYPES:remove = " rpi-sdimg"
     EXTRA_IMAGE_FEATURES = "debug-tweaks"
-    KERNEL_IMAGETYPE_UBOOT:raspberrypi5 ?= "Image"
-    KERNEL_BOOTCMD:raspberrypi5 ?= "booti"
-    UBOOT_MACHINE:raspberrypi5 = "rpi_arm64_config"
