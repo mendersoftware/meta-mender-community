@@ -1,12 +1,12 @@
 header:
-  version: 11
+  version: 14
 
 distro: poky
 
 repos:
   poky:
     url: git://git.yoctoproject.org/poky
-    refspec: scarthgap
+    branch: scarthgap
     layers:
       meta:
       meta-poky:
@@ -14,13 +14,13 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    refspec: scarthgap
+    branch: scarthgap
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/theyoctojester/meta-mender.git
-    refspec: scarthgap
+    branch: scarthgap
     layers:
       meta-mender-core:
 

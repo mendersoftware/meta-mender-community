@@ -43,6 +43,7 @@ jobs:
           raspberrypi-cm3,
           raspberrypi4,
           raspberrypi4-64,
+          raspberrypi5,
           qemuarm64,
           qemux86-64,
           vexpress-qemu,

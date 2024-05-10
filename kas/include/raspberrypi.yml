@@ -1,12 +1,20 @@
 header:
-  version: 11
+  version: 14
 
 repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    refspec: 54f6b3c660ad7de9e2e6d5c0e8befe82405c262a
+    commit: 1879cb831f4ea3e532cb5ce9fa0f32be917e8fa3
+
+  meta-lts-mixins:
+    url: https://git.yoctoproject.org/meta-lts-mixins
+    branch: scarthgap/u-boot
 
   meta-mender:
+    url: https://github.com/TheYoctoJester/meta-mender.git
+    branch: scarthgap
+
+  meta-mender-community:
     layers:
       meta-mender-raspberrypi:
 
@@ -17,3 +25,4 @@ local_conf_header:
     MENDER_BOOT_PART_SIZE_MB = "100"
     IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
     IMAGE_FSTYPES:remove = " rpi-sdimg"
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"

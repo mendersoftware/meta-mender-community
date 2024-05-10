@@ -1,0 +1,242 @@
+From e4f3cb28ff0360199b15e34ed9c96be8b8c50a2f Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Wed, 26 Jul 2023 10:53:51 +0200
+Subject: [PATCH] configs: rpi: enable mender requirements
+
+Which are CONFIG_BOOTCOUNT_ENV and CONFIG_BOOTCOUNT_LIMIT.
+
+Mender also requires that the environment is on MMC
+(CONFIG_ENV_IS_IN_MMC)
+
+Upstream-Status: Inappropriate
+Signed-off-by: Mirza Krak <mirza.krak@gmail.com>
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+
+This patch is a refresh.
+
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/rpi_0_w_defconfig      | 5 ++++-
+ configs/rpi_2_defconfig        | 5 ++++-
+ configs/rpi_3_32b_defconfig    | 5 ++++-
+ configs/rpi_3_b_plus_defconfig | 5 ++++-
+ configs/rpi_3_defconfig        | 5 ++++-
+ configs/rpi_4_32b_defconfig    | 5 ++++-
+ configs/rpi_4_defconfig        | 5 ++++-
+ configs/rpi_arm64_defconfig    | 5 ++++-
+ configs/rpi_defconfig          | 5 ++++-
+ env/Kconfig                    | 1 -
+ include/configs/rpi.h          | 5 +++++
+ 11 files changed, 41 insertions(+), 10 deletions(-)
+
+diff --git a/configs/rpi_0_w_defconfig b/configs/rpi_0_w_defconfig
+index ac3b40c1c1..390477e36a 100644
+--- a/configs/rpi_0_w_defconfig
++++ b/configs/rpi_0_w_defconfig
+@@ -25,7 +25,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -50,3 +49,7 @@ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_EFI_LOADER=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_2_defconfig b/configs/rpi_2_defconfig
+index b6e06cfe20..9375b8df6d 100644
+--- a/configs/rpi_2_defconfig
++++ b/configs/rpi_2_defconfig
+@@ -26,7 +26,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -50,3 +49,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_3_32b_defconfig b/configs/rpi_3_32b_defconfig
+index eadc418927..d9883507df 100644
+--- a/configs/rpi_3_32b_defconfig
++++ b/configs/rpi_3_32b_defconfig
+@@ -25,7 +25,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -51,3 +50,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_3_b_plus_defconfig b/configs/rpi_3_b_plus_defconfig
+index 0e2faeec64..59805918c3 100644
+--- a/configs/rpi_3_b_plus_defconfig
++++ b/configs/rpi_3_b_plus_defconfig
+@@ -24,7 +24,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -50,3 +49,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_3_defconfig b/configs/rpi_3_defconfig
+index 6890af4d1d..3baabdab45 100644
+--- a/configs/rpi_3_defconfig
++++ b/configs/rpi_3_defconfig
+@@ -24,7 +24,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -50,3 +49,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_4_32b_defconfig b/configs/rpi_4_32b_defconfig
+index 734335cbf0..786b88127f 100644
+--- a/configs/rpi_4_32b_defconfig
++++ b/configs/rpi_4_32b_defconfig
+@@ -26,7 +26,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_PCI=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -67,3 +66,7 @@ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_ADDR_MAP=y
+ CONFIG_SYS_NUM_ADDR_MAP=2
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_4_defconfig b/configs/rpi_4_defconfig
+index 2541b83a3d..0fc07882bd 100644
+--- a/configs/rpi_4_defconfig
++++ b/configs/rpi_4_defconfig
+@@ -26,7 +26,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_PCI=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -65,3 +64,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_arm64_defconfig b/configs/rpi_arm64_defconfig
+index f9dade18f6..d267cd7c87 100644
+--- a/configs/rpi_arm64_defconfig
++++ b/configs/rpi_arm64_defconfig
+@@ -25,7 +25,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_PCI=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+ CONFIG_DM_DMA=y
+@@ -57,3 +56,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/configs/rpi_defconfig b/configs/rpi_defconfig
+index 29c10060cf..b5a1b9dac4 100644
+--- a/configs/rpi_defconfig
++++ b/configs/rpi_defconfig
+@@ -25,7 +25,6 @@ CONFIG_CMD_MMC=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_FS_UUID=y
+ CONFIG_OF_EMBED=y
+-CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_TFTP_TSIZE=y
+@@ -50,3 +49,7 @@ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_EFI_LOADER=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+diff --git a/env/Kconfig b/env/Kconfig
+index f5f0969233..68d7569755 100644
+--- a/env/Kconfig
++++ b/env/Kconfig
+@@ -96,7 +96,6 @@ config ENV_IS_IN_EEPROM
+ config ENV_IS_IN_FAT
+ 	bool "Environment is in a FAT filesystem"
+ 	depends on !CHAIN_OF_TRUST
+-	default y if ARCH_BCM283X
+ 	default y if ARCH_SUNXI && MMC
+ 	default y if MMC_OMAP_HS && TI_COMMON_CMD_OPTIONS
+ 	select FS_FAT
+diff --git a/include/configs/rpi.h b/include/configs/rpi.h
+index 8e56bdc84a..efa75c8099 100644
+--- a/include/configs/rpi.h
++++ b/include/configs/rpi.h
+@@ -31,4 +31,9 @@
+  */
+ #define CFG_SYS_SDRAM_SIZE		SZ_128M
+ 
++/* Environment */
++ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ #endif
+-- 
+2.44.0
+
