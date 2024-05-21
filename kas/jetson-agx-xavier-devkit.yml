@@ -9,3 +9,7 @@ machine: jetson-agx-xavier-devkit
 repos:
   meta-tegra:
     refspec: eb2bcfbfca44d100205c2d865a1ab5add1c4f264
+
+local_conf_header:
+  AB-upgrades: |
+    USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"
