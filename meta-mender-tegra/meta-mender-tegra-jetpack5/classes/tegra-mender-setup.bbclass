@@ -131,6 +131,7 @@ def tegra_mender_calc_total_size(d):
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT = "1024"
 TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT:jetson-nano-2gb-devkit = "5120"
+TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT:jetson-agx-xavier-devkit = "5120"
 TEGRA_MENDER_RESERVED_SPACE_MB ?= "${TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT:tegra = "${@tegra_mender_calc_total_size(d)}"
 
