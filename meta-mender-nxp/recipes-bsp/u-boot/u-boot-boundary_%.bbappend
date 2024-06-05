@@ -17,4 +17,6 @@ SRC_URI += "\
     file://0002-nitrogen8mm-add-Mender-support.patch \
     file://0003-nitrogen8m-add-Mender-support.patch \
     file://0004-nitrogen8mn-add-Mender-support.patch \
+    file://0001-imx8mp_nitrogen_smarc-add-Mender-support.patch \
+    file://0002-imx8mm_nitrogen_smarc-add-Mender-support.patch \
 "
