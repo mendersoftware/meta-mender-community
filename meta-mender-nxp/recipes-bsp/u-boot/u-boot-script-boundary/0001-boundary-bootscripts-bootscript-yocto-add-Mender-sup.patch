@@ -1,21 +1,21 @@
-From 682a6b3c20d27b3d45e36397b79a0d0c4470bc08 Mon Sep 17 00:00:00 2001
+From 7d8fba0ce0b87b0edc656210cc15ee296aa8e83f Mon Sep 17 00:00:00 2001
 From: Chris Dimich <chris.dimich@boundarydevices.com>
-Date: Tue, 1 Nov 2022 11:22:10 -0700
+Date: Wed, 5 Jun 2024 10:32:33 -0700
 Subject: [PATCH 1/1] boundary: bootscripts: bootscript-yocto: add Mender
  support
 
 Signed-off-by: Chris Dimich <chris.dimich@boundarydevices.com>
 ---
- .../boundary/bootscripts/bootscript-yocto.txt | 20 +++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ .../boundary/bootscripts/bootscript-yocto.txt | 28 +++++++++----------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/board/boundary/bootscripts/bootscript-yocto.txt b/board/boundary/bootscripts/bootscript-yocto.txt
-index dab773f3d2..8eefa871ff 100644
+index ef24da9957d..be9f8069cff 100644
 --- a/board/boundary/bootscripts/bootscript-yocto.txt
 +++ b/board/boundary/bootscripts/bootscript-yocto.txt
-@@ -93,13 +93,19 @@ if itest.s x${consoleblank} == x ; then
+@@ -120,13 +120,20 @@ if itest.s x${consoleblank} == x ; then
  fi
- setenv bootargs ${bootargs} vmalloc=${vmalloc} consoleblank=${consoleblank} rootwait fixrtc cpu=${imx_cpu} board=${board} uboot_release=${uboot_release}
+ setenv bootargs ${bootargs} consoleblank=${consoleblank} rootwait fixrtc
  
 -if load ${devtype} ${devnum}:${distro_bootpart} ${a_fdt} ${prefix}${fdt_file} ; then
 -	fdt addr ${a_fdt}
@@ -34,10 +34,25 @@ index dab773f3d2..8eefa871ff 100644
 +load ${mender_uboot_root} ${a_zImage} /boot/Image
 +load ${mender_uboot_root} ${a_fdt} /boot/${fdt_file}
 +fdt addr ${a_fdt}
++
  fdt resize 4096
  if itest.s "x" != "x${cmd_board}" ; then
  	run cmd_board
-@@ -183,7 +189,5 @@ if itest.s "x" != "x${show_env}" ; then
+@@ -160,13 +167,6 @@ fi
+ if itest.s "x" == "x${bpart}" ; then
+ 	bpart=2
+ fi
+-if test "sata" = "${devtype}" ; then
+-	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
+-elif test "usb" = "${devtype}" ; then
+-	setenv bootargs "${bootargs} root=/dev/sda${bpart}" ;
+-else
+-	setenv bootargs "${bootargs} root=/dev/mmcblk${devnum}p${bpart}"
+-fi
+ 
+ if itest.s "x" != "x${disable_msi}" ; then
+ 	setenv bootargs ${bootargs} pci=nomsi
+@@ -210,7 +210,5 @@ if itest.s "x" != "x${show_env}" ; then
  	printenv
  fi
  
@@ -48,5 +63,5 @@ index dab773f3d2..8eefa871ff 100644
 +booti ${a_zImage} - ${a_fdt}
 +run mender_try_to_recover
 -- 
-2.34.1
+2.43.0
 
