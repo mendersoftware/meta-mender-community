@@ -1,0 +1,41 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-networking:
+      meta-filesystems:
+
+  meta-swupdate:
+    url: https://github.com/sbabic/meta-swupdate
+    refspec: kirkstone
+
+  meta-mender:
+    layers:
+      meta-mender-demo:
+  
+  meta-mender-community:
+    layers:
+      meta-mender-client-only:
+      meta-mender-update-modules:
+      kas/demos/meta-mender-swupdate:
+
+local_conf_header:
+  no-full-client: |
+    MENDER_EFI_LOADER = ""
+    MENDER_UPDATE_POLL_INTERVAL_SECONDS = "5"
+    MENDER_INVENTORY_POLL_INTERVAL_SECONDS = "5"
+    MENDER_RETRY_POLL_INTERVAL_SECONDS = "30"
+  swupdate: |
+    # Versioning env variables
+    SWUPDATE_HARDWARE_VERSION = "1.0"
+    SWUPDATE_SOFTWARE_VERSION = "1.0"
+
+machine: qemuarm64-swupdate
+
+target:
+  - all-images

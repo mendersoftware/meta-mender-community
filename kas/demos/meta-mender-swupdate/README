@@ -1,0 +1,53 @@
+This README file contains information on the contents of the meta-mender-swupdate layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: kirkstone
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: kirkstone
+
+  URI: https://git.yoctoproject.org/meta-arm
+  branch: kirkstone
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: kirkstone
+
+  URI: https://github.com/sbabic/meta-swupdate
+  branch: kirkstone
+
+Patches
+=======
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-swupdate layer to your build
+ II. Misc
+
+
+I. Adding the meta-mender-swupdate layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-swupdate'
+
+II. Misc
+========
+
+The layer supports building a SWUpdate-enabled image for QEMU AAarch64. For more details on the QEMU build used, please see the `meta-mender-qemu-community` layer.
+
+It is strongly recommended to use the [`qemuarm64-swupdate`](../qemuarm64-swupdate.yml) kas configuration file for the build setup. You can build and run the result using these commands:
+
+```
+kas shell qemuarm64-swupdate.yml
+bitbake all-images
+runqemu nographic slirp
+```
+
+More details on using kas: https://hub.mender.io/t/using-kas-to-reproduce-your-yocto-builds/6020
