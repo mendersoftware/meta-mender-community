@@ -1,0 +1,42 @@
+software = {
+    version = "__SWUPDATE_SOFTWARE_VERSION";
+
+    __SWUPDATE_HARDWARE_VERSION = {
+        hardware-compatibility: [ "1.0" ];
+        stable: {
+            copy1: {
+                images: (
+                    {
+                        filename = "base-image-__MACHINE.ext4.gz";
+                        type = "raw";
+                        compressed = "zlib";
+                        device = "/dev/__OTA_PARTITION_A";
+                    }
+                );
+                uboot: (
+                    {
+                        name = "rootpart";
+                        value = "2";
+                    }
+                );
+            }
+
+            copy2: {
+                images: (
+                    {
+                        filename = "base-image-__MACHINE.ext4.gz";
+                        type = "raw";
+                        compressed = "zlib";
+                        device = "/dev/__OTA_PARTITION_B";
+                    }
+                );
+                uboot: (
+                    {
+                        name = "rootpart";
+                        value = "3";
+                    }
+                );
+            }
+        }
+    }
+}

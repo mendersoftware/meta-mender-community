@@ -95,6 +95,9 @@ jobs:
             experimental: true
           - board: stm32mp15-disco
             experimental: true
+          - board: qemuarm64-swupdate
+            subpath: demos
+            experimental: true
 
     runs-on: [self-hosted, linux, x64]
     container:

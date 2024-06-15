@@ -1,0 +1,2 @@
+/dev/vda1  /boot  vfat  defaults  0  0
+/dev/vda4  /media ext4  defaults  0  0

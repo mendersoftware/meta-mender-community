@@ -1,0 +1,9 @@
+rootfs=$(swupdate -g)
+
+if [ "$rootfs" == '/dev/__OTA_PARTITION_A' ]; then
+	selection="-e stable,copy2"
+else
+	selection="-e stable,copy1"
+fi
+
+SWUPDATE_ARGS="-H __SWUPDATE_HARDWARE_VERSION:1.0 ${selection}"
