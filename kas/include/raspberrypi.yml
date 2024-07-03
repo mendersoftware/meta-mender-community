@@ -10,10 +10,6 @@ repos:
     url: https://git.yoctoproject.org/meta-lts-mixins
     branch: scarthgap/u-boot
 
-  meta-mender:
-    url: https://github.com/TheYoctoJester/meta-mender.git
-    branch: scarthgap
-
   meta-mender-community:
     layers:
       meta-mender-raspberrypi:
