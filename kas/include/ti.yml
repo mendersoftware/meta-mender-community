@@ -4,6 +4,6 @@ header:
 repos:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
-    refspec: scarthgap
+    commit: e902a647ec3685009f870d6222336bfb6e7af6c3
     layers:
       meta-ti-bsp:
