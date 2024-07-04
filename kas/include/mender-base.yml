@@ -19,7 +19,7 @@ repos:
       meta-oe:
 
   meta-mender:
-    url: https://github.com/theyoctojester/meta-mender.git
+    url: https://github.com/mendersoftware/meta-mender.git
     branch: scarthgap
     layers:
       meta-mender-core:
