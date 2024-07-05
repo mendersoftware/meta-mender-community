@@ -4,11 +4,11 @@ header:
 repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    commit: 1879cb831f4ea3e532cb5ce9fa0f32be917e8fa3
+    commit: 1918a27419dcd5e79954c0dc0edddcde91057a7e
 
   meta-lts-mixins:
     url: https://git.yoctoproject.org/meta-lts-mixins
-    branch: scarthgap/u-boot
+    commit: 66ceeebd047d7fdfc8668b300319a76da8ae257d
 
   meta-mender-community:
     layers:

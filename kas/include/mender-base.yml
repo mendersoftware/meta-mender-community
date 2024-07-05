@@ -6,7 +6,7 @@ distro: poky
 repos:
   poky:
     url: git://git.yoctoproject.org/poky
-    branch: scarthgap
+    commit: 7fb368604c5c7295a910ffd2d8dba7b9f00b8462
     layers:
       meta:
       meta-poky:
@@ -14,13 +14,13 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    branch: scarthgap
+    commit: 78a14731cf0cf38a19ff8bd0e9255b319afaf3a7
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    branch: scarthgap
+    commit: 4302cb71a7f8a0ffb09f47e41f4ce1df3e812419
     layers:
       meta-mender-core:
 
