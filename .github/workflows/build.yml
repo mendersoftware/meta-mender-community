@@ -58,6 +58,9 @@ jobs:
             experimental: true
           - board: imx93-var-som
             experimental: true
+          - board: qemuarm64-client-only
+            subpath: demos
+            experimental: false
 
     runs-on: [self-hosted, linux, x64]
     container:
