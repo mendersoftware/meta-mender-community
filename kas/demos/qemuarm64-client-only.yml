@@ -1,0 +1,29 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-base.yml
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-networking:
+      meta-filesystems:
+
+  meta-mender:
+    layers:
+      meta-mender-demo:
+  
+  meta-mender-community:
+    layers:
+      meta-mender-client-only:
+
+local_conf_header:
+  no-full-client: |
+    MENDER_EFI_LOADER = ""
+    MENDER_UPDATE_POLL_INTERVAL_SECONDS = "5"
+    MENDER_INVENTORY_POLL_INTERVAL_SECONDS = "5"
+    MENDER_RETRY_POLL_INTERVAL_SECONDS = "30"
+    IMAGE_INSTALL:append = "mender-auth mender-update mender-connect"
+
+machine: qemuarm64
