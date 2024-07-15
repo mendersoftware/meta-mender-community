@@ -1,0 +1,9 @@
+header:
+  version: 14
+  includes:
+  - kas/beaglebone.yml
+
+local_conf_header:
+  beaglebone-uboot: |
+    MENDER_FEATURES_ENABLE:append = " mender-uboot"
+    MENDER_FEATURES_DISABLE:append = "mender-grub"

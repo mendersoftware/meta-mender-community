@@ -48,7 +48,8 @@ jobs:
           qemux86-64,
           vexpress-qemu,
           vexpress-qemu-flash,
-          x86-virtual
+          x86-virtual,
+          beaglebone-uboot
         ]
         experimental: [false]
         subpath: [.]
