@@ -1,0 +1,56 @@
+From 6f0ac7836f92efe24aeb7e2c3640f1b870d561ea Mon Sep 17 00:00:00 2001
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Mon, 15 Jul 2024 13:14:34 +0000
+Subject: [PATCH] configs: olimex-imx8mp-evb: mender integration
+
+Apply configuration changes for Mender.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/imx8mp_olimex_defconfig | 7 ++++---
+ include/configs/imx8mp_olimex.h | 3 +++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/configs/imx8mp_olimex_defconfig b/configs/imx8mp_olimex_defconfig
+index 8f763537537..990cb70bebd 100644
+--- a/configs/imx8mp_olimex_defconfig
++++ b/configs/imx8mp_olimex_defconfig
+@@ -10,7 +10,9 @@ CONFIG_NR_DRAM_BANKS=3
+ CONFIG_SYS_MEMTEST_START=0x60000000
+ CONFIG_SYS_MEMTEST_END=0xC0000000
+ CONFIG_ENV_SIZE=0x4000
+-CONFIG_ENV_OFFSET=0x700000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_ENV_SECT_SIZE=0x10000
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+@@ -92,11 +94,10 @@ CONFIG_CMD_LED=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_SPL_OF_CONTROL=y
+ CONFIG_ENV_OVERWRITE=y
+-CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
+-CONFIG_ENV_IS_IN_SPI_FLASH=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_SYS_MMC_ENV_DEV=1
++CONFIG_SYS_MMC_ENV_PART=0
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_USE_ETHPRIME=y
+ CONFIG_ETHPRIME="eth1"
+diff --git a/include/configs/imx8mp_olimex.h b/include/configs/imx8mp_olimex.h
+index 6941d3ede4c..be0624da558 100644
+--- a/include/configs/imx8mp_olimex.h
++++ b/include/configs/imx8mp_olimex.h
+@@ -181,4 +181,7 @@
+ #include "imx8mp_evk_android.h"
+ #endif
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ #endif
+-- 
+2.44.1
+
