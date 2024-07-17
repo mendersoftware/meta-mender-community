@@ -21,4 +21,3 @@ local_conf_header:
     MENDER_BOOT_PART_SIZE_MB = "100"
     IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
     IMAGE_FSTYPES:remove = " rpi-sdimg"
-    EXTRA_IMAGE_FEATURES = "debug-tweaks"
