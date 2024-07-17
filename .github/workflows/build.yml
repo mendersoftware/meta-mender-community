@@ -49,7 +49,8 @@ jobs:
           vexpress-qemu,
           vexpress-qemu-flash,
           x86-virtual,
-          beaglebone-uboot
+          beaglebone-uboot,
+          olimex-imx8mp-evb
         ]
         experimental: [false]
         subpath: [.]
