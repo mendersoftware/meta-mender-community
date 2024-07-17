@@ -1,0 +1,19 @@
+header:
+  version: 14
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/nxp.yml
+
+machine: olimex-imx8mp-evb
+
+target:
+  - core-image-base
+
+local_conf_header:
+  olimex-imx8mp-evb: |
+    MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "64"
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_UBOOT_STORAGE_DEVICE = "1"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    IMAGE_BOOT_FILES:append = "boot.scr"

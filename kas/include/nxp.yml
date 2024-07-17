@@ -1,0 +1,26 @@
+header:
+  version: 14
+
+repos:
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale.git
+    branch: scarthgap
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty.git
+    branch: scarthgap
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro.git
+    branch: scarthgap
+
+  meta-mender-community:
+    layers:
+      meta-mender-nxp:
+
+distro: poky
+
+local_conf_header:
+  nxp: |
+    ACCEPT_FSL_EULA = "1"
+    MENDER_BOOT_PART_SIZE_MB = "64"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
