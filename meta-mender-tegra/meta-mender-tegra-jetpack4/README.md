@@ -42,16 +42,16 @@ for the most up to date instructions on starting out with mender and tegra.
 
 The following configuration files for building using the `kas` tool are provided:
 
-- [jetson-agx-xavier-devkit.yml](../kas/jetson-agx-xavier-devkit.yml)
-- [jetson-nano-2gb-devkit.yml](../kas/jetson-nano-2gb-devkit.yml)
-- [jetson-nano-devkit-emmc.yml](../kas/jetson-nano-devkit-emmc.yml)
-- [jetson-nano-devkit.yml](../kas/jetson-nano-devkit.yml)
-- [jetson-tx2-devkit-4gb.yml](../kas/jetson-tx2-devkit-4gb.yml)
-- [jetson-tx2-devkit-tx2i.yml](../kas/jetson-tx2-devkit-tx2i.yml)
-- [jetson-tx2-devkit.yml](../kas/jetson-tx2-devkit.yml)
-- [jetson-xavier-nx-devkit-emmc.yml](../kas/jetson-xavier-nx-devkit-emmc.yml)
-- [jetson-xavier-nx-devkit-tx2-nx.yml](../kas/jetson-xavier-nx-devkit-tx2-nx.yml)
-- [jetson-xavier-nx-devkit.yml](../kas/jetson-xavier-nx-devkit.yml)
+- [jetson-agx-xavier-devkit.yml](../../kas/jetson-agx-xavier-devkit.yml)
+- [jetson-nano-2gb-devkit.yml](../../kas/jetson-nano-2gb-devkit.yml)
+- [jetson-nano-devkit-emmc.yml](../../kas/jetson-nano-devkit-emmc.yml)
+- [jetson-nano-devkit.yml](../../kas/jetson-nano-devkit.yml)
+- [jetson-tx2-devkit-4gb.yml](../../kas/jetson-tx2-devkit-4gb.yml)
+- [jetson-tx2-devkit-tx2i.yml](../../kas/jetson-tx2-devkit-tx2i.yml)
+- [jetson-tx2-devkit.yml](../../kas/jetson-tx2-devkit.yml)
+- [jetson-xavier-nx-devkit-emmc.yml](../../kas/jetson-xavier-nx-devkit-emmc.yml)
+- [jetson-xavier-nx-devkit-tx2-nx.yml](../../kas/jetson-xavier-nx-devkit-tx2-nx.yml)
+- [jetson-xavier-nx-devkit.yml](../../kas/jetson-xavier-nx-devkit.yml)
 
 ## Acknowlegements
 

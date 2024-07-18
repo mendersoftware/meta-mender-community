@@ -1,0 +1,32 @@
+header:
+  version: 11
+
+repos:
+  meta-tegra:
+    url: https://github.com/OE4T/meta-tegra.git
+  meta-tegra-community:
+    url: https://github.com/OE4T/meta-tegra-community.git
+  meta-tegrademo:
+    url: https://github.com/OE4T/tegra-demo-distro.git
+    layers:
+      layers/meta-tegra-support:
+      layers/meta-demo-ci:
+      layers/meta-tegrademo:
+
+  meta-openembedded:
+    layers:
+      meta-filesystems:
+      meta-networking:
+      meta-python:
+
+  meta-virtualization:
+    url: https://git.yoctoproject.org/meta-virtualization.git
+
+distro: tegrademo
+
+local_conf_header:
+  tegra: |
+    # these two classes only work as intended when being inherited in the
+    # OE4t setup-env.sh style environment, as they modify bblayers.conf
+    # and expect additional information on the host.
+    INHERIT:remove = "tegra-support-sanity distro_layer_buildinfo" 

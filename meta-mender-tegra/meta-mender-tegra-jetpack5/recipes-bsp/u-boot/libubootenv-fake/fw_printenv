@@ -1,0 +1,60 @@
+#!/bin/sh
+LABELCHARS="AB"
+
+get_bootpart() {
+    local current_slot=`nvbootctrl get-current-slot 2>/dev/null || tegra-boot-control --current-slot 2>/dev/null`
+    if [ -z "$current_slot" ]; then
+	echo "ERR: could not identify current boot slot" >&2
+	echo "UNKNOWN"
+	return
+    fi
+    local cfglbl="\"RootfsPart${LABELCHARS:$current_slot:1}\""
+    local devnam=`grep -h "$cfglbl:" /etc/mender/mender.conf /var/lib/mender/mender.conf | tr -d '" ,' | grep -o '[0-9]\+$'`
+    echo "$devnam"
+}
+
+quiet=
+if [ "$1" = "-n" ]; then
+    quiet="yes"
+    shift
+    if [ -z "$1" ]; then
+        echo "ERR: missing var name with -n" >&2
+        exit 1
+    fi
+fi
+if [ -z "$1" ]; then
+    bootpart=`get_bootpart`
+    echo "mender_boot_part=$bootpart"
+    exit 0
+fi
+while [ -n "$1" ]; do
+    case "$1" in
+        mender_boot_part)
+            bootpart=`get_bootpart`
+            [ -n "$quiet" ] || echo -n "$1="
+            echo "$bootpart"
+            ;;
+        mender_boot_part_hex)
+            bootpart=`get_bootpart`
+            bootpart_hex=`echo 16o${bootpart}p | dc`
+            [ -n "$quiet" ] || echo -n "$1="
+            echo "$bootpart_hex"
+            ;;
+        mender_uboot_separator)
+            [ -n "$quiet" ] || echo -n "$1="
+            echo "something other than just 1"
+            ;;
+        upgrade_available)
+            [ -n "$quiet" ] || echo -n "$1="
+            if [ -e "/var/lib/mender/upgrade_available" ]; then
+                echo "1"
+            else
+                echo "0"
+            fi
+           ;;
+        *)
+           echo "ERR: no such variable: $1" >&2
+           exit 1
+    esac
+    shift
+done

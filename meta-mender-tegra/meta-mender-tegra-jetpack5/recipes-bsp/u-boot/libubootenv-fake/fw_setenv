@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ "$1" = "-s" ]; then
+    while IFS="= " read var restofline; do
+	if [ "$var" = "upgrade_available" ]; then
+	    if [ "$restofline" = "1" ]; then
+		touch /var/lib/mender/upgrade_available
+	    else
+		rm -f /var/lib/mender/upgrade_available
+	    fi
+	fi
+    done
+fi
+exit 0

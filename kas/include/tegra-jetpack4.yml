@@ -1,0 +1,29 @@
+header:
+  version: 11
+  includes:
+  - kas/include/tegra-base.yml
+
+repos:
+  meta-tegra:
+    refspec: kirkstone-l4t-r32.7.x
+    layers:
+      .:
+      contrib:
+  meta-tegra-community:
+    refspec: kirkstone-l4t-r32.7.x
+  meta-tegrademo:
+    refspec: kirkstone-l4t-r32.7.x
+  meta-virtualization:
+    refspec: kirkstone
+
+  meta-mender-community:
+    layers:
+      meta-mender-tegra/meta-mender-tegra-jetpack4:
+
+distro: tegrademo-mender
+
+#local_conf_header:
+#  tegra-jetpack4: |
+#    INHERIT:remove = "tegra-support-sanity distro_layer_buildinfo"
+#    MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
+#    MENDER_FEATURES_DISABLE:append = " mender-uboot"

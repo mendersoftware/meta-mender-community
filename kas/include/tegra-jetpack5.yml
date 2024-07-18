@@ -1,0 +1,28 @@
+header:
+  version: 11
+  includes:
+  - kas/include/tegra-base.yml
+
+repos:
+  meta-tegra:
+    refspec: 2a808b6afb221974196d2eeab3537140ebb63cc7
+  meta-tegra-community:
+    refspec: f5a9cf859a1414bc7654fc57c09fb7ee1b116194
+  meta-tegrademo:
+    refspec: kirkstone
+
+  meta-virtualization:
+    refspec: b3b3dbc67504e8cd498d6db202ddcf5a9dd26a9d
+
+  meta-mender-community:
+    layers:
+      meta-mender-tegra/meta-mender-tegra-jetpack5:
+
+local_conf_header:
+  tegra-jetpack5: |
+    INHERIT += "tegra-mender-setup"
+    MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
+    MENDER_FEATURES_DISABLE:append = " mender-uboot"
+    IMAGE_FSTYPES:tegra = "tegraflash mender dataimg"
+    IMAGE_FSTYPES:pn-tegra-minimal-initramfs:tegra = "${INITRAMFS_FSTYPES}"
+    IMAGE_FSTYPES:pn-tegra-initrd-flash-initramfs:tegra = "${TEGRA_INITRD_FLASH_INITRAMFS_FSTYPES}"
