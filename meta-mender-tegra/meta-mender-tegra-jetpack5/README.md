@@ -8,10 +8,6 @@ The supported and tested boards are:
 - AGX Xavier
 - Orin Nano
 
-Visit the individual board links above for more information on status of the
-integration and more detailed instructions on how to build and use images
-together with Mender for the mentioned boards.
-
 
 ## Dependencies
 
