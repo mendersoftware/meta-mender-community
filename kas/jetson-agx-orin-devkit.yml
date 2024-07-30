@@ -1,0 +1,11 @@
+header:
+  version: 11
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/tegra-jetpack5.yml
+
+machine: jetson-agx-orin-devkit
+
+local_conf_header:
+  AB-upgrades: |
+    USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"
