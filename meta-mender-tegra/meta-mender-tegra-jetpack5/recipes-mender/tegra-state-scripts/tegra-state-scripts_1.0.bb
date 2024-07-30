@@ -1,5 +1,7 @@
 SRC_URI = " \
     file://switch-rootfs \
+    file://verify-slot \
+    file://abort-blupdate \
 "
 
 LICENSE = "Apache-2.0"
@@ -13,11 +15,9 @@ PERSIST_MACHINE_ID=""
 PERSIST_MACHINE_ID:mender-persist-systemd-machine-id = "yes"
 
 do_compile() {
-    :
-}
-
-do_compile:tegra234() {
     cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
+    cp ${S}/verify-slot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_50_verify-slot
+    cp ${S}/abort-blupdate ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_50_abort-blupdate
 }
 
 # Make sure scripts aren't left around from old builds

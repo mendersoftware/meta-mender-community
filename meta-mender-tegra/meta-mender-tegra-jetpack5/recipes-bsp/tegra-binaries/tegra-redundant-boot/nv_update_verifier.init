@@ -1,0 +1,20 @@
+#! /bin/sh
+NAME=nv_update_verifier
+DESC="OTA bootloader update verifier"
+
+case "$1" in
+  start|restart)
+      echo -n "Running $DESC: "
+      /usr/sbin/nv_update_verifier < /dev/null
+      echo "[OK]"
+      ;;
+  stop)
+      ;;
+  *)
+      N=/etc/init.d/$NAME
+      echo "Usage: $N {start|stop|restart}" >&2
+      exit 1
+      ;;
+esac
+
+exit 0
