@@ -34,12 +34,12 @@ mount -o ro ${inactive_part} /tmp/inactive_part
 # render the device unusable.
 
 # Copy 'core' firmware files first
-for f in $(find /tmp/inactive_part/boot/firmware/ -maxdepth 1 -type f); do
+for f in $(find /tmp/inactive_part/boot -maxdepth 1 -type f ! -name "*.dtbo"); do
   safe_copy $f /uboot/$(basename $f)
 done
 
 # Copy overlays
-for f in $(find /tmp/inactive_part/boot/firmware/overlays/ -maxdepth 1 -type f); do
+for f in $(find /tmp/inactive_part/boot/*.dtbo -maxdepth 1 -type f); do
   safe_copy $f /uboot/overlays/$(basename $f)
 done
 
