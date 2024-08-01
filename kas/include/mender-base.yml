@@ -20,7 +20,7 @@ repos:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: 21b8bd76e92391665ad2cf52fa1def65ba97c7a2
+    commit: b3754de176ad9b87afc7fe950a8b335eb8f64106
     layers:
       meta-mender-core:
 

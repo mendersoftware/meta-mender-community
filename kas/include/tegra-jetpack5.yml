@@ -1,28 +1,19 @@
 header:
-  version: 11
+  version: 14
   includes:
   - kas/include/tegra-base.yml
 
 repos:
   meta-tegra:
-    refspec: 972488415a80afebbd652a983a46c2641eed99ad
+    # refers to the scarthgap-l4t-r35.x branch
+    commit: 972488415a80afebbd652a983a46c2641eed99ad
   meta-tegra-community:
-    refspec: 865561b6d3ba6607a814354c122c91422df720d5
+    # refers to the scarthgap-l4t-r35.x branch
+    commit: 865561b6d3ba6607a814354c122c91422df720d5
   meta-tegrademo:
-    refspec: 2d9319ba0c24fb46937a742d78fc046983edb325
-
-  meta-virtualization:
-    refspec: 6a80f140e387621f62964209a2e07d3bcfb125ce
+    # refers to the scarthgap-l4t-r35.x branch
+    commit: 2d9319ba0c24fb46937a742d78fc046983edb325
 
   meta-mender-community:
     layers:
-      meta-mender-tegra/meta-mender-tegra-jetpack5:
-
-local_conf_header:
-  tegra-jetpack5: |
-    INHERIT += "tegra-mender-setup"
-    MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
-    MENDER_FEATURES_DISABLE:append = " mender-uboot"
-    IMAGE_FSTYPES:tegra = "tegraflash mender dataimg"
-    IMAGE_FSTYPES:pn-tegra-minimal-initramfs:tegra = "${INITRAMFS_FSTYPES}"
-    IMAGE_FSTYPES:pn-tegra-initrd-flash-initramfs:tegra = "${TEGRA_INITRD_FLASH_INITRAMFS_FSTYPES}"
+      meta-mender-tegra:

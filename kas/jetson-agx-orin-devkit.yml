@@ -1,8 +1,8 @@
 header:
-  version: 11
+  version: 14
   includes:
   - kas/include/mender-full.yml
-  - kas/include/tegra-jetpack5.yml
+  - kas/include/tegra-jetpack6.yml
 
 machine: jetson-agx-orin-devkit
 

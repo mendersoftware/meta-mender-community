@@ -1,0 +1,19 @@
+header:
+  version: 14
+  includes:
+  - kas/include/tegra-base.yml
+
+repos:
+  meta-tegra:
+    # refers to the scarthgap branch
+    commit: b20cff753ff0ffc24121cb35d2e2d218c2d26cf3
+  meta-tegra-community:
+    # refers to the scarthgap branch
+    commit: 68f0520b73312ecc6767252de569679c374afc73
+  meta-tegrademo:
+    # refers to the scarthgap branch
+    commit: 7d54c8f932b9527255e9b871b662beaafca7fa7b
+
+  meta-mender-community:
+    layers:
+      meta-mender-tegra:

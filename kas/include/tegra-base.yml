@@ -21,6 +21,7 @@ repos:
 
   meta-virtualization:
     url: https://git.yoctoproject.org/meta-virtualization.git
+    commit: 6a80f140e387621f62964209a2e07d3bcfb125ce
 
 distro: tegrademo
 
@@ -29,4 +30,10 @@ local_conf_header:
     # these two classes only work as intended when being inherited in the
     # OE4t setup-env.sh style environment, as they modify bblayers.conf
     # and expect additional information on the host.
-    INHERIT:remove = "tegra-support-sanity distro_layer_buildinfo" 
+    INHERIT:remove = "tegra-support-sanity distro_layer_buildinfo"
+    INHERIT += "tegra-mender-setup"
+    MENDER_FEATURES_ENABLE:append = " mender-growfs-data"
+    MENDER_FEATURES_DISABLE:append = " mender-uboot"
+    IMAGE_FSTYPES:tegra = "tegraflash mender dataimg"
+    IMAGE_FSTYPES:pn-tegra-minimal-initramfs:tegra = "${INITRAMFS_FSTYPES}"
+    IMAGE_FSTYPES:pn-tegra-initrd-flash-initramfs:tegra = "${TEGRA_INITRD_FLASH_INITRAMFS_FSTYPES}"
