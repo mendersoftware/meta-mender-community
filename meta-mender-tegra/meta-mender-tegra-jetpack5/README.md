@@ -16,7 +16,7 @@ This layer depends on:
 ```
 URI: https://github.com/madisongh/meta-tegra.git
 layers: meta-tegra
-branch: kirkstone-l4t-r32.7.x
+branch: kirkstone
 revision: HEAD
 ```
 
