@@ -1,0 +1,46 @@
+#!/bin/sh
+set -e
+echo "$(mender show-artifact): $(basename "$0") was called!" >&2
+
+get_bootpart() {
+	local current_slot=`nvbootctrl get-current-slot 2>/dev/null`
+	if [ -z "$current_slot" ]; then
+    		echo "ERR: could not identify current boot slot" >&2
+    		echo "UNKNOWN"
+    		return
+    	fi
+	echo "$current_slot"
+}
+
+reset_unbootable_status() {
+	source /usr/bin/uefi_common.func
+
+	local AB="AB"
+	local slot="Slot${AB:$1:1}"
+	local value="\x00\x00\x00\x00"
+	set_efi_var "RootfsStatus${slot}" "781e084c-a330-417c-b678-38e696380cb9" "$value"
+}
+
+current_slot=`get_bootpart`
+echo "current_slot=$current_slot" >&2
+
+next_slot=
+next_rootfs_dev=
+if [ $current_slot = "0" ]; then
+	next_slot="1"
+	next_rootfs_dev="/dev/disk/by-partlabel/APP_b"
+else
+	next_slot="0"
+	next_rootfs_dev="/dev/disk/by-partlabel/APP"
+fi
+
+tmp_mount=`mktemp -d`
+
+reset_unbootable_status $next_slot
+mkdir -p /opt/nvidia/esp/EFI/UpdateCapsule
+mount -o ro $next_rootfs_dev $tmp_mount
+cp ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap /opt/nvidia/esp/EFI/UpdateCapsule/TEGRA_BL.Cap
+umount $tmp_mount
+oe4t-set-uefi-OSIndications
+
+exit 0
