@@ -1,4 +1,4 @@
-inherit l4t_bsp
+inherit l4t_version
 
 python () {
     # insert l4t-mender-<version> as a machine-specific override for tegra platforms
