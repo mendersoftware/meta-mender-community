@@ -84,7 +84,10 @@ jobs:
           rock-pi-e,
           apalis-imx8, 
           apalis-imx8-boot2qt,
-          x86-virtual
+          x86-virtual,
+          jetson-orin-nano-devkit,
+          jetson-orin-nano-devkit-nvme,
+          jetson-agx-orin-devkit,
         ]
         experimental: [false]
         subpath: [.]
