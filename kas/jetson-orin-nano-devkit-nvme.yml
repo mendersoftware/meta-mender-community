@@ -1,0 +1,16 @@
+header:
+  version: 11
+  includes:
+    - kas/jetson-orin-nano-devkit.yml
+
+machine: jetson-orin-nano-devkit-nvme
+
+local_conf_header:
+  nvme: |
+    TEGRAFLASH_NO_INTERNAL_STORAGE = "0"
+    PARTITION_LAYOUT_TEMPLATE_DEFAULT = "flash_t234_qspi.xml"
+    PARTITION_LAYOUT_EXTERNAL="flash_l4t_t234_nvme.xml"
+    # Mender tegra_mender_calc_total_size workaround
+    # Setting MENDER_STORAGE_TOTAL_SIZE_MB to 16Gb and no EMMC
+    EMMC_SIZE = "0"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "16384"
