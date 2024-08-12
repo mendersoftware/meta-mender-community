@@ -30,18 +30,7 @@ revision: HEAD
 
 ## Quick start
 
-The following commands will setup the environment and allow you to build images
-that have Mender integrated.
+See the top level [README](../README.md) for instructions to build using the `kas` tool. Supported configurations are
 
-
-```
-mkdir mender-beaglebone && cd mender-beaglebone
-repo init -u https://github.com/mendersoftware/meta-mender-community \
-          -m meta-mender-beaglebone/scripts/manifest-beaglebone.xml \
-          -b kirkstone
-repo sync
-source setup-environment beaglebone
-bitbake core-image-base
-```
-
-
+- [`beaglebone.yml`](../kas/beaglebone.yml)
+- [`beaglebone-uboot.yml`](../kas/beaglebone-uboot.yml)
