@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CAPTARGET="/opt/nvidia/esp/EFI/UpdateCapsule/TEGRA_BL.Cap"
+CAPTARGET="/boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap"
 
 if [ -f "$CAPTARGET" ]; then
     rm "$CAPTARGET"

@@ -37,9 +37,9 @@ fi
 tmp_mount=`mktemp -d`
 
 reset_unbootable_status $next_slot
-mkdir -p /opt/nvidia/esp/EFI/UpdateCapsule
+mkdir -p /boot/efi/EFI/UpdateCapsule
 mount -o ro $next_rootfs_dev $tmp_mount
-cp ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap /opt/nvidia/esp/EFI/UpdateCapsule/TEGRA_BL.Cap
+cp ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap /boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap
 umount $tmp_mount
 oe4t-set-uefi-OSIndications
 
