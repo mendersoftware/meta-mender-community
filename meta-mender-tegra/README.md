@@ -14,16 +14,16 @@ The supported and tested boards are:
 This layer depends on:
 
 ```
-URI: https://github.com/madisongh/meta-tegra.git
+URI: https://github.com/OE4T/meta-tegra.git
 layers: meta-tegra
-branch: kirkstone
+branch: scarthgap-l4t-r35.x (JP5)   or   scarthgap (JP6)
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: kirkstone
+branch: scarthgap
 revision: HEAD
 ```
 
