@@ -1,0 +1,12 @@
+header:
+  version: 14
+  includes:
+    - kas/include/mender-full.yml
+    - kas/include/tegra-jetpack6.yml
+
+machine: jetson-orin-nano-devkit
+
+local_conf_header:
+  AB-upgrades: |
+    UBOOT_EXTLINUX = "1"
+    USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"

@@ -50,7 +50,10 @@ jobs:
           vexpress-qemu-flash,
           x86-virtual,
           beaglebone-uboot,
-          olimex-imx8mp-evb
+          olimex-imx8mp-evb,
+          jetson-agx-orin-devkit,
+          jetson-agx-xavier-devkit,
+          jetson-orin-nano-devkit
         ]
         experimental: [false]
         subpath: [.]
