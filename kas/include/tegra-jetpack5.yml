@@ -6,7 +6,8 @@ header:
 repos:
   meta-tegra:
     # refers to the scarthgap-l4t-r35.x branch
-    commit: 972488415a80afebbd652a983a46c2641eed99ad
+    # commit: 972488415a80afebbd652a983a46c2641eed99ad # this lacks classes/l4t_version.bbclass
+    commit: 32d86844d857321e1ed137abbdd5a045c6f5cb3f
   meta-tegra-community:
     # refers to the scarthgap-l4t-r35.x branch
     commit: 865561b6d3ba6607a814354c122c91422df720d5
