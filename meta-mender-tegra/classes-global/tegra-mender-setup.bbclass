@@ -49,7 +49,7 @@ IMAGE_BOOT_FILES = "u-boot-dtb.bin"
 # boot into an emergency shell and examine the /dev/mmcblk* devices,
 # or use the uboot console to look at mtdparts
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra186 = "34"
-MENDER_DATA_PART_NUMBER_DEFAULT:tegra194 = "42"
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra194 = "45"
 MENDER_DATA_PART_NUMBER_DEFAULT:xavier-nx = "23"
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-emmc = "19"
