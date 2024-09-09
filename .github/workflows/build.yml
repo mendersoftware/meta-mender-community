@@ -75,6 +75,7 @@ jobs:
         - ${{ vars.PERSISTENT_DIR }}/downloads:${{ vars.BUILD_DL_DIR }}
         - ${{ vars.PERSISTENT_DIR }}/sstate-cache:${{ vars.BUILD_SSTATE_DIR }}
         - ${{ vars.PERSISTENT_DIR }}/layers:${{ vars.BUILD_LAYERCACHE_DIR }}
+        - ${{ vars.PERSISTENT_DIR }}/assets:${{ vars.BUILD_ASSETS_DIR }}
       options: --user ${{ vars.KAS_UID }}:${{ vars.KAS_GID }}
     steps:
       - name: enter build dir and build
