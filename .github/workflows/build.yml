@@ -87,4 +87,7 @@ jobs:
           mkdir -p $BUILDDIR/${{ matrix.board }} &&
           cd $BUILDDIR/${{ matrix.board }} &&
           kas checkout ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml &&
+          if [ -f "${{ vars.BUILD_ASSETS_DIR }}/site.conf" ]; then 
+          cp ${{ vars.BUILD_ASSETS_DIR }}/site.conf build/conf/site.conf;
+          fi &&
           kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml
