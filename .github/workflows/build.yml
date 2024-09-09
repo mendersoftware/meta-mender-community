@@ -85,4 +85,5 @@ jobs:
         run: >
           mkdir -p $BUILDDIR/${{ matrix.board }} &&
           cd $BUILDDIR/${{ matrix.board }} &&
+          kas checkout ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml &&
           kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml
