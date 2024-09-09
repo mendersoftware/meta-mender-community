@@ -82,4 +82,7 @@ jobs:
           DL_DIR: ${{ vars.BUILD_DL_DIR}}
           SSTATE_DIR: ${{ vars.BUILD_SSTATE_DIR}}
           KAS_REPO_REF_DIR: ${{ vars.BUILD_LAYERCACHE_DIR}}
-        run: mkdir -p $BUILDDIR/${{ matrix.board }} && cd $BUILDDIR/${{ matrix.board }} && kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml
+        run: >
+          mkdir -p $BUILDDIR/${{ matrix.board }} &&
+          cd $BUILDDIR/${{ matrix.board }} &&
+          kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml
