@@ -17,14 +17,14 @@ This layer depends on:
 
 ```
 URI: https://git.yoctoproject.org/git/poky
-branch: kirkstone
+branch: scarthgap
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: kirkstone
+branch: scarthgap
 revision: HEAD
 ```
 

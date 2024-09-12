@@ -6,16 +6,16 @@ Dependencies
 ============
 
   URI: https://git.yoctoproject.org/poky
-  branch: kirkstone
+  branch: scarthgap
 
   URI: https://git.openembedded.org/meta-openembedded
-  branch: kirkstone
+  branch: scarthgap
 
   URI: https://git.yoctoproject.org/meta-arm
-  branch: kirkstone
+  branch: scarthgap
 
   URI: https://github.com/mendersoftware/meta-mender
-  branch: kirkstone
+  branch: scarthgap
 
 Contributions
 =============
