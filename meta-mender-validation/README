@@ -1,0 +1,45 @@
+This README file contains information on the contents of the meta-mender-validation layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: scarthgap
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-validation layer to your build
+ II. Misc
+
+
+I. Adding the meta-mender-validation layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-validation'
+
+II. Misc
+========
+
+This layer contains various means of validating a Mender integration on
+a given device.
+
+- bootloader-validation: this script implements an automated run of the
+  integration checklist as documented at https://docs.mender.io/client-installation/integration-checklist.
+  It installs a systemd service to run the script at startup, which requires
+  a number of reboots to check the various bootloader integration facets.
+  Make sure the following preconditions are met:
+  1. `INIT_MANAGER = "systemd"`
+  2. `MENDER_FEATURES_ENABLE:append = "mender-prepopulate-inactive-partition"`
+  After completion, the systemd service is automatically disabled and the
+  result can be found in the `/data/validation.log` file.
