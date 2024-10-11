@@ -66,6 +66,9 @@ jobs:
           - board: qemuarm64-client-only
             subpath: demos
             experimental: false
+          - board: qemuarm64-bootloader-validation
+            subpath: demos
+            experimental: false
 
     runs-on: [self-hosted, linux, x64]
     container:

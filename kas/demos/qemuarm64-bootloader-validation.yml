@@ -1,0 +1,19 @@
+header:
+  version: 11
+  includes:
+  - kas/qemuarm64.yml
+
+repos:
+  meta-mender:
+    # note: this is the first commit to support the
+    # "mender-prepopulate-inactive-partition"
+    commit: 3d6099368742f1a461fb0aa14eccd2284c98f3b2
+
+  meta-mender-community:
+    layers:
+      meta-mender-validation:
+
+local_conf_header:
+  bootloader-validation: |
+    MENDER_FEATURES_ENABLE:append = " mender-prepopulate-inactive-partition"
+    IMAGE_INSTALL:append = " bootloader-validation"
