@@ -7,6 +7,7 @@ The supported and tested boards are:
 - AGX Orin
 - AGX Xavier
 - Orin Nano
+- Orin NX
 
 
 ## Dependencies
@@ -27,12 +28,6 @@ branch: scarthgap
 revision: HEAD
 ```
 
-## Quick start
-
-See the mender hub pages and the documentation for the `tegrademo-mender`
-distro on the [tegra-demo-distro](https://github.com/OE4T/tegra-demo-distro) repository
-for the most up to date instructions on starting out with mender and tegra.
-
 ## [`kas`](https://github.com/siemens/kas) configurations
 
 The following configuration files for building using the `kas` tool are provided:
@@ -40,6 +35,15 @@ The following configuration files for building using the `kas` tool are provided
 - [jetson-agx-orin-devkit.yml](../kas/jetson-agx-orin-devkit.yml)
 - [jetson-agx-xavier-devkit.yml](../kas/jetson-agx-xavier-devkit.yml)
 - [jetson-orin-nano-devkit.yml](../kas/jetson-orin-nano-devkit.yml)
+- [jetson-orin-16gb-nx-p3786.yml](../kas/jetson-orin-16gb-nx-p3786.yml)
+
+### Jetson Orin NX
+
+Mender leverages the UDA partition to store the persistent data between updates. But with the 
+Orin NX which uses an NVMe the current process doesn't work. Based on nvidia feedback [UDA is 
+reserved](https://forums.developer.nvidia.com/t/jetson-orin-nx-custom-partition-layout-fails-with-uda-at-the-end/316401/6) by nvidia.
+
+To solve this issue we create a new [custom partition layout](recipes-bsp/tegra-binaries/tegra-storage-layout/flash_l4t_t234_nvme_rootfs_ab.xml) with a dedicated partition `id=17` for persistent data.
 
 ## Acknowlegements
 

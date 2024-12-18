@@ -1,0 +1,17 @@
+header:
+  version: 14
+  includes:
+    - kas/include/mender-full.yml
+    - kas/include/tegra-jetpack6.yml
+
+machine: p3768-0000-p3767-0000
+
+local_conf_header:
+  AB-upgrades: |
+    USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"
+  eMMC: |
+    # equivalent: EMMC_SIZE = "32 * 1024 * 1024 * 1024"
+    EMMC_SIZE = "34359738368"
+    # id defined in custom partition layout
+    MENDER_DATA_PART_NUMBER = "17"
+    MENDER_STORAGE_DEVICE = "/dev/nvme0n1"
