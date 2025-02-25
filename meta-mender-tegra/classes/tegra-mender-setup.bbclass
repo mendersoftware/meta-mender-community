@@ -141,3 +141,8 @@ MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
 MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit = " jetson-xavier"
 MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
 MENDER_DEVICE_TYPES_COMPATIBLE_append_jetson-nano-devkit-emmc = " jetson-nano-emmc"
+
+# Handle uboot storage location conflicts on t186 platforms
+TEGRA_MENDER_BOOTINFO_STORAGE_REDUCE_DEFAULT = "0"
+TEGRA_MENDER_BOOTINFO_STORAGE_REDUCE_DEFAULT_tegra186 = "${@'0' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else '1'}"
+TEGRA_MENDER_BOOTINFO_STORAGE_REDUCE ?= "${TEGRA_MENDER_BOOTINFO_STORAGE_REDUCE_DEFAULT}"
