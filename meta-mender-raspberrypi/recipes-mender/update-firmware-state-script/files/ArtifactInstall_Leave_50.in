@@ -15,7 +15,7 @@ safe_copy() {
     echo "safe_copy can only handle one file copy at a time" >&2
     exit 2
   fi
-  cp -a "$1" "$2".tmp || return $?
+  cp "$1" "$2".tmp || return $?
   sync "$2".tmp || return $?
   mv "$2".tmp "$2" || return $?
   sync "$(dirname "$2")" || return $?
