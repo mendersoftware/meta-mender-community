@@ -6,7 +6,7 @@ header:
 repos:
   meta-intel:
     url: https://git.yoctoproject.org/meta-intel
-    commit: 1abc8ef0fc11041e2ff18989dce5b99214ee89ed
+    branch: kirkstone
 
 local_conf_header:
   x86-virtual: |

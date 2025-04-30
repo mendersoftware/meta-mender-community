@@ -5,17 +5,14 @@ header:
 
 repos:
   meta-tegra:
-    #branch: kirkstone
-    commit: 67ec5c4c1924eb34745c00ee1b9c48335d3b6964
+    branch: kirkstone
   meta-tegra-community:
-    #branch: kirkstone
-    commit: 298939d20c30ba76f1db6357e47d2b64abdbc9e2
+    branch: kirkstone
   meta-tegrademo:
-    #branch: kirkstone
-    commit: 98181a0a4e24b961c586a0ed81005543ce9e13fe
+    branch: kirkstone
 
   meta-virtualization:
-    commit: 02a6c00d9370992a54296633de26a13a9a08ca2a
+    branch: kirkstone
 
   meta-mender-community:
     layers:

@@ -4,4 +4,4 @@ header:
 repos:
   meta-boundary:
     url: https://github.com/boundarydevices/meta-boundary.git
-    commit: 0c405be0b905b239b96dc6f65a2eebc27a7e21c7
+    branch: kirkstone

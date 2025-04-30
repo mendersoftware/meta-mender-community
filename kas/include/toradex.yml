@@ -12,23 +12,19 @@ repos:
       meta-filesystems:
   meta-qt5:
     url: https://github.com/meta-qt5/meta-qt5
-    commit: 644ebf220245bdc06e7696ccc90acc97a0dd2566
+    branch: kirkstone
   meta-toradex-distro:
     url: https://git.toradex.com/meta-toradex-distro.git
-    #branch: kirkstone-6.x.y
-    commit: b63547f3772ea9d0f8f83bc24238005d621966f5
+    branch: kirkstone-6.x.y
   meta-toradex-bsp-common:
     url: https://git.toradex.com/meta-toradex-bsp-common.git
-    #branch: kirkstone-6.x.y
-    commit: 95d58eee6e1ba025c3ab84285bd11222889a41a4
+    branch: kirkstone-6.x.y
   meta-toradex-nxp:
     url: https://git.toradex.com/meta-toradex-nxp.git
-    #branch: kirkstone-6.x.y
-    commit: 163c71393949f241ce60e3e0e0b474fa3eee1ddc
+    branch: kirkstone-6.x.y
   meta-toradex-demos:
     url: https://git.toradex.com/meta-toradex-demos.git
-    #branch: kirkstone-6.x.y
-    commit: ad72d14becf6b54c1c76864eb691a369307672fa
+    branch: kirkstone-6.x.y
 
   meta-mender-community:
     layers:

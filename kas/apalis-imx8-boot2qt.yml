@@ -13,19 +13,19 @@ repos:
       meta-initramfs:
   meta-qt6:
     url: git://code.qt.io/yocto/meta-qt6
-    commit: c06b8b3e34f0dccfebb795a279010db1ab68ed2e
+    branch: kirkstone
   meta-boot2qt:
     url: git://code.qt.io/yocto/meta-boot2qt
-    commit: 7ec529584af7375e1a460b5093ccc42d406c6541
+    branch: kirkstone
     layers:
       meta-boot2qt:
       meta-boot2qt-distro:
   meta-toradex-bsp-common:
     url: https://git.toradex.com/meta-toradex-bsp-common.git
-    commit: 1a14c2724ab0cbcf3d01042fed7b60b48c8ab836
+    branch: kirkstone
   meta-toradex-nxp:
     url: https://git.toradex.com/meta-toradex-nxp.git
-    commit: 364341c23ea49fb875e84f980b208699311aaf9c
+    branch: kirkstone
   meta-mender-community:
     layers:
       meta-mender-toradex-nxp:

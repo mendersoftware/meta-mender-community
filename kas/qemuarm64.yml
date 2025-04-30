@@ -16,7 +16,7 @@ repos:
 
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    commit: bf98ef902e6e7042e46a69fb2df6c68d00de2764
+    branch: kirkstone
     layers:
       meta-arm:
       meta-arm-toolchain:

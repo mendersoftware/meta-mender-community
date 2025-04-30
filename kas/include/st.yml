@@ -5,7 +5,7 @@ repos:
   # needs a specific version due to versioned overrides, like gstreamer
   openembedded-core:
     url: http://git.openembedded.org/openembedded-core
-    commit: f09fca692f96c9c428e89c5ef53fbcb92ac0c9bf
+    branch: kirkstone
   meta-openembedded:
     layers:
       meta-python:
@@ -18,19 +18,19 @@ repos:
       meta-perl:
   meta-qt5:
     url: https://github.com/meta-qt5/meta-qt5
-    commit: 644ebf220245bdc06e7696ccc90acc97a0dd2566
+    branch: kirkstone
   meta-st-openstlinux:
     url: https://github.com/STMicroelectronics/meta-st-openstlinux
-    commit: 644ebf220245bdc06e7696ccc90acc97a0dd2566
+    branch: kirkstone
   meta-st-stm32mp:
     url: https://github.com/STMicroelectronics/meta-st-stm32mp
-    commit: 2abadb39d040b3c1c452664e33b7b365516b372d
+    branch: kirkstone
   meta-st-stm32mp-addons:
     url: https://github.com/STMicroelectronics/meta-st-stm32mp-addons
-    commit: f1a18b73343afd8dd5f9aa7f5b605d139fb9e4a8
+    branch: kirkstone
   meta-st-scripts:
     url: https://github.com/STMicroelectronics/meta-st-scripts
-    commit: 69e10d187debb1d4136af1c454b3dffd994c3de7
+    branch: kirkstone
     layers:
       bitbake: excluded
 

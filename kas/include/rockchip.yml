@@ -4,13 +4,13 @@ header:
 repos:
   meta-arm:
     url: git://git.yoctoproject.org/meta-arm.git
-    commit: bf98ef902e6e7042e46a69fb2df6c68d00de2764
+    branch: kirkstone
     layers:
       meta-arm:
       meta-arm-toolchain:
   meta-rockchip:
     url: git://git.yoctoproject.org/meta-rockchip.git
-    commit: 1f5e7b10eef4e4906daee7e7f03211823f832ce7
+    branch: kirkstone
 
   meta-mender-community:
     layers:

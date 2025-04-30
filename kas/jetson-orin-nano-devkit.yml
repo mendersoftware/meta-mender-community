@@ -7,7 +7,7 @@ header:
 machine: jetson-orin-nano-devkit
 repos:
   meta-tegra:
-    commit: b7a0792b996b47305c7ec1713621b0e07d314700
+    branch: kirkstone
 
 local_conf_header:
   AB-upgrades: |
