@@ -4,13 +4,13 @@ header:
 repos:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale.git
-    commit: c525e0c19bdc46d45f71873b5f286f49abb69418
+    branch: kirkstone
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty.git
-    commit: 9e94b64bdfebcf7bfdf2af6447cec866a4efa814
+    branch: kirkstone
   meta-freescale-distro:
     url: https://github.com/Freescale/meta-freescale-distro.git
-    commit: d5bbb487b2816dfc74984a78b67f7361ce404253
+    branch: kirkstone
 
   meta-mender-community:
     layers:

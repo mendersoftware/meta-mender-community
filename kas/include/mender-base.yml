@@ -6,7 +6,7 @@ distro: "poky"
 repos:
   poky:
     url: http://git.yoctoproject.org/poky
-    commit: 7e87dc422d972e0dc98372318fcdc63a76347d16
+    branch: kirkstone
     layers:
       meta:
       meta-poky:
@@ -14,13 +14,13 @@ repos:
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    commit: dd3d2293ffdf2559f8a433f241765a8ab50cd085
+    branch: kirkstone
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: a52f158b033c709df824c7e66a577c41f432ae7f
+    branch: kirkstone
     layers:
       meta-mender-core:
 

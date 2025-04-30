@@ -7,7 +7,7 @@ header:
 repos:
   meta-seeed-cm4:
     url: https://github.com/theyoctojester/meta-seeed-cm4.git
-    commit: kirkstone
+    branch: kirkstone
 
   meta-openembedded:
     layers:

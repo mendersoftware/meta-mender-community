@@ -12,7 +12,7 @@ repos:
 
   meta-swupdate:
     url: https://github.com/sbabic/meta-swupdate
-    commit: 6918be849ddf1fed5b7a0173e51c7a136e8d4101
+    branch: kirkstone
 
   meta-mender:
     layers:

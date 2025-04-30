@@ -4,12 +4,12 @@ header:
 repos:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    commit: bf98ef902e6e7042e46a69fb2df6c68d00de2764
+    branch: kirkstone
     layers:
       meta-arm:
       meta-arm-toolchain:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
-    commit: 1a4575bf209e420a477e095bf2a5113f39229906
+    branch: kirkstone
     layers:
       meta-ti-bsp:

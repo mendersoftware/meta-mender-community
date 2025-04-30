@@ -5,19 +5,16 @@ header:
 
 repos:
   meta-tegra:
-    #branch: kirkstone-l4t-r32.7.x
-    commit: 928ba1b5fd3a49c511a29fe2e00de971675e42d5
+    branch: kirkstone-l4t-r32.7.x
     layers:
       .:
       contrib:
   meta-tegra-community:
-    #branch: kirkstone-l4t-r32.7.x
-    commit: 8f2e68383378f8a57437e4832f6b6de5be139b2b
+    branch: kirkstone-l4t-r32.7.x
   meta-tegrademo:
-    #branch: kirkstone-l4t-r32.7.x
-    commit: f7618854c9fc23e1c8f4150c8c36dbe5d5b56531
+    branch: kirkstone-l4t-r32.7.x
   meta-virtualization:
-    commit: 02a6c00d9370992a54296633de26a13a9a08ca2a
+    branch: kirkstone
 
   meta-mender-community:
     layers:
