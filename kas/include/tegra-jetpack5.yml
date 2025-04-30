@@ -6,14 +6,11 @@ header:
 
 repos:
   meta-tegra:
-    # refers to the scarthgap-l4t-r35.x branch
-    commit: 837aa8a67d2d3caec60e385b719e63387e5a7edc
+    branch: scarthgap-l4t-r35.x
   meta-tegra-community:
-    # refers to the scarthgap-l4t-r35.x branch
-    commit: c03675e45fa229a4c067f5bd2e8461b713d789f4
+    branch: scarthgap-l4t-r35.x
   meta-tegrademo:
-    # refers to the scarthgap-l4t-r35.x branch
-    commit: a3bdfbe4f67a8b1a172c4a540925a1d18b877109
+    branch: scarthgap-l4t-r35.x
 
   meta-mender-community:
     layers:
