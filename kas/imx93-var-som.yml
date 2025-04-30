@@ -19,30 +19,30 @@ repos:
 
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale
-    refspec: scarthgap
+    branch: scarthgap
 
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty
-    refspec: scarthgap
+    branch: scarthgap
 
   meta-freescale-distro:
     url: https://github.com/Freescale/meta-freescale-distro
-    refspec: scarthgap
+    branch: scarthgap
 
   meta-nxp:
     url: https://github.com/nxp-imx/meta-imx
-    refspec: scarthgap
+    branch: scarthgap
     layers:
       meta-bsp:
       meta-sdk:
 
   meta-variscite-bsp-common:
     url: https://github.com/varigit/meta-variscite-bsp-common
-    refspec: scarthgap
+    branch: scarthgap
 
   meta-variscite-bsp-imx:
     url: https://github.com/varigit/meta-variscite-bsp-imx
-    refspec: scarthgap
+    branch: scarthgap
 
 local_conf_header:
   imx93-var-som: |

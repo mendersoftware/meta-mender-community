@@ -6,7 +6,7 @@ header:
 repos:
   meta-intel:
     url: https://git.yoctoproject.org/meta-intel
-    refspec: scarthgap
+    branch: scarthgap
 
 local_conf_header:
   x86-virtual: |
