@@ -1,10 +1,8 @@
 header:
-  version: 14
+  version: 19
 
 repos:
-  meta-mender:
-    commit: 2f70dbad1441055c299332b7ef33dfe1e4f50c1c # this one fixes the persistent-id for now!
-  
+
   meta-tegra:
     url: https://github.com/OE4T/meta-tegra.git
   meta-tegra-community:
@@ -24,7 +22,9 @@ repos:
 
   meta-virtualization:
     url: https://git.yoctoproject.org/meta-virtualization.git
-    commit: 6a80f140e387621f62964209a2e07d3bcfb125ce
+    branch: scarthgap
+    commit: a5449c0c50aa07d02186f548fe6bb6c1ce8823dc
+    signed: false
 
   meta-mender-community:
     layers:

@@ -1,19 +1,22 @@
 header:
-  version: 14
+  version: 19
 
 repos:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale.git
-    # branch: scarthgap
-    commit: f52fe2b709e70d1d864adfad2754213bce7abcd7
+    branch: scarthgap
+    commit: 90cb4c15f033042376c38f90878459089cd10576
+    signed: false
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty.git
-    # branch: scarthgap
+    branch: scarthgap
     commit: 70c83e96c7f75e73245cb77f1b0cada9ed4bbc6d
+    signed: false
   meta-freescale-distro:
     url: https://github.com/Freescale/meta-freescale-distro.git
-    # branch: scarthgap
+    branch: scarthgap
     commit: b9d6a5d9931922558046d230c1f5f4ef6ee72345
+    signed: false
 
   meta-mender-community:
     layers:

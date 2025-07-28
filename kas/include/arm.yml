@@ -1,10 +1,14 @@
 header:
-  version: 14
+  version: 19
 
 repos:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
+    tag: yocto-5.0.2
     commit: 8e0f8af90fefb03f08cd2228cde7a89902a6b37c
+    signed: true
+    allowed_signers:
+      - MetaArm
     layers:
       meta-arm:
       meta-arm-toolchain:

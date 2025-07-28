@@ -1,12 +1,13 @@
 header:
-  version: 14
+  version: 19
 
 distro: sulka
 
 repos:
   meta-sulka-distro:
     url: https://codeberg.org/AltidSec/meta-sulka-distro.git
-    commit: 64c1f5c0d484bd201e7f2f617040e2c5973d17cb
+    branch: scarthgap
+    commit: 7e5d62b7272cb2a4fbf46d72bc76561d82a71288
 
   meta-openembedded:
     layers:
@@ -15,6 +16,7 @@ repos:
 
   meta-security:
     url: git://git.yoctoproject.org/meta-security.git
+    branch: scarthgap
     commit: bc865c5276c2ab4031229916e8d7c20148dfbac3
 
 local_conf_header:

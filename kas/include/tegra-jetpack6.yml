@@ -1,19 +1,22 @@
 header:
-  version: 14
+  version: 19
 
   includes:
   - kas/include/tegra-base.yml
 
 repos:
   meta-tegra:
-    # refers to the scarthgap branch
-    commit: 8f9748b0178a4d93bceffd86d9d436cd0e685750
+    branch: scarthgap
+    commit: 89bdb09158d60dc90b316ee7bbb97c340cbe2a3c
+    signed: false
   meta-tegra-community:
-    # refers to the scarthgap branch
+    branch: scarthgap
     commit: 241d1073ba8e610ef8da3fe8470b0a4d0567521f
+    signed: false
   meta-tegrademo:
-    # refers to the scarthgap branch
-    commit: 3f2641444d6c50c3fa4eea8a4c770bd30db70ee9
+    branch: scarthgap
+    commit: 48fc2272c996cd41b7bcadd1f4eaacf37d75c119
+    signed: false
 
   meta-mender-community:
     layers:
