@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 19
   includes:
   - kas/include/mender-full.yml
 
@@ -10,7 +10,9 @@ repos:
 
   meta-riscv:
     url: https://github.com/riscv/meta-riscv
+    branch: scarthgap
     commit: 76727db91108f53afc8a5b72651167c4446b5fcb
+    signed: false
 
 machine: nezha-allwinner-d1
 

@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 19
   includes:
   - kas/include/mender-base.yml
   - kas/include/qemu.yml

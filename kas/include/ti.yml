@@ -1,9 +1,11 @@
 header:
-  version: 14
+  version: 19
 
 repos:
   meta-ti:
     url: https://git.yoctoproject.org/meta-ti
-    commit: d62c047d4b8424603c6996a5755cf7004bd13254
+    tag: cicd.scarthgap.202507231325
+    commit: 4b943f75bfeb04278b11c477a1e3b9ed768c56c1
+    signed: false
     layers:
       meta-ti-bsp:

@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 19
   includes:
   - kas/include/mender-full.yml
   - kas/include/arm.yml
@@ -19,30 +19,42 @@ repos:
 
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale
-    refspec: scarthgap
+    branch: scarthgap
+    commit: 90cb4c15f033042376c38f90878459089cd10576
+    signed: false
 
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty
-    refspec: scarthgap
+    branch: scarthgap
+    commit: 70c83e96c7f75e73245cb77f1b0cada9ed4bbc6d
+    signed: false
 
   meta-freescale-distro:
     url: https://github.com/Freescale/meta-freescale-distro
-    refspec: scarthgap
+    branch: scarthgap
+    commit: b9d6a5d9931922558046d230c1f5f4ef6ee72345
+    signed: false
 
   meta-nxp:
     url: https://github.com/nxp-imx/meta-imx
-    refspec: scarthgap
+    tag: rel_imx_6.6.52_2.2.1
+    commit: 89c4d98c236ac1a2fbfcc92e5adf6571e41bd2da
+    signed: false
     layers:
       meta-bsp:
       meta-sdk:
 
   meta-variscite-bsp-common:
     url: https://github.com/varigit/meta-variscite-bsp-common
-    refspec: scarthgap
+    branch: scarthgap_6.6.52-2.2.0_var01
+    commit: 3444cb784cc7f769dfc8cdbf236878c571298bfa
+    signed: false
 
   meta-variscite-bsp-imx:
     url: https://github.com/varigit/meta-variscite-bsp-imx
-    refspec: scarthgap
+    branch: scarthgap_6.6.52-2.2.0_var01
+    commit: 9efe6ed3d8a76b87b8990741a2919b3b8f0741e3
+    signed: false
 
 local_conf_header:
   imx93-var-som: |

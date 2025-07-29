@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 19
   includes:
     - kas/include/mender-full.yml
     - kas/include/tegra-jetpack5.yml

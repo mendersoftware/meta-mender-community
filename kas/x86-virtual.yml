@@ -1,12 +1,16 @@
 header:
-  version: 14
+  version: 19
   includes:
   - kas/include/mender-full.yml
 
 repos:
   meta-intel:
     url: https://git.yoctoproject.org/meta-intel
-    refspec: scarthgap
+    tag: 21.0-scarthgap-5.0
+    commit: f4de3fa1fdfd97b652ec427ba584f11f110cab58
+    signed: true
+    allowed_signers:
+      - YoctoBuildandRelease
 
 local_conf_header:
   x86-virtual: |

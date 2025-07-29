@@ -1,5 +1,5 @@
 header:
-  version: 14
+  version: 19
   includes:
   - kas/raspberrypi4-64.yml
 
@@ -12,7 +12,9 @@ repos:
 
   meta-virtualization:
     url: git://git.yoctoproject.org/meta-virtualization
-    refspec: scarthgap
+    branch: scarthgap
+    commit: a5449c0c50aa07d02186f548fe6bb6c1ce8823dc
+    signed: false
 
   meta-mender:
     layers:

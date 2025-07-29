@@ -1,12 +1,25 @@
 header:
-  version: 14
+  version: 19
+
+signers:
+  YoctoBuildandRelease:
+    fingerprint: 2AFB13F28FBBB0D1B9DAF63087EB3D32FB631AD9
+    gpg_keyserver: keyserver.ubuntu.com
+
+  MetaArm:
+    fingerprint: A04F5BF5CDD4D89C57F7C9AA6E664BAC7A8BD223
+    gpg_keyserver: keyserver.ubuntu.com
 
 distro: poky
 
 repos:
   poky:
     url: git://git.yoctoproject.org/poky
-    commit: c162696dae5798e2ab1198403d0bc1d65d64068d
+    tag: scarthgap-5.0.11
+    commit: ae2d52758fc2fcb0ed996aa234430464ebf4b310
+    signed: true
+    allowed_signers:
+      - YoctoBuildandRelease
     layers:
       meta:
       meta-poky:
@@ -14,14 +27,17 @@ repos:
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
-    commit: e92d0173a80ea7592c866618ef5293203c50544c
+    branch: scarthgap
+    commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
+    signed: false
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: 0d393c2267a92091f975eb932338c07109f5f5fd
-
+    tag: scarthgap-v2025.07
+    commit: 0c43da078f550e5bd42000f71a7f4e9ae19b7faf
+    signed: false
     layers:
       meta-mender-core:
 
