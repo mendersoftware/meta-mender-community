@@ -6,7 +6,7 @@ distro: poky
 repos:
   poky:
     url: git://git.yoctoproject.org/poky
-    commit: c162696dae5798e2ab1198403d0bc1d65d64068d
+    commit: e711b2f39a94879812e5d7f721018f911f25ce38
     layers:
       meta:
       meta-poky:
@@ -14,13 +14,13 @@ repos:
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
-    commit: e92d0173a80ea7592c866618ef5293203c50544c
+    commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: 0d393c2267a92091f975eb932338c07109f5f5fd
+    commit: 52b332b61d26c97b8e6cc1badb80db0bb6a1666b
 
     layers:
       meta-mender-core:
