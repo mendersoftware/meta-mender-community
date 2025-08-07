@@ -1,0 +1,40 @@
+# short-description: Mender A/B partition layout using explicit WIC (standard configuration)
+# long-description: Creates the same 5-partition Mender A/B layout using explicit WKS
+# file with standard WIC sources instead of Mender's dynamic image generation.
+# Root B partition is left empty for OTA updates (standard deployment configuration).
+#
+# This demonstrates how to achieve identical Mender functionality using only
+# standard Yocto WIC mechanisms while maintaining full A/B update compatibility.
+#
+# Partition layout:
+# 1. U-Boot environment (8KB, no partition table entry)
+# 2. Boot partition (100MB, FAT32, bootable)
+# 3. Root filesystem A (512MB, ext4, active) - populated with rootfs
+# 4. Root filesystem B (512MB, ext4, inactive) - empty for OTA updates
+# 5. Data partition (128MB, ext4, persistent)
+
+# U-Boot environment partition (stored before partition table)
+# Contains A/B boot logic and state - essential for Mender updates
+part --source rawcopy --sourceparams="file=uboot.env" --ondisk mmcblk0 --align 8192 --no-table
+
+# Boot partition (100MB, FAT32, bootable)
+# Uses standard bootimg-partition source which merges IMAGE_BOOT_FILES with boot files from rootfs
+# This replicates exactly what mender-bootimg.bbclass would create
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 8192 --size 100
+
+# Root filesystem A (512MB, ext4, active)
+# Standard rootfs source - this is the active root partition for booting
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootA --align 8192 --fixed-size 512M
+
+# Root filesystem B (512MB, ext4, inactive)
+# Empty partition with same size as Root A - used for A/B updates
+# Mender client will write new rootfs here during updates
+part --ondisk mmcblk0 --fstype=ext4 --label rootB --align 8192 --fixed-size 512M
+
+# Data partition (128MB, ext4, persistent)
+# Uses rootfs source with change-directory=data to populate with /data contents
+# This replicates what mender-dataimg.bbclass would create (minus bootstrap artifact)
+part /data --source rootfs --change-directory=data --ondisk mmcblk0 --fstype=ext4 --label data --align 8192 --size 128
+
+# Use MBR partition table (compatible with Raspberry Pi bootloader)
+bootloader --ptable msdos
