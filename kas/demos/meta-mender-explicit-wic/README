@@ -1,0 +1,101 @@
+This README file contains information on the contents of the meta-mender-explicit-wic layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+This layer depends on:
+
+  URI: git://git.yoctoproject.org/poky
+  layers: meta, meta-poky, meta-yocto-bsp
+  branch: scarthgap
+
+  URI: git://git.openembedded.org/meta-openembedded
+  layers: meta-oe
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender.git
+  layers: meta-mender-core
+  branch: scarthgap
+
+  URI: https://github.com/agherzan/meta-raspberrypi.git
+  branch: scarthgap
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Maintainer: Josef Holzmayr <jester@theyoctojester.info>
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-explicit-wic layer to your build
+ II. Layer Overview and Purpose
+III. WIC Files and Partition Layout
+ IV. Usage Instructions
+  V. Technical Implementation
+ VI. Customization Guide
+
+
+I. Adding the meta-mender-explicit-wic layer to your build
+==========================================================
+
+This layer is typically used as part of kas configurations. See section IV for usage examples.
+
+For manual integration:
+Run 'bitbake-layers add-layer meta-mender-explicit-wic'
+
+II. Layer Overview and Purpose
+==============================
+
+This demo layer demonstrates explicit WIC partitioning for Mender A/B updates
+as an alternative to Mender's dynamic image generation.
+
+The implementation generates both WIC disk images and .mender artifacts from
+the same build using standard Yocto mechanisms.
+
+III. WIC Files and Partition Layout
+====================================
+
+WIC Files Provided:
+- mender-explicit-raspberrypi4-64.wks - Standard configuration with empty Root B (better compression)
+- mender-explicit-raspberrypi4-64-dual-root.wks - Testing configuration with both roots populated
+
+Partition Layout:
+Both WIC files create the standard Mender 5-partition layout optimized for Raspberry Pi 4:
+
+1. U-Boot environment (8KB, no partition table entry) - A/B boot logic and state
+2. Boot partition (100MB, FAT32, bootable) - Kernel, device tree, U-Boot files  
+3. Root filesystem A (512MB, ext4, active) - Always populated with rootfs
+4. Root filesystem B (512MB, ext4, inactive) - Empty (standard) or populated (dual-root)
+5. Data partition (128MB, ext4, persistent) - Populated with /data contents
+
+Build Outputs:
+Each build generates:
+- WIC disk image (~1.4GB) - For SD card flashing and hardware deployment
+- .mender artifact (~53MB) - For OTA updates via Mender server
+
+IV. Usage Instructions
+======================
+
+Standard Build:
+kas build kas/demos/raspberrypi4-64-mender-explicit-wic.yml
+
+For dual-root testing (both partitions populated), override the WKS file:
+WKS_FILE=mender-explicit-raspberrypi4-64-dual-root.wks kas build kas/demos/raspberrypi4-64-mender-explicit-wic.yml
+
+V. Technical Implementation
+===========================
+
+The layer implements custom IMAGE_CMD:mender for .mender artifact generation
+without using mender-image features, and uses --change-directory=data in the
+WKS file to populate the data partition from rootfs /data contents.
+
+VI. Customization Guide
+=======================
+
+To adapt for other machines, create machine-specific WKS files in the wic/
+directory. Root A and B partitions must be equal size for Mender A/B updates.
