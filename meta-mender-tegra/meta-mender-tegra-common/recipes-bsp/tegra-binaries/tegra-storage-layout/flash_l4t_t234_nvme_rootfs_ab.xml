@@ -188,7 +188,7 @@
               the "2" for id as it is physically put to the end of the device, so that it
               can be accessed as the fixed known special device `/dev/nvme0n1p2`. </description>
         </partition>
-        <partition name="permanet_user_storage" id= "17" type="data">
+        <partition name="permanent_user_storage" id= "17" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 419430400 </size>
