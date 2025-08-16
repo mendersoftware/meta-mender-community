@@ -48,6 +48,8 @@ jobs:
             subpath: tegra/jetpack6
           - board: jetson-orin-16gb-nx-p3786
             subpath: tegra/jetpack6
+          - board: jetson-orin-nano-devkit-nvme
+            subpath: tegra/jetpack6
 
     runs-on: [self-hosted, linux, x64, builder]
     container:
