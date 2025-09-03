@@ -1,0 +1,22 @@
+[Unit]
+Description=Encrypt persistent static partition
+After=systemd-remount-fs.service
+After=systemd-tmpfiles-setup.service
+#Before=systemd-cryptsetup@static.service
+ConditionPathExists=!/mnt/static
+ConditionPathExists=!/etc/cryptsetup-done
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/firstboot-init.sh
+ExecStartPost=/usr/bin/touch /etc/cryptsetup-done
+User=root
+Group=root
+TimeoutSec=600
+SuccessExitStatus=0
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target
