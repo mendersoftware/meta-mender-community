@@ -1,0 +1,153 @@
+#!/usr/bin/env sh
+set -e
+
+echo "$(mender-update show-artifact): $(basename "$0") was called!" >&2
+
+SYSTEM_FW_VERSIONS="/sys/firmware/efi/efivars/SystemFwVersions-781e084c-a330-417c-b678-38e696380cb9"
+FIRMWARE_UPDATE_ONLY_IF_DIFFERENT="@@TEGRA_MENDER_INSTALL_ONLY_IF_DIFFERENT@@"
+ALLOW_FIRMWARE_VERSION_MISMATCH="@@TEGRA_MENDER_ALLOW_FIRMWARE_VERSION_MISSMATCH@@"
+
+parse_word() {
+    val=$((16#$1))
+    major=$(( (val >> 16) & 0xFF ))
+    minor=$(( (val >> 8) & 0xFF ))
+    patch=$(( val & 0xFF ))
+    echo "$major.$minor.$patch"
+}
+
+get_system_fw_versions() {
+    od -j4 -X "$1" | while read off h1 h2 h3 h4; do
+        for hex in $h1 $h2 $h3 $h4; do
+            [ -n "$hex" ] && parse_word "$hex"
+        done
+    done
+}
+
+# returns "newer", "older" or "equal"
+compare_version() {
+    v1_major=$(echo "$1" | cut -d. -f1)
+    v1_minor=$(echo "$1" | cut -d. -f2)
+    v1_patch=$(echo "$1" | cut -d. -f3)
+
+    v2_major=$(echo "$2" | cut -d. -f1)
+    v2_minor=$(echo "$2" | cut -d. -f2)
+    v2_patch=$(echo "$2" | cut -d. -f3)
+
+    if [ "$v1_major" -gt "$v2_major" ]; then
+        echo "newer"
+        return
+    elif [ "$v1_major" -lt "$v2_major" ]; then
+        echo "older"
+        return
+    fi
+
+    if [ "$v1_minor" -gt "$v2_minor" ]; then
+        echo "newer"
+        return
+    elif [ "$v1_minor" -lt "$v2_minor" ]; then
+        echo "older"
+        return
+    fi
+
+    if [ "$v1_patch" -gt "$v2_patch" ]; then
+        echo "newer"
+    elif [ "$v1_patch" -lt "$v2_patch" ]; then
+        echo "older"
+    else
+        echo "equal"
+    fi
+}
+
+get_bootpart() {
+    _current_slot_cmd="nvbootctrl get-current-slot 2>/dev/null"
+    _check=$(command -v nvbootctrl 2>/dev/null || true)
+    if [ -z "${_check}" ]; then
+        _check=$(command -v tegra-boot-control 2>/dev/null || true)
+        if [ -z "${_check}" ]; then
+            echo "ERR: Neither nvbootctrl nor tegra-boot-control where found!"
+            exit 1
+        fi
+        _current_slot_cmd="tegra-boot-control --current-slot 2>/dev/null"
+    fi
+
+    _current_slot="$(${_current_slot_cmd})"
+    if [ -z "${_current_slot}" ]; then
+            echo "ERR: could not identify current boot slot" >&2
+            echo "UNKNOWN"
+            return
+        fi
+    echo "${_current_slot}"
+}
+
+reset_unbootable_status() {
+    . /usr/bin/uefi_common.func
+    _slot="SlotA"
+    if [ "${1}" = "1" ]; then
+        _slot="SlotB"
+    fi
+    _value="\x00\x00\x00\x00"
+    set_efi_var "RootfsStatus${_slot}" "781e084c-a330-417c-b678-38e696380cb9" "${_value}"
+}
+
+current_slot="$(get_bootpart)"
+echo "current_slot=${current_slot}" >&2
+
+next_slot="0"
+next_rootfs_dev="/dev/disk/by-partlabel/APP"
+if [ "${current_slot}" = "0" ]; then
+    next_slot="1"
+    next_rootfs_dev="/dev/disk/by-partlabel/APP_b"
+fi
+
+tmp_mount="$(mktemp -d)"
+
+reset_unbootable_status "${next_slot}"
+mkdir -p /boot/efi/EFI/UpdateCapsule
+mount -o ro "${next_rootfs_dev}" "${tmp_mount}"
+
+# Get SystemFwVersion in to variables
+i=1
+FW_VER_0=
+FW_VER_1=
+for ver in $(get_system_fw_versions "$SYSTEM_FW_VERSIONS"); do
+	if [ $i -eq 1 ]; then
+		FW_VER_0="$ver"
+	elif [ $i -eq 2 ]; then
+		FW_VER_1="$ver"
+	fi
+	i=$((i+1))
+done
+echo "FW_VER_0: $FW_VER_0" >&2
+echo "FW_VER_1: $FW_VER_1" >&2
+
+# Get version of tegra_bl in newly installed image
+FW_VER_NEXT=$(cat ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap.version)
+echo "FW_VER_NEXT: $FW_VER_NEXT" >&2
+
+if [ $next_slot = "0" ]; then
+	fw_version_compare=$(compare_version "$FW_VER_NEXT" "$FW_VER_0")
+else
+	fw_version_compare=$(compare_version "$FW_VER_NEXT" "$FW_VER_1")
+fi
+
+if [ "$FIRMWARE_UPDATE_ONLY_IF_DIFFERENT" = "0" ] || [ "$fw_version_compare" = "newer" ]; then
+	echo "Firmware will be updated to $FW_VER_NEXT" >&2
+	cp "${tmp_mount}"/opt/nvidia/UpdateCapsule/tegra-bl.cap /boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap
+	oe4t-set-uefi-OSIndications
+elif [ "$fw_version_compare" = "equal" ]; then
+	echo "Firmware will NOT be updated. Same version already installed." >&2
+	nvbootctrl set-active-boot-slot $next_slot
+else
+    if [ "$ALLOW_FIRMWARE_VERSION_MISMATCH" = "1" ]; then
+        echo "NOTE: older firmware version in update package. Firmware will not be programmed." >&2
+        echo "NOTE: Will only update rootfs and you will end up in a non-official state." >&2
+        nvbootctrl set-active-boot-slot $next_slot
+    else
+	    echo "ERROR: older firmware version in update package. Will be rejected during Capsule update." >&2
+	    umount "${tmp_mount}"
+        exit 1
+    fi
+fi
+umount "${tmp_mount}"
+
+exit 0

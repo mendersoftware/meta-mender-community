@@ -1,5 +1,5 @@
 SRC_URI = " \
-    file://switch-rootfs \
+    file://switch-rootfs.in \
     file://verify-slot \
     file://abort-blupdate \
 "
@@ -15,6 +15,10 @@ PERSIST_MACHINE_ID=""
 PERSIST_MACHINE_ID:mender-persist-systemd-machine-id = "yes"
 
 do_compile() {
+    sed -e 's#@@TEGRA_MENDER_INSTALL_ONLY_IF_DIFFERENT@@#'"${TEGRA_MENDER_INSTALL_ONLY_IF_DIFFERENT}"'#' \
+        -e 's#@@TEGRA_MENDER_ALLOW_FIRMWARE_VERSION_MISSMATCH@@#'"${TEGRA_MENDER_ALLOW_FIRMWARE_VERSION_MISSMATCH}"'#' \
+        "${S}/switch-rootfs.in" > "${S}/switch-rootfs"
+
     cp ${S}/switch-rootfs ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50_switch-rootfs
     cp ${S}/verify-slot ${MENDER_STATE_SCRIPTS_DIR}/ArtifactCommit_Leave_50_verify-slot
     cp ${S}/abort-blupdate ${MENDER_STATE_SCRIPTS_DIR}/ArtifactRollback_Leave_50_abort-blupdate
