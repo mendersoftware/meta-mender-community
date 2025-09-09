@@ -1,0 +1,110 @@
+This README file contains information on the contents of the meta-mender-raspberrypi-tpm layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+  URI: https://git.yoctoproject.org/poky
+  branch: scarthgap
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: scarthgap
+
+  URI: https://github.com/agherzan/meta-raspberrypi
+  branch: scarthgap
+
+  URI: git://git.yoctoproject.org/meta-security.git
+  branch: scarthgap
+
+  URI: https://github.com/ejaaskel/meta-slb9670-rpi.git
+  branch: scarthgap
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-raspberrypi-tpm layer to your build
+ II. Purpose
+III. Included functionality
+
+
+I. Adding the meta-mender-raspberrypi-tpm layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-raspberrypi-tpm'
+
+II. Purpose
+===========
+
+The layer contains an example setup for a Yocto build which enables
+TPM-based disk encryption on a Raspberry Pi 4 using LUKS2 and systemd-cryptenroll.
+
+The example image "core-image-cryptsetup-tpm" extends a base image with
+TPM2 tools and cryptsetup functionality for secure storage encryption.
+
+III. Included functionality
+===========================
+
+The TPM-based encryption setup requires:
+- TPM 2.0 hardware support (available on Raspberry Pi 4 via LetsTrust.de TPM module)
+- cryptsetup and LUKS2 support
+- systemd-cryptenroll for TPM integration
+- TPM2 tools for PCR management
+
+The setup includes a firstboot-init service that automatically encrypts the 
+static partition on first boot. The encryption flow is:
+
+1. Check if partition is already encrypted (exits if yes)
+2. Generate a random password and save temporarily
+3. Format the partition with LUKS2 encryption using the password
+4. Create an ext4 filesystem on the encrypted partition
+5. Enroll the TPM2 chip to automatically unlock the partition using PCR 7
+6. Securely delete the temporary password file
+7. Add the partition to /etc/fstab for automatic mounting at /mnt/static
+8. Reboot the system to complete the setup
+
+Note: The /etc/crypttab file is pre-installed by the recipe and contains the 
+entry for automatic TPM-based unlocking of the static partition.
+
+The automated flow (performed by firstboot-init.sh):
+```bash
+# Generate random password
+openssl rand -base64 44 > /root/static-key
+
+# Format partition with LUKS2
+cat /root/static-key | cryptsetup luksFormat --type luks2 /dev/mmcblk0p6
+
+# Create filesystem
+cat /root/static-key | cryptsetup open /dev/mmcblk0p6 static
+mkfs.ext4 /dev/mapper/static
+uuid=$(lsblk -o UUID /dev/mapper/static -n)
+cryptsetup close static
+
+# Enroll TPM2 for automatic unlock
+export PASSWORD=$(cat /root/static-key)
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 /dev/mmcblk0p6
+
+# Secure cleanup
+shred -vfz /root/static-key
+
+# Configure automatic mounting
+# (crypttab is pre-installed by the recipe)
+echo "UUID=$uuid /mnt/static ext4 defaults,x-systemd.device-timeout=30 0 0" >> /etc/fstab
+
+# Reboot to complete setup
+reboot
+```
+
+The setup uses PCR 7 for secure boot measurements to ensure the encrypted
+partition can only be unlocked on a system with the expected boot state.
+
+After this setup, the `/mnt/static` persistent partition is encrypted and will 
+be automatically unlocked via TPM and mounted upon boot only on the specific 
+device where it was enrolled, ensuring data protection if the storage is removed. 
