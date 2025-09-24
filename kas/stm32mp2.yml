@@ -1,0 +1,40 @@
+header:
+  version: 14
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/st.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-st-stm32mp:
+
+local_conf_header:
+  stm32mp2: |
+    INHERIT += "devshell"
+    EXTRA_IMAGECMD:ext4:remove = "-L"
+    PREFERRED_PROVIDER_u-boot="u-boot-stm32mp"
+    PREFERRED_PROVIDER_virtual/bootloader="u-boot-stm32mp"
+    MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6"
+    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7"
+    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}8"
+    MENDER_DATA_PART_NUMBER = "9"
+    MENDER_DATA_PART_SIZE_MB = "10"
+    ACCEPT_EULA_stm32mp2 = "1"
+   
+    MENDER_BOOT_PART_SIZE_MB = "128"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "9437184"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "9699328"
+    ST_BOOTFS = "0"
+    ST_USERFS = "0"
+    ST_VENDORFS = "0"
+    BBMASK="meta-st-openstlinux/oe-core/recipes-core/systemd/systemd_255.17.bbappend"
+    MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove = " kernel-devicetree"
+    IMAGE_FSTYPES:append = " dataimg mender"
+
+
+machine: stm32mp2-dk-mender
+target:
+  - st-image-core
+
+   

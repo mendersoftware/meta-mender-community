@@ -1,0 +1,54 @@
+header:
+  version: 14
+
+repos:
+
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-gnome:
+      meta-initramfs:
+      meta-multimedia:
+      meta-networking:
+      meta-webserver:
+      meta-filesystems:
+      meta-perl:
+  meta-qt5:
+    url: https://github.com/meta-qt5/meta-qt5
+    branch: scarthgap
+  meta-st-openstlinux:
+    url: https://github.com/STMicroelectronics/meta-st-openstlinux
+    branch: scarthgap
+  meta-st-stm32mp:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp
+    branch: scarthgap
+  meta-st-stm32mp-addons:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp-addons
+    branch: scarthgap
+  meta-st-scripts:
+    url: https://github.com/STMicroelectronics/meta-st-scripts
+    branch: scarthgap
+    layers:
+      bitbake: excluded
+
+distro: openstlinux-weston
+local_conf_header:
+  st: |
+      DISTRO ?= "openstlinux-weston"
+      DISTRO_FEATURES:append = " systemd"
+      VIRTUAL-RUNTIME_init_manager = "systemd"
+      DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+      VIRTUAL-RUNTIME_initscripts = ""
+      MENDER_FEATURES_DISABLE:append = " \
+       mender-grub \
+       mender-image-uefi \
+      " \
+      DISTRO_FEATURES:append = " systemd " \
+      MENDER_FEATURES_ENABLE:append = " \
+      mender-client-install \
+      mender-systemd \
+      mender-uboot \
+      mender-image-gpt \
+      mender-growfs-data \
+      mender-image \
+      "
