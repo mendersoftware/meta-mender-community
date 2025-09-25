@@ -10,6 +10,12 @@ repos:
     layers:
       meta-mender-qemu-community:
 
+  poky:
+    patches:
+      qemuboot-none-fix:
+        repo: meta-mender-community
+        path: patches/poky/0001-qemuboot-handle-QB_DEFAULT_KERNEL-none-properly.patch
+
 local_conf_header:
   efi: |
     EFI_PROVIDER = "grub-efi"
@@ -24,6 +30,6 @@ local_conf_header:
     QB_DEFAULT_FSTYPE = "uefiimg"
     QB_DEFAULT_BIOS = "QEMU_EFI.fd"
     QB_ROOTFS_OPT = ""
-    QB_KERNEL_ROOT = "/dev/vda2"
+    QB_DEFAULT_KERNEL = "none"
 
 machine: qemuarm64
