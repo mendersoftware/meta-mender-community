@@ -12,29 +12,33 @@ repos:
 local_conf_header:
   stm32mp2: |
     INHERIT += "devshell"
-    EXTRA_IMAGECMD:ext4:remove = "-L"
-    PREFERRED_PROVIDER_u-boot="u-boot-stm32mp"
-    PREFERRED_PROVIDER_virtual/bootloader="u-boot-stm32mp"
-    MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}6"
-    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}7"
-    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}8"
-    MENDER_DATA_PART_NUMBER = "9"
+    #uboot env is different for emmc or sdcard
+    #STM32 seem to want to put the env in these locations
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x97C408"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x980400"
+    BOOTENV_SIZE = "0x4000"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}8"
+    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}9"
+    MENDER_DATA_PART_NUMBER = "10"
     MENDER_DATA_PART_SIZE_MB = "10"
+    #To make the license happy, you are accecpting the eula for stm 
     ACCEPT_EULA_stm32mp2 = "1"
-   
-    MENDER_BOOT_PART_SIZE_MB = "128"
-    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "9437184"
-    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "9699328"
+    ACCEPT_EULA_stm32mp2-dk-mender = "1"
+    #This has no boot partition
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    #using a different version of systemd
+    BBMASK="meta-st-openstlinux/oe-core/recipes-core/systemd/systemd_255.17.bbappend"
+    #remove the standard stm paritons
     ST_BOOTFS = "0"
     ST_USERFS = "0"
     ST_VENDORFS = "0"
-    BBMASK="meta-st-openstlinux/oe-core/recipes-core/systemd/systemd_255.17.bbappend"
+    # use mender data reseize instead
+    DISTRO_FEATURES:remove = " autoresize "
     MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove = " kernel-devicetree"
     IMAGE_FSTYPES:append = " dataimg mender"
-
 
 machine: stm32mp2-dk-mender
 target:
   - st-image-core
 
-   
