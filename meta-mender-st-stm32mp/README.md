@@ -59,9 +59,12 @@ STM32_Programmer_CLI  -c port=usb1  -w ./flashlayout_st-image-core/optee/FlashLa
 ```    
 ## Troubleshooting flashing
 
-It is known that Gnome firmware update can affect flashing. 
+It is known that Gnome Firmware Updater can affect flashing. 
+
 STM32_Programmer_CLI  --list usb does full rescongie the devie missing Product ID.
-'sudo systemctl stop fwupd' will temporarily disable it.
+
+```sudo systemctl stop fwupd``` will temporarily disable it.
 
 Sometimes the OP-TEE may not compile correctly. You may want to copy over fip-stm32mp257f-dk-optee-programmer-usb.bin (or similar) from a vanilla build: https://wiki.st.com/stm32mpu/index.php?title=STM32MPU_Distribution_Package&sfr=stm32mpu
+
 Only that is required; other FIP files contain U-Boot and may break the Mender integration.
