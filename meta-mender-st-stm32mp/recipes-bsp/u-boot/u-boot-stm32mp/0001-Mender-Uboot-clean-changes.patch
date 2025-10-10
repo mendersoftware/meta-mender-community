@@ -1,0 +1,43 @@
+From ed35d1b7e0b89c0e113e7b8c4bb2f284245dd9e9 Mon Sep 17 00:00:00 2001
+From: Ed Watson <edmundwatson@gmail.com>
+Date: Wed, 8 Oct 2025 09:29:30 +0200
+Subject: [PATCH] Mender Uboot clean changes
+
+---
+ configs/stm32mp25_defconfig | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/configs/stm32mp25_defconfig b/configs/stm32mp25_defconfig
+index 0c8359a94ea..33b8526c828 100644
+--- a/configs/stm32mp25_defconfig
++++ b/configs/stm32mp25_defconfig
+@@ -64,17 +64,17 @@ CONFIG_CMD_MTDPARTS=y
+ CONFIG_CMD_LOG=y
+ CONFIG_CMD_UBI=y
+ CONFIG_OF_LIVE=y
+-CONFIG_ENV_IS_NOWHERE=y
+-CONFIG_ENV_IS_IN_FLASH=y
++CONFIG_ENV_IS_NOWHERE=n
++CONFIG_ENV_IS_IN_FLASH=n
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_ENV_IS_IN_SPI_FLASH=y
+-CONFIG_ENV_IS_IN_UBI=y
++CONFIG_ENV_IS_IN_UBI=n
+ CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_ENV_ADDR_REDUND=0x60940000
+ CONFIG_ENV_UBI_PART="UBI"
+ CONFIG_ENV_UBI_VOLUME="uboot_config"
+ CONFIG_ENV_UBI_VOLUME_REDUND="uboot_config_r"
+-CONFIG_SYS_MMC_ENV_DEV=-1
++CONFIG_SYS_MMC_ENV_DEV=1
+ CONFIG_USE_SERVERIP=y
+ CONFIG_SERVERIP="192.168.1.1"
+ CONFIG_SYS_64BIT_LBA=y
+@@ -195,3 +195,6 @@ CONFIG_FWU_MULTI_BANK_UPDATE=y
+ CONFIG_FWU_MDATA_V2=y
+ # CONFIG_TOOLS_MKEFICAPSULE is not set
+ # CONFIG_TOOLS_MKFWUMDATA is not set
++CONFIG_ENV_SIZE=0x4000
++CONFIG_BOOTCOUNT_ENV=y
++CONFIG_BOOTCOUNT_LIMIT=y
+\ No newline at end of file

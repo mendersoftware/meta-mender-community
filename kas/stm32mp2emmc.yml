@@ -13,17 +13,18 @@ local_conf_header:
   stm32mp2: |
     INHERIT += "devshell"
     #Working from tsv file.
-    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x97C408"
-    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x980400"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x9f8000"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x9fc000"
     MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
     BOOTENV_SIZE = "0x4000"
-    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
-    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}8"
-    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}9"
-    MENDER_DATA_PART_NUMBER = "10"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}6"
+    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}7"
+    MENDER_DATA_PART_NUMBER = "8"
     MENDER_DATA_PART_SIZE_MB = "10"
     ACCEPT_EULA_stm32mp2 = "1"
     ACCEPT_EULA_stm32mp2-dk-mender = "1"
+    ACCEPT_EULA_stm32mp2-dk-mender-emmc = "1"
     MENDER_BOOT_PART_SIZE_MB = "0"
     BBMASK="meta-st-openstlinux/oe-core/recipes-core/systemd/systemd_255.17.bbappend"
     ST_BOOTFS = "0"
@@ -44,18 +45,3 @@ local_conf_header:
 machine: stm32mp2-dk-mender-emmc
 target:
   - st-image-core
-    #MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "9437184"
-    #MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "9699328"
-    
-    #WKS_FILE_DEPENDS:remove = "st-image-bootfs st-image-vendorfs st-image-userfs"
-  #IMAGE_FSTYPES:append = " gptimg.gz"
-    # IMAGE_CLASSES += "stm32mp-gptimg"
-    # IMAGE_CLASSES:remove = "st-partitions-image"
-    # WKS_FILE_DEPENDS:remove = "st-image-bootfs st-image-vendorfs st-image-userfs"
-    # ENABLE_FLASHLAYOUT_CONFIG = "0"
-    # MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:mender-image:arm = "kernel-devicetree"
-    # MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append:mender-image:arm = " kernel-imagebootfs"
-  #MENDER_STORAGE_TOTAL_SIZE_MB = "2048"
-#      BOOTENV_SIZE = "0x4000"
-
-   #MENDER_BOOT_PART = "${MENDER_STORAGE_DEVICE_BASE}7"
