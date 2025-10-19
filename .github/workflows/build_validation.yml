@@ -73,8 +73,10 @@ jobs:
     needs: [prepare, build]
     runs-on: [self-hosted, linux, x64, builder]
     steps:
+      - uses: actions/checkout@v4
       - name: collect artifacts
         env:
+          BUILDDIR: validation
           ARTIFACT_PATH: ${{ needs.prepare.outputs.artifact_path }}
         run: ./ci/collect_artifacts.sh
       - name: mark latest
