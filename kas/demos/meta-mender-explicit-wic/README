@@ -54,7 +54,7 @@ II. Layer Overview and Purpose
 This demo layer demonstrates explicit WIC partitioning for Mender A/B updates
 as an alternative to Mender's dynamic image generation.
 
-The implementation generates both WIC disk images and .mender artifacts from
+The implementation generates both WIC disk images and .mender Artifacts from
 the same build using standard Yocto mechanisms.
 
 III. WIC Files and Partition Layout
@@ -76,7 +76,7 @@ Both WIC files create the standard Mender 5-partition layout optimized for Raspb
 Build Outputs:
 Each build generates:
 - WIC disk image (~1.4GB) - For SD card flashing and hardware deployment
-- .mender artifact (~53MB) - For OTA updates via Mender server
+- .mender Artifact (~53MB) - For OTA updates via Mender server
 
 IV. Usage Instructions
 ======================
@@ -90,7 +90,7 @@ WKS_FILE=mender-explicit-raspberrypi4-64-dual-root.wks kas build kas/demos/raspb
 V. Technical Implementation
 ===========================
 
-The layer implements custom IMAGE_CMD:mender for .mender artifact generation
+The layer implements custom IMAGE_CMD:mender for .mender Artifact generation
 without using mender-image features, and uses --change-directory=data in the
 WKS file to populate the data partition from rootfs /data contents.
 

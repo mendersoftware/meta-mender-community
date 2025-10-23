@@ -1,6 +1,6 @@
 # Custom class to demonstrate explicit WIC partitioning while keeping Mender A/B functionality
 # This replaces Mender's dynamic image generation with explicit WKS files and adds
-# .mender artifact generation for OTA updates
+# .mender Artifact generation for OTA updates
 
 # Inherit essential Mender functionality but NOT image generation classes
 inherit mender-setup mender-systemd mender-uboot
@@ -31,7 +31,7 @@ ARTIFACTIMG_FSTYPE ?= "ext4"
 # Ensure U-Boot environment is created
 do_image_wic[depends] += "${@bb.utils.contains('MENDER_FEATURES_ENABLE', 'mender-uboot', 'u-boot:do_deploy', '', d)}"
 
-# Minimal implementation of Mender artifact generation
+# Minimal implementation of Mender Artifact generation
 # This creates .mender files without requiring mender-image feature
 IMAGE_CMD:mender() {
     # Validate required variables
@@ -59,8 +59,8 @@ IMAGE_CMD:mender() {
         DEVICE_TYPE_ARGS="${DEVICE_TYPE_ARGS} -t ${DEVICE_TYPE}"
     done
     
-    # Create the .mender artifact
-    bbnote "Creating Mender artifact: ${MENDER_ARTIFACT_NAME}"
+    # Create the .mender Artifact
+    bbnote "Creating Mender Artifact: ${MENDER_ARTIFACT_NAME}"
     mender-artifact write rootfs-image \
         --artifact-name ${MENDER_ARTIFACT_NAME} \
         ${DEVICE_TYPE_ARGS} \
@@ -75,7 +75,7 @@ IMAGE_CMD:mender() {
     fi
 }
 
-# Ensure mender artifact generation has proper dependencies
+# Ensure Mender Artifact generation has proper dependencies
 do_image_mender[depends] += " \
     mender-artifact-native:do_populate_sysroot \
     ${PN}:do_image_${ARTIFACTIMG_FSTYPE} \
