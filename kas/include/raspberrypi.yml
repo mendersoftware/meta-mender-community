@@ -4,7 +4,7 @@ header:
 repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    commit: 1091bde25e9ebaea33114edb85e4aee931d105f3
+    commit: 51f06365f36ccfbc51aa1d96ced828cdc0e10f7b
 
   meta-lts-mixins:
     url: https://git.yoctoproject.org/meta-lts-mixins
