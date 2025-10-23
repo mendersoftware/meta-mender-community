@@ -1,0 +1,87 @@
+header:
+  version: 14
+
+machine: raspberrypi4-64
+distro: poky
+
+repos:
+  poky:
+    url: git://git.yoctoproject.org/poky
+    commit: c162696dae5798e2ab1198403d0bc1d65d64068d
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: git://git.openembedded.org/meta-openembedded
+    commit: e92d0173a80ea7592c866618ef5293203c50544c
+    layers:
+      meta-oe:
+
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    commit: 0d393c2267a92091f975eb932338c07109f5f5fd
+    layers:
+      meta-mender-core:
+
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    commit: 1091bde25e9ebaea33114edb85e4aee931d105f3
+
+  meta-lts-mixins:
+    url: https://git.yoctoproject.org/meta-lts-mixins
+    commit: a44882db02a0ed0f149371831bfbe067665eb42b
+
+  meta-mender-community:
+    layers:
+      meta-mender-raspberrypi:
+      kas/demos/meta-mender-explicit-wic:
+
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_ipk"
+    INIT_MANAGER = "systemd"
+
+  mender-artifact: |
+    # Artifact configuration for OTA updates
+    MENDER_ARTIFACT_NAME = "explicit-wic"
+    MENDER_TENANT_TOKEN = ""
+    
+    # Ensure ext4 is built for artifact generation
+    IMAGE_FSTYPES:prepend = "ext4 "
+
+  raspberrypi: |
+    RPI_USE_U_BOOT = "1"
+    ENABLE_UART = "1"
+    MENDER_BOOT_PART_SIZE_MB = "100"
+    IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+    IMAGE_FSTYPES:remove = " rpi-sdimg"
+
+  mender-explicit-demo: |
+    # Enable essential Mender features for A/B updates (but NOT image generation)
+    MENDER_FEATURES_ENABLE:append = " \
+        mender-uboot \
+        mender-auth-install \
+        mender-update-install \
+        mender-systemd \
+        mender-growfs-data \
+    "
+    
+    # Explicitly disable dynamic image generation features
+    MENDER_FEATURES_DISABLE:append = " mender-image mender-part-images"
+    
+    # Use our explicit WIC demo image
+    PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
+
+    # Explicitly select Mender Client 4.x/5.x and later
+    PREFERRED_PROVIDER_mender-native =  "mender-native"
+    PREFERRED_RPROVIDER_mender-auth =   "mender"
+    PREFERRED_RPROVIDER_mender-update = "mender"
+
+    # Prefer mender-artifact 4.x series (scarthgap defaults to 3.x)
+    PREFERRED_VERSION_mender-artifact-native = "4.%"
+
+target:
+  - mender-explicit-demo-image
