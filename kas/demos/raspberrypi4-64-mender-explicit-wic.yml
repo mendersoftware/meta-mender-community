@@ -80,5 +80,8 @@ local_conf_header:
     PREFERRED_RPROVIDER_mender-auth =   "mender"
     PREFERRED_RPROVIDER_mender-update = "mender"
 
+    # Prefer mender-artifact 4.x series (scarthgap defaults to 3.x)
+    PREFERRED_VERSION_mender-artifact-native = "4.%"
+
 target:
   - mender-explicit-demo-image
