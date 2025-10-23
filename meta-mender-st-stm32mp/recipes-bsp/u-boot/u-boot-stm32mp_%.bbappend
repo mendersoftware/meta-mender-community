@@ -10,7 +10,9 @@ PREFERRED_PROVIDER:virtual/bootloader="u-boot-stm32mp"
 
 
 
-SRC_URI += " file://0002-Force-mender-boot.patch "
+SRC_URI += "file://0002-Force-mender-boot.patch \
+            file://0001-Add-uboot-env-to-control-rollback.patch \
+            "
 
 
 SRC_URI:append:stm32mp2-dk-mender = " file://0001-Mender-env-setup-sdcard.patch "
