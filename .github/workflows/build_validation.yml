@@ -13,19 +13,10 @@ env:
 jobs:
   prepare:
     runs-on: [self-hosted, linux, x64, builder]
-    outputs:
-      artifact_path: ${{ steps.artifact_path.outputs.artifact_path }}
-      artifact_latest: ${{ steps.artifact_latest.outputs.artifact_latest }}
     steps:
       - name: Clean up
         run: rm -fR $BUILDDIR
       - uses: actions/checkout@v4
-      - id: artifact_path
-        name: generate artifact output directory name
-        run: echo "artifact_path=${{ vars.ARTIFACT_OUTPUT_DIR }}/$GITHUB_REPOSITORY/$GITHUB_REF_NAME/$GITHUB_WORKFLOW/$GITHUB_RUN_NUMBER-$GITHUB_RUN_ATTEMPT" >> $GITHUB_OUTPUT
-      - id: artifact_latest
-        name: generate latest artifact symlink name
-        run: echo "artifact_latest=${{ vars.ARTIFACT_OUTPUT_DIR }}/$GITHUB_REPOSITORY/$GITHUB_REF_NAME/$GITHUB_WORKFLOW/latest" >> $GITHUB_OUTPUT
 
   build:
     needs: [prepare]
@@ -68,17 +59,3 @@ jobs:
           cp ${{ vars.BUILD_ASSETS_DIR }}/site.conf build/conf/site.conf;
           fi &&
           kas build ../../kas/${{ matrix.subpath }}/${{ matrix.board }}.yml:../../kas/include/validation.yml
-
-  collect:
-    needs: [prepare, build]
-    runs-on: [self-hosted, linux, x64, builder]
-    steps:
-      - name: collect artifacts
-        env:
-          ARTIFACT_PATH: ${{ needs.prepare.outputs.artifact_path }}
-        run: ./ci/collect_artifacts.sh
-      - name: mark latest
-        run: >
-          rm -fR ${{ needs.prepare.outputs.artifact_latest }};
-          echo "using artifact path ${{ needs.prepare.outputs.artifact_path }}, latest ${{ needs.prepare.outputs.artifact_latest }}" &&
-          ln -s ${{ needs.prepare.outputs.artifact_path }} ${{ needs.prepare.outputs.artifact_latest }}
