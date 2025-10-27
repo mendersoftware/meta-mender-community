@@ -7,6 +7,11 @@ header:
 
 machine: beaglebone-ai64
 
+repos:
+  meta-ti:
+    layers:
+      meta-beagle:
+
 local_conf_header:
   beagleplay: |
     MENDER_FEATURES_ENABLE:append = " mender-image-sd"
