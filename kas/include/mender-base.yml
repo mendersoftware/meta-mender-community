@@ -6,13 +6,13 @@ distro: poky
 repos:
   openembedded-core:
     url: git://git.openembedded.org/openembedded-core.git
-    commit: baa5e7ea5f37f54c2a00080798ad7fb4c0664f69
+    commit: 95888aa944847cf6dbfac501997a3e2980344b66
     layers:
       meta:
 
   bitbake:
     url: git://git.openembedded.org/bitbake.git
-    commit: 1c9ec1ffde75809de34c10d3ec2b40d84d258cb4
+    commit: b00f85cf00dd3a5c1858b409b831194edf148659
     layers:
       bitbake: excluded
 
@@ -25,13 +25,13 @@ repos:
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
-    commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
+    commit: e621da947048842109db1b4fd3917a02e0501aa2
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: 52b332b61d26c97b8e6cc1badb80db0bb6a1666b
+    commit: 4ae8e962a3c011cfc4d9e4b85878c226b2763b0c
 
     layers:
       meta-mender-core:
