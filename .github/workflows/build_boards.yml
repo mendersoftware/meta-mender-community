@@ -25,7 +25,7 @@ jobs:
         board: [
           beaglebone,
           beaglebone-ai64,
-          beagleplay,
+          beagleplay-ti,
           raspberrypi,
           raspberrypi-cm,
           raspberrypi0,
