@@ -10,8 +10,8 @@ PREFERRED_PROVIDER:virtual/bootloader="u-boot-stm32mp"
 
 
 
-SRC_URI += "file://0002-Force-mender-boot.patch \
-            file://0001-Add-uboot-env-to-control-rollback.patch \
+SRC_URI:append = " file://0002-Force-mender-boot.patch \
+            file://0005-Add-uboot-env-to-control-rollback.patch \
             "
 
 
