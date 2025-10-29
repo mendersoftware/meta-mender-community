@@ -10,11 +10,11 @@ repos:
     layers:
       meta-mender-qemu-community:
 
-  poky:
+  openembedded-core:
     patches:
       qemuboot-none-fix:
         repo: meta-mender-community
-        path: patches/poky/0001-qemuboot-handle-QB_DEFAULT_KERNEL-none-properly.patch
+        path: patches/openembedded-core/0001-qemuboot-handle-QB_DEFAULT_KERNEL-none-properly.patch
 
 local_conf_header:
   efi: |
