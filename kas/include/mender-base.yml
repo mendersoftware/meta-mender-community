@@ -14,7 +14,7 @@ repos:
     url: git://git.openembedded.org/bitbake.git
     commit: b00f85cf00dd3a5c1858b409b831194edf148659
     layers:
-      bitbake: excluded
+      bitbake: disabled
 
   meta-yocto:
     url: git://git.yoctoproject.org/git/meta-yocto.git
