@@ -64,6 +64,7 @@ The following configuration files for building using the `kas` tool are provided
 - [jetson-agx-orin-devkit.yml](../kas/tegra/jetpack6/jetson-agx-orin-devkit.yml)
 - [jetson-orin-16gb-nx-p3786.yml](../kas/tegra/jetpack6/jetson-orin-16gb-nx-p3786.yml)
 - [jetson-orin-nano-devkit.yml](../kas/tegra/jetpack6/jetson-orin-nano-devkit.yml)
+- [jetson-orin-nano-devkit-nvme.yml](../kas/tegra/jetpack6/jetson-orin-nano-devkit-nvme.yml)
 
 ### Jetson Orin NX
 

@@ -1,0 +1,20 @@
+header:
+  version: 14
+  includes:
+    - kas/include/mender-full.yml
+    - kas/include/tegra-jetpack6.yml
+
+machine: jetson-orin-nano-devkit-nvme
+
+local_conf_header:
+  AB-upgrades: |
+    UBOOT_EXTLINUX = "1"
+    USE_REDUNDANT_FLASH_LAYOUT_DEFAULT = "1"
+  eMMC: |
+    # Mender tegra_mender_calc_total_size workaround
+    # Setting MENDER_STORAGE_TOTAL_SIZE_MB to 16Gb and no EMMC
+    EMMC_SIZE = "0"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "16384"
+  Permanent Data Partition: |
+    MENDER_DATA_PART_NUMBER:tegra = "17"
+    MENDER_STORAGE_DEVICE:tegra = "/dev/nvme0n1"
