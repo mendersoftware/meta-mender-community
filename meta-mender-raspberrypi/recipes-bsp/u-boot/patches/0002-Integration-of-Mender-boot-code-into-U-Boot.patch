@@ -18,7 +18,7 @@ diff --git a/include/env_default.h b/include/env_default.h
 index aa3dd40f3fa..ecb48f79a3b 100644
 --- a/include/env_default.h
 +++ b/include/env_default.h
-@@ -13,6 +13,8 @@
+@@ -12,6 +12,8 @@
  
  #include <generated/environment.h>
  
@@ -27,7 +27,7 @@ index aa3dd40f3fa..ecb48f79a3b 100644
  #ifdef DEFAULT_ENV_INSTANCE_EMBEDDED
  env_t embedded_environment __UBOOT_ENV_SECTION__(environment) = {
  	ENV_CRC,	/* CRC Sum */
-@@ -27,6 +29,7 @@ char default_environment[] = {
+@@ -26,6 +28,7 @@ char default_environment[] = {
  #else
  const char default_environment[] = {
  #endif
@@ -40,7 +40,7 @@ index c1eab2f3a1d..646374f7800 100644
 --- a/scripts/Makefile.autoconf
 +++ b/scripts/Makefile.autoconf
 @@ -116,7 +116,8 @@ define filechk_config_h
- 	$(if $(CONFIG_SYS_CONFIG_NAME),echo \#include \<configs/$(CONFIG_SYS_CONFIG_NAME).h\> ;) \
+	echo \#include \<configs/$(CONFIG_SYS_CONFIG_NAME).h\>;		\
  	echo \#include \<asm/config.h\>;				\
  	echo \#include \<linux/kconfig.h\>;				\
 -	echo \#include \<config_fallbacks.h\>;)

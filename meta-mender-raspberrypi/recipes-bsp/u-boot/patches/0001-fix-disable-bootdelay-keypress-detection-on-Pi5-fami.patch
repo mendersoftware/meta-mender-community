@@ -10,6 +10,8 @@ Setting bootdelay to -2 prevents u-boot from stopping on the serial
 console.
 
 Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+
+Upstream-Status: Inappropriate [Mender specific]
 ---
  configs/rpi_arm64_defconfig | 1 +
  1 file changed, 1 insertion(+)
