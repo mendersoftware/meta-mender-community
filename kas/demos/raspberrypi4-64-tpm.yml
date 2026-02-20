@@ -17,7 +17,8 @@ repos:
 
   meta-security:
     url: git://git.yoctoproject.org/meta-security.git
-    commit: bc865c5276c2ab4031229916e8d7c20148dfbac3
+    # branch: scarthgap
+    commit: 97e482b71688b62ac1109d16e89368122f039cbf
     layers:
       meta-tpm:
 
