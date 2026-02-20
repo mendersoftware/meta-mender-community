@@ -5,7 +5,7 @@ repos:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale.git
     # branch: scarthgap
-    commit: f52fe2b709e70d1d864adfad2754213bce7abcd7
+    commit: 902dde8c5bd29bb507ac8d37772565a6c9ab77cd
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty.git
     # branch: scarthgap
