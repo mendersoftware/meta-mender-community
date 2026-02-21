@@ -7,7 +7,8 @@ distro: poky
 repos:
   poky:
     url: git://git.yoctoproject.org/poky
-    commit: c162696dae5798e2ab1198403d0bc1d65d64068d
+    # yocto-5.0.15
+    commit: 72983ac391008ebceb45edc7a8f0f6d5f4fe715c
     layers:
       meta:
       meta-poky:
@@ -15,19 +16,22 @@ repos:
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
-    commit: e92d0173a80ea7592c866618ef5293203c50544c
+    # branch: scarthgap
+    commit: ec0469748be4159fb83fb0fa0148d786484c88cf
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    commit: 0d393c2267a92091f975eb932338c07109f5f5fd
+    # scarthgap-v2025.11
+    commit: 00d4dfc36625a27ca0d6ad7aa33eeeab397281a9
     layers:
       meta-mender-core:
 
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
-    commit: 1091bde25e9ebaea33114edb85e4aee931d105f3
+    # branch: scarthgap
+    commit: 2c646d29912dcc873469a57b1c207e1549c5094d
 
   meta-lts-mixins:
     url: https://git.yoctoproject.org/meta-lts-mixins

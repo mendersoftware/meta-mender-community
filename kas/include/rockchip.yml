@@ -4,7 +4,8 @@ header:
 repos:
   meta-rockchip:
     url: https://git.yoctoproject.org/meta-rockchip
-    commit: 63a3d6fa336318dffb3e5bb913bc239026ae9015
+    # branch: scarthgap
+    commit: 9690180b7e9953361958c962b80d891eda8c1028
 
   meta-mender-community:
     layers:
