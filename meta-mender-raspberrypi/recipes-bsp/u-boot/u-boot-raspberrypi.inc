@@ -4,6 +4,16 @@
 MENDER_RPI_UBOOT_DIR := "${THISDIR}"
 FILESEXTRAPATHS:prepend:rpi = "${MENDER_RPI_UBOOT_DIR}/${BPN}-${PV}:${MENDER_RPI_UBOOT_DIR}/patches:"
 
+python() {
+    machine = d.getVar('MACHINE')
+    if machine in ['raspberrypi5', 'raspberrypi-cm5-io-board']:
+        collections = (d.getVar('BBFILE_COLLECTIONS') or '').split()
+        if 'lts-u-boot-mixin' not in collections:
+            bb.warn("%s requires meta-lts-mixins for BCM2712 U-Boot support. "
+                    "The build will succeed but the image will not boot. "
+                    "See kas/include/lts-mixins.yml." % machine)
+}
+
 BOOTENV_SIZE:rpi ?= "0x4000"
 
 # U-Boot auto-configuration doesn't work properly for Raspberry Pi, due to its

@@ -26,6 +26,7 @@ repositories = (
     "https://github.com/kraj/meta-clang",
     "https://github.com/mendersoftware/meta-mender",
     "https://github.com/agherzan/meta-raspberrypi",
+    "https://git.yoctoproject.org/meta-lts-mixins",
     "https://github.com/OE4T/meta-tegra.git",
     "https://github.com/Freescale/meta-freescale",
     "https://github.com/Freescale/meta-freescale-distro",
