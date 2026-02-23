@@ -1,4 +1,8 @@
-FILESEXTRAPATHS:prepend:rpi := "${THISDIR}/patches:"
+# Capture THISDIR immediately — it is only valid during parsing of this file.
+# FILESEXTRAPATHS itself uses deferred expansion so that BPN and PV resolve to
+# the actual recipe values (e.g. u-boot/2024.01) rather than BitBake defaults.
+MENDER_RPI_UBOOT_DIR := "${THISDIR}"
+FILESEXTRAPATHS:prepend:rpi = "${MENDER_RPI_UBOOT_DIR}/${BPN}-${PV}:${MENDER_RPI_UBOOT_DIR}/patches:"
 
 BOOTENV_SIZE:rpi ?= "0x4000"
 
