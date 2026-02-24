@@ -1,0 +1,36 @@
+This README file contains information on the contents of the meta-mender-seeed layer.
+
+Please see the corresponding sections below for details.
+
+This layer is based on https://github.com/Seeed-Studio/meta-seeed-cm4
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: scarthgap
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: scarthgap
+
+  URI: https://github.com/agherzan/meta-raspberrypi
+  branch: scarthgap
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-seeed layer to your build
+
+
+I. Adding the meta-mender-seeed layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-mender-seeed'

@@ -1,0 +1,31 @@
+From b290b2b2ed957be9677bff4cef7c1c33360642c0 Mon Sep 17 00:00:00 2001
+From: bigbearishappy <953308023@qq.com>
+Date: Fri, 8 Oct 2021 01:49:51 +0000
+Subject: [PATCH] compatible for yocto
+
+---
+ Makefile | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index a4fb829..4c6c99c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -161,14 +161,12 @@ clean_%:
+ 	@for line in $(kmods); do make -C $(KBUILD) M=$(MOD_PATH)/$$line clean || exit; done
+ 
+ install_%:
+-	$(Q)$(MAKE) PLATFORM=$* install_arch
+ #	mkdir -p /lib/modules/$(uname_r)/extra/seeed || true
+ 	mkdir -p $(KO_DIR) || true
+ 	@for line in $(kmods); do \
+ 		echo $(MOD_PATH)/$$line/*.ko; \
+ 		cp $(MOD_PATH)/$$line/*.ko $(KO_DIR) || exit; \
+ 	done
+-	@which depmod >/dev/null 2>&1 && depmod -a || true
+ 
+ ifeq ($(PLATFORM),)
+ 
+-- 
+2.25.1
+
