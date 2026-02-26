@@ -3,6 +3,7 @@ header:
   includes:
   - kas/include/mender-full.yml
   - kas/include/raspberrypi.yml
+  - kas/include/lts-mixins.yml
 
 machine: raspberrypi-cm5-io-board
 
