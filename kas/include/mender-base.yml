@@ -46,6 +46,9 @@ local_conf_header:
     CONF_VERSION = "2"
     PACKAGE_CLASSES = "package_ipk"
     INIT_MANAGER = "systemd"
+    # The following allows root login without a password for convenience.
+    # Use with care, and never in product builds.
+    EXTRA_IMAGE_FEATURES ?= "allow-empty-password empty-root-password allow-root-login"
   
   mender-artifact: |
     MENDER_ARTIFACT_NAME = "gha_autobuild"
