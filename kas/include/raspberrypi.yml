@@ -5,7 +5,7 @@ repos:
   meta-raspberrypi:
     url: https://github.com/agherzan/meta-raspberrypi.git
     # branch: scarthgap
-    commit: 2c646d29912dcc873469a57b1c207e1549c5094d
+    commit: master
 
   meta-mender-community:
     layers:

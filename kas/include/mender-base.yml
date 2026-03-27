@@ -7,21 +7,21 @@ repos:
   openembedded-core:
     url: git://git.openembedded.org/openembedded-core.git
     # yocto-5.0.15
-    commit: 6988157ad983978ffd6b12bcefedd4deaffdbbd1
+    commit: master
     layers:
       meta:
 
   bitbake:
     url: git://git.openembedded.org/bitbake.git
     # yocto-5.0.15
-    commit: 8dcf084522b9c66a6639b5f117f554fde9b6b45a
+    commit: master
     layers:
       bitbake: disabled
 
   meta-yocto:
     url: git://git.yoctoproject.org/git/meta-yocto.git
     # yocto-5.0.15
-    commit: 9bb6e6e8b016a0c9dfe290369a6ed91ef4020535
+    commit: master
     layers:
       meta-poky:
       meta-yocto-bsp:
@@ -29,14 +29,14 @@ repos:
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
     # branch: scarthgap
-    commit: ec0469748be4159fb83fb0fa0148d786484c88cf
+    commit: master
     layers:
       meta-oe:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
     # scarthgap-v2025.11
-    commit: 00d4dfc36625a27ca0d6ad7aa33eeeab397281a9
+    commit: master
 
     layers:
       meta-mender-core:

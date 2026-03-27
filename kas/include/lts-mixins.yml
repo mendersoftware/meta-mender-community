@@ -1,7 +1,0 @@
-header:
-  version: 14
-
-repos:
-  meta-lts-mixins:
-    url: https://git.yoctoproject.org/meta-lts-mixins
-    commit: a44882db02a0ed0f149371831bfbe067665eb42b
