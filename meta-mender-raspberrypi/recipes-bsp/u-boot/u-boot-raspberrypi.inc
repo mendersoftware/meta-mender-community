@@ -1,18 +1,8 @@
-# Capture THISDIR immediately — it is only valid during parsing of this file.
+# Capture THISDIR immediately - it is only valid during parsing of this file.
 # FILESEXTRAPATHS itself uses deferred expansion so that BPN and PV resolve to
-# the actual recipe values (e.g. u-boot/2024.01) rather than BitBake defaults.
+# the actual recipe values (e.g. u-boot/2026.01) rather than BitBake defaults.
 MENDER_RPI_UBOOT_DIR := "${THISDIR}"
 FILESEXTRAPATHS:prepend:rpi = "${MENDER_RPI_UBOOT_DIR}/${BPN}-${PV}:${MENDER_RPI_UBOOT_DIR}/patches:"
-
-python() {
-    machine = d.getVar('MACHINE')
-    if machine in ['raspberrypi5', 'raspberrypi-cm5-io-board']:
-        collections = (d.getVar('BBFILE_COLLECTIONS') or '').split()
-        if 'lts-u-boot-mixin' not in collections:
-            bb.warn("%s requires meta-lts-mixins for BCM2712 U-Boot support. "
-                    "The build will succeed but the image will not boot. "
-                    "See kas/include/lts-mixins.yml." % machine)
-}
 
 BOOTENV_SIZE:rpi ?= "0x4000"
 
