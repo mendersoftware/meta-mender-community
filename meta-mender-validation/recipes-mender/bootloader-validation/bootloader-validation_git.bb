@@ -3,8 +3,10 @@ DESCRIPTION = "Automated validation of the Mender bootloader integration"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 
+PV = "0.2+git"
+
 SRC_URI = "git://github.com/theyoctojester/mender-validation.git;protocol=https;branch=main"
-SRCREV = "45033cda680a586d75bb07e0edec81cb92e5e4c9"
+SRCREV = "5d8ee06f350eae02fb98c21ed0dc2aff07ef5a63"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
