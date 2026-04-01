@@ -1,0 +1,15 @@
+header:
+  version: 14
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-validation:
+
+local_conf_header:
+  validation-tryboot: |
+    IMAGE_INSTALL:append = " bootloader-validation"
+    MENDER_FEATURES_DISABLE:append = " mender-growfs-data"
+
+target:
+  - mender-validation-image

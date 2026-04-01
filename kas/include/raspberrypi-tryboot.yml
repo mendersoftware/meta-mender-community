@@ -1,0 +1,37 @@
+header:
+  version: 14
+  includes:
+  - kas/include/mender-base.yml
+
+repos:
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    # branch: scarthgap
+    commit: 2c646d29912dcc873469a57b1c207e1549c5094d
+
+  meta-mender-community:
+    layers:
+      meta-mender-raspberrypi-tryboot:
+
+local_conf_header:
+  raspberrypi-tryboot: |
+    # Tryboot: native RPi firmware A/B, no U-Boot
+    RPI_USE_U_BOOT = "0"
+    ENABLE_UART = "1"
+    IMAGE_FSTYPES = "wic ext4"
+    WKS_FILE = "sdimage-rpi-mender-tryboot.wks"
+
+    # Mender client without bootloader integration
+    # tryboot-cmdline post-processes the WIC to set per-partition root= in cmdline.txt
+    INHERIT += "mender-setup tryboot-cmdline"
+    MENDER_FEATURES_ENABLE:append = " mender-auth-install mender-update-install mender-systemd"
+
+    # Partition layout (7-partition tryboot WKS)
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+    MENDER_ROOTFS_PART_A = "/dev/mmcblk0p5"
+    MENDER_ROOTFS_PART_B = "/dev/mmcblk0p6"
+    MENDER_DATA_PART = "/dev/mmcblk0p7"
+
+    # Boot files in rootfs for the update module to extract
+    IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+    IMAGE_INSTALL:append = " rpi-tryboot-rootfs data-partition wait-for-clock"

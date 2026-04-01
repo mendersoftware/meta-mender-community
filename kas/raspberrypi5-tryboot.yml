@@ -1,0 +1,6 @@
+header:
+  version: 14
+  includes:
+  - kas/include/raspberrypi-tryboot.yml
+
+machine: raspberrypi5
