@@ -1,0 +1,256 @@
+#!/bin/sh
+#
+# Mender update module: rpi-tryboot-rootfs
+#
+# Handles full system updates (rootfs + boot partition) using the
+# Raspberry Pi native tryboot A/B mechanism.
+#
+# Artifact payload: single rootfs ext4 image containing /boot with
+# kernel, DTBs, firmware, config.txt.
+
+set -e
+
+STATE="$1"
+FILES="$2"
+
+TRYBOOT_PENDING_FLAG="/data/mender/tryboot-pending"
+AUTOBOOT_PART="/dev/mmcblk0p1"
+AUTOBOOT_MOUNT="/tmp/mender-autoboot"
+
+# Determine active boot partition from device tree
+get_active_boot_part() {
+    if [ -f /proc/device-tree/chosen/bootloader/partition ]; then
+        # Big-endian 32-bit integer in device tree; read last byte for small values
+        tail -c1 /proc/device-tree/chosen/bootloader/partition | od -An -tu1 | tr -d ' '
+        return
+    fi
+    # Fallback: derive from cmdline root= parameter
+    root_dev=$(cat /proc/cmdline | tr ' ' '\n' | grep '^root=' | sed 's/root=//')
+    case "$root_dev" in
+        /dev/mmcblk0p5) echo 2 ;;
+        /dev/mmcblk0p6) echo 3 ;;
+        *) echo "ERROR: cannot determine active boot partition from root=$root_dev" >&2; exit 1 ;;
+    esac
+}
+
+# Derive inactive partitions from active boot partition number
+get_inactive_parts() {
+    active_boot=$1
+    case "$active_boot" in
+        2)
+            INACTIVE_BOOT_PART=3
+            INACTIVE_BOOT_DEV="/dev/mmcblk0p3"
+            INACTIVE_ROOT_DEV="/dev/mmcblk0p6"
+            INACTIVE_ROOT_LABEL="rootB"
+            ;;
+        3)
+            INACTIVE_BOOT_PART=2
+            INACTIVE_BOOT_DEV="/dev/mmcblk0p2"
+            INACTIVE_ROOT_DEV="/dev/mmcblk0p5"
+            INACTIVE_ROOT_LABEL="rootA"
+            ;;
+        *)
+            echo "ERROR: unexpected active boot partition: $active_boot" >&2
+            exit 1
+            ;;
+    esac
+}
+
+case "$STATE" in
+
+    ArtifactInstall)
+        active_boot=$(get_active_boot_part)
+        get_inactive_parts "$active_boot"
+
+        # Find the rootfs image in the artifact payload
+        rootfs_image=$(ls "$FILES"/files/*.ext4 2>/dev/null | head -1)
+        if [ -z "$rootfs_image" ]; then
+            echo "ERROR: no ext4 rootfs image found in artifact payload" >&2
+            exit 1
+        fi
+
+        echo "Active boot partition: $active_boot"
+        echo "Writing rootfs to $INACTIVE_ROOT_DEV"
+
+        # Write rootfs image to inactive rootfs partition
+        dd if="$rootfs_image" of="$INACTIVE_ROOT_DEV" bs=4M conv=fsync status=progress
+
+        # Mount the newly written rootfs to extract boot files
+        rootfs_mount=$(mktemp -d /tmp/mender-rootfs.XXXXXX)
+        mount -o ro "$INACTIVE_ROOT_DEV" "$rootfs_mount"
+
+        # Find active boot partition mount (may already be mounted by fstab)
+        active_boot_dev="/dev/mmcblk0p${active_boot}"
+        active_boot_mount=$(findmnt -n -o TARGET -f "$active_boot_dev" 2>/dev/null | head -1 || true)
+        active_boot_mounted_here=false
+        if [ -z "$active_boot_mount" ]; then
+            active_boot_mount=$(mktemp -d /tmp/mender-active-boot.XXXXXX)
+            mount -o ro "$active_boot_dev" "$active_boot_mount"
+            active_boot_mounted_here=true
+        fi
+        echo "Active boot partition at $active_boot_mount"
+
+        # Find or mount inactive boot partition (target)
+        boot_mount=$(findmnt -n -o TARGET -f "$INACTIVE_BOOT_DEV" 2>/dev/null | head -1 || true)
+        boot_mounted_here=false
+        if [ -z "$boot_mount" ]; then
+            boot_mount=$(mktemp -d /tmp/mender-boot.XXXXXX)
+            mount "$INACTIVE_BOOT_DEV" "$boot_mount"
+            boot_mounted_here=true
+        else
+            # Remount read-write if needed
+            mount -o remount,rw "$boot_mount" 2>/dev/null || true
+        fi
+        echo "Inactive boot partition at $boot_mount"
+
+        # Populate inactive boot partition:
+        # 1. Start with a copy of the active boot partition (firmware files,
+        #    config.txt, overlays, etc. that are not in the rootfs /boot)
+        # 2. Then overlay with kernel + DTBs from the new rootfs /boot
+        echo "Copying boot files to $INACTIVE_BOOT_DEV"
+        rm -rf "$boot_mount"/*
+        cp -aL --no-preserve=links "$active_boot_mount"/* "$boot_mount"/
+        echo "Copied firmware base from active boot partition $active_boot_dev"
+
+        # Overlay with new kernel, DTBs, and overlays from the rootfs
+        if [ -d "$rootfs_mount/boot" ]; then
+            cp -aL --no-preserve=links "$rootfs_mount/boot"/* "$boot_mount"/
+            echo "Overlaid kernel and DTBs from new rootfs"
+        fi
+
+        if [ "$active_boot_mounted_here" = true ]; then
+            umount "$active_boot_mount"
+            rmdir "$active_boot_mount"
+        fi
+
+        # Set cmdline.txt root= to the inactive rootfs partition
+        echo "Setting cmdline.txt root=$INACTIVE_ROOT_DEV"
+        if [ -f "$boot_mount/cmdline.txt" ]; then
+            sed -i "s|root=[^ ]*|root=$INACTIVE_ROOT_DEV|" "$boot_mount/cmdline.txt"
+        else
+            echo "dwc_otg.lpm_enable=0 console=serial0,115200 root=$INACTIVE_ROOT_DEV rootfstype=ext4 rootwait" \
+                > "$boot_mount/cmdline.txt"
+            echo "Generated cmdline.txt"
+        fi
+
+        sync
+        if [ "$boot_mounted_here" = true ]; then
+            umount "$boot_mount"
+            rmdir "$boot_mount"
+        fi
+        umount "$rootfs_mount"
+        rmdir "$rootfs_mount"
+
+        # Update autoboot.txt [tryboot] to point to the inactive partition.
+        # On some RPi firmware versions, [tryboot] boot_partition is used for
+        # all boots, so this ensures the tryboot reboot lands on the target.
+        autoboot_mount=$(findmnt -n -o TARGET -f "$AUTOBOOT_PART" 2>/dev/null | head -1 || true)
+        autoboot_mounted_here=false
+        if [ -z "$autoboot_mount" ]; then
+            autoboot_mount="$AUTOBOOT_MOUNT"
+            mkdir -p "$autoboot_mount"
+            mount "$AUTOBOOT_PART" "$autoboot_mount"
+            autoboot_mounted_here=true
+        fi
+        cat > "$autoboot_mount/autoboot.txt" <<EOF
+[all]
+tryboot_a_b=1
+boot_partition=$active_boot
+
+[tryboot]
+boot_partition=$INACTIVE_BOOT_PART
+EOF
+        sync
+        if [ "$autoboot_mounted_here" = true ]; then
+            umount "$autoboot_mount"
+            rmdir "$autoboot_mount"
+        fi
+
+        # Set tryboot pending flag
+        mkdir -p "$(dirname "$TRYBOOT_PENDING_FLAG")"
+        echo "$INACTIVE_BOOT_PART" > "$TRYBOOT_PENDING_FLAG"
+
+        echo "Install complete. Tryboot pending for boot partition $INACTIVE_BOOT_PART."
+        ;;
+
+    NeedsArtifactReboot)
+        echo "Yes"
+        ;;
+
+    ArtifactReboot)
+        echo "Performing tryboot reboot..."
+        reboot '0 tryboot'
+        # Wait for the system to shut down; this process will be killed by reboot
+        sleep 300
+        ;;
+
+    SupportsRollback)
+        echo "Yes"
+        ;;
+
+    ArtifactVerifyReboot)
+        if [ ! -f "$TRYBOOT_PENDING_FLAG" ]; then
+            echo "ERROR: tryboot pending flag not found, unexpected state" >&2
+            exit 1
+        fi
+
+        expected_boot=$(cat "$TRYBOOT_PENDING_FLAG")
+        active_boot=$(get_active_boot_part)
+
+        if [ "$active_boot" != "$expected_boot" ]; then
+            echo "ERROR: expected boot partition $expected_boot but booted from $active_boot" >&2
+            exit 1
+        fi
+
+        echo "Verified: booted from expected partition $active_boot"
+        ;;
+
+    ArtifactCommit)
+        active_boot=$(get_active_boot_part)
+        get_inactive_parts "$active_boot"
+
+        echo "Committing: making partition $active_boot the permanent default"
+
+        # Update autoboot.txt
+        autoboot_mount=$(findmnt -n -o TARGET -f "$AUTOBOOT_PART" 2>/dev/null | head -1 || true)
+        autoboot_mounted_here=false
+        if [ -z "$autoboot_mount" ]; then
+            autoboot_mount="$AUTOBOOT_MOUNT"
+            mkdir -p "$autoboot_mount"
+            mount "$AUTOBOOT_PART" "$autoboot_mount"
+            autoboot_mounted_here=true
+        fi
+
+        # Set both [all] and [tryboot] to the committed partition so that
+        # subsequent boots (normal or tryboot-style) stay on this slot.
+        cat > "$autoboot_mount/autoboot.txt" <<EOF
+[all]
+tryboot_a_b=1
+boot_partition=$active_boot
+
+[tryboot]
+boot_partition=$active_boot
+EOF
+
+        sync
+        if [ "$autoboot_mounted_here" = true ]; then
+            umount "$autoboot_mount"
+            rmdir "$autoboot_mount"
+        fi
+
+        # Remove tryboot pending flag
+        rm -f "$TRYBOOT_PENDING_FLAG"
+
+        echo "Commit complete. Default boot partition is now $active_boot."
+        ;;
+
+    ArtifactRollback)
+        # The tryboot flag is one-shot. A plain reboot automatically
+        # goes back to the previous (committed) partition.
+        echo "Rollback: tryboot flag is one-shot, no action needed."
+        rm -f "$TRYBOOT_PENDING_FLAG"
+        ;;
+
+esac
+
+exit 0

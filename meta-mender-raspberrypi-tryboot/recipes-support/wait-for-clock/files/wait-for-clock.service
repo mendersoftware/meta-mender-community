@@ -1,0 +1,13 @@
+[Unit]
+Description=Wait for system clock to be synchronized
+After=network-online.target systemd-timesyncd.service
+Wants=network-online.target systemd-timesyncd.service
+Before=mender-authd.service mender-updated.service mender-connect.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'for i in $(seq 1 60); do [ $(date +%%Y) -gt 2000 ] && exit 0; sleep 1; done; echo "WARNING: clock not synced after 60s" >&2'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

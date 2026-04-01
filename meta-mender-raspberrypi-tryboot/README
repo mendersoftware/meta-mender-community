@@ -1,0 +1,60 @@
+This README file contains information on the contents of the meta-mender-raspberrypi-tryboot layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.yoctoproject.org/poky
+  branch: scarthgap
+
+  URI: https://git.openembedded.org/meta-openembedded
+  branch: scarthgap
+
+  URI: https://github.com/agherzan/meta-raspberrypi
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender
+  branch: scarthgap
+
+Contributions
+=============
+
+Please the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-raspberrypi-tryboot layer to your build
+ II. Misc
+
+
+I. Adding the meta-mender-raspberrypi-tryboot layer to your build
+=================================================================
+
+Run 'bitbake-layers add-layer meta-mender-raspberrypi-tryboot'
+
+II. Misc
+========
+
+This layer provides Mender OTA update support for Raspberry Pi using the native
+RPi firmware tryboot A/B mechanism instead of U-Boot. It is mutually exclusive
+with meta-mender-raspberrypi — include one or the other, not both.
+
+Supported hardware: Raspberry Pi 4 (64-bit), Raspberry Pi 5
+
+The tryboot mechanism uses a 7-partition MBR layout. MBR supports at most
+4 primary partitions, so the three boot partitions occupy primary slots 1-3,
+and primary slot 4 holds an extended partition that contains the remaining
+three as logical partitions (numbered 5+):
+
+  p1 = tryboot   (FAT, autoboot.txt with A/B switching logic)
+  p2 = bootA     (FAT, kernel + DTBs + firmware for slot A)
+  p3 = bootB     (FAT, kernel + DTBs + firmware for slot B)
+  p4 = extended  (container for the logical partitions below)
+  p5 = rootA     (ext4, root filesystem for slot A)
+  p6 = rootB     (ext4, root filesystem for slot B)
+  p7 = data      (ext4, persistent Mender state and configuration)
+
+A custom update module (rpi-tryboot-rootfs) handles full system updates
+including rootfs and boot partition contents.
