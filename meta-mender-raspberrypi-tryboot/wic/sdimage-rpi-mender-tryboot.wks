@@ -3,9 +3,9 @@
 # native A/B boot switching via autoboot.txt. 7-partition MBR layout:
 # p1=tryboot, p2=bootA, p3=bootB, p4=extended, p5=rootA, p6=rootB, p7=data
 
-part /boot/tryboot --source tryboot-partition --ondisk mmcblk0 --fstype=vfat --label tryboot --active --align 4096 --size 10
-part /boot/bootA --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label bootA --align 4096 --size 100
-part /boot/bootB --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label bootB --align 4096 --size 100
+part /boot/tryboot --source tryboot-partition --ondisk mmcblk0 --fstype=vfat --label tryboot --active --align 4096 --size 10 --mkfs-extraopts "-s 32"
+part /boot/bootA --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label bootA --align 4096 --size 100 --mkfs-extraopts "-s 32"
+part /boot/bootB --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label bootB --align 4096 --size 100 --mkfs-extraopts "-s 32"
 part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootA --align 4096
 part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootB --align 4096
 part /data --source rootfs --change-directory=data --fixed-size 1024M --ondisk mmcblk0 --fstype=ext4 --label data --align 4096
