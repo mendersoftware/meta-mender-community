@@ -32,6 +32,12 @@ local_conf_header:
     MENDER_ROOTFS_PART_B = "/dev/mmcblk0p6"
     MENDER_DATA_PART = "/dev/mmcblk0p7"
 
+    # Suppress Mender's default /boot/efi fstab entry — the tryboot WKS has
+    # its own partition layout (p1=tryboot, p2=bootA, p3=bootB) and wic
+    # generates the correct fstab entries from the WKS mountpoints.
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    MENDER_BOOT_PART = ""
+
     # Boot files in rootfs for the update module to extract
     IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
     IMAGE_INSTALL:append = " rpi-tryboot-rootfs data-partition wait-for-clock"
