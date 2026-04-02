@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 PV = "0.2+git"
 
 SRC_URI = "git://github.com/theyoctojester/mender-validation.git;protocol=https;branch=main"
-SRCREV = "5d8ee06f350eae02fb98c21ed0dc2aff07ef5a63"
+SRCREV = "c850447495d6fe433b95f907c34a7bc57ab98055"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
