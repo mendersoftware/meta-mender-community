@@ -1,5 +1,0 @@
-run mender_setup
-setenv bootargs earlycon=sbi clk_ignore_unused initcall_debug=0 console=ttyS0,115200 loglevel=8 root=${mender_kernel_root} rootwait
-load ${mender_uboot_root} ${ramdisk_addr_r} boot/fitImage
-bootm ${ramdisk_addr_r} - ${fdtcontroladdr}
-run mender_try_to_recover
