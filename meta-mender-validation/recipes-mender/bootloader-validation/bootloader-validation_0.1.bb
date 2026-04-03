@@ -17,8 +17,6 @@ RDEPENDS:${PN} = "python3"
 inherit systemd
 SYSTEMD_SERVICE:${PN} = "mender-bootloader-validation.service"
 
-S = "${WORKDIR}/git"
-
 do_install() {
     if ${@bb.utils.contains('MENDER_FEATURES', 'mender-prepopulate-inactive-partition', 'false', 'true', d)}; then
         bbwarn "MENDER_FEATURES does not contain 'mender-prepopulate-inactive-partition', validation suite will probably not be functional."
