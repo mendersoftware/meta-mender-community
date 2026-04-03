@@ -1,7 +1,0 @@
-header:
-  version: 14
-  includes:
-  - kas/include/mender-full.yml
-  - kas/include/raspberrypi.yml
-
-machine: raspberrypi2
