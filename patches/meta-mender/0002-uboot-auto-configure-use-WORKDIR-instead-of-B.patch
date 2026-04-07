@@ -1,5 +1,5 @@
 diff --git a/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc b/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
-index f09b3a2..07cc7d8 100644
+index f09b3a2..ceb467e 100644
 --- a/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
 +++ b/meta-mender-core/recipes-bsp/u-boot/u-boot-mender.inc
 @@ -306,7 +306,7 @@ do_mender_uboot_auto_configure() {
@@ -7,7 +7,7 @@ index f09b3a2..07cc7d8 100644
      fi
  
 -    cd ${B}
-+    cd ${WORKDIR}
++    cd ${UNPACKDIR}
  
      # This is for diffing and displaying the patch later, if necessary.
      rm -rf ${MENDER_UBOOT_OLD_SRC}
