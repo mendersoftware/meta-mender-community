@@ -6,7 +6,7 @@ export CLANG38_ARM_PREFIX = "${TARGET_PREFIX}"
 TOOLCHAIN:arm = "gcc"
 
 COMPATIBLE_MACHINE:qemuarm64 = "qemuarm64"
-EDK2_PLATFORM:qemuarm64      = "ArmVirtQemu-AARCH64"
+EDK2_PLATFORM:qemuarm64      = "ArmVirtQemu-AArch64"
 EDK2_PLATFORM_DSC:qemuarm64  = "ArmVirtPkg/ArmVirtQemu.dsc"
 EDK2_BIN_NAME:qemuarm64      = "QEMU_EFI.fd"
 
