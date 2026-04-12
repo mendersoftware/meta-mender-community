@@ -1,0 +1,12 @@
+[Unit]
+Description=Create persistent UEFI boot entry for U-Boot EFI
+After=local-fs.target uboot.mount
+ConditionPathExists=!/data/uboot-efi-bootentry-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/uboot-efi-bootentry.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

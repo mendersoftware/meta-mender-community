@@ -1,0 +1,100 @@
+meta-mender-x86-uboot-efi
+=========================
+
+Demo layer for running U-Boot as an EFI application on x86-64 with Mender A/B
+update support. This replaces GRUB with U-Boot for a GPLv3-free boot chain.
+
+Based on: https://hub.mender.io/t/u-boot-efi-on-intel-corei7-64/8216
+
+Dependencies
+============
+
+  URI: git://git.yoctoproject.org/poky
+  layers: meta, meta-poky, meta-yocto-bsp
+  branch: scarthgap
+
+  URI: git://git.openembedded.org/meta-openembedded
+  layers: meta-oe
+  branch: scarthgap
+
+  URI: https://github.com/mendersoftware/meta-mender.git
+  layers: meta-mender-core
+  branch: scarthgap
+
+  layer: meta-mender-explicit-wic (from this repository)
+
+Contributions
+=============
+
+Please see the README file in the top level directory.
+
+Maintainer: Josef Holzmayr <jester@theyoctojester.info>
+
+Usage
+=====
+
+Build the demo image:
+
+  kas build kas/demos/qemux86-64-uboot-efi.yml
+
+Build with bootloader validation suite:
+
+  kas build kas/demos/qemux86-64-uboot-efi-bootloader-validation.yml
+
+Running in QEMU
+===============
+
+runqemu cannot produce the correct command line for this setup (it lacks pflash
+OVMF support and IDE/AHCI drive selection). Launch QEMU manually instead:
+
+  DEPLOY=build/tmp/deploy/images/qemux86-64
+  QEMU=$DEPLOY/../../../work/x86_64-linux/qemu-helper-native/1.0/recipe-sysroot-native/usr/bin/qemu-system-x86_64
+
+  cp $DEPLOY/mender-explicit-demo-image-qemux86-64.wic /tmp/test.wic
+  cp $DEPLOY/ovmf.vars.qcow2 /tmp/ovmf-vars.qcow2
+
+  $QEMU \
+    -device virtio-net-pci,netdev=net0,mac=52:54:00:12:35:02 \
+    -netdev user,id=net0,hostfwd=tcp:127.0.0.1:2222-:22 \
+    -drive id=disk0,file=/tmp/test.wic,format=raw,if=none \
+    -device ide-hd,drive=disk0 \
+    -cpu IvyBridge -machine q35,i8042=off -smp 4 -m 2048 \
+    -serial mon:stdio -serial null -nographic \
+    -drive if=pflash,format=qcow2,file=$DEPLOY/ovmf.code.qcow2,readonly=on \
+    -drive if=pflash,format=qcow2,file=/tmp/ovmf-vars.qcow2
+
+The WIC image and OVMF vars are copied so the originals stay untouched. The
+OVMF CODE file is used read-only; the VARS copy is writable for NVRAM
+persistence across reboots.
+
+Boot chain
+==========
+
+  QEMU -> OVMF (UEFI firmware) -> u-boot-app.efi (from ESP) -> Linux kernel
+
+Partition layout (GPT, SATA/AHCI disk):
+
+  1. ESP        (16 MB, FAT)  - EFI/BOOT/bootx64.efi + startup.nsh
+  2. U-Boot env  (4 MB, FAT)  - uboot.env + uboot-redund.env (128 KB each)
+  3. Root A    (512 MB, ext4) - Active rootfs
+  4. Root B    (512 MB, ext4) - Inactive rootfs (for A/B updates)
+  5. Data      (128 MB, ext4) - Persistent data (/data)
+
+The ESP and env partitions are deliberately separated: U-Boot writes env files
+to partition 2, keeping the ESP (partition 1) read-only. This prevents FAT
+corruption that would break OVMF boot discovery after guest reboots.
+
+Design decisions
+================
+
+SATA/AHCI storage (not virtio): virtio devices are not re-enumerated by OVMF
+after a guest reboot in QEMU, breaking the boot chain.
+
+EFI block I/O interface: U-Boot EFI app accesses disks through the "efi"
+interface (EFI block I/O protocol from OVMF), not native drivers.
+
+No 'reset' in recovery: In EFI app mode, U-Boot's 'reset' command causes OVMF
+to fall through to its setup UI. Recovery runs altbootcmd inline instead.
+
+Pre-populated env via mkenvimage: avoids saveenv on first boot, which would
+fail if the env partition were empty.

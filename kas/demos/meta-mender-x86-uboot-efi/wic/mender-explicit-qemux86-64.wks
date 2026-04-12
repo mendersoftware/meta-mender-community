@@ -1,0 +1,32 @@
+# short-description: Mender A/B partition layout for x86-64 U-Boot EFI (QEMU)
+# long-description: GPT layout with separate ESP (read-only) and U-Boot env
+# partition. Keeping env writes off the ESP prevents FAT corruption that
+# breaks OVMF boot discovery after guest reboots.
+#
+# Boot chain: OVMF -> u-boot-app.efi (from ESP) -> Linux kernel (from rootfs)
+#
+# Partition layout:
+# 1. ESP (16MB, FAT) - bootx64.efi + startup.nsh (never written by U-Boot)
+# 2. U-Boot env (4MB, FAT) - uboot.env + uboot-redund.env
+# 3. Root A (512MB, ext4)
+# 4. Root B (512MB, ext4)
+# 5. Data (128MB, ext4)
+
+# ESP - no mount point here; fstab entry is managed by image postprocess
+# to avoid duplicates with Mender class entries
+part --source bootimg-partition --ondisk sda --fstype=vfat --label ESP --align 1024 --size 16 --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+
+# U-Boot env partition - pre-built FAT image with valid env files
+# No mount point; fstab managed by image postprocess
+part --source rawcopy --sourceparams="file=uboot-env-partition.img" --ondisk sda --align 1024 --fixed-size 4M
+
+# Root filesystem A
+part / --source rootfs --ondisk sda --fstype=ext4 --label rootA --align 1024 --fixed-size 512M
+
+# Root filesystem B (empty; populated via OTA update or validation overlay)
+part --ondisk sda --fstype=ext4 --label rootB --align 1024 --fixed-size 512M
+
+# Data partition - no mount point; fstab managed by image postprocess
+part --source rootfs --change-directory=data --ondisk sda --fstype=ext4 --label data --align 1024 --size 128
+
+bootloader --ptable gpt

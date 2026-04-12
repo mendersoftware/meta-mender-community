@@ -1,0 +1,122 @@
+header:
+  version: 14
+
+machine: qemux86-64
+distro: poky
+
+repos:
+  poky:
+    url: git://git.yoctoproject.org/poky
+    # yocto-5.0.15
+    commit: 72983ac391008ebceb45edc7a8f0f6d5f4fe715c
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+    patches:
+      qemuboot-none-fix:
+        repo: meta-mender-community
+        path: patches/openembedded-core/0001-qemuboot-handle-QB_DEFAULT_KERNEL-none-properly.patch
+
+  meta-openembedded:
+    url: git://git.openembedded.org/meta-openembedded
+    # branch: scarthgap
+    commit: ec0469748be4159fb83fb0fa0148d786484c88cf
+    layers:
+      meta-oe:
+
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    # scarthgap-v2025.11
+    commit: 00d4dfc36625a27ca0d6ad7aa33eeeab397281a9
+    layers:
+      meta-mender-core:
+
+  meta-mender-community:
+    layers:
+      kas/demos/meta-mender-explicit-wic:
+      kas/demos/meta-mender-x86-uboot-efi:
+
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_ipk"
+    INIT_MANAGER = "systemd"
+
+  mender-artifact: |
+    MENDER_ARTIFACT_NAME = "x86-uboot-efi-demo"
+    MENDER_TENANT_TOKEN = ""
+    IMAGE_FSTYPES:prepend = "ext4 "
+
+  uboot-efi: |
+    # U-Boot as EFI application (replaces GRUB for GPLv3-free boot chain)
+    PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
+    UBOOT_MACHINE = "efi-x86_app64_defconfig"
+    MENDER_UBOOT_AUTO_CONFIGURE = "0"
+
+    # ESP gets ONLY the EFI binary and startup.nsh — NO env files.
+    # Env lives on a separate FAT partition (part 2) to prevent writes
+    # from corrupting the ESP FAT for OVMF.
+    IMAGE_BOOT_FILES = "u-boot-app.efi;EFI/BOOT/bootx64.efi startup.nsh"
+
+    # EFI/UEFI platform configuration
+    MACHINE_FEATURES += "efi"
+    MENDER_EFI_LOADER = ""
+
+  qemu: |
+    # SATA/AHCI storage — virtio devices are NOT re-enumerated by OVMF
+    # after a guest reboot in QEMU, breaking the boot chain.
+    MENDER_STORAGE_DEVICE = "/dev/sda"
+    MENDER_BOOT_PART = "/dev/sda2"
+    MENDER_ROOTFS_PART_A = "/dev/sda3"
+    MENDER_ROOTFS_PART_B = "/dev/sda4"
+    MENDER_DATA_PART = "/dev/sda5"
+    QB_MEM = "-m 2048"
+    QB_DEFAULT_FSTYPE = "wic"
+    QB_DEFAULT_BIOS = "ovmf.qcow2"
+    QB_ROOTFS_OPT = ""
+    QB_DEFAULT_KERNEL = "none"
+    QB_DRIVE_TYPE = "/dev/sd"
+    QB_KERNEL_ROOT = "/dev/sda3"
+
+  mender: |
+    # Mender A/B update features — must be set globally (local.conf) so that
+    # individual recipes like mender-connect also see them, not only the
+    # image recipe which inherits mender-explicit-wic.
+    MENDER_FEATURES_ENABLE:append = " \
+        mender-uboot \
+        mender-auth-install \
+        mender-update-install \
+        mender-systemd \
+    "
+    MENDER_FEATURES_DISABLE:append = " \
+        mender-image \
+        mender-part-images \
+        mender-growfs-data \
+        mender-grub \
+    "
+
+    # Mender Client 4.x/5.x
+    PREFERRED_PROVIDER_mender-native =  "mender-native"
+    PREFERRED_RPROVIDER_mender-auth =   "mender"
+    PREFERRED_RPROVIDER_mender-update = "mender"
+    PREFERRED_VERSION_mender-artifact-native = "4.%"
+
+  x86-uboot-efi: |
+    # In EFI app mode, block devices use the "efi" interface
+    MENDER_UBOOT_STORAGE_INTERFACE = "efi"
+    MENDER_UBOOT_STORAGE_DEVICE = "0"
+    BOOTENV_SIZE = "0x20000"
+
+    # x86 does not use device trees
+    MENDER_DTB_NAME_FORCE = "none"
+
+    # WKS search path: include our layer's wic/ directory
+    WKS_SEARCH_PATH:prepend = "${LAYERDIR_meta-mender-x86-uboot-efi}/wic:"
+
+    IMAGE_INSTALL:append = " x86-uboot-efi-env efibootmgr"
+    IMAGE_INSTALL:remove = "kernel-devicetree"
+    EXTRA_IMAGEDEPENDS += "ovmf"
+
+target:
+  - mender-explicit-demo-image

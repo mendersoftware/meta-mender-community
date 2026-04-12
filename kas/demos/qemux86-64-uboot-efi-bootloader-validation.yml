@@ -1,0 +1,15 @@
+header:
+  version: 14
+  includes:
+  - kas/demos/qemux86-64-uboot-efi.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-validation:
+
+local_conf_header:
+  bootloader-validation: |
+    # Pre-populate Root B so the validation suite can boot into it
+    WKS_FILE = "mender-explicit-qemux86-64-validation.wks"
+    IMAGE_INSTALL:append = " bootloader-validation"
