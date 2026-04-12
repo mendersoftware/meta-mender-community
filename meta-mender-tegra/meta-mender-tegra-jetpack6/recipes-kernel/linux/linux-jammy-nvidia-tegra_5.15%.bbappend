@@ -7,3 +7,8 @@ python() {
     newpaths = ':'.join([path for path in extrapaths if not path.endswith('meta-mender-core/recipes-kernel/linux/files')])
     d.setVar('FILESEXTRAPATHS', newpaths)
 }
+
+FILESEXTRAPATHS:prepend := "${THISDIR}/linux-jammy-nvidia-tegra-5.15:"
+
+# Realtek RTL8168/8111 PCIe Ethernet (used on Orin Nano devkit carrier board)
+SRC_URI += "file://r8169.cfg"

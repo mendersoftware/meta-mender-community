@@ -13,3 +13,9 @@ local_conf_header:
   eMMC: |
     # equivalent: EMMC_SIZE = "32 * 1024 * 1024 * 1024"
     EMMC_SIZE = "34359738368"
+  orin-nano-storage: |
+    # Orin Nano devkit has no eMMC; SD card enumerates as mmcblk0
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk0"
+  orin-nano-ethernet: |
+    # Carrier board uses Realtek RTL8168 PCIe Ethernet (r8169 driver)
+    MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS:append = " kernel-module-r8169"
