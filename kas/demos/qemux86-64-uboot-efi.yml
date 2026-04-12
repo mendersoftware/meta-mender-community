@@ -5,18 +5,31 @@ machine: qemux86-64
 distro: poky
 
 repos:
-  poky:
-    url: git://git.yoctoproject.org/poky
+  openembedded-core:
+    url: git://git.openembedded.org/openembedded-core.git
     # yocto-5.0.15
-    commit: 72983ac391008ebceb45edc7a8f0f6d5f4fe715c
+    commit: 6988157ad983978ffd6b12bcefedd4deaffdbbd1
     layers:
       meta:
-      meta-poky:
-      meta-yocto-bsp:
     patches:
       qemuboot-none-fix:
         repo: meta-mender-community
         path: patches/openembedded-core/0001-qemuboot-handle-QB_DEFAULT_KERNEL-none-properly.patch
+
+  bitbake:
+    url: git://git.openembedded.org/bitbake.git
+    # yocto-5.0.15
+    commit: 8dcf084522b9c66a6639b5f117f554fde9b6b45a
+    layers:
+      bitbake: disabled
+
+  meta-yocto:
+    url: git://git.yoctoproject.org/git/meta-yocto.git
+    # yocto-5.0.15
+    commit: 9bb6e6e8b016a0c9dfe290369a6ed91ef4020535
+    layers:
+      meta-poky:
+      meta-yocto-bsp:
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded

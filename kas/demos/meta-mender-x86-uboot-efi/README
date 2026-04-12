@@ -6,11 +6,31 @@ update support. This replaces GRUB with U-Boot for a GPLv3-free boot chain.
 
 Based on: https://hub.mender.io/t/u-boot-efi-on-intel-corei7-64/8216
 
+Why mender-explicit-demo-image
+==============================
+
+This demo builds mender-explicit-demo-image, not a generic core-image-minimal.
+The standard Mender integration (mender-full / mender-image) generates its
+partition layout dynamically, but this setup needs a hand-crafted 5-partition
+GPT layout with a separate ESP and U-Boot environment partition. To achieve
+that, the mender-image and mender-part-images features are disabled, and the
+mender-explicit-wic class takes over: it applies an explicit WKS file for
+partitioning and handles .mender Artifact generation independently. A plain
+core-image-minimal does not inherit mender-explicit-wic and therefore cannot
+produce the correct disk image or OTA artifacts for this boot chain.
+
 Dependencies
 ============
 
-  URI: git://git.yoctoproject.org/poky
-  layers: meta, meta-poky, meta-yocto-bsp
+  URI: git://git.openembedded.org/openembedded-core.git
+  layers: meta
+  branch: scarthgap
+
+  URI: git://git.openembedded.org/bitbake.git
+  branch: scarthgap
+
+  URI: git://git.yoctoproject.org/git/meta-yocto.git
+  layers: meta-poky, meta-yocto-bsp
   branch: scarthgap
 
   URI: git://git.openembedded.org/meta-openembedded
