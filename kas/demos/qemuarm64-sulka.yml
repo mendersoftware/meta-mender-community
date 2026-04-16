@@ -1,6 +1,0 @@
-header:
-  version: 11
-  includes:
-  - kas/qemuarm64.yml
-  - kas/include/sulka.yml
-

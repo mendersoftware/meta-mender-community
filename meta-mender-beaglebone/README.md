@@ -28,9 +28,3 @@ branch: scarthgap
 revision: HEAD
 ```
 
-## Quick start
-
-See the top level [README](../README.md) for instructions to build using the `kas` tool. Supported configurations are
-
-- [`beaglebone.yml`](../kas/beaglebone.yml)
-- [`beaglebone-uboot.yml`](../kas/beaglebone-uboot.yml)

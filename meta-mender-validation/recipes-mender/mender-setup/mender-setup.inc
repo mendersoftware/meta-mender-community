@@ -11,6 +11,9 @@ inherit go-ptest
 
 GO_IMPORT = "github.com/mendersoftware/mender-setup"
 
+INSANE_SKIP:${PN} += "buildpaths textrel"
+INSANE_SKIP:${PN}-dbg += "buildpaths"
+
 do_compile() {
     oe_runmake \
         -C ${B}/src/${GO_IMPORT} \
