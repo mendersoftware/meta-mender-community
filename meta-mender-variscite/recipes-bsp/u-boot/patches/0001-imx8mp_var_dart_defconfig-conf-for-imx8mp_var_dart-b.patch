@@ -1,0 +1,43 @@
+From 62994716791024a387cb8b71f10209b2935193dc Mon Sep 17 00:00:00 2001
+From: Yair Ben Avraham <yair.b@variscite.com>
+Date: Wed, 23 Apr 2025 10:18:44 +0300
+Subject: [PATCH] imx8mp_var_dart_defconfig: conf for imx8mp_var_dart board for
+ mender support
+
+Signed-off-by: Yair Ben Avraham <yair.b@variscite.com>
+---
+ configs/imx8mp_var_dart_defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/configs/imx8mp_var_dart_defconfig b/configs/imx8mp_var_dart_defconfig
+index 1b6274f4397..e052d79fc76 100644
+--- a/configs/imx8mp_var_dart_defconfig
++++ b/configs/imx8mp_var_dart_defconfig
+@@ -23,6 +23,7 @@ CONFIG_EXTCON_PTN5150=y
+ CONFIG_SPL_SERIAL=y
+ CONFIG_SPL_DRIVERS_MISC=y
+ CONFIG_SPL=y
++CONFIG_ENV_OFFSET_REDUND=0x440000
+ CONFIG_SPL_IMX_ROMAPI_LOADADDR=0x48000000
+ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_SYS_LOAD_ADDR=0x40480000
+@@ -82,6 +83,7 @@ CONFIG_SPL_OF_CONTROL=y
+ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_SYS_MMC_ENV_DEV=1
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+@@ -89,6 +91,8 @@ CONFIG_NET_RANDOM_ETHADDR=y
+ CONFIG_SPL_DM=y
+ CONFIG_REGMAP=y
+ CONFIG_SYSCON=y
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
+ CONFIG_SPL_CLK_COMPOSITE_CCF=y
+ CONFIG_CLK_COMPOSITE_CCF=y
+ CONFIG_SPL_CLK_IMX8MP=y
+-- 
+2.25.1
+

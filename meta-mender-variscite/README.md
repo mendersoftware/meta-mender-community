@@ -51,7 +51,7 @@ cd ..
 ```bash
 MACHINE=<machine> DISTRO=fslc-x11 source ./var-setup-release.sh build
 ```
-For example, `MACHINE=imx8mm-var-dart`.
+For example, `MACHINE=imx8mm-var-dart` or `MACHINE=imx8mp-var-dart`.
 
 - Remove `meta-qt5` from bblayers.conf
 
