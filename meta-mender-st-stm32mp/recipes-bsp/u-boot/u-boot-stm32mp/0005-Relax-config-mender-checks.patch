@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000005 Mon Sep 17 00:00:00 2001
+From: Ed Watson <edmundwatson@gmail.com>
+Date: Thu, 27 Mar 2026 12:00:00 +0100
+Subject: [PATCH] Relax config_mender.h checks for STM32MP2
+
+---
+ include/config_mender.h | 13 -------------
+ 1 file changed, 0 insertions(+), 13 deletions(-)
+
+diff --git a/include/config_mender.h b/include/config_mender.h
+--- a/include/config_mender.h
++++ b/include/config_mender.h
+@@ -24,19 +24,6 @@
+ 
+ #include <config_mender_defines.h>
+ 
+-#ifdef CONFIG_ENV_IS_NOWHERE
+-# error A CONFIG_ENV_IS_IN_<storage-type> define is required for Mender to work. For standard Mender setups this should be CONFIG_ENV_IS_IN_MMC for HD/SSD/MMC/SD storage setup, and CONFIG_ENV_IS_IN_UBI for Flash/UBI storage.
+-#endif
+-
+-#ifndef CONFIG_BOOTCOUNT_LIMIT
+-# error CONFIG_BOOTCOUNT_LIMIT is required for Mender to work. Make sure that: 1) All the instructions at https://docs.mender.io/system-updates-yocto-project/board-integration/bootloader-support/u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+-#endif
+-
+-/* Currently Mender needs bootcount to reside in environment. */
+-#ifndef CONFIG_BOOTCOUNT_ENV
+-# error CONFIG_BOOTCOUNT_ENV is required for Mender to work. Make sure that: 1) All the instructions at https://docs.mender.io/system-updates-yocto-project/board-integration/bootloader-support/u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+-#endif
+-
+ #ifndef CONFIG_SYS_REDUNDAND_ENVIRONMENT
+ # error CONFIG_SYS_REDUNDAND_ENVIRONMENT is required for Mender to work. Make sure that: 1) All the instructions at https://docs.mender.io/system-updates-yocto-project/board-integration/bootloader-support/u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>. Check also https://docs.mender.io/troubleshoot/yocto-project-build for Known Issues when upgrading.
+ #endif
+

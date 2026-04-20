@@ -1,0 +1,42 @@
+header:
+  version: 14
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/st.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-st-stm32mp:
+
+local_conf_header:
+  stm32mp2: |
+    # Working from tsv file.
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1 = "0x9f8000"
+    MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2 = "0x9fc000"
+    # Total = 2×rootfs(1536MB) + data(3072MB) + uboot-env-reserved(1MB) + overhead(1MB) = 6146MB
+    # Not the full eMMC size — bootloader partitions (metadata, FIP) are outside Mender's scope.
+    MENDER_STORAGE_TOTAL_SIZE_MB = "6146" 
+    MENDER_PARTITION_ALIGNMENT = "524288"
+    BOOTENV_SIZE = "0x4000"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_ROOTFS_PART_A = "${MENDER_STORAGE_DEVICE_BASE}6"
+    MENDER_ROOTFS_PART_B = "${MENDER_STORAGE_DEVICE_BASE}7"
+    MENDER_DATA_PART_NUMBER = "8"
+    ACCEPT_EULA_stm32mp2 = "1"
+    ACCEPT_EULA_stm32mp2-dk-mender = "1"
+    ACCEPT_EULA_stm32mp2-dk-mender-emmc = "1"
+    MENDER_BOOT_PART_SIZE_MB = "0"
+    BBMASK="meta-st-openstlinux/oe-core/recipes-core/systemd/systemd_255.17.bbappend"
+    ST_BOOTFS = "0"
+    ST_USERFS = "0"
+    ST_VENDORFS = "0"
+    DISTRO_FEATURES:remove = " autoresize "
+    MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove = " kernel-devicetree"
+    IMAGE_FSTYPES:append = " dataimg mender"
+
+
+
+machine: stm32mp2-dk-mender-emmc
+target:
+  - st-image-core
