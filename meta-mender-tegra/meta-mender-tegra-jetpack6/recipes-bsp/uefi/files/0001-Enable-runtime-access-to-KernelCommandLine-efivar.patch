@@ -4,6 +4,11 @@ Date: Tue, 19 Nov 2024 09:24:56 +0100
 Subject: [PATCH] edk2-nvidia: Enable runtime access to KernelCommandLine
  efivar
 
+Upstream-Status: Inappropriate [Mender-specific: KernelCommandLine
+ efivar needs runtime access for Mender state flow]
+
+Signed-off-by: Alexander Knaub <alexander.knaub@faro.com>
+Signed-off-by: Josef Holzmayr <josef.holzmayr@northern.tech>
 ---
  Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c   | 2 +-
  Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr | 2 +-
@@ -11,10 +16,9 @@ Subject: [PATCH] edk2-nvidia: Enable runtime access to KernelCommandLine
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
-index ad3b7cc6..25b8471c 100644
 --- a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
 +++ b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
-@@ -2316,7 +2316,7 @@ InitializeSettings (
+@@ -2316,7 +2316,7 @@
    if (KernelCmdLineLen < sizeof (CmdLine)) {
      KernelCmdLineLen = sizeof (CmdLine);
      ZeroMem (&CmdLine, KernelCmdLineLen);
@@ -24,10 +28,9 @@ index ad3b7cc6..25b8471c 100644
        DEBUG ((DEBUG_ERROR, "%a: Error setting command line variable %r\r\n", __FUNCTION__, Status));
      }
 diff --git a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
-index ca329886..5c1d2018 100644
 --- a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
 +++ b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
-@@ -61,7 +61,7 @@ formset
+@@ -61,7 +61,7 @@
      guid  = NVIDIA_TOKEN_SPACE_GUID;
  
    efivarstore NVIDIA_KERNEL_COMMAND_LINE,
@@ -37,10 +40,9 @@ index ca329886..5c1d2018 100644
      guid  = NVIDIA_PUBLIC_VARIABLE_GUID;
  
 diff --git a/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c b/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
-index 91f8089e..80b6e3a2 100644
 --- a/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
 +++ b/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
-@@ -1318,7 +1318,7 @@ IsPlatformConfigurationNeeded (
+@@ -1318,7 +1318,7 @@
      ZeroMem (&AddlCmdLine, AddlCmdLen);
      Status = gRT->GetVariable (L"KernelCommandLine", &gNVIDIAPublicVariableGuid, &AddlCmdLineAttributes, &AddlCmdLen, &AddlCmdLine);
      if (EFI_ERROR (Status)) {
