@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ed Watson <ew@cellink.com>
+Subject: [PATCH] arm64: dts: rockchip: rk3399-rock-4c-plus: add OP-TEE firmware node
+
+Add the firmware/optee DT node so that the kernel OP-TEE driver
+(drivers/tee/optee) probes correctly and creates /dev/tee0 and
+/dev/teepriv0 devices.
+
+The kernel 6.6 rk3399.dtsi has a root-level psci node but no firmware {}
+wrapper and no optee child node. Without this node the OP-TEE driver has
+no DT match and does not bind, even though BL31 + OP-TEE (BL32) are
+already loaded and running in TrustZone secure world from the SPL FIT image.
+
+Verified against linux-6.6.y: rk3399.dtsi line 200 has a bare psci node,
+neither rk3399.dtsi nor rk3399-rock-4c-plus.dts contains a firmware node.
+
+Upstream-Status: Submitted
+Signed-off-by: Ed Watson <ew@cellink.com>
+---
+ arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts b/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts
+index 000000000000..111111111111 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts
+@@ -703,3 +703,12 @@ &vopl_mmu {
+ &vopl_mmu {
+ 	status = "okay";
+ };
++
++/* OP-TEE Trusted OS firmware node.
++ * Required for the kernel TEE driver (drivers/tee/optee) to probe and
++ * create /dev/tee0 + /dev/teepriv0. OP-TEE is loaded as BL32 by SPL.
++ */
++/ {
++	firmware {
++		optee: optee {
++			compatible = "linaro,optee-tz";
++			method = "smc";
++		};
++	};
++};

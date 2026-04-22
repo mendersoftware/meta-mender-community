@@ -1,0 +1,50 @@
+header:
+  version: 14
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/arm.yml
+  - kas/include/rockchip.yml
+
+machine: rock-4c-plus
+target: core-image-enc
+repos:
+    meta-mender-community:
+      layers:
+        kas/demos/meta-mender-rockchip-optee:
+    meta-security:
+      url: git://git.yoctoproject.org/meta-security.git
+      commit: bc865c5276c2ab4031229916e8d7c20148dfbac3
+      layers:
+        meta-tpm:
+    meta-openembedded:
+      layers:
+        meta-python:
+
+# This is the setup for MMC microSD cards. The rock-4c-plus has other boot options e.g. emmc which is /dev/mmcblk0
+# kernel-module-dwmac-rk is the driver for the ethernet it is a kernel module (which can't be build in )
+# it isn't install in minimal mender yocto builds
+local_conf_header:
+  rock-4c-plus: |
+    MENDER_UBOOT_STORAGE_INTERFACE = "mmc"
+    MENDER_UBOOT_STORAGE_DEVICE = "1"
+    IMAGE_CLASSES += "rockchip-sdimg"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+  rockchip-optee: |
+
+    # Rockchip doesn't use extlinux boot method
+    MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove = "u-boot-extlinux"
+
+    IMAGE_INSTALL:append = " optee-os optee-client  optee-examples optee-test optee-os-tadevkit nano"
+    IMAGE_INSTALL:append = " kernel-modules "
+    IMAGE_FSTYPES:remove = "wic wic.bmap mender.bmap"
+
+    MACHINE_FEATURES:append = " optee"
+    DISTRO_FEATURES:append = " optee"
+    DISTRO_FEATURES:append = " tpm2 "
+
+
+    IMAGE_INSTALL:append = " tpm2-tools tpm2-tss tpm2-abrmd "
+  static-partition: |
+    MENDER_EXTRA_PARTS = "part1"
+    MENDER_EXTRA_PARTS[part1] = "--label=encrypted --fstype=ext4"
+    MENDER_EXTRA_PARTS_SIZES_MB[part1] = "64"

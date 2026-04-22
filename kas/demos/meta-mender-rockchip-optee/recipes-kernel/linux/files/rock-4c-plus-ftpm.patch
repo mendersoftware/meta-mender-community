@@ -1,0 +1,17 @@
+From: meta-rockchip-optee
+Subject: arm64: dts: rockchip: add fTPM device tree node for Rock 4C+
+
+Add Microsoft fTPM node to enable the tpm_ftpm_tee driver.
+
+--- a/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts
+@@ -719,5 +719,9 @@
+ 			compatible = "linaro,optee-tz";
+ 			method = "smc";
+ 		};
++		
++		tpm {
++			compatible = "microsoft,ftpm";
++		};
+ 	};
+ };

@@ -1,0 +1,14 @@
+[Unit]
+Description=TEE Supplicant on %i
+Before=cryptsetup-pre.target
+DefaultDependencies=no
+
+[Service]
+Type=simple
+User=root
+EnvironmentFile=-@sysconfdir@/default/tee-supplicant
+ExecStart=@sbindir@/tee-supplicant $OPTARGS
+RemainAfterExit=yes
+
+[Install]
+WantedBy=cryptsetup-pre.target sysinit.target
