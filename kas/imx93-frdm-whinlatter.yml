@@ -1,17 +1,11 @@
 header:
   version: 14
-  includes:
-  - kas/include/nxp.yml
 
-# Standalone whinlatter kas config for the FRDM-IMX93 board. We
-# intentionally don't include kas/include/mender-{base,full}.yml
-# because they pin meta-mender + poky to scarthgap commits that we
-# need to override with whinlatter ones, and kas's merge semantics
-# don't let us replace a key with "use my local path" cleanly.
-#
-# All upstream layer SHAs are pinned from NXP's imx-6.18.2-1.0.0
-# manifest (whinlatter / LF 6.18.2). nxp.yml provides the meta-
-# freescale repos with scarthgap commits which we override here.
+# Standalone whinlatter kas config for the FRDM-IMX93 board. No includes
+# from kas/include/ - the upstream nxp.yml / mender-{base,full}.yml all
+# pin scarthgap-era SHAs that conflict with what NXP's imx-6.18.2-1.0.0
+# manifest specifies for whinlatter. All layer SHAs below are pinned
+# directly from that manifest.
 
 distro: poky
 
@@ -109,10 +103,13 @@ local_conf_header:
   mender-full: |
     INHERIT += "mender-full"
 
-  # Block name "z-imx93-frdm-whinlatter" is intentionally late-
-  # alphabetical so its values override the nxp.yml include's
-  # MENDER_BOOT_PART_SIZE_MB.
-  z-imx93-frdm-whinlatter: |
+  # Settings that the now-removed kas/include/nxp.yml used to provide.
+  nxp: |
+    ACCEPT_FSL_EULA = "1"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+
+  imx93-frdm-whinlatter: |
     MENDER_BOOT_PART_SIZE_MB = "256"
     MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
     # Don't override IMAGE_BOOT_FILES - meta-freescale's imx-base.inc
