@@ -5,6 +5,7 @@ Mender integration for nxp based boards
 The supported and tested boards are:
 
  - [Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND](https://www.olimex.com/Products/SOM/NXP-iMX8/)
+ - NXP FRDM-IMX93 (MACHINE `imx93-11x11-lpddr4x-frdm`, whinlatter BSP)
 
 
 Visit the individual board links above for more information on status of the

@@ -7,7 +7,7 @@ DEPENDS = "u-boot-mkimage-native"
 SRC_URI = "file://boot.cmd"
 
 do_compile() {
-	mkimage -C none -A arm -T script -d "${WORKDIR}/boot.cmd" boot.scr
+	mkimage -C none -A arm -T script -d "${UNPACKDIR}/boot.cmd" boot.scr
 }
 
 inherit deploy
@@ -20,4 +20,4 @@ do_deploy() {
 addtask do_deploy after do_compile before do_build
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-COMPATIBLE_MACHINE = "(olimex-imx8mp-evb|imx93-voipac)"
+COMPATIBLE_MACHINE = "(olimex-imx8mp-evb|imx93-voipac|imx93-11x11-lpddr4x-frdm)"
