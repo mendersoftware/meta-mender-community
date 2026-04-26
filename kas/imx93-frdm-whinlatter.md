@@ -90,9 +90,21 @@ kas shell -c 'bitbake core-image-minimal' \
     ../kas/imx93-frdm-whinlatter.yml:tyj-local.yml:tyj-mender.yml:tyj-debug.yml
 ```
 
-Artifacts: `build/tmp/deploy/images/imx93-11x11-lpddr4x-frdm/*.{wic.zst,mender}`.
-Flash via the standard rig procedure (sshpass scp → curl power off →
-`usbsdmux host` → `dd` → `usbsdmux dut` → curl power on).
+Artifacts in `build/tmp/deploy/images/imx93-11x11-lpddr4x-frdm/`:
+
+- `core-image-minimal-*.sdimg` (4 GB) — **flash this**. The full
+  Mender disk image with all four partitions (boot vfat, rootfsA,
+  rootfsB, data). Compress with `zstd` for transfer.
+- `core-image-minimal-*.wic.zst` — NXP-side wic with only boot +
+  rootfsA. **Do not flash this for Mender** — `mender-grow-data`
+  will fail because the data partition is missing. (Empirically
+  hit this on 2026-04-26.)
+- `core-image-minimal-*.mender` — Mender Artifact for OTA
+  deployment via Hosted Mender, after the device has registered.
+
+Flash via the standard rig procedure (compress sdimg with zstd → scp
+→ curl power off → `usbsdmux host` → ssh `zstd -d -c | sudo dd
+of=/dev/sdb` → `usbsdmux dut` → curl power on).
 
 ## Forward-port checklist (next BSP bump)
 
