@@ -20,10 +20,13 @@ repos:
     layers:
       meta-mender-nxp:
 
-  # Local meta-mender clone, branch imx93-frdm-whinlatter, cut from
-  # upstream commit 58f13d0a91bfb93165f8fb0fcdbd1e7e8f0ca507.
+  # Personal mirror of meta-mender, pinned at the validated tip of branch
+  # imx93-frdm-whinlatter (also tagged integration/imx93-frdm-whinlatter/
+  # 2026-04-26). Two carry patches on top of upstream master 58f13d0a; see
+  # kas/imx93-frdm-whinlatter.md.
   meta-mender:
-    path: ../../meta-mender
+    url: http://192.168.1.14/theyoctojester/meta-mender.git
+    commit: 8c762a5d26824a16b1245027cd283639f6613816
     layers:
       meta-mender-core:
 

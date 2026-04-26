@@ -25,11 +25,13 @@ is at https://github.com/nxp-imx/imx-manifest/tree/imx-linux-whinlatter.
 
 ### meta-mender carried patches
 
-The kas file currently uses a local clone (`path: ../../meta-mender`). The
-validated branch is mirrored at
+The kas file pins meta-mender at
 `http://192.168.1.14/theyoctojester/meta-mender.git`, branch
-`imx93-frdm-whinlatter`, tip `8c762a5d26824a16b1245027cd283639f6613816`.
-Two commits on top of `58f13d0a`:
+`imx93-frdm-whinlatter`, commit `8c762a5d26824a16b1245027cd283639f6613816`,
+also tagged `integration/imx93-frdm-whinlatter/2026-04-26` in both that
+mirror and (separately) in this repo on
+`github.com/mendersoftware/meta-mender-community`. Two commits on top of
+upstream master `58f13d0a`:
 
 - **`9d08d342`** — refresh `0002-Integration-of-Mender-boot-code-into-U-Boot.patch`
   hunk against u-boot 2025.04's `$(if $(CONFIG_SYS_CONFIG_NAME)…)` form.
