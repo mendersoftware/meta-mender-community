@@ -1,0 +1,150 @@
+header:
+  version: 14
+  includes:
+  - kas/include/nxp.yml
+
+# Standalone whinlatter kas config for the FRDM-IMX93 board. We
+# intentionally don't include kas/include/mender-{base,full}.yml
+# because they pin meta-mender + poky to scarthgap commits that we
+# need to override with whinlatter ones, and kas's merge semantics
+# don't let us replace a key with "use my local path" cleanly.
+#
+# All upstream layer SHAs are pinned from NXP's imx-6.18.2-1.0.0
+# manifest (whinlatter / LF 6.18.2). nxp.yml provides the meta-
+# freescale repos with scarthgap commits which we override here.
+
+distro: poky
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-nxp:
+
+  # Local meta-mender clone, branch imx93-frdm-whinlatter, cut from
+  # upstream commit 58f13d0a91bfb93165f8fb0fcdbd1e7e8f0ca507.
+  meta-mender:
+    path: ../../meta-mender
+    layers:
+      meta-mender-core:
+
+  openembedded-core:
+    url: git://git.openembedded.org/openembedded-core.git
+    # whinlatter
+    commit: 9964fa3da2fa1e7243fba1a826e59f7bb1813706
+    layers:
+      meta:
+
+  bitbake:
+    url: git://git.openembedded.org/bitbake.git
+    commit: 6e511d035a3d1e4129dab7b0dfbf216bd8e99b47
+    layers:
+      bitbake: disabled
+
+  meta-yocto:
+    url: git://git.yoctoproject.org/git/meta-yocto.git
+    # whinlatter
+    commit: d02d3faaf4d6075ea03e9eb47654ec7639f929a0
+    layers:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: git://git.openembedded.org/meta-openembedded
+    # whinlatter
+    commit: a4e768dcfae181dd99e39c4286fa0729ca7f4e47
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-multimedia:
+      meta-filesystems:
+      meta-perl:           # required by meta-imx-sdk fsl-sdk-release
+
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    # whinlatter
+    commit: 3752c4e4478a6dbdf7a722a261d16ebc7a4a99e5
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale.git
+    # whinlatter
+    commit: 2781242e499e601ef9454009aceed16186a48d9e
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty.git
+    # whinlatter
+    commit: b2b1987841018013006f909f817a3e9b034c6227
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro.git
+    # whinlatter
+    commit: 8001652aa3e2c6436c2bfce744e99f398c680858
+
+  meta-imx:
+    url: https://github.com/nxp-imx/meta-imx
+    # rel_imx_6.18.2_1.0.0 tag
+    commit: rel_imx_6.18.2_1.0.0
+    layers:
+      meta-imx-bsp:
+      # meta-imx-sdk supplies efitools / cert-to-efi-sig-list which the NXP
+      # u-boot 2025.04 do_compile invokes when CONFIG_EFI_CAPSULE_AUTHENTICATE
+      # is enabled in the defconfig. Including the layer (without selecting
+      # any of its distros) is the minimal way to satisfy that build-time
+      # native dependency.
+      meta-imx-sdk:
+
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_ipk"
+    INIT_MANAGER = "systemd"
+
+  mender-artifact: |
+    MENDER_ARTIFACT_NAME = "imx93-frdm-whinlatter"
+
+  mender-full: |
+    INHERIT += "mender-full"
+
+  # Block name "z-imx93-frdm-whinlatter" is intentionally late-
+  # alphabetical so its values override the nxp.yml include's
+  # MENDER_BOOT_PART_SIZE_MB.
+  z-imx93-frdm-whinlatter: |
+    MENDER_BOOT_PART_SIZE_MB = "256"
+    MENDER_STORAGE_TOTAL_SIZE_MB = "4096"
+    # Don't override IMAGE_BOOT_FILES - meta-freescale's imx-base.inc
+    # supplies a sensible default of "${KERNEL_IMAGETYPE} ${dtb-list}"
+    # which is what the imx-imx-boot-bootpart.wks /boot vfat partition
+    # needs. We additionally append boot.scr (the Mender boot script)
+    # so u-boot's distro_bootcmd / bootflow scan picks it up. Without
+    # this, only the BSP fallback bootcmd runs and Mender's A/B +
+    # bootcount logic never activates (verified empirically 2026-04-25).
+    IMAGE_BOOT_FILES:append = " boot.scr"
+    MENDER_IMAGE_BOOTLOADER_FILE = "imx-boot"
+    # i.MX 9 BootROM looks at offset 32 KiB on SD/eMMC for the AHAB
+    # container. That's sector 64 of 512 bytes - NOT sector 32.
+    # IMX_BOOT_SEEK = "32" in meta-imx-bsp is in KiB; the wks file's
+    # `--align 32` is also KiB. The Mender knob takes 512-byte sectors.
+    MENDER_IMAGE_BOOTLOADER_BOOTSECTOR_OFFSET = "64"
+    MENDER_PARTITION_ALIGNMENT = "8388608"
+    MENDER_STORAGE_DEVICE = "/dev/mmcblk1"
+    MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART = "0"
+
+    # mender-connect: remote terminal add-on. Default user is "nobody"
+    # which is useless; pin to root for the dev setup. Keep shell at
+    # /bin/sh because core-image-minimal only ships busybox sh - bash
+    # is not in the image (and adding it pulls a few MB of bloat).
+    IMAGE_INSTALL:append = " mender-connect"
+    MENDER_CONNECT_USER = "root"
+    MENDER_CONNECT_SHELL = "/bin/sh"
+
+    # mender-licensing.bbclass strict check fails on mender-connect
+    # 3.0.0 because the upstream source tree at the pinned SRCREV
+    # doesn't ship LIC_FILES_CHKSUM.sha256. The bbclass defines an
+    # explicit escape hatch for exactly this; we use it.
+    _MENDER_DISABLE_STRICT_LICENSE_CHECKING = "1"
+
+machine: imx93-11x11-lpddr4x-frdm
+
+target:
+  - core-image-minimal
