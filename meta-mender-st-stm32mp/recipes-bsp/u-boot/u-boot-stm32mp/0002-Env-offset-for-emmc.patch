@@ -1,0 +1,29 @@
+From 745504d2f7936222a317b3231a7dde78fe20e169 Mon Sep 17 00:00:00 2001
+From: Ed Watson <edmundwatson@gmail.com>
+Date: Thu, 9 Oct 2025 10:13:13 +0200
+Subject: [PATCH] Env offset for emmc
+
+---
+ configs/stm32mp25_defconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configs/stm32mp25_defconfig b/configs/stm32mp25_defconfig
+index a35847c185b..294e44f7cc0 100644
+--- a/configs/stm32mp25_defconfig
++++ b/configs/stm32mp25_defconfig
+@@ -3,13 +3,13 @@ CONFIG_USE_ARCH_MEMCPY=y
+ CONFIG_ARCH_STM32MP=y
+ CONFIG_SYS_MALLOC_F_LEN=0x500000
+ CONFIG_CUSTOM_SYS_INIT_SP_ADDR=0x90000000
+-CONFIG_ENV_OFFSET=0x900000
++CONFIG_ENV_OFFSET=0x9f8000
+ CONFIG_ENV_SECT_SIZE=0x40000
+ CONFIG_DEFAULT_DEVICE_TREE="stm32mp257f-ev1"
+ CONFIG_STM32MP25X=y
+ CONFIG_CMD_STM32KEY=y
+ CONFIG_MFD_STM32_TIMERS=y
+-CONFIG_ENV_OFFSET_REDUND=0x940000
++CONFIG_ENV_OFFSET_REDUND=0x9fc000
+ CONFIG_TARGET_ST_STM32MP25X=y
+ CONFIG_CMD_STM32PROG=y
+ CONFIG_SYS_LOAD_ADDR=0x84000000

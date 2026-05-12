@@ -1,0 +1,46 @@
+header:
+  version: 14
+
+repos:
+
+  meta-openembedded:
+    layers:
+      meta-python:
+      meta-gnome:
+      meta-initramfs:
+      meta-multimedia:
+      meta-networking:
+      meta-webserver:
+      meta-filesystems:
+      meta-perl:
+  meta-qt5:
+    url: https://github.com/meta-qt5/meta-qt5
+    branch: scarthgap
+  meta-st-openstlinux:
+    url: https://github.com/STMicroelectronics/meta-st-openstlinux
+    tag: openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11
+  meta-st-stm32mp:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp
+    tag: openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11
+  meta-st-stm32mp-addons:
+    url: https://github.com/STMicroelectronics/meta-st-stm32mp-addons
+    tag: openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11
+  meta-st-scripts:
+    url: https://github.com/STMicroelectronics/meta-st-scripts
+    tag: openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11
+    layers:
+      bitbake: excluded
+
+distro: openstlinux-weston
+local_conf_header:
+  st: |
+      DISTRO ?= "openstlinux-weston"
+      DISTRO_FEATURES:append = " systemd"
+      VIRTUAL-RUNTIME:init_manager = "systemd"
+      DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+      VIRTUAL-RUNTIME:initscripts = ""
+      DISTRO_FEATURES:append = " systemd "
+  
+
+      MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image mender-growfs-data "
+      MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"

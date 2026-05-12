@@ -1,0 +1,22 @@
+From 5bdb2fb1bfa871ebc1b4138079ae91d4dbbbf8d6 Mon Sep 17 00:00:00 2001
+From: Ed Watson <edmundwatson@gmail.com>
+Date: Thu, 23 Oct 2025 10:41:16 +0200
+Subject: [PATCH] Add uboot env to control rollback
+
+---
+ include/env_mender.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/env_mender.h b/include/env_mender.h
+index 261775afd5b..30f553585f4 100644
+--- a/include/env_mender.h
++++ b/include/env_mender.h
+@@ -117,7 +117,7 @@
+                                                                         \
+     "mender_try_to_recover="                                            \
+     "if test ${upgrade_available} = 1; "                                \
+-    "then reset; "                                                      \
++    "then env delete  bootargs; run mender_altbootcmd; run bootcmd; "                                                      \
+     "fi\0"
+ 
+ #ifdef MENDER_UBI
