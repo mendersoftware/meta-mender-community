@@ -1,0 +1,49 @@
+This README file contains information on the contents of the meta-mender-beagle layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://git.openembedded.org/openembedded-core
+  layer: meta
+  branch: wrynose
+
+  URI: https://git.yoctoproject.org/meta-yocto
+  layers: meta-poky, meta-yocto-bsp
+  branch: wrynose
+
+  URI: https://github.com/mendersoftware/meta-mender
+  layers: meta-mender-core
+  branch: master-next
+
+For BeaglePlay (TI AM625), additionally:
+
+  URI: https://git.yoctoproject.org/meta-ti
+  layers: meta-ti-bsp, meta-beagle
+  branch: wrynose
+
+Contributions
+=============
+
+Please see the README file in the top level directory.
+
+Table of Contents
+=================
+
+  I. Adding the meta-mender-beagle layer to your build
+ II. Supported boards
+
+
+I. Adding the meta-mender-beagle layer to your build
+====================================================
+
+Run 'bitbake-layers add-layer meta-mender-beagle'
+
+II. Supported boards
+====================
+
+The supported and tested boards are:
+
+  - BeagleBone Black (https://hub.mender.io/t/beaglebone-black/83)
+  - BeaglePlay (TI AM625)
