@@ -9,7 +9,7 @@ SRC_URI = "file://ArtifactInstall_Leave_50.in"
 do_deploy() {
     sed -e 's#@@MENDER_ROOTFS_PART_A@@#'"${MENDER_ROOTFS_PART_A}"'#' \
         -e 's#@@MENDER_ROOTFS_PART_B@@#'"${MENDER_ROOTFS_PART_B}"'#' \
-        "${WORKDIR}/ArtifactInstall_Leave_50.in" > "${WORKDIR}/ArtifactInstall_Leave_50"
+        "${UNPACKDIR}/ArtifactInstall_Leave_50.in" > "${WORKDIR}/ArtifactInstall_Leave_50"
     cp ${WORKDIR}/ArtifactInstall_Leave_50 ${MENDER_STATE_SCRIPTS_DIR}/ArtifactInstall_Leave_50
 }
 
