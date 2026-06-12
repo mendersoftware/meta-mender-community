@@ -2,7 +2,7 @@
 # FILESEXTRAPATHS itself uses deferred expansion so that BPN and PV resolve to
 # the actual recipe values (e.g. u-boot/2024.01) rather than BitBake defaults.
 MENDER_RPI_UBOOT_DIR := "${THISDIR}"
-FILESEXTRAPATHS:prepend:rpi = "${MENDER_RPI_UBOOT_DIR}/${BPN}-${PV}:${MENDER_RPI_UBOOT_DIR}/patches:"
+FILESEXTRAPATHS:prepend:rpi = "${MENDER_RPI_UBOOT_DIR}/${BPN}-${PV}:${MENDER_RPI_UBOOT_DIR}/patches:${MENDER_RPI_UBOOT_DIR}/files:"
 
 python() {
     machine = d.getVar('MACHINE')
@@ -22,6 +22,9 @@ MENDER_UBOOT_AUTO_CONFIGURE:rpi = "0"
 
 # Apply the patch from meta-raspberrypi to all Raspberry Pi models and versions
 SRC_URI:append:rpi = " file://maxsize.cfg"
+
+# Disable autoboot countdown (boot immediately) on Raspberry Pi 5.
+SRC_URI:append:raspberrypi5 = " file://bootdelay.cfg"
 
 SRC_URI:append:rpi:mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFIGURE', \
                                                         '1', \
