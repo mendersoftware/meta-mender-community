@@ -2,5 +2,11 @@ fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs
 run mender_setup
 mmc dev ${mender_uboot_dev}
 load ${mender_uboot_root} ${kernel_addr_r} /boot/@@KERNEL_IMAGETYPE@@
-@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr}
+# Relocate the firmware-placed DTB to fdt_addr_r before booti. U-Boot
+# >= 2026.01 tightened lmb_reserve() in image_setup_libfdt() and rejects
+# the firmware's high placement (start4.elf parks the DTB near the top
+# of ARM-visible RAM). fdt_addr_r is a fixed low slot defined in
+# rpi_arm64's ENV_MEM_LAYOUT_SETTINGS and is safe on all CM4 variants.
+fdt move ${fdt_addr} ${fdt_addr_r}
+@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr_r}
 run mender_try_to_recover
