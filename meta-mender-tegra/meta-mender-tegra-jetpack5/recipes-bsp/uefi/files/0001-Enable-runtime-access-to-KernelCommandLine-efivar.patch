@@ -1,0 +1,54 @@
+From 9b2b9fbca52c8979b41722936617696622722ecf Mon Sep 17 00:00:00 2001
+From: Alexander Knaub <alexander.knaub@faro.com>
+Date: Tue, 19 Nov 2024 09:24:56 +0100
+Subject: [PATCH] edk2-nvidia: Enable runtime access to KernelCommandLine
+ efivar
+
+---
+ Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c   | 2 +-
+ Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr | 2 +-
+ Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
+index cd896efc..3b927636 100644
+--- a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
++++ b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigDxe.c
+@@ -1827,7 +1827,7 @@ InitializeSettings (
+   if (KernelCmdLineLen < sizeof (CmdLine)) {
+     KernelCmdLineLen = sizeof (CmdLine);
+     ZeroMem (&CmdLine, KernelCmdLineLen);
+-    Status = gRT->SetVariable (L"KernelCommandLine", &gNVIDIAPublicVariableGuid, EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS, KernelCmdLineLen, (VOID *)&CmdLine);
++    Status = gRT->SetVariable (L"KernelCommandLine", &gNVIDIAPublicVariableGuid, EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS, KernelCmdLineLen, (VOID *)&CmdLine);
+     if (EFI_ERROR (Status)) {
+       DEBUG ((DEBUG_ERROR, "%a: Error setting command line variable %r\r\n", __FUNCTION__, Status));
+     }
+diff --git a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
+index 328b7789..2d196376 100644
+--- a/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
++++ b/Silicon/NVIDIA/Drivers/NvidiaConfigDxe/NvidiaConfigHii.vfr
+@@ -61,7 +61,7 @@ formset
+     guid  = NVIDIA_TOKEN_SPACE_GUID;
+ 
+   efivarstore NVIDIA_KERNEL_COMMAND_LINE,
+-    attribute = EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,  // EFI variable attributes
++    attribute = EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_RUNTIME_ACCESS,  // EFI variable attributes
+     name  = KernelCommandLine,
+     guid  = NVIDIA_PUBLIC_VARIABLE_GUID;
+ 
+diff --git a/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c b/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
+index b2c69f47..51299d60 100644
+--- a/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
++++ b/Silicon/NVIDIA/Library/PlatformBootManagerLib/PlatformBm.c
+@@ -1318,7 +1318,7 @@ IsPlatformConfigurationNeeded (
+     AddlCmdLen = sizeof (AddlCmdLine);
+     Status     = gRT->GetVariable (L"KernelCommandLine", &gNVIDIAPublicVariableGuid, &AddlCmdLineAttributes, &AddlCmdLen, &AddlCmdLine);
+     if (EFI_ERROR (Status)) {
+-      AddlCmdLineAttributes = EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS;
++      AddlCmdLineAttributes = EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS;
+       ZeroMem (&AddlCmdLine, sizeof (AddlCmdLine));
+     }
+ 
+-- 
+2.34.1
+
