@@ -4,6 +4,7 @@ Mender integration layer for NVIDIA Tegra hardware.
 
 The supported and tested boards are:
 
+- Thor
 - AGX Orin
 - AGX Xavier
 - Orin Nano
@@ -16,14 +17,14 @@ These layers depend on:
 ```
 URI: https://github.com/OE4T/meta-tegra.git
 layers: meta-tegra
-branch: scarthgap-l4t-r35.x (JP5)   or   scarthgap (JP6)
+branch: wrynose
 revision: HEAD
 ```
 
 ```
 URI: https://github.com/mendersoftware/meta-mender.git
 layers: meta-mender-core
-branch: scarthgap
+branch: master
 revision: HEAD
 ```
 
@@ -35,11 +36,15 @@ revision: HEAD
 
 - `meta-mender-tegra-jetpack5`
   Holds Jetpack release 5 specific parts of the Mender integration for Tegra.
-  This correlates with the `scarthgap-l4t-r35.x` branch of `meta-tegra`.
+  This correlates with the `wrynose` branch of `meta-tegra`.
 
 - `meta-mender-tegra-jetpack6`
   Holds Jetpack release 6 specific parts of the Mender integration for Tegra.
-  This correlates with the `scarthgap` branch of `meta-tegra`.
+  This correlates with the `wrynose` branch of `meta-tegra`.
+
+- `meta-mender-tegra-jetpack7`
+  Holds Jetpack release 7 specific parts of the Mender integration for Tegra.
+  This correlates with the `wip-l4t-r39.2.0` branch of `meta-tegra`.
 
 ## Quick start
 
