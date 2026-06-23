@@ -9,7 +9,7 @@ SRC_URI = " \
 
 PROVIDES += "libubootenv"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
@@ -25,5 +25,6 @@ RPROVIDES:${PN} += "libubootenv-bin u-boot-fw-utils"
 RDEPENDS:${PN} = "tegra-boot-tools"
 RDEPENDS:${PN}:tegra234 = ""
 RDEPENDS:${PN}:tegra194 = ""
+RDEPENDS:${PN}:tegra264 = ""
 RCONFLICTS:${PN} = "libubootenv-bin"
 RREPLACES:${PN} = "libubootenv-bin"

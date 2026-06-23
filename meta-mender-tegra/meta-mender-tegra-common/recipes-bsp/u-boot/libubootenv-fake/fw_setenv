@@ -1,18 +1,16 @@
 #!/bin/sh
-set -e
-
-if [ "${1}" = "-s" ]; then
-    while IFS="= " read -r var restofline; do
-        if [ "${var}" = "upgrade_available" ]; then
-            if [ "${restofline}" = "1" ]; then
-                touch /var/lib/mender/upgrade_available
-            else
-                rm -f /var/lib/mender/upgrade_available
-            fi
-        fi
+if [ "$1" = "-s" ]; then
+    while IFS="= " read var restofline; do
+	if [ "$var" = "upgrade_available" ]; then
+	    if [ "$restofline" = "1" ]; then
+		touch /var/lib/mender/upgrade_available
+	    else
+		rm -f /var/lib/mender/upgrade_available
+	    fi
+	fi
     done
-elif [ "${1}" = "upgrade_available" ]; then
-    if [ "${2}" = "1" ]; then
+elif [ "$1" = "upgrade_available" ]; then
+    if [ "$2" = "1" ]; then
         touch /var/lib/mender/upgrade_available
     else
         rm -f /var/lib/mender/upgrade_available

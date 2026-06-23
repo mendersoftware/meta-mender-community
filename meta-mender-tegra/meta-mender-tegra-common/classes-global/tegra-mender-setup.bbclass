@@ -24,12 +24,14 @@ def tegra_mender_image_rootfs_size(d):
     return calc_rootfs_size - eval(d.getVar('IMAGE_ROOTFS_EXTRA_SPACE'))
 
 # meta-tegra and tegraflash requirements
+# meta-tegra renamed the flashable image type "tegraflash" -> "tegraflash-tar"
+# in the JetPack 7 / wrynose era; track that rename here.
 IMAGE_CLASSES += "image_types_mender_tegra"
-IMAGE_FSTYPES += "tegraflash"
+IMAGE_FSTYPES += "tegraflash-tar"
 
 ARTIFACTIMG_FSTYPE = "ext4"
-# Generate dataimg for use with tegraflash
-IMAGE_TYPEDEP:tegraflash += " dataimg"
+# Generate dataimg for use with the tegraflash-tar package
+IMAGE_TYPEDEP:tegraflash-tar += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
 PREFERRED_PROVIDER_libubootenv:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
@@ -38,6 +40,7 @@ PREFERRED_RPROVIDER_libubootenv-bin:tegra = "${@'libubootenv-fake' if d.getVar('
 PREFERRED_PROVIDER_virtual/bootloader:tegra194 = "edk2-firmware-tegra"
 PREFERRED_PROVIDER_libubootenv:tegra234 = "libubootenv-fake"
 PREFERRED_PROVIDER_libubootenv:tegra194 = "libubootenv-fake"
+PREFERRED_PROVIDER_libubootenv:tegra264 = "libubootenv-fake"
 MENDER_FEATURES_DISABLE:append:tegra194 = " mender-uboot"
 
 # Note: this isn't really a boot file, just put it here to keep the mender build from
@@ -54,12 +57,16 @@ MENDER_DATA_PART_NUMBER_DEFAULT:xavier-nx = "23"
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-emmc = "19"
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra234 = "15"
+# t264 stock A/B NVMe layout (flash_l4t_t264_nvme_rootfs_ab.xml): APP=id1=p1,
+# APP_b=id2=p2, UDA=p11 (confirmed via nvflashxmlparse).
+MENDER_DATA_PART_NUMBER_DEFAULT:tegra264 = "11"
 MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra186 = "33"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra194 = "2"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
+MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra264 = "2"
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
@@ -125,7 +132,12 @@ def tegra_mender_calc_total_size(d):
     else:
         emmc_size = d.getVar('EMMC_SIZE')
         if not emmc_size:
-            bb.fatal('neither EMMC_SIZE nor TEGRA_SPIFLASH_BOOT configured, aborting')
+            # No internal storage (e.g. t264 NVMe-only platforms): the A/B rootfs
+            # and data partition sizes come from the L4T flash layout XML, not from
+            # a computed eMMC total. Return a large nominal total so mender's
+            # rootfs-fits bookkeeping passes (the distro can still pin an explicit
+            # MENDER_STORAGE_TOTAL_SIZE_MB) instead of aborting the build.
+            return 196608
         total_size_bytes = int(emmc_size)
     # Mender uses mibibytes, not megabytes
     return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
@@ -151,6 +163,7 @@ do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra194 = "kernel-image kernel-devicetree"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra234 = "kernel-image kernel-devicetree"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra264 = "kernel-image kernel-devicetree"
 
 # Compatibility settings for handling the machine name changes
 # made in L4T R32.5.x, to allow for upgrades.  This does not

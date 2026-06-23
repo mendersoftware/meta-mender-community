@@ -7,13 +7,13 @@ SRC_URI = "\
     file://mender-update-verifier.sh \
 "
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 do_install() {
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${S}/mender-update-verifier.service ${D}${systemd_system_unitdir}
     install -d -m 755 ${D}${bindir}
-    install -m 755 ${WORKDIR}/mender-update-verifier.sh ${D}${bindir}/
+    install -m 755 ${UNPACKDIR}/mender-update-verifier.sh ${D}${bindir}/
 }
 
 inherit systemd
