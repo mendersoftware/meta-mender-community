@@ -1,0 +1,46 @@
+header:
+  version: 14
+
+distro: poky
+
+repos:
+  openembedded-core:
+    url: https://git.openembedded.org/openembedded-core.git
+    # branch: master
+    commit: c2b1410faa150384562bada22c1c8f7c944c7951
+    layers:
+      meta:
+
+  bitbake:
+    url: https://git.openembedded.org/bitbake.git
+    # branch: master
+    commit: 7e6466f48191c1e4ab9b91705deb237eff2c7f01
+    layers:
+      bitbake: disabled
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    # branch: main
+    commit: 5d90e6543de4d1c39424956c67ff1925a39bf3c8
+    layers:
+      meta-oe:
+
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    # branch: main
+    commit: 9bba2bdc412d48d7cd98e5f2533c15a5665c2a4a
+
+    layers:
+      meta-mender-core:
+
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_ipk"
+    INIT_MANAGER = "systemd"
+  
+  mender-artifact: |
+    MENDER_ARTIFACT_NAME = "gha_autobuild"
+
+target:
+  - core-image-minimal
