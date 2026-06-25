@@ -22,6 +22,7 @@ EOF
 
     mender_flash_layout_adjust "${PARTITION_LAYOUT_TEMPLATE}"
     mender_flash_layout_adjust "${PARTITION_LAYOUT_EXTERNAL}"
+    chown -R root:root ${D}
 }
 
 do_install:append:tegra194() {
