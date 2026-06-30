@@ -6,14 +6,14 @@ header:
 
 repos:
   meta-tegra:
-    # refers to the wip-l4t-r39.2.0 branch
-    commit: 164a8e32704a43046f6766adadf6d61530f9b675
+    # refers to the wrynose branch
+    commit: 6a0294838e8e0180a40cd3d48d7d0fce1deb3ef2
   meta-tegra-community:
-    # refers to the wip-l4t-r39.2.0 branch
-    commit: cb39b132baebfc0c5273a46356b927038640d67a
+    # refers to the wrynose branch
+    commit: 3cdf23379dfc7082e2d4957f5f1d90eda02170e7
   meta-tegrademo:
-    # refers to the wip-l4t-r39.2.0 branch
-    commit: 5328c68f621789d09096bc7ba5b5e5b01491f3b7
+    # refers to the wrynose branch
+    commit: 37e974f3479de348b0ef87a0363beeed9db46f91
 
   meta-mender-community:
     layers:

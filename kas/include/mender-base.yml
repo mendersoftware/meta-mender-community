@@ -6,22 +6,22 @@ distro: poky
 repos:
   openembedded-core:
     url: https://git.openembedded.org/openembedded-core.git
-    # branch: master
-    commit: c2b1410faa150384562bada22c1c8f7c944c7951
+    # branch: wrynose
+    commit: 5d1aa5c806c061a2994f4decb59016610f093213
     layers:
       meta:
 
   bitbake:
     url: https://git.openembedded.org/bitbake.git
-    # branch: master
-    commit: 7e6466f48191c1e4ab9b91705deb237eff2c7f01
+    # branch: wrynose
+    commit: acfe02fa38b5da9e6a36c6cedcf91d4fcbefbfbd
     layers:
       bitbake: disabled
 
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
-    # branch: main
-    commit: 5d90e6543de4d1c39424956c67ff1925a39bf3c8
+    # branch: wrynose
+    commit: 100027977216601000cbefc42c2ff6cf667e7b5e
     layers:
       meta-oe:
 

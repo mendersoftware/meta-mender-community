@@ -21,8 +21,8 @@ repos:
 
   meta-virtualization:
     url: https://git.yoctoproject.org/meta-virtualization.git
-    # branch: master
-    commit: 9c47c20fd5c3da7dde87bd0302dee036961dc3de
+    # branch: wrynose
+    commit: 781735b97ae5013cacabbecd38e6da6b510cf3fb
 
   meta-mender-community:
     layers:
