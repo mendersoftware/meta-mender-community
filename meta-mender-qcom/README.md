@@ -29,6 +29,28 @@ What the layer provides:
  - **bless-boot gating** — a drop-in suppresses meta-qcom's automatic slot-bless while a Mender
    update is in flight, so Mender owns commit/rollback (normal boots still auto-bless).
 
+## MCU firmware updates (STM32U585)
+
+A second Mender update type deploys firmware to the Uno Q's on-board **STM32U585**
+(Cortex-M33) coprocessor, which is not covered by the ABL/`qbootctl` slots (those are
+eMMC/OS only). The QRB2210 programs the STM32 over an **internal SWD link** (no external
+probe) that OpenOCD bit-bangs via `linuxgpiod` on the TLMM (`gpiochip1`, SWDIO=25 / SWCLK=26).
+
+ - **`zephyr-mcu` Mender Update Module** (`unoq-mcu-integration`) — streams the firmware
+   image, backs up the current MCU flash to `/data`, then `openocd program … verify` over
+   SWD. Health is the SWD read-back verify (no Linux↔MCU channel needed); `NeedsArtifactReboot=No`
+   (only the MCU resets, the Linux host stays up); rollback re-flashes the backup. It also
+   sets the STM32 option bytes (`nSWBOOT0=0, nBOOT0=1`) idempotently so the MCU boots the
+   flashed image regardless of the BOOT0 pin.
+ - **OpenOCD** — `openocd_git.bbappend` enables the `linuxgpiod` driver (the kernel exposes
+   `/dev/gpiochipN` but no sysfs GPIO). That OpenOCD revision uses the libgpiod **v1** API,
+   so the build must pin `libgpiod 1.6.5` (set in the build config).
+ - **Zephyr demo firmware** — `zephyr-unoq-blink` (a versioned LED blink with an SWD-readable
+   version marker) plus the `arduino-uno-q` Cortex-M33 MACHINE and the `mcu` multiconfig show
+   how to build an MCU firmware image (via meta-zephyr) and package it as a `zephyr-mcu`
+   artifact. These live under `dynamic-layers/zephyrcore/` + `conf/`, so they are only built
+   when meta-zephyr is present — the layer does not otherwise depend on it.
+
 ## Dependencies
 
 This layer depends on:
@@ -64,7 +86,6 @@ credentials); configure WiFi/networking at runtime or via a local overlay.
 
 ## Future work
 
-The Update-Module approach extends naturally to the other updatable parts of the Uno Q as
-separate Mender artifact types alongside the rootfs one:
- - the on-board **STM32U585 MCU** firmware (Zephyr), and
+The Update-Module approach extends naturally to further updatable parts of the Uno Q as
+separate Mender artifact types alongside the rootfs and MCU-firmware ones:
  - **AI models** shipped in conjunction with Edge Impulse.
