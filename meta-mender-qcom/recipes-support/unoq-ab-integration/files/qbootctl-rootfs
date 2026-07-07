@@ -1,0 +1,92 @@
+#!/bin/sh
+# Mender Update Module: A/B rootfs update driven by the platform's native slots
+# (Qualcomm qbootctl / ABL), instead of Mender's dual-rootfs+U-Boot integration.
+# Payload = one system image (ext4) written to the INACTIVE system_<slot>.
+#
+# Commit/rollback are Mender-owned: meta-qcom's qbootctl-bless-boot auto-commit is
+# gated by /data/mender-ab-updating (this module sets/clears it), so a new slot is
+# only marked "successful" at ArtifactCommit. A slot that never reaches commit
+# (bad image / never boots) is not blessed -> ABL's retry counter rolls back.
+#
+# Runs as root (mender-update daemon). State dir ($1/tmp) lives under
+# /var/lib/mender -> /data/mender (persistent), so target/old slot survive the reboot.
+set -e
+
+STATE="$1"
+DIR="$2"
+cd "$DIR"
+
+FLAG=/data/mender-ab-updating
+
+qc() { qbootctl "$@" 2>/dev/null; }
+
+# Current running slot as a number: 0 = _a, 1 = _b
+cur_num() {
+    s=$(qc -c | sed -n 's/.*[Cc]urrent slot:[[:space:]]*_\([ab]\).*/\1/p')
+    [ "$s" = "b" ] && echo 1 || echo 0
+}
+other_num() { [ "$1" = "0" ] && echo 1 || echo 0; }
+slot_dev() { [ "$1" = "1" ] && echo /dev/disk/by-partlabel/system_b || echo /dev/disk/by-partlabel/system_a; }
+
+case "$STATE" in
+    Download)
+        # Stream the payload straight onto the inactive system slot.
+        tgt=$(other_num "$(cur_num)")
+        dev=$(slot_dev "$tgt")
+        f="$(cat stream-next)"
+        [ -n "$f" ] && cat "$f" > "$dev"
+        if [ -n "$(cat stream-next)" ]; then
+            echo "qbootctl-rootfs: expected exactly one payload file" >&2
+            exit 1
+        fi
+        ;;
+
+    ArtifactInstall)
+        cur=$(cur_num)
+        tgt=$(other_num "$cur")
+        mkdir -p tmp
+        echo "$tgt" > tmp/target_slot
+        echo "$cur" > tmp/old_slot
+        # suppress auto-bless for the upcoming update boot, then activate the new slot
+        touch "$FLAG"; sync
+        qbootctl -s "$tgt"
+        ;;
+
+    NeedsArtifactReboot)
+        echo "Automatic"
+        ;;
+
+    SupportsRollback)
+        echo "Yes"
+        ;;
+
+    ArtifactVerifyReboot)
+        want="$(cat tmp/target_slot 2>/dev/null || echo -1)"
+        got="$(cur_num)"
+        if [ "$got" != "$want" ]; then
+            echo "qbootctl-rootfs: booted slot $got, expected $want (ABL rolled back)" >&2
+            exit 1
+        fi
+        ;;
+
+    ArtifactCommit)
+        # Health OK: make the new slot permanent and re-enable auto-bless.
+        qbootctl -m
+        rm -f "$FLAG"; sync
+        ;;
+
+    ArtifactRollback)
+        # Return to the pre-update slot (works whether ABL already fell back or not).
+        old="$(cat tmp/old_slot 2>/dev/null || echo 0)"
+        qbootctl -s "$old" || true
+        rm -f "$FLAG"; sync
+        ;;
+
+    ArtifactFailure|Cleanup)
+        rm -f "$FLAG"; sync
+        ;;
+
+    *)
+        ;;
+esac
+exit 0
