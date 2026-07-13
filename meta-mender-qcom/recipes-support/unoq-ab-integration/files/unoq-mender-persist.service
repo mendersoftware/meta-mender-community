@@ -1,0 +1,16 @@
+[Unit]
+Description=Relocate Mender state onto persistent /data (A/B)
+DefaultDependencies=no
+After=data.mount local-fs.target
+Requires=data.mount
+RequiresMountsFor=/data
+ConditionPathIsMountPoint=/data
+Before=mender-authd.service mender-updated.service mender-connect.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/unoq-mender-persist
+
+[Install]
+WantedBy=multi-user.target

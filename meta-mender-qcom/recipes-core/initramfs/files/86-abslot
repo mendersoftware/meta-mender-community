@@ -1,0 +1,74 @@
+#!/bin/sh
+# initramfs-framework module: Uno Q A/B slot-aware root selection.
+# Runs after 01-udev (so /dev/disk/by-partlabel exists) and before 90-rootfs.
+# Asks qbootctl for the current slot and points bootparam_root at
+# system_<suffix>, which 90-rootfs then mounts. qbootctl determines the slot
+# from the A/B attribute bits in the GPT partition entries, i.e. the slot ABL
+# selected. (It would prefer an Android-style androidboot.slot_suffix= kernel
+# argument, but this board's U-Boot flow passes none, so the GPT path is the
+# one in effect here.)
+# Module name (init parses field 2 of the filename): "abslot".
+
+abslot_enabled() {
+    command -v qbootctl >/dev/null 2>&1
+}
+
+abslot_run() {
+    _out=$(qbootctl -c 2>/dev/null || true)
+    # qbootctl -c prints e.g. "Current slot: _a"
+    _suffix=$(printf '%s\n' "$_out" | sed -n 's/.*[Cc]urrent slot:[[:space:]]*//p')
+    case "$_suffix" in
+        _a|_b) ;;
+        *) _suffix=_a ;;   # safe default if the slot can't be determined
+    esac
+
+    _dev="/dev/disk/by-partlabel/system${_suffix}"
+    _i=0
+    while [ ! -e "$_dev" ] && [ "$_i" -lt 10 ]; do
+        sleep 1
+        _i=$((_i + 1))
+    done
+
+    # If the active slot holds no valid filesystem (e.g. a failed/garbage OTA to
+    # the inactive slot that was then activated), self-heal: switch the active
+    # slot to the other one via qbootctl and reboot. A single, deterministic
+    # fallback into the known-good slot. Afterwards qbootctl -c reflects the other
+    # slot, so Mender's ArtifactVerifyReboot sees we're not on the update's target
+    # slot and rolls the deployment back. Guarded with retries so a transient
+    # (device not ready) never triggers it.
+    # Authoritative validity test: actually try to mount the slot read-only.
+    # (blkid is unreliable here: a failed OTA may zero only the start of the
+    # partition, leaving backup superblocks that blkid still recognises while the
+    # real mount fails.)
+    _ok=""
+    _j=0
+    mkdir -p /run/abprobe
+    while [ "$_j" -lt 5 ]; do
+        if mount -o ro "$_dev" /run/abprobe >/dev/null 2>&1; then
+            umount /run/abprobe >/dev/null 2>&1 || true
+            _ok=1
+            break
+        fi
+        sleep 1
+        _j=$((_j + 1))
+    done
+    if [ -z "$_ok" ]; then
+        _other=1
+        [ "$_suffix" = "_a" ] || _other=0
+        printf 'unoq-ab: slot %s unmountable; switching to slot %s and rebooting\n' "$_suffix" "$_other" > /dev/kmsg 2>/dev/null || true
+        # Activate the known-good slot AND mark it successful, so ABL keeps it
+        # (qbootctl -s clears the successful bit; without -m, and with bless-boot
+        # gated by the update flag, ABL could roll the fallback back into the bad
+        # slot -> loop). This is the boot-level rollback commit.
+        qbootctl -s "$_other" >/dev/null 2>&1 || true
+        qbootctl -m "$_other" >/dev/null 2>&1 || true
+        sync
+        sleep 1
+        reboot -f >/dev/null 2>&1 || true
+        echo b > /proc/sysrq-trigger 2>/dev/null || true
+        sleep 30
+    fi
+
+    bootparam_root="PARTLABEL=system${_suffix}"
+    printf 'unoq-ab: active slot %s -> root=%s\n' "$_suffix" "$bootparam_root" > /dev/kmsg 2>/dev/null || true
+}

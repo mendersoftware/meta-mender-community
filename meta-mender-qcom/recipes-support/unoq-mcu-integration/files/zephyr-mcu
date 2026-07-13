@@ -1,0 +1,94 @@
+#!/bin/sh
+# Mender Update Module: flash Zephyr firmware onto the Arduino Uno Q's on-board
+# STM32U585 MCU over the QRB2210's internal SWD link (OpenOCD + linuxgpiod),
+# rather than a rootfs update. Payload = one firmware image (.hex, self-addressing
+# at 0x08000000). Companion to the qbootctl-rootfs A/B module.
+#
+# The MCU is a separate processor from the Linux host, so this needs NO host
+# reboot (NeedsArtifactReboot=No): the STM32 is reset into the new firmware
+# in-place during ArtifactInstall. Health is checked over SWD (OpenOCD verifies
+# the written image byte-for-byte), so it needs no Linux<->MCU comms channel.
+# Rollback re-flashes the previous firmware, backed up on /data before writing.
+#
+# Runs as root (mender-update daemon). Requires openocd (built with the linuxgpiod
+# driver) + /usr/share/unoq-mcu/openocd_gpiod.cfg.
+set -e
+
+STATE="$1"
+DIR="$2"
+cd "$DIR"
+
+CFG=/usr/share/unoq-mcu/openocd_gpiod.cfg
+FLASH_BASE=0x08000000
+BACKUP_SIZE=0x40000                 # 256 KiB: covers the demo images with margin
+BACKUP=/data/mcu-fw/previous.bin
+FW=tmp/fw.hex
+
+ocd() { openocd -f "$CFG" "$@"; }
+
+case "$STATE" in
+    Download)
+        # Stream the single firmware payload into the work dir.
+        mkdir -p tmp
+        f="$(cat stream-next)"
+        [ -n "$f" ] && cat "$f" > "$FW"
+        if [ -n "$(cat stream-next)" ]; then
+            echo "zephyr-mcu: expected exactly one payload file" >&2
+            exit 1
+        fi
+        ;;
+
+    ArtifactInstall)
+        mkdir -p /data/mcu-fw
+        # Ensure the STM32 boots from main flash regardless of the BOOT0 pin
+        # (nSWBOOT0=0, nBOOT0=1 -> FLASH_OPTR bit26=0). Idempotent: only rewrite
+        # the option bytes if nSWBOOT0 is still set (bit26 = 0x04000000).
+        optr=$(ocd -c init -c halt -c "stm32l4x option_read 0 0x40" -c shutdown 2>&1 \
+               | sed -n 's/.*Option Register.*=[[:space:]]*\(0x[0-9a-fA-F]*\).*/\1/p')
+        if [ -n "$optr" ] && [ $(( optr & 0x04000000 )) -ne 0 ]; then
+            echo "zephyr-mcu: setting STM32 to boot from main flash (option bytes)"
+            # option_load triggers a reset that drops the debugger (prints a
+            # harmless "option load failed"); the bytes are still applied.
+            ocd -c init -c halt \
+                -c "stm32l4x option_write 0 0x40 0x08000000 0x0c000000" \
+                -c "stm32l4x option_load 0" -c shutdown 2>&1 || true
+        fi
+        # Back up the flash region we are about to overwrite, for rollback.
+        ocd -c init -c halt -c "dump_image $BACKUP $FLASH_BASE $BACKUP_SIZE" -c shutdown
+        # Flash + verify + reset into the new firmware. Verify is the health gate:
+        # a non-zero exit here makes Mender run ArtifactRollback.
+        out=$(ocd -c init -c "program $FW verify reset" -c shutdown 2>&1)
+        echo "$out"
+        echo "$out" | grep -q "Verified OK" || {
+            echo "zephyr-mcu: flash verify failed" >&2
+            exit 1
+        }
+        ;;
+
+    NeedsArtifactReboot)
+        echo "No"                   # reset the MCU only; the Linux host stays up
+        ;;
+
+    SupportsRollback)
+        echo "Yes"
+        ;;
+
+    ArtifactRollback)
+        # Re-flash the firmware that was on the MCU before this update.
+        if [ -f "$BACKUP" ]; then
+            ocd -c init -c "program $BACKUP $FLASH_BASE verify reset" -c shutdown 2>&1 || true
+        fi
+        ;;
+
+    ArtifactCommit)
+        rm -rf tmp
+        ;;
+
+    ArtifactFailure|Cleanup)
+        rm -rf tmp
+        ;;
+
+    *)
+        ;;
+esac
+exit 0

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Relocate Mender's state onto the persistent /data (userdata) partition so the
+# device key/identity AND in-flight update state (the update module's saved
+# target slot, deployment state) survive an A/B rootfs swap. Runs once at boot,
+# before mender-authd/mender-updated, while /var/lib/mender is still the baked
+# rootfs directory; seeds /data/mender then bind-mounts it over /var/lib/mender.
+set -e
+
+SRC=/var/lib/mender     # baked rootfs dir (before bind)
+DST=/data/mender        # persistent store on the userdata partition
+
+mkdir -p "$DST"
+
+# Seed once, on the first boot only. The client loads /var/lib/mender/mender.conf
+# as the FALLBACK config; /etc/mender/mender.conf (in the rootfs, refreshed by
+# every A/B update) overrides it, so config changes ship via /etc/mender and no
+# per-boot refresh is needed. Re-copying here would also clobber any config set
+# at runtime on /data.
+for f in mender.conf device_type; do
+    if [ ! -e "$DST/$f" ] && [ -e "$SRC/$f" ]; then
+        cp -a "$SRC/$f" "$DST/$f"
+    fi
+done
+
+# Bind the persistent store over the rootfs location (idempotent).
+mountpoint -q "$SRC" || mount --bind "$DST" "$SRC"
