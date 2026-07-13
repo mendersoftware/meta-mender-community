@@ -14,8 +14,10 @@ inherit systemd
 SYSTEMD_SERVICE:${PN} = "unoq-mender-persist.service"
 SYSTEMD_AUTO_ENABLE = "enable"
 
-# qbootctl for the update module; mkfs.ext4 for the /data (userdata) x-systemd.makefs
-RDEPENDS:${PN} = "qbootctl e2fsprogs-mke2fs"
+# qbootctl + mender-flash for the update module; mkfs.ext4 for the /data
+# (userdata) x-systemd.makefs. mender-flash is only RRECOMMENDS of
+# mender-update, so pull it in explicitly.
+RDEPENDS:${PN} = "qbootctl mender-flash e2fsprogs-mke2fs"
 
 do_install() {
     install -d ${D}${bindir}

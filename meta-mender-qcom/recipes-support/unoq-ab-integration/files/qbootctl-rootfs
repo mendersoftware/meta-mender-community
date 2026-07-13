@@ -29,12 +29,34 @@ other_num() { [ "$1" = "0" ] && echo 1 || echo 0; }
 slot_dev() { [ "$1" = "1" ] && echo /dev/disk/by-partlabel/system_b || echo /dev/disk/by-partlabel/system_a; }
 
 case "$STATE" in
+    ProvidePayloadFileSizes)
+        echo "Yes"
+        ;;
+
     Download)
-        # Stream the payload straight onto the inactive system slot.
+        echo "qbootctl-rootfs: this module supports DownloadWithFileSizes only" >&2
+        exit 1
+        ;;
+
+    DownloadWithFileSizes)
+        # Stream the payload straight onto the inactive system slot. Use
+        # mender-flash (like the stock rootfs-image module): it skips blocks
+        # that are already identical on the target, saving eMMC writes.
         tgt=$(other_num "$(cur_num)")
         dev=$(slot_dev "$tgt")
-        f="$(cat stream-next)"
-        [ -n "$f" ] && cat "$f" > "$dev"
+        line="$(cat stream-next)"
+        f="$(echo "$line" | cut -d' ' -f1)"
+        size="$(echo "$line" | cut -d' ' -f2)"
+        if [ -z "$f" ] || [ -z "$size" ]; then
+            echo "qbootctl-rootfs: cannot parse line from stream-next: $line" >&2
+            exit 1
+        fi
+        if command -v mender-flash >/dev/null 2>&1; then
+            mender-flash --input-size "$size" --input "$f" --output "$dev"
+        else
+            cat "$f" > "$dev"
+            sync
+        fi
         if [ -n "$(cat stream-next)" ]; then
             echo "qbootctl-rootfs: expected exactly one payload file" >&2
             exit 1

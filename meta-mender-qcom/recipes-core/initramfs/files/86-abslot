@@ -1,9 +1,12 @@
 #!/bin/sh
 # initramfs-framework module: Uno Q A/B slot-aware root selection.
 # Runs after 01-udev (so /dev/disk/by-partlabel exists) and before 90-rootfs.
-# Reads the active slot from the GPT AB attribute bits via qbootctl (which falls
-# back to the GPT active bit when no androidboot.slot_suffix is present) and
-# points bootparam_root at system_<suffix>, which 90-rootfs then mounts.
+# Asks qbootctl for the current slot and points bootparam_root at
+# system_<suffix>, which 90-rootfs then mounts. qbootctl determines the slot
+# from the A/B attribute bits in the GPT partition entries, i.e. the slot ABL
+# selected. (It would prefer an Android-style androidboot.slot_suffix= kernel
+# argument, but this board's U-Boot flow passes none, so the GPT path is the
+# one in effect here.)
 # Module name (init parses field 2 of the filename): "abslot".
 
 abslot_enabled() {

@@ -11,10 +11,16 @@ DST=/data/mender        # persistent store on the userdata partition
 
 mkdir -p "$DST"
 
-# Always refresh the config from the image (server URL / tenant token), but
-# preserve identity + state that live only on /data.
-[ -e "$SRC/mender.conf" ] && cp -a "$SRC/mender.conf" "$DST/mender.conf"
-[ -e "$DST/device_type" ] || { [ -e "$SRC/device_type" ] && cp -a "$SRC/device_type" "$DST/device_type"; }
+# Seed once, on the first boot only. The client loads /var/lib/mender/mender.conf
+# as the FALLBACK config; /etc/mender/mender.conf (in the rootfs, refreshed by
+# every A/B update) overrides it, so config changes ship via /etc/mender and no
+# per-boot refresh is needed. Re-copying here would also clobber any config set
+# at runtime on /data.
+for f in mender.conf device_type; do
+    if [ ! -e "$DST/$f" ] && [ -e "$SRC/$f" ]; then
+        cp -a "$SRC/$f" "$DST/$f"
+    fi
+done
 
 # Bind the persistent store over the rootfs location (idempotent).
 mountpoint -q "$SRC" || mount --bind "$DST" "$SRC"
