@@ -73,6 +73,29 @@ Build configs (kas) live in the companion
 kas build mender-community-images/yocto/wrynose/floating/uno-q.yml
 ```
 
+## Rootfs update artifacts
+
+To have the build emit a deployable Mender artifact for the `qbootctl-rootfs`
+Update Module alongside the flashable image set, enable the layer's image type:
+
+```
+IMAGE_CLASSES += "image_types_mender_qcom"
+IMAGE_FSTYPES += "mender-qbootctl"
+```
+
+This wraps the rootfs filesystem image via `mender-artifact write module-image
+-T qbootctl-rootfs`, named from `MENDER_ARTIFACT_NAME` and targeting
+`MENDER_DEVICE_TYPES_COMPATIBLE`; `MENDER_ARTIFACT_SIGNING_KEY` and
+`MENDER_ARTIFACT_EXTRA_ARGS` are honored. The deployed
+`<image>.mender-qbootctl` file is a regular Mender artifact (only the
+extension differs, to avoid clashing with meta-mender's dual-rootfs `mender`
+image type). The same artifact can of course also be created manually:
+
+```
+mender-artifact write module-image -T qbootctl-rootfs \
+    -n <artifact name> -t <device type> -f <rootfs>.ext4 -o <artifact>.mender
+```
+
 ## Flashing / console
 
 The Uno Q is flashed over Qualcomm EDL with `qdl` (the build produces a `.qcomflash` set):
