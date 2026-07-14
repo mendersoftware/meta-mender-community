@@ -80,16 +80,17 @@ Update Module alongside the flashable image set, enable the layer's image type:
 
 ```
 IMAGE_CLASSES += "image_types_mender_qcom"
-IMAGE_FSTYPES += "mender-qbootctl"
+IMAGE_FSTYPES += "mender"
 ```
 
 This wraps the rootfs filesystem image via `mender-artifact write module-image
 -T qbootctl-rootfs`, named from `MENDER_ARTIFACT_NAME` and targeting
 `MENDER_DEVICE_TYPES_COMPATIBLE`; `MENDER_ARTIFACT_SIGNING_KEY` and
-`MENDER_ARTIFACT_EXTRA_ARGS` are honored. The deployed
-`<image>.mender-qbootctl` file is a regular Mender artifact (only the
-extension differs, to avoid clashing with meta-mender's dual-rootfs `mender`
-image type). The same artifact can of course also be created manually:
+`MENDER_ARTIFACT_EXTRA_ARGS` are honored, producing a regular
+`<image>.mender` file. On meta-qcom machines this replaces meta-mender's
+dual-rootfs `mender` image type (via a `qcom` MACHINEOVERRIDE-qualified
+definition), which does not apply to the qbootctl A/B layout. The same
+artifact can of course also be created manually:
 
 ```
 mender-artifact write module-image -T qbootctl-rootfs \
