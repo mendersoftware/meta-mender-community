@@ -4,17 +4,21 @@
 #
 # Usage (build configuration):
 #   IMAGE_CLASSES += "image_types_mender_qcom"
-#   IMAGE_FSTYPES += "mender-qbootctl"
+#   IMAGE_FSTYPES += "mender"
 #
-# The type name is deliberately NOT "mender": meta-mender-core registers its
-# own "mender" image type (rootfs-image artifacts for the dual-rootfs layout)
-# unconditionally via mender-setup, and that writer does not apply to the
-# qbootctl A/B integration. The produced file is a regular Mender artifact;
-# only the filename extension differs.
+# meta-mender-core registers its own "mender" image type unconditionally via
+# mender-setup (rootfs-image artifacts for the dual-rootfs layout), and its
+# class parses after the ones listed in the build configuration. The
+# definitions below are therefore qualified with the "qcom" MACHINEOVERRIDE
+# (set by meta-qcom's qcom-common.inc for every machine of the BSP): an
+# override-qualified assignment takes precedence over an unqualified one
+# regardless of parse order, so on meta-qcom machines the "mender" image type
+# produces a qbootctl-rootfs module-image artifact instead of the dual-rootfs
+# one, which does not apply to the qbootctl A/B integration.
 
 inherit image_types
 
-IMAGE_TYPES += "mender-qbootctl"
+IMAGE_TYPES += "mender"
 
 # Filesystem image type used as the artifact payload.
 MENDER_QBOOTCTL_ARTIFACT_FSTYPE ??= "ext4"
@@ -25,9 +29,9 @@ MENDER_ARTIFACT_EXTRA_ARGS ?= ""
 # The key used to sign the artifact, if any.
 MENDER_ARTIFACT_SIGNING_KEY ?= ""
 
-do_image_mender_qbootctl[depends] += "mender-artifact-native:do_populate_sysroot"
+do_image_mender[depends] += "mender-artifact-native:do_populate_sysroot"
 
-IMAGE_CMD:mender-qbootctl () {
+IMAGE_CMD:mender:qcom () {
     if [ -z "${MENDER_ARTIFACT_NAME}" ]; then
         bbfatal "Need to define MENDER_ARTIFACT_NAME variable."
     fi
@@ -51,8 +55,8 @@ IMAGE_CMD:mender-qbootctl () {
         $extra_args \
         -f ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${MENDER_QBOOTCTL_ARTIFACT_FSTYPE} \
         ${MENDER_ARTIFACT_EXTRA_ARGS} \
-        -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.mender-qbootctl
+        -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.mender
 }
 
 # The payload filesystem image must be generated first.
-IMAGE_TYPEDEP:mender-qbootctl = "${MENDER_QBOOTCTL_ARTIFACT_FSTYPE}"
+IMAGE_TYPEDEP:mender:qcom = "${MENDER_QBOOTCTL_ARTIFACT_FSTYPE}"
