@@ -5,7 +5,7 @@
 #
 # NB: OpenOCD at meta-oe's pinned SRCREV uses the libgpiod v1 API (configure
 # requires "libgpiod < 2.0"), so this must build against libgpiod 1.6.5, not the
-# 2.x default -- pinned via PREFERRED_VERSION in the kas overlay (unoq-mcu.yml).
+# 2.x default -- pinned via PREFERRED_VERSION in the kas configuration (uno-q.yml).
 DEPENDS += "libgpiod"
 PACKAGECONFIG[linuxgpiod] = "--enable-linuxgpiod,--disable-linuxgpiod"
 PACKAGECONFIG:append = " linuxgpiod"
