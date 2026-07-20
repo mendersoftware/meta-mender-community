@@ -28,6 +28,7 @@ SoC-oriented:
 - meta-mender-amlogic
 - meta-mender-nxp
 - meta-mender-tegra
+- meta-mender-xilinx
 ...
 
 Vendor-oriented:
