@@ -163,3 +163,24 @@ MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
 MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit = " jetson-xavier"
 MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
 MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-nano-devkit-emmc = " jetson-nano-emmc"
+
+# Settings for firmware updates
+# If TEGRA_MENDER_BOOTLOADER_INSTALL_ONLY_IF_DIFFERENT is set to 0
+# the bootloader capsule will be installed on every software update
+# regardless of version.
+# If set to 1 it will only be installed if version is newer than the
+# installed bootloader in the inactive slot. Enable this feature will
+# also check for firmware rollback during mender update and prevent
+# this in an earlier stage than during UEFI Capsule update.
+TEGRA_MENDER_INSTALL_ONLY_IF_DIFFERENT ?= "0"
+
+# By setting TEGRA_MENDER_ALLOW_FIRMWARE_VERSION_MISSMATCH to 1 there will
+# not be any UEFI capsule update if the firmware version is older in the
+# software update but rootfs is installed and slots are switched. This will cause that
+# you may end up in a non-official combination of firmware and OS.
+# For example when doing image updates
+# 36.4.3(A)->36.4.4(B)->36.4.4(A)->36.4.3(B) you will end up running firmware
+# 36.4.4 with the OS from 36.4.3 in slot B as this feature will take effect in
+# the third upgrade.
+# NOTE: only enable this if you know what you are doing!!
+TEGRA_MENDER_ALLOW_FIRMWARE_VERSION_MISSMATCH ?= "0"
