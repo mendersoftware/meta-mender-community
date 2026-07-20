@@ -1,0 +1,134 @@
+#!/bin/sh
+# SPDX-License-Identifier: Apache-2.0
+# fpga-bitstream - Mender Update Module (protocol v3) for Zynq-7000 PL
+# bitstreams.
+#
+# Payload: exactly one byte-swapped .bit.bin file (fpga_manager format).
+# The bitstream is persisted as /data/fpga/current.bit.bin (survives rootfs
+# A/B updates) and programmed immediately via /usr/bin/fpga-load.sh;
+# fpga-load-on-boot.service reprograms the PL after every boot.
+#
+# stdout is reserved for the module protocol - all logging goes to stderr.
+
+set -e
+
+STATE="$1"
+FILES="$2"
+
+FPGA_DIR="/data/fpga"
+CURRENT="$FPGA_DIR/current.bit.bin"
+BACKUP="$FPGA_DIR/current.bit.bin.backup"
+EMPTY_MARKER="$FPGA_DIR/.no-previous-bitstream"
+LOADER="/usr/bin/fpga-load.sh"
+
+log() {
+    echo "fpga-bitstream: $1" >&2
+}
+
+find_payload() {
+    payload=""
+    for f in "$FILES"/files/*; do
+        [ -f "$f" ] || continue
+        if [ -n "$payload" ]; then
+            log "Error: more than one file in payload"
+            return 1
+        fi
+        payload="$f"
+    done
+    if [ -z "$payload" ]; then
+        log "Error: no payload file found in $FILES/files"
+        return 1
+    fi
+    return 0
+}
+
+do_backup() {
+    mkdir -p "$FPGA_DIR"
+    rm -f "$BACKUP" "$EMPTY_MARKER"
+    if [ -f "$CURRENT" ]; then
+        cp "$CURRENT" "$BACKUP"
+        log "Backed up current bitstream to $BACKUP"
+    else
+        touch "$EMPTY_MARKER"
+        log "No previous bitstream to back up"
+    fi
+}
+
+do_install() {
+    # No content validation beyond what the kernel does: the zynq_fpga
+    # driver rejects payloads without the sync word itself, and a failed
+    # write to the firmware attribute fails the loader (deliberate).
+    cp "$payload" "$CURRENT.tmp"
+    sync
+    mv "$CURRENT.tmp" "$CURRENT"
+    sync
+    log "Installed $(basename "$payload") as $CURRENT"
+    if ! "$LOADER" >&2; then
+        log "Error: FPGA programming failed"
+        return 1
+    fi
+    log "FPGA programmed successfully"
+    return 0
+}
+
+do_rollback() {
+    if [ -f "$BACKUP" ]; then
+        mv "$BACKUP" "$CURRENT"
+        sync
+        log "Restored previous bitstream"
+        if ! "$LOADER" >&2; then
+            log "Error: reprogramming previous bitstream failed"
+            return 1
+        fi
+        log "Reprogrammed previous bitstream"
+    elif [ -f "$EMPTY_MARKER" ]; then
+        # The PL cannot be unloaded; it keeps the last design until reboot,
+        # but nothing will be reloaded on the next boot.
+        rm -f "$CURRENT" "$EMPTY_MARKER"
+        sync
+        log "No previous bitstream existed; removed $CURRENT"
+    else
+        log "No backup found, nothing to roll back"
+    fi
+    return 0
+}
+
+do_cleanup() {
+    rm -f "$BACKUP" "$EMPTY_MARKER" "$CURRENT.tmp"
+}
+
+case "$STATE" in
+    NeedsArtifactReboot)
+        echo "No"
+        ;;
+    SupportsRollback)
+        echo "Yes"
+        ;;
+    ArtifactInstall)
+        log "Installing FPGA bitstream"
+        # validate the payload before touching any state
+        find_payload
+        do_backup
+        do_install
+        ;;
+    ArtifactCommit)
+        log "Committing new bitstream"
+        ;;
+    ArtifactRollback)
+        log "Rolling back FPGA bitstream"
+        do_rollback
+        ;;
+    ArtifactFailure)
+        log "Install failed; rollback handled in ArtifactRollback"
+        ;;
+    Cleanup)
+        log "Cleaning up"
+        do_cleanup
+        ;;
+    *)
+        # Download is intentionally not handled: the client's default
+        # download places the payload in $FILES/files/. Ignore other states.
+        ;;
+esac
+
+exit 0
