@@ -1,0 +1,41 @@
+# Digilent Arty Z7-20 (Zynq-7000 xc7z020, 512 MB DDR3) — Mender OTA build,
+# including FPGA (PL) bitstream OTA via the fpga-bitstream update module.
+#
+# Board support is meta-mender-xilinx (Mender integration) plus its nested
+# meta-arty-z7 BSP sub-layer (machine on top of meta-xilinx zynq-generic;
+# U-Boot SPL replaces the FSBL, no Vivado input). A/B SD layout with a raw
+# redundant U-Boot env; the u-boot-xlnx fork provides the "u-boot" recipe that
+# meta-mender expects.
+header:
+  version: 14
+  includes:
+  - kas/include/mender-full.yml
+  - kas/include/arm.yml
+
+repos:
+  meta-mender-community:
+    layers:
+      meta-mender-xilinx:
+      meta-mender-xilinx/meta-arty-z7:
+
+  meta-xilinx:
+    url: https://github.com/Xilinx/meta-xilinx
+    # scarthgap
+    commit: 936845b97ab1ff035108f219f4e7cfef5401eb02
+    layers:
+      meta-xilinx-core:
+
+local_conf_header:
+  arty-z7-20: |
+    MENDER_FEATURES_ENABLE:append = " mender-uboot mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+    PREFERRED_PROVIDER_u-boot = "u-boot-xlnx"
+    # Pin the xlnx component set (linux-xlnx 6.12, u-boot-xlnx 2025.01) so a
+    # future meta-xilinx default bump cannot change component versions.
+    XILINX_RELEASE_VERSION = "v2025.1"
+    # FPGA (PL) bitstream OTA. Deploy bitstream artifacts built per the Arty
+    # Z7-20 Mender Hub tutorial (Vivado-free openXC7 flow) with `mender-artifact
+    # write module-image -T fpga-bitstream --software-filesystem data-partition`.
+    IMAGE_INSTALL:append = " fpga-bitstream-module"
+
+machine: arty-z7-20

@@ -26,7 +26,8 @@ jobs:
         board: [
           olimex-imx8mp-evb,
           imx93-var-som,
-          nezha-allwinner-d1
+          nezha-allwinner-d1,
+          arty-z7-20
         ]
         subpath: [.]
         include:
