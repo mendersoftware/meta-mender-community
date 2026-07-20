@@ -1,0 +1,120 @@
+From 8a94aa77a4e14cf65b4b4a1b3b2f4eec25905abf Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Fri, 17 Jul 2026 08:29:22 +0000
+Subject: [PATCH] arm: dts: add zynq-arty-z7-20
+
+Add a U-Boot control device tree for the Digilent Arty Z7-20 board
+(Zynq-7000 xc7z020, 512 MB DDR3, console UART0, GEM0 RGMII with an
+RTL8211F PHY at MDIO address 1). Derived from Digilent's 2016
+zynq-artyz7.dts, restructured after zynq-zybo-z7.dts, with bootph-all
+markers on uart0/sdhci0 for SPL (boot media is SD only, QSPI is not
+part of the boot path). The board has no factory MAC, so gem0 carries
+a fixed locally administered local-mac-address.
+
+Upstream-Status: Pending
+---
+ arch/arm/dts/Makefile            |  1 +
+ arch/arm/dts/zynq-arty-z7-20.dts | 79 +++++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 arch/arm/dts/zynq-arty-z7-20.dts
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 2f4b491..1a4ba9b 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -222,6 +222,7 @@ dtb-$(CONFIG_ARCH_UNIPHIER_SLD8) += \
+ 
+ dtb-$(CONFIG_ARCH_ZYNQ) += \
+ 	bitmain-antminer-s9.dtb \
++	zynq-arty-z7-20.dtb \
+ 	zynq-cc108.dtb \
+ 	zynq-cse-nand.dtb \
+ 	zynq-cse-nor.dtb \
+diff --git a/arch/arm/dts/zynq-arty-z7-20.dts b/arch/arm/dts/zynq-arty-z7-20.dts
+new file mode 100644
+index 0000000..a160e11
+--- /dev/null
++++ b/arch/arm/dts/zynq-arty-z7-20.dts
+@@ -0,0 +1,79 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Digilent Arty Z7-20 board (Zynq-7000 xc7z020, 512 MB DDR3)
++ *
++ * Copyright (C) 2016 Digilent
++ *
++ * Derived from Digilent's zynq-artyz7.dts (u-boot-digilent 3b9fb209),
++ * restructured after zynq-zybo-z7.dts.
++ *
++ * Keep in sync with the Linux dts zynq-arty-z7-20.dts in meta-arty-z7
++ * (recipes-bsp/device-tree/files): the fixed local-mac-address and the
++ * PHY address must match.
++ */
++/dts-v1/;
++#include "zynq-7000.dtsi"
++#include <dt-bindings/gpio/gpio.h>
++
++/ {
++	model = "Digilent Arty Z7-20 board";
++	compatible = "digilent,zynq-artyz7", "xlnx,zynq-7000";
++
++	aliases {
++		ethernet0 = &gem0;
++		serial0 = &uart0;
++		spi0 = &qspi;
++		mmc0 = &sdhci0;
++	};
++
++	memory@0 {
++		device_type = "memory";
++		reg = <0x0 0x20000000>;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	usb_phy0: phy0 {
++		#phy-cells = <0>;
++		compatible = "usb-nop-xceiv";
++		reset-gpios = <&gpio0 46 GPIO_ACTIVE_LOW>;
++	};
++};
++
++&clkc {
++	ps-clk-frequency = <50000000>;
++};
++
++&gem0 {
++	status = "okay";
++	phy-mode = "rgmii-id";
++	phy-handle = <&ethernet_phy>;
++	/* No factory MAC on the board: fixed locally administered address */
++	local-mac-address = [02 44 5a 37 32 30];
++
++	ethernet_phy: ethernet-phy@1 { /* RTL8211E or F, board-revision dependent */
++		reg = <1>;
++	};
++};
++
++&qspi {
++	status = "okay";
++};
++
++&sdhci0 {
++	bootph-all;
++	status = "okay";
++};
++
++&uart0 {
++	bootph-all;
++	status = "okay";
++};
++
++&usb0 {
++	status = "okay";
++	dr_mode = "host";
++	usb-phy = <&usb_phy0>;
++};
+-- 
+2.34.1
+

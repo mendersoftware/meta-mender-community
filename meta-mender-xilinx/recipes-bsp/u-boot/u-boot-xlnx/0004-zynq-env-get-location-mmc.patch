@@ -1,0 +1,32 @@
+From 8ee5335dc7e7bf0c4048ae0dc677908e4be38515 Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Fri, 17 Jul 2026 11:15:13 +0000
+Subject: [PATCH] zynq: honour ENV_IS_IN_MMC in env_get_location for SD boot
+
+The SD boot case only considers FAT and EXT4 environment backends and
+falls through to ENVL_NOWHERE otherwise. Mender stores the redundant
+U-Boot environment at raw MMC offsets (CONFIG_ENV_IS_IN_MMC), which
+this function silently ignored, breaking A/B state and rollback.
+Return ENVL_MMC when that backend is configured.
+
+Upstream-Status: Pending
+---
+ board/xilinx/zynq/board.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/board/xilinx/zynq/board.c b/board/xilinx/zynq/board.c
+index a852d5b..05cb914 100644
+--- a/board/xilinx/zynq/board.c
++++ b/board/xilinx/zynq/board.c
+@@ -147,6 +147,8 @@ enum env_location env_get_location(enum env_operation op, int prio)
+ 			return ENVL_FAT;
+ 		if (IS_ENABLED(CONFIG_ENV_IS_IN_EXT4))
+ 			return ENVL_EXT4;
++		if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
++			return ENVL_MMC;
+ 		return ENVL_NOWHERE;
+ 	case ZYNQ_BM_NAND:
+ 		if (IS_ENABLED(CONFIG_ENV_IS_IN_NAND))
+-- 
+2.34.1
+
