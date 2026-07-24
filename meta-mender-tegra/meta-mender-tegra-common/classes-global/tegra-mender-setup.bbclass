@@ -68,6 +68,8 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra264 = "2"
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
+# t264 boots NVMe-only; mender's /dev/mmcblk0 default is absent there.
+MENDER_STORAGE_DEVICE_DEFAULT:tegra264 = "/dev/nvme0n1"
 
 # Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
 MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit = "3"
