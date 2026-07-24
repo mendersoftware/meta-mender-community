@@ -134,11 +134,17 @@ def tegra_mender_calc_total_size(d):
     else:
         emmc_size = d.getVar('EMMC_SIZE')
         if not emmc_size:
-            # No internal storage (e.g. t264 NVMe-only platforms): the A/B rootfs
-            # and data partition sizes come from the L4T flash layout XML, not from
-            # a computed eMMC total. Return a large nominal total so mender's
-            # rootfs-fits bookkeeping passes (the distro can still pin an explicit
-            # MENDER_STORAGE_TOTAL_SIZE_MB) instead of aborting the build.
+            # No internal storage (t264 is NVMe-only). Size the slots from the
+            # machine's own flash layout so they match NVIDIA's A/B layout.
+            # Guard on ROOTFSPART_SIZE_DEFAULT: ROOTFSPART_SIZE_REDUNDANT is
+            # derived from it and cannot expand when it is unset.
+            if d.getVar('ROOTFSPART_SIZE_DEFAULT'):
+                slot_mb = int(d.getVar('ROOTFSPART_SIZE_REDUNDANT')) // (1024 * 1024)
+                extra_mb = int(d.getVar('MENDER_DATA_PART_SIZE_MB') or 0) \
+                    + int(d.getVar('MENDER_BOOT_PART_SIZE_MB') or 0) \
+                    + int(d.getVar('MENDER_SWAP_PART_SIZE_MB') or 0)
+                return 2 * slot_mb + extra_mb
+            # Nominal total, keeps mender's rootfs-fits check from aborting.
             return 196608
         total_size_bytes = int(emmc_size)
     # Mender uses mibibytes, not megabytes
