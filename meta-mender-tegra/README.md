@@ -44,7 +44,7 @@ revision: HEAD
 
 - `meta-mender-tegra-jetpack7`
   Holds Jetpack release 7 specific parts of the Mender integration for Tegra.
-  This correlates with the `wip-l4t-r39.2.0` branch of `meta-tegra`.
+  This correlates with the `wrynose` branch of `meta-tegra`.
 
 ## Quick start
 
@@ -56,19 +56,9 @@ for the most up to date instructions on starting out with mender and tegra.
 
 The following configuration files for building using the `kas` tool are provided:
 
-### Jetpack 5
+### Jetpack 7
 
-- [jetson-agx-orin-devkit.yml](../kas/tegra/jetpack5/jetson-agx-orin-devkit.yml)
-- [jetson-agx-xavier-devkit.yml](../kas/tegra/jetpack5/jetson-agx-xavier-devkit.yml)
-- [jetson-orin-16gb-nx-p3786.yml](../kas/tegra/jetpack6/jetson-orin-16gb-nx-p3786.yml)
-- [jetson-orin-nano-devkit.yml](../kas/tegra/jetpack5/jetson-orin-nano-devkit.yml)
-
-### Jetpack 6
-
-- [jetson-agx-orin-devkit-64.yml](../kas/tegra/jetpack6/jetson-agx-orin-devkit-64.yml)
-- [jetson-agx-orin-devkit.yml](../kas/tegra/jetpack6/jetson-agx-orin-devkit.yml)
-- [jetson-orin-16gb-nx-p3786.yml](../kas/tegra/jetpack6/jetson-orin-16gb-nx-p3786.yml)
-- [jetson-orin-nano-devkit.yml](../kas/tegra/jetpack6/jetson-orin-nano-devkit.yml)
+- [jetson-agx-thor-devkit.yaml](../kas/tegra/jetpack7/jetson-agx-thor-devkit.yaml)
 
 ### Jetson Orin NX
 
