@@ -1,0 +1,6 @@
+#!/bin/sh
+
+boot_flag="/var/lib/mender/boot_attempted"
+
+/usr/sbin/nvbootctrl verify
+rm $boot_flag || true

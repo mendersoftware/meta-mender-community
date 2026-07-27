@@ -1,0 +1,11 @@
+[Unit]
+Description=Mender update verifier
+Requires=nv_update_verifier.service
+Before=mender-client.service mender-updated.service nv_update_verifier.service
+
+[Service]
+Type=oneshot
+ExecStart=mender-update-verifier.sh
+
+[Install]
+WantedBy=multi-user.target
