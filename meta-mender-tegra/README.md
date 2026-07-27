@@ -34,15 +34,8 @@ revision: HEAD
 ## Layer structure
 
 - `meta-mender-tegra-common`
-  Holds all common parts of the Mender integration for Tegra across all
-  currently supported releases of Jetpack
-
-- `meta-mender-tegra-jetpack6`
-  Holds Jetpack release 6 specific parts of the Mender integration for Tegra.
-  Kept for reference only: it is `LAYERSERIES_COMPAT` `scarthgap`, so bitbake
-  will not load it in a wrynose build, and its kernel bbappend targets
-  `linux-jammy-nvidia-tegra`, which `wrynose` does not provide. Do not add it to
-  `bblayers.conf` here.
+  Holds the parts of the Mender integration for Tegra that are common across
+  Jetpack releases
 
 - `meta-mender-tegra-jetpack7`
   Holds Jetpack release 7 specific parts of the Mender integration for Tegra.
