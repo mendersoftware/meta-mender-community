@@ -54,11 +54,17 @@ for the most up to date instructions on starting out with mender and tegra.
 
 ## [`kas`](https://github.com/siemens/kas) configurations
 
-The following configuration files for building using the `kas` tool are provided:
+Build configs (kas) live in the companion
+[mender-community-images](https://github.com/theyoctojester/mender-community-images)
+repo, under `yocto/<release>/{tagged,floating}/tegra/jetpack<N>/`:
 
-### Jetpack 7
+```
+git clone https://github.com/theyoctojester/mender-community-images
+kas build mender-community-images/yocto/wrynose/tagged/tegra/jetpack7/jetson-agx-thor-devkit.yml
+```
 
-- [jetson-agx-thor-devkit.yaml](../kas/tegra/jetpack7/jetson-agx-thor-devkit.yaml)
+Jetpack 5 and 6 machines are covered by the `scarthgap` configurations in the
+same repository.
 
 ### Jetson Orin NX
 
