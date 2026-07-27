@@ -13,7 +13,7 @@ repos:
 
   bitbake:
     url: https://git.openembedded.org/bitbake.git
-    # branch: wrynose
+    # branch: 2.18
     commit: acfe02fa38b5da9e6a36c6cedcf91d4fcbefbfbd
     layers:
       bitbake: disabled
