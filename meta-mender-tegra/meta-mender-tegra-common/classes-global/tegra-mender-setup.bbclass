@@ -47,9 +47,17 @@ MENDER_DATA_PART_NUMBER_DEFAULT:tegra264 = "11"
 MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra264 = "2"
+# mender defaults MENDER_STORAGE_DEVICE to /dev/mmcblk0. The Jetsons that boot
+# from NVMe have no eMMC at all, so that names a device node which never
+# appears at runtime: /data cannot mount and a rootfs deployment cannot find
+# the inactive slot. TNSPEC_BOOTDEV is the BSP's own statement of where the
+# rootfs lives, so take the device from it.
+MENDER_STORAGE_DEVICE_DEFAULT:tegra = "${@'/dev/nvme0n1' if (d.getVar('TNSPEC_BOOTDEV') or '').startswith('nvme') else '/dev/mmcblk0'}"
+# The SD-card Orin Nano devkit enumerates its card as mmcblk1.
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
-# t264 boots NVMe-only; mender's /dev/mmcblk0 default is absent there.
-MENDER_STORAGE_DEVICE_DEFAULT:tegra264 = "/dev/nvme0n1"
+# The NVMe variant of that devkit would otherwise inherit the line above,
+# because jetson-orin-nano-devkit is in its MACHINEOVERRIDES.
+MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit-nvme = "/dev/nvme0n1"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
