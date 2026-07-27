@@ -27,8 +27,8 @@ repos:
 
   meta-mender:
     url: https://github.com/mendersoftware/meta-mender.git
-    # branch: main
-    commit: 9bba2bdc412d48d7cd98e5f2533c15a5665c2a4a
+    # branch: wrynose
+    commit: acc45e431e1aa6360a78c182a8c2578bd43af990
 
     layers:
       meta-mender-core:
