@@ -41,6 +41,11 @@ IMAGE_BOOT_FILES = "u-boot-dtb.bin"
 # boot into an emergency shell and examine the /dev/mmcblk* devices,
 # or use the uboot console to look at mtdparts
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra234 = "15"
+# ...except where we substitute our own external layout, which moves the data
+# image off UDA and onto permanet_user_storage so that it is the last partition
+# and can be grown. Keep this in step with the PARTITION_FILE_EXTERNAL override
+# in recipes-bsp/tegra-binaries/tegra-storage-layout_%.bbappend.
+MENDER_DATA_PART_NUMBER_DEFAULT:p3768-0000-p3767-0000 = "17"
 # t264 stock A/B NVMe layout (flash_l4t_t264_nvme_rootfs_ab.xml): APP=id1=p1,
 # APP_b=id2=p2, UDA=p11 (confirmed via nvflashxmlparse).
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra264 = "11"
@@ -58,6 +63,18 @@ MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
 # The NVMe variant of that devkit would otherwise inherit the line above,
 # because jetson-orin-nano-devkit is in its MACHINEOVERRIDES.
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit-nvme = "/dev/nvme0n1"
+
+# A/B rootfs updates need the redundant flash layout. In practice it is already
+# on, because the tegrademo distro enables it and the tegra kas configurations
+# select that distro, but nothing in this layer requires tegrademo. Built
+# against another distro, meta-tegra's own default of 0 applies and the machine
+# gets a single-slot layout while mender still expects two, which surfaces only
+# when a deployment cannot find the inactive slot. Set it here so the layer does
+# not depend on the distro for something its update scheme requires.
+#
+# meta-tegra still forces it off where the machine has no redundant external
+# layout to select, and a board can pin USE_REDUNDANT_FLASH_LAYOUT directly.
+USE_REDUNDANT_FLASH_LAYOUT_DEFAULT:tegra = "1"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
