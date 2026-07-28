@@ -1,15 +1,7 @@
+# Keep this inherit. meta-tegra's tegra-common.inc derives
+# TEGRA_UEFI_FW_VERSION from L4T_VERSION but does not inherit l4t_version
+# itself, so dropping it here leaves the UEFI capsule signing version unset.
 inherit l4t_version
-
-python () {
-    # insert l4t-mender-<version> as a machine-specific override for tegra platforms
-    machine_overrides = d.getVar('MACHINEOVERRIDES', False).split(':')
-    try:
-        i = machine_overrides.index('tegra')
-        l4t_ver = 'l4t-mender-%s' % d.getVar('L4T_VERSION').replace('.','-')
-        d.setVar('MACHINEOVERRIDES', ':'.join(machine_overrides[:i] + [l4t_ver] + machine_overrides[i:]))
-    except ValueError:
-        pass
-}
 
 def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
     return calc_rootfs_size_kb * 1024
@@ -34,14 +26,11 @@ ARTIFACTIMG_FSTYPE = "ext4"
 IMAGE_TYPEDEP:tegraflash-tar += " dataimg"
 IMAGE_FSTYPES += "dataimg"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_PROVIDER_libubootenv:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv'}"
+PREFERRED_PROVIDER_libubootenv:tegra = "libubootenv"
 PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_RPROVIDER_libubootenv-bin:tegra = "${@'libubootenv-fake' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'libubootenv-bin'}"
-PREFERRED_PROVIDER_virtual/bootloader:tegra194 = "edk2-firmware-tegra"
+PREFERRED_RPROVIDER_libubootenv-bin:tegra = "libubootenv-bin"
 PREFERRED_PROVIDER_libubootenv:tegra234 = "libubootenv-fake"
-PREFERRED_PROVIDER_libubootenv:tegra194 = "libubootenv-fake"
 PREFERRED_PROVIDER_libubootenv:tegra264 = "libubootenv-fake"
-MENDER_FEATURES_DISABLE:append:tegra194 = " mender-uboot"
 
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
@@ -51,35 +40,41 @@ IMAGE_BOOT_FILES = "u-boot-dtb.bin"
 # You will need to update these partition values when you update the flash layout.  One way to find the correct number is to
 # boot into an emergency shell and examine the /dev/mmcblk* devices,
 # or use the uboot console to look at mtdparts
-MENDER_DATA_PART_NUMBER_DEFAULT:tegra186 = "34"
-MENDER_DATA_PART_NUMBER_DEFAULT:tegra194 = "42"
-MENDER_DATA_PART_NUMBER_DEFAULT:xavier-nx = "23"
-MENDER_DATA_PART_NUMBER_DEFAULT:tegra210 = "${@'16' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '23'}"
-MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-emmc = "19"
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra234 = "15"
+# ...except where we substitute our own external layout, which moves the data
+# image off UDA and onto permanet_user_storage so that it is the last partition
+# and can be grown. Keep this in step with the PARTITION_FILE_EXTERNAL override
+# in recipes-bsp/tegra-binaries/tegra-storage-layout_%.bbappend.
+MENDER_DATA_PART_NUMBER_DEFAULT:p3768-0000-p3767-0000 = "17"
 # t264 stock A/B NVMe layout (flash_l4t_t264_nvme_rootfs_ab.xml): APP=id1=p1,
 # APP_b=id2=p2, UDA=p11 (confirmed via nvflashxmlparse).
 MENDER_DATA_PART_NUMBER_DEFAULT:tegra264 = "11"
 MENDER_ROOTFS_PART_A_NUMBER_DEFAULT = "1"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra186 = "33"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra194 = "2"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra210 = "${@'15' if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1' else '22'}"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-emmc = "18"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra234 = "2"
 MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra264 = "2"
+# mender defaults MENDER_STORAGE_DEVICE to /dev/mmcblk0. The Jetsons that boot
+# from NVMe have no eMMC at all, so that names a device node which never
+# appears at runtime: /data cannot mount and a rootfs deployment cannot find
+# the inactive slot. TNSPEC_BOOTDEV is the BSP's own statement of where the
+# rootfs lives, so take the device from it.
+MENDER_STORAGE_DEVICE_DEFAULT:tegra = "${@'/dev/nvme0n1' if (d.getVar('TNSPEC_BOOTDEV') or '').startswith('nvme') else '/dev/mmcblk0'}"
+# The SD-card Orin Nano devkit enumerates its card as mmcblk1.
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
-# t264 boots NVMe-only; mender's /dev/mmcblk0 default is absent there.
-MENDER_STORAGE_DEVICE_DEFAULT:tegra264 = "/dev/nvme0n1"
+# The NVMe variant of that devkit would otherwise inherit the line above,
+# because jetson-orin-nano-devkit is in its MACHINEOVERRIDES.
+MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit-nvme = "/dev/nvme0n1"
 
-# Machine name and flash layout changed for SDcard Nanos in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit = "3"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit = "2"
-# Machine name changed for Nano-eMMC in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-devkit-emmc = "19"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-devkit-emmc = "18"
-# Added in L4T R32.5.x
-MENDER_DATA_PART_NUMBER_DEFAULT:jetson-nano-2gb-devkit = "4"
-MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:jetson-nano-2gb-devkit = "2"
+# A/B rootfs updates need the redundant flash layout. In practice it is already
+# on, because the tegrademo distro enables it and the tegra kas configurations
+# select that distro, but nothing in this layer requires tegrademo. Built
+# against another distro, meta-tegra's own default of 0 applies and the machine
+# gets a single-slot layout while mender still expects two, which surfaces only
+# when a deployment cannot find the inactive slot. Set it here so the layer does
+# not depend on the distro for something its update scheme requires.
+#
+# meta-tegra still forces it off where the machine has no redundant external
+# layout to select, and a board can pin USE_REDUNDANT_FLASH_LAYOUT directly.
+USE_REDUNDANT_FLASH_LAYOUT_DEFAULT:tegra = "1"
 
 # Use a 4096 byte alignment for support of tegraflash scheme and default partition locations
 MENDER_PARTITION_ALIGNMENT = "4096"
@@ -106,81 +101,44 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
-MENDER_FEATURES_ENABLE:append:tegra = "${@tegra_mender_uboot_feature(d)}"
+MENDER_FEATURES_ENABLE:append:tegra = " mender-uboot mender-persist-systemd-machine-id"
 MENDER_FEATURES_DISABLE:append:tegra = " mender-grub mender-image-uefi"
 
-# Use these variables to adjust your total rootfs size across both
-# images. Rootfs size will be approximately 1/2 of
-# MENDER_STORAGE_TOTAL_SIZE_MB (ignoring alignment).
-# Calculate the total size based on the eMMC or SDcard size configured
-# for the machine, subtracting off space for the boot-related files
-# and other NVIDIA-specific partitions (by default, 1GiB).
+# Total size across both rootfs slots; each slot ends up at roughly half of
+# MENDER_STORAGE_TOTAL_SIZE_MB, ignoring alignment.
+#
+# Every machine on this branch boots from external storage and takes its A/B
+# slot sizes from the machine's own L4T flash layout, so the total is derived
+# from that rather than from an internal-storage size.
 def tegra_mender_calc_total_size(d):
-    # For pre-production Nanos, use SDCard size, which in the machine
-    # config ends with a size factor (K, M, or G). Note that the
-    # factors are kilo/mega/giga, rather than kibi/mibi/gibi.
-    if (d.getVar('TEGRA_SPIFLASH_BOOT') or '') == '1':
-        sdcard_size = d.getVar('TEGRAFLASH_SDCARD_SIZE')
-        fchar = sdcard_size[-1:].upper()
-        sdcard_size = int(sdcard_size[:-1])
-        if fchar == 'G':
-            total_size_bytes = sdcard_size * 1000 * 1000 * 1000
-        elif fchar == 'K':
-            total_size_bytes = sdcard_size * 1000
-        elif fchar == 'M':
-            total_size_bytes = sdcard_size * 1000 * 1000
-        else:
-            bb.error('TEGRAFLASH_SDCARD_SIZE does not end with G, K, or M')
-    else:
-        emmc_size = d.getVar('EMMC_SIZE')
-        if not emmc_size:
-            # No internal storage (t264 is NVMe-only). Size the slots from the
-            # machine's own flash layout so they match NVIDIA's A/B layout.
-            # Guard on ROOTFSPART_SIZE_DEFAULT: ROOTFSPART_SIZE_REDUNDANT is
-            # derived from it and cannot expand when it is unset.
-            if d.getVar('ROOTFSPART_SIZE_DEFAULT'):
-                slot_mb = int(d.getVar('ROOTFSPART_SIZE_REDUNDANT')) // (1024 * 1024)
-                extra_mb = int(d.getVar('MENDER_DATA_PART_SIZE_MB') or 0) \
-                    + int(d.getVar('MENDER_BOOT_PART_SIZE_MB') or 0) \
-                    + int(d.getVar('MENDER_SWAP_PART_SIZE_MB') or 0)
-                return 2 * slot_mb + extra_mb
-            # Nominal total, keeps mender's rootfs-fits check from aborting.
-            return 196608
-        total_size_bytes = int(emmc_size)
-    # Mender uses mibibytes, not megabytes
-    return total_size_bytes // (1024*1024) - int(d.getVar('TEGRA_MENDER_RESERVED_SPACE_MB'))
+    if d.getVar('EMMC_SIZE'):
+        # The eMMC path was dropped along with the tegra210/186/194 machines,
+        # which were the only ones that set this. Fail loudly rather than
+        # silently sizing an eMMC machine off the flash layout.
+        bb.fatal('EMMC_SIZE is set, but the eMMC sizing path was removed from '
+                 'tegra-mender-setup. Set MENDER_STORAGE_TOTAL_SIZE_MB explicitly, '
+                 'or restore the path.')
+    if not d.getVar('ROOTFSPART_SIZE_DEFAULT'):
+        # ROOTFSPART_SIZE_REDUNDANT is derived from it and cannot expand when
+        # it is unset, so there is nothing to size the slots from.
+        bb.fatal('Neither EMMC_SIZE nor ROOTFSPART_SIZE_DEFAULT is set, so the '
+                 'A/B slot size cannot be determined. Set ROOTFSPART_SIZE_DEFAULT '
+                 'for this machine, or pin MENDER_STORAGE_TOTAL_SIZE_MB.')
+    slot_mb = int(d.getVar('ROOTFSPART_SIZE_REDUNDANT')) // (1024 * 1024)
+    extra_mb = int(d.getVar('MENDER_DATA_PART_SIZE_MB') or 0) \
+        + int(d.getVar('MENDER_BOOT_PART_SIZE_MB') or 0) \
+        + int(d.getVar('MENDER_SWAP_PART_SIZE_MB') or 0)
+    return 2 * slot_mb + extra_mb
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
-TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT = "1024"
-TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT:jetson-nano-2gb-devkit = "5120"
-TEGRA_MENDER_RESERVED_SPACE_MB ?= "${TEGRA_MENDER_RESERVED_SPACE_MB_DEFAULT}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT:tegra = "${@tegra_mender_calc_total_size(d)}"
-
-def tegra_mender_uboot_feature(d):
-    if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot'):
-        return " mender-persist-systemd-machine-id"
-    return " mender-uboot mender-persist-systemd-machine-id"
 
 _MENDER_IMAGE_DEPS_EXTRA = ""
 _MENDER_IMAGE_DEPS_EXTRA:tegra = "tegra-state-scripts:do_deploy"
 do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 
-# mender-setup-image adds kernel-image and kernel-devicetree
-# to MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but they should *not*
-# be included by default on cboot platforms.
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra194 = "kernel-image kernel-devicetree"
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra186 = "${@'kernel-image kernel-devicetree' if (d.getVar('PREFERRED_PROVIDER_virtual/bootloader') or '').startswith('cboot') else ''}"
+# mender-setup-image adds kernel-image and kernel-devicetree to
+# MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but the kernel is carried in the boot
+# partitions on these platforms, not the rootfs.
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra234 = "kernel-image kernel-devicetree"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove:tegra264 = "kernel-image kernel-devicetree"
-
-# Compatibility settings for handling the machine name changes
-# made in L4T R32.5.x, to allow for upgrades.  This does not
-# include jetson-nano-qspi-sd (now jetson-nano-devkit) due to
-# major changes in the flash layout.
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx1-devkit = " jetson-tx1"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit = " jetson-tx2"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit-tx2i = " jetson-tx2i"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-tx2-devkit-4gb = " jetson-tx2-4gb"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit = " jetson-xavier"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-agx-xavier-devkit-8gb = " jetson-xavier-8gb"
-MENDER_DEVICE_TYPES_COMPATIBLE:append:jetson-nano-devkit-emmc = " jetson-nano-emmc"

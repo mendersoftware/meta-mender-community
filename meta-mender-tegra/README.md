@@ -2,13 +2,16 @@
 
 Mender integration layer for NVIDIA Tegra hardware.
 
-The supported and tested boards are:
+The supported boards are:
 
 - Thor
 - AGX Orin
-- AGX Xavier
 - Orin Nano
 - Orin NX
+
+meta-tegra's `wrynose` branch is L4T 39.2.0 (Jetpack 7) and carries machines for
+tegra234 and tegra264 only. The Jetpack 4 and 5 era platforms (Nano, TX1, TX2,
+Xavier) are not available here; use the `scarthgap` branch for those.
 
 ## Dependencies
 
@@ -31,16 +34,8 @@ revision: HEAD
 ## Layer structure
 
 - `meta-mender-tegra-common`
-  Holds all common parts of the Mender integration for Tegra across all
-  currently supported releases of Jetpack
-
-- `meta-mender-tegra-jetpack5`
-  Holds Jetpack release 5 specific parts of the Mender integration for Tegra.
-  This correlates with the `wrynose` branch of `meta-tegra`.
-
-- `meta-mender-tegra-jetpack6`
-  Holds Jetpack release 6 specific parts of the Mender integration for Tegra.
-  This correlates with the `wrynose` branch of `meta-tegra`.
+  Holds the parts of the Mender integration for Tegra that are common across
+  Jetpack releases
 
 - `meta-mender-tegra-jetpack7`
   Holds Jetpack release 7 specific parts of the Mender integration for Tegra.
@@ -72,7 +67,7 @@ Mender leverages the UDA partition to store the persistent data between updates.
 Orin NX which uses an NVMe the current process doesn't work. Based on nvidia feedback [UDA is
 reserved](https://forums.developer.nvidia.com/t/jetson-orin-nx-custom-partition-layout-fails-with-uda-at-the-end/316401/6) by nvidia.
 
-To solve this issue we create a new [custom partition layout](recipes-bsp/tegra-binaries/tegra-storage-layout/flash_l4t_t234_nvme_rootfs_ab.xml) with a dedicated partition `id=17` for persistent data.
+To solve this issue we create a new [custom partition layout](recipes-bsp/tegra-binaries/tegra-storage-layout/flash_l4t_t234_nvme_rootfs_ab.xml) with a dedicated partition, `permanet_user_storage` at `id=17`, for persistent data. `UDA` is left without a filename in that layout.
 
 ### Auto Grow UDA Partition
 
