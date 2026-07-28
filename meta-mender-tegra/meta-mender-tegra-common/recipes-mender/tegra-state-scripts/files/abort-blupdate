@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/sh
+# Must parse and run under busybox ash: this layer targets images such as
+# core-image-minimal where /bin/sh is busybox and bash is not installed.
 
 CAPTARGET="/boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap"
 

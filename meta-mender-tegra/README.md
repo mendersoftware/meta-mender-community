@@ -73,6 +73,32 @@ To solve this issue we create a new [custom partition layout](recipes-bsp/tegra-
 
 It is possible to auto-grow the UDA partition to fill remaining space with [this](https://gist.github.com/rishabnayak/a734d2720f43b8908e59564c14fa52e9) bbappend in a layer above `meta-mender-tegra`. It sets the UDA allocation attribute to `0x808`, removes partition id numbers, and moves the UDA partition to right before the `secondary_gpt` partition following [Nvidia documentation](https://docs.nvidia.com/jetson/archives/r35.6.0/DeveloperGuide/AR/BootArchitecture/PartitionConfiguration.html#partition-child-elements).
 
+## Shell portability
+
+This layer installs shell scripts onto the target: the Mender state scripts, the
+`fw_printenv`/`fw_setenv` shims, the update verifiers and the machine-id helper.
+They run on images such as `core-image-minimal`, where `/bin/sh` is busybox ash
+and bash is not installed at all, so they must not use bash-only syntax.
+
+busybox ash accepts more than POSIX does. `local`, `source`, `[[ ]]`, the
+`function` keyword, `${var:offset:length}` and `${#var}` all work. What does not:
+
+- herestrings (`<<<`)
+- C-style `for (( ; ; ))` loops
+- `var+=value` appending. This one is the dangerous case: ash parses it as a
+  command name rather than an assignment, so it does not fail the script, it
+  just leaves the variable empty.
+- a `#!/bin/bash` interpreter line
+
+Check a script before committing it:
+
+```
+busybox ash -n path/to/script
+```
+
+Note that this only catches parse errors. `var+=value` parses fine and fails at
+runtime, so grep for it as well.
+
 ## Acknowlegements
 
 Special thanks to [Matt Madison](https://github.com/madisongh) for his contributions to
