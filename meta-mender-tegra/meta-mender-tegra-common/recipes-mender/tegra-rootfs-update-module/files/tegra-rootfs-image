@@ -1,0 +1,379 @@
+#!/bin/sh
+# Mender update module for Tegra A/B rootfs updates.
+#
+# Must parse and run under busybox ash: this layer targets images such as
+# core-image-minimal where /bin/sh is busybox and bash is not installed. Do not
+# use 'var+=' to append - ash parses that as a command name, so it fails
+# silently and leaves the variable empty.
+#
+# Unlike the stock rootfs-image module this talks to the BSP directly:
+#
+#   nvbootctrl -t rootfs        which slot is running, and slot verification
+#   /dev/disk/by-partlabel/APP  the rootfs partitions, named by the BSP layout
+#   mender-flash                sparse-aware write to the passive slot
+#   oe4t-set-uefi-OSIndications arm the staged UEFI capsule
+#
+# There is no fw_printenv/fw_setenv, no upgrade_available, no parsing of
+# RootfsPartA/B out of mender.conf, and no Mender state scripts.
+#
+# Slot switching is performed by the UEFI capsule, not by nvbootctrl. Applying a
+# capsule writes firmware into the *inactive* boot chain and then makes that
+# chain active, and rootfs slots are paired to bootloader slots, so the rootfs
+# follows. Calling set-active-boot-slot as well would make the capsule target
+# the wrong chain, so it is used only to undo a switch during rollback.
+
+set -ue
+
+STATE="$1"
+FILES="$2"
+
+# Overridable only so the module can be exercised off-target; the defaults are
+# what runs on the device.
+ESP_MOUNT="${TEGRA_ESP_MOUNT:-/boot/efi}"
+ESP_CAPSULE_DIR="${TEGRA_ESP_CAPSULE_DIR:-${ESP_MOUNT}/EFI/UpdateCapsule}"
+UEFI_COMMON_FUNC="${TEGRA_UEFI_COMMON_FUNC:-/usr/bin/uefi_common.func}"
+PARTLABEL_DIR="${TEGRA_PARTLABEL_DIR:-/dev/disk/by-partlabel}"
+PROC_MOUNTS="${TEGRA_PROC_MOUNTS:-/proc/mounts}"
+ESP_CAPSULE="${ESP_CAPSULE_DIR}/TEGRA_BL.Cap"
+CAPSULE_STASH="${FILES}/tmp/tegra-bl.cap"
+ORIG_SLOT_FILE="${FILES}/tmp/orig-slot"
+# Persistent, and deliberately not under $FILES: tegra-rootfs-verify reads it on
+# the next boot to decide whether the running slot may be marked good yet.
+UPDATE_PENDING="${TEGRA_UPDATE_PENDING:-/var/lib/mender/tegra-update-pending}"
+ROOTFS_STATUS_GUID="781e084c-a330-417c-b678-38e696380cb9"
+EFI_GLOBAL_GUID="8be4df61-93ca-11d2-aa0d-00e098032b8c"
+
+# Progress goes to stderr, which mender folds into the deployment log. Without
+# this a module that dies mid-state leaves nothing behind saying how far it got,
+# and the deployment log is the only evidence available once a bad update has
+# made the device unreachable.
+log() {
+    echo "tegra-rootfs-image[$STATE]: $*" 1>&2
+}
+
+# Slot number (0/1) -> the real device node for that slot's rootfs. The BSP
+# names the partitions, but the symlink is resolved before use: the stock
+# rootfs-image module does the same before handing a path to mender-flash.
+slot_device() {
+    case "$1" in
+        0) _lbl="${PARTLABEL_DIR}/APP" ;;
+        1) _lbl="${PARTLABEL_DIR}/APP_b" ;;
+        *) echo "unexpected rootfs slot '$1'" 1>&2; return 1 ;;
+    esac
+    readlink -f "$_lbl"
+}
+
+# Device the root filesystem is actually mounted from, canonicalised the same
+# way, so it can be compared with slot_device output.
+root_device() {
+    _r=$(while read -r dev mnt _rest; do
+             [ "$mnt" = "/" ] && { echo "$dev"; break; }
+         done < "$PROC_MOUNTS")
+    readlink -f "$_r"
+}
+
+# Never write to the slot we are running from. nvbootctrl and the mounted root
+# must agree about which slot is active; if they do not, the slot bookkeeping is
+# wrong and writing would destroy the running system mid-update. Fail the
+# deployment instead. The stock rootfs-image module guards the same way, via
+# check_device_matches_root.
+assert_slot_mapping_sane() {
+    _act=$(slot_device "$(current_slot)")
+    _pas=$(slot_device "$(passive_slot)")
+    _root=$(root_device)
+
+    if [ -z "$_root" ]; then
+        log "FATAL: cannot determine the root device from $PROC_MOUNTS"
+        return 1
+    fi
+    if [ "$_act" != "$_root" ]; then
+        log "FATAL: nvbootctrl says the active slot is $_act but / is mounted from $_root"
+        return 1
+    fi
+    if [ "$_pas" = "$_root" ]; then
+        log "FATAL: computed passive slot $_pas is the mounted root; refusing to write"
+        return 1
+    fi
+    log "slot mapping sane: active $_act, passive $_pas"
+    return 0
+}
+
+slot_letter() {
+    case "$1" in
+        0) echo "A" ;;
+        1) echo "B" ;;
+        *) echo "unexpected rootfs slot '$1'" 1>&2; return 1 ;;
+    esac
+}
+
+current_slot() {
+    nvbootctrl -t rootfs get-current-slot
+}
+
+passive_slot() {
+    if [ "$(current_slot)" = "0" ]; then echo 1; else echo 0; fi
+}
+
+# Write a slot's RootfsStatusSlot{A,B} efivar. 0x00 is a normal, bootable slot;
+# 0xff tells UEFI the slot is unusable, so it boots the partner instead.
+set_rootfs_status() {
+    _slot="$1"
+    _val="$2"
+    _rc=0
+    # uefi_common.func predates any use of 'set -u'. set_efi_var reads a fourth
+    # positional argument (write_once) and $RUNTIME_DIRECTORY, and neither is
+    # guaranteed to be set when we call it. Relax nounset around the call rather
+    # than patching the BSP, and pass the fourth argument explicitly: empty means
+    # "not write-once", which is what we want since the status must be
+    # overwritten every time.
+    set +u
+    . "$UEFI_COMMON_FUNC"
+    set_efi_var "RootfsStatusSlot$(slot_letter "$_slot")" "$ROOTFS_STATUS_GUID" \
+        "$_val" "" || _rc=$?
+    set -u
+    return "$_rc"
+}
+
+# The passive slot may still be flagged unbootable, either from an earlier failed
+# update or from the write below. UEFI refuses to boot it until this is cleared.
+clear_unbootable() {
+    set_rootfs_status "$1" "\x00\x00\x00\x00"
+}
+
+mark_unbootable() {
+    set_rootfs_status "$1" "\xff\x00\x00\x00"
+}
+
+# Undo "arm the capsule". Deleting the staged file is not enough on its own:
+# OsIndications still asks the firmware to run a capsule update on the next
+# boot, and an aborted update must not leave that request standing.
+disarm_capsule() {
+    _rc=0
+    set +u
+    . "$UEFI_COMMON_FUNC"
+    set_efi_var "OsIndications" "$EFI_GLOBAL_GUID" \
+        "\x00\x00\x00\x00\x00\x00\x00\x00" "" || _rc=$?
+    set -u
+    return "$_rc"
+}
+
+case "$STATE" in
+    ProvidePayloadFileSizes)
+        echo "Yes"
+        ;;
+
+    Download)
+        echo "This module supports DownloadWithFileSizes only" 1>&2
+        exit 1
+        ;;
+
+    DownloadWithFileSizes)
+        assert_slot_mapping_sane || exit 1
+        target="$(passive_slot)"
+        target_dev="$(slot_device "$target")"
+
+        # From the first byte written until ArtifactInstall clears this again,
+        # the slot holds a torn filesystem. Leaving it flagged bootable would let
+        # UEFI fall back onto a half-written rootfs if the running slot failed
+        # during the download.
+        log "flagging slot $target unbootable while it is being written"
+        mark_unbootable "$target"
+
+        got_rootfs=0
+        got_capsule=0
+        while true; do
+            line="$(cat stream-next)"
+            [ -n "$line" ] || break
+
+            # "<path> <size>"; the path's basename identifies the payload.
+            path="$(echo "$line" | cut -d' ' -f1)"
+            size="$(echo "$line" | cut -d' ' -f2)"
+            if [ -z "$path" ] || [ -z "$size" ]; then
+                echo "Cannot parse line from stream-next, got: $line" 1>&2
+                exit 1
+            fi
+
+            # Match both payloads explicitly. A catch-all that treats "not a
+            # capsule" as "the rootfs" would flash a stray file straight onto
+            # the partition, and would let a second rootfs payload silently
+            # overwrite the first.
+            case "$(basename "$path")" in
+                *.cap)
+                    if [ "$got_capsule" = 1 ]; then
+                        echo "Artifact carries more than one .cap payload" 1>&2
+                        exit 1
+                    fi
+                    log "stashing capsule ($size bytes)"
+                    mkdir -p "${FILES}/tmp"
+                    cat "$path" > "$CAPSULE_STASH"
+                    got_capsule=1
+                    ;;
+                *.ext4)
+                    if [ "$got_rootfs" = 1 ]; then
+                        echo "Artifact carries more than one rootfs payload" 1>&2
+                        exit 1
+                    fi
+                    log "writing rootfs ($size bytes) to $target_dev"
+                    mender-flash --input-size "$size" --input "$path" \
+                        --output "$target_dev"
+                    log "rootfs write finished"
+                    got_rootfs=1
+                    ;;
+                *)
+                    echo "Unexpected payload '$(basename "$path")': this module" \
+                         "takes exactly one .ext4 rootfs and one .cap capsule" 1>&2
+                    exit 1
+                    ;;
+            esac
+        done
+
+        if [ "$got_rootfs" != 1 ]; then
+            echo "Artifact contained no rootfs payload" 1>&2
+            exit 1
+        fi
+        if [ "$got_capsule" != 1 ]; then
+            echo "Artifact contained no .cap payload; the slot switch is" \
+                 "performed by the UEFI capsule, so it is required" 1>&2
+            exit 1
+        fi
+        sync
+        ;;
+
+    ArtifactInstall)
+        # Remember where we came from, so rollback after the reboot knows which
+        # slot to go back to. $FILES/tmp survives the reboot.
+        assert_slot_mapping_sane || exit 1
+        _cur="$(current_slot)"
+        _passive="$(passive_slot)"
+        log "current slot $_cur, arming slot $_passive"
+        echo "$_cur" > "${ORIG_SLOT_FILE}.tmp"
+        mv "${ORIG_SLOT_FILE}.tmp" "$ORIG_SLOT_FILE"
+        sync
+
+        log "clearing any unbootable flag on slot $_passive"
+        clear_unbootable "$_passive"
+
+        # The ESP has to be mounted, or the capsule silently lands on the rootfs
+        # and no switch is armed.
+        if ! grep -q " $ESP_MOUNT " "$PROC_MOUNTS" 2>/dev/null; then
+            log "FATAL: $ESP_MOUNT is not mounted; the capsule would land on the rootfs"
+            exit 1
+        fi
+
+        log "staging capsule to $ESP_CAPSULE"
+        mkdir -p "$ESP_CAPSULE_DIR"
+        cp "$CAPSULE_STASH" "$ESP_CAPSULE"
+        sync
+
+        # Hold off tegra-rootfs-verify until this update has a verdict. Without
+        # this the next boot marks the new slot good before mender commits, and
+        # the rollback is gone.
+        #
+        # The marker names the slot the update is aiming at, and the verifier
+        # only stands down while that slot is the one running. A marker that
+        # outlives its deployment then cannot silently stop verification of some
+        # unrelated slot forever, which with RootfsRetryCountMax=1 would condemn
+        # it after a single boot.
+        log "marking update pending ($UPDATE_PENDING), target slot $_passive"
+        echo "$_passive" > "${UPDATE_PENDING}.tmp"
+        mv "${UPDATE_PENDING}.tmp" "$UPDATE_PENDING"
+        sync
+
+        log "arming OsIndications"
+        oe4t-set-uefi-OSIndications
+        log "done; the capsule will switch the boot chain on the next reboot"
+        ;;
+
+    NeedsArtifactReboot)
+        echo "Automatic"
+        ;;
+
+    SupportsRollback)
+        echo "Yes"
+        ;;
+
+    ArtifactVerifyReboot)
+        # The capsule should have switched us to the other slot.
+        [ -f "$ORIG_SLOT_FILE" ] || { echo "missing $ORIG_SLOT_FILE" 1>&2; exit 1; }
+        orig="$(cat "$ORIG_SLOT_FILE")"
+        cur="$(current_slot)"
+        if [ "$cur" = "$orig" ]; then
+            log "still on slot $orig after reboot; the capsule did not switch the boot chain"
+            exit 1
+        fi
+        log "booted slot $cur as expected (was $orig)"
+        # The boot chain switched, but that is only half of the claim. Confirm
+        # that / really is this slot's partition before the commit blesses the
+        # pairing; otherwise a chain that switched without the rootfs following
+        # goes unnoticed until the next update writes over the running system.
+        assert_slot_mapping_sane || exit 1
+        ;;
+
+    ArtifactCommit)
+        # Marks the running bootloader and rootfs slot good, and resets the
+        # rootfs retry counter. Without this UEFI reverts on a later boot.
+        log "verifying slot $(current_slot)"
+        nvbootctrl verify
+        rm -f "$UPDATE_PENDING"
+        sync
+        log "slot verified, update no longer pending"
+        ;;
+
+    ArtifactRollback)
+        # Remove a staged-but-unapplied capsule unconditionally, before anything
+        # else can fail. Leaving it behind is the dangerous outcome: the next
+        # reboot would switch to the slot being abandoned.
+        if [ -e "$ESP_CAPSULE" ]; then
+            log "removing staged capsule $ESP_CAPSULE"
+            rm -f "$ESP_CAPSULE"
+            sync
+        else
+            log "no staged capsule to remove"
+        fi
+        log "disarming OsIndications"
+        disarm_capsule || log "WARNING: could not clear OsIndications"
+        rm -f "$UPDATE_PENDING"
+        sync
+
+        if [ ! -f "$ORIG_SLOT_FILE" ]; then
+            log "no recorded original slot; nothing further to undo"
+            exit 0
+        fi
+        orig="$(cat "$ORIG_SLOT_FILE")"
+        cur="$(current_slot)"
+        if [ "$cur" != "$orig" ]; then
+            # The capsule already applied and we booted the new slot. Send the
+            # boot chain back; the rootfs slot is paired to it and follows.
+            log "on slot $cur, returning to $orig"
+            nvbootctrl set-active-boot-slot "$orig"
+        else
+            log "still on the original slot $orig, no switch to undo"
+        fi
+        ;;
+
+    ArtifactVerifyRollbackReboot)
+        [ -f "$ORIG_SLOT_FILE" ] || { echo "missing $ORIG_SLOT_FILE" 1>&2; exit 1; }
+        orig="$(cat "$ORIG_SLOT_FILE")"
+        cur="$(current_slot)"
+        if [ "$cur" != "$orig" ]; then
+            log "FATAL: rollback aimed at slot $orig but booted slot $cur"
+            exit 1
+        fi
+        log "back on slot $orig after rollback"
+        ;;
+
+    ArtifactFailure)
+        ;;
+
+    Cleanup)
+        rm -f "$CAPSULE_STASH"
+        # Whatever happened above, mender is done with this deployment, so
+        # nothing is awaiting a verdict any more. Dropping the marker here as
+        # well covers the paths that reach ArtifactInstall but never reach
+        # ArtifactCommit or ArtifactRollback, such as an aborted deployment.
+        rm -f "$UPDATE_PENDING"
+        sync
+        log "cleaned up"
+        ;;
+esac
+exit 0
