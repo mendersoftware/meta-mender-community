@@ -1,4 +1,8 @@
-EXTRADEPS:tegra = "tegra-uefi-capsules libubootenv-fake mender-update-verifier tegra-redundant-boot"
+# Under the native scheme the update module talks to nvbootctrl directly, so the
+# fw_printenv/fw_setenv shims and the verifier that patches up their limitations
+# are not pulled in. The capsule and tegra-redundant-boot are still needed:
+# applying the capsule is what switches the boot slot.
+EXTRADEPS:tegra = "${@'tegra-uefi-capsules tegra-redundant-boot' if bb.utils.to_boolean(d.getVar('TEGRA_MENDER_NATIVE_UPDATE')) else 'tegra-uefi-capsules libubootenv-fake mender-update-verifier tegra-redundant-boot'}"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:remove:mender-persist-systemd-machine-id = " \

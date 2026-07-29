@@ -15,11 +15,69 @@ def tegra_mender_image_rootfs_size(d):
     calc_rootfs_size = (calc_rootfs_size * 95) // 100
     return calc_rootfs_size - eval(d.getVar('IMAGE_ROOTFS_EXTRA_SPACE'))
 
+# Opt in to the Tegra-native update scheme: a tegra-rootfs-image update module
+# that drives nvbootctrl, the BSP partlabels and the UEFI capsule directly,
+# instead of the stock rootfs-image module plus this layer's state scripts and
+# fw_printenv/fw_setenv shims.
+#
+# The two schemes are mutually exclusive. Off by default: the state-script path
+# is the one that has been verified on hardware.
+TEGRA_MENDER_NATIVE_UPDATE ??= "0"
+
 # meta-tegra and tegraflash requirements
 # meta-tegra renamed the flashable image type "tegraflash" -> "tegraflash-tar"
 # in the JetPack 7 / wrynose era; track that rename here.
 IMAGE_CLASSES += "image_types_mender_tegra"
+IMAGE_CLASSES += "${@'image_types_mender_tegra_native' if bb.utils.to_boolean(d.getVar('TEGRA_MENDER_NATIVE_UPDATE')) else ''}"
 IMAGE_FSTYPES += "tegraflash-tar"
+
+# Native scheme: install the module and emit the module-image artifact.
+#
+# This class is inherited build-wide (INHERIT += "tegra-mender-setup"), so both
+# of the appends below reach every image recipe in the build, not just the OS
+# image. meta-tegra's helper images must be excluded from both, or:
+#
+#   - the initramfs images deadlock, because the native artifact depends on the
+#     UEFI capsule and meta-tegra builds the capsule from the initramfs:
+#       tegra-uefi-capsules:do_compile -> tegra-minimal-initramfs:do_image_complete
+#         -> do_image_tegra_mender_native -> tegra-uefi-capsules:do_deploy
+#   - the initramfs also gains the update module and its runtime dependencies
+#     (mender-flash, tegra-redundant-boot-base, setup-nv-boot-control), which it
+#     has no use for, and which then grow the capsule built from it, and so the
+#     payload of every artifact.
+#   - tegra-espimage otherwise emits a meaningless update artifact holding the
+#     ESP contents.
+#
+# The skip list is matched as a substring of the image name. That is blunt: an
+# image whose name merely contains "initramfs" is skipped too. It is preferred to
+# naming meta-tegra's helper images exactly, which breaks silently whenever one
+# is renamed. The failure modes are asymmetric, which is what settles it: a false
+# skip means a missing artifact, which is noticed immediately, while a false
+# include means a dependency loop or a bloated capsule, which is not.
+TEGRA_MENDER_NATIVE_SKIP_IMAGES ?= "initramfs espimage"
+
+def tegra_mender_native_enabled(d):
+    if not bb.utils.to_boolean(d.getVar('TEGRA_MENDER_NATIVE_UPDATE')):
+        return False
+    name = d.getVar('IMAGE_BASENAME') or d.getVar('PN') or ''
+    for skip in (d.getVar('TEGRA_MENDER_NATIVE_SKIP_IMAGES') or '').split():
+        if skip in name:
+            return False
+    return True
+
+# The stock rootfs-image module is left in the image on purpose rather than
+# surgically deleted. Under this scheme libubootenv-fake is not installed, so it
+# fails immediately on the missing fw_printenv instead of running through a
+# no-op fw_setenv and silently doing nothing. That is the loud failure we want
+# if someone deploys an ordinary rootfs-image artifact here.
+IMAGE_INSTALL:append:tegra = "${@' tegra-rootfs-update-module' if tegra_mender_native_enabled(d) else ''}"
+
+# Swap the stock "mender" artifact for the module-image one. This has to be an
+# :append:tegra plus a :remove:tegra, not a plain +=, because the tegra kas
+# configurations set IMAGE_FSTYPES:tegra outright and that replaces anything
+# appended to the unoverridden variable.
+IMAGE_FSTYPES:append:tegra = "${@' tegra-mender-native' if tegra_mender_native_enabled(d) else ''}"
+IMAGE_FSTYPES:remove:tegra = "${@'mender' if bb.utils.to_boolean(d.getVar('TEGRA_MENDER_NATIVE_UPDATE')) else ''}"
 
 ARTIFACTIMG_FSTYPE = "ext4"
 # Generate dataimg for use with the tegraflash-tar package
@@ -133,8 +191,11 @@ def tegra_mender_calc_total_size(d):
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT:tegra = "${@tegra_mender_calc_total_size(d)}"
 
+# The state scripts exist only to work around the stock rootfs-image module not
+# being able to drive Tegra. The native module does that work itself, so they
+# are not built or bundled into the artifact when it is selected.
 _MENDER_IMAGE_DEPS_EXTRA = ""
-_MENDER_IMAGE_DEPS_EXTRA:tegra = "tegra-state-scripts:do_deploy"
+_MENDER_IMAGE_DEPS_EXTRA:tegra = "${@'' if bb.utils.to_boolean(d.getVar('TEGRA_MENDER_NATIVE_UPDATE')) else 'tegra-state-scripts:do_deploy'}"
 do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 
 # mender-setup-image adds kernel-image and kernel-devicetree to
