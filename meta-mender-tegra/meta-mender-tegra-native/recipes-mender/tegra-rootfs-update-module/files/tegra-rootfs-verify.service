@@ -1,0 +1,15 @@
+[Unit]
+Description=Mark the running Tegra rootfs slot good
+# nvbootctrl needs the BSP's boot control setup to have run.
+After=nvstartup.service
+# Settle the slot state before mender can start a new deployment or commit one.
+Before=mender-updated.service
+ConditionPathExists=/usr/sbin/nvbootctrl
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/tegra-rootfs-verify
+
+[Install]
+WantedBy=multi-user.target
