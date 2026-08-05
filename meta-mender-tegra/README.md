@@ -76,12 +76,16 @@ for the most up to date instructions on starting out with mender and tegra.
 
 Build configs (kas) live in the companion
 [mender-community-images](https://github.com/theyoctojester/mender-community-images)
-repo, under `yocto/<release>/{tagged,floating}/tegra/jetpack<N>/`:
+repo, under `yocto/<release>/{tagged,floating}/tegra/jetpack<N>/<scheme>/`, where
+the last directory is the update scheme the configuration selects:
 
 ```
 git clone https://github.com/theyoctojester/mender-community-images
-kas build mender-community-images/yocto/wrynose/tagged/tegra/jetpack7/jetson-agx-thor-devkit.yml
+kas build mender-community-images/yocto/wrynose/tagged/tegra/jetpack7/classic/jetson-agx-thor-devkit.yml
 ```
+
+Substitute `native/` for a configuration on the Tegra-native scheme. Not every
+board carries one.
 
 Jetpack 5 and 6 machines are covered by the `scarthgap` configurations in the
 same repository.
