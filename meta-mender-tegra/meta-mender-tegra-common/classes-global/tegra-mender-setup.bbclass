@@ -58,10 +58,13 @@ MENDER_ROOTFS_PART_B_NUMBER_DEFAULT:tegra264 = "2"
 # the inactive slot. TNSPEC_BOOTDEV is the BSP's own statement of where the
 # rootfs lives, so take the device from it.
 MENDER_STORAGE_DEVICE_DEFAULT:tegra = "${@'/dev/nvme0n1' if (d.getVar('TNSPEC_BOOTDEV') or '').startswith('nvme') else '/dev/mmcblk0'}"
-# The SD-card Orin Nano devkit enumerates its card as mmcblk1.
-MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit = "/dev/mmcblk1"
-# The NVMe variant of that devkit would otherwise inherit the line above,
-# because jetson-orin-nano-devkit is in its MACHINEOVERRIDES.
+# The SD-card Orin Nano devkit keeps the mmcblk0 default: an Orin Nano module has
+# no eMMC, so sdmmc1 is the only MMC controller and the card takes index 0. Naming
+# it mmcblk1 fails in a way nothing at build time catches, and that is not obvious
+# on the board either: the rootfs mounts, the network comes up and answers ARP, and
+# then boot stalls before sshd on a /data mount that can never succeed.
+# State the NVMe variant explicitly rather than leaning on TNSPEC_BOOTDEV, since it
+# shares MACHINEOVERRIDES with the SD one.
 MENDER_STORAGE_DEVICE_DEFAULT:jetson-orin-nano-devkit-nvme = "/dev/nvme0n1"
 
 # A/B rootfs updates need the redundant flash layout. In practice it is already
