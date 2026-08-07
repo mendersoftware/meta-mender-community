@@ -1,3 +1,4 @@
+EXTRADEPS = ""
 EXTRADEPS:tegra = "tegra-uefi-capsules libubootenv-fake mender-update-verifier tegra-redundant-boot"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
