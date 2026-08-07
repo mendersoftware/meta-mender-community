@@ -1,0 +1,50 @@
+From 20017c5aa4a3f0a79eec2f795dfa577a8ba317d0 Mon Sep 17 00:00:00 2001
+From: kas User <kas@example.com>
+Date: Thu, 17 Apr 2025 14:13:48 +0000
+Subject: [PATCH] configs: verdin-imx8mp: mender integration
+
+---
+ configs/verdin-imx8mp_defconfig | 8 +++++---
+ include/configs/verdin-imx8mp.h | 3 +++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/configs/verdin-imx8mp_defconfig b/configs/verdin-imx8mp_defconfig
+index ded9e19bcca..063b530393b 100644
+--- a/configs/verdin-imx8mp_defconfig
++++ b/configs/verdin-imx8mp_defconfig
+@@ -5,8 +5,10 @@ CONFIG_SPL_GPIO=y
+ CONFIG_SPL_LIBCOMMON_SUPPORT=y
+ CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_NR_DRAM_BANKS=2
+-CONFIG_ENV_SIZE=0x2000
+-CONFIG_ENV_OFFSET=0xFFFFDE00
++CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_OFFSET=0x800000
++CONFIG_ENV_OFFSET_REDUND=0x1000000
++CONFIG_SYS_REDUNDAND_ENVIRONMENT=y
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+ CONFIG_SYS_I2C_MXC_I2C3=y
+@@ -97,7 +99,7 @@ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_SYS_MMC_ENV_DEV=2
+-CONFIG_SYS_MMC_ENV_PART=1
++CONFIG_SYS_MMC_ENV_PART=0
+ CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
+ CONFIG_USE_ETHPRIME=y
+ CONFIG_ETHPRIME="eth0"
+diff --git a/include/configs/verdin-imx8mp.h b/include/configs/verdin-imx8mp.h
+index 0b88e95603d..a3cbdf8af3b 100644
+--- a/include/configs/verdin-imx8mp.h
++++ b/include/configs/verdin-imx8mp.h
+@@ -53,6 +53,9 @@
+ #define CFG_SYS_INIT_RAM_ADDR	0x40000000
+ #define CFG_SYS_INIT_RAM_SIZE	SZ_512K
+ 
++#define CONFIG_BOOTCOUNT_ENV
++#define CONFIG_BOOTCOUNT_LIMIT
++
+ /* i.MX 8M Plus supports max. 8GB memory in two albeit concecutive banks */
+ #define CFG_SYS_SDRAM_BASE		0x40000000
+ #define PHYS_SDRAM			0x40000000

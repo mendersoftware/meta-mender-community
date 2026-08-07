@@ -1,0 +1,26 @@
+From 45f79d2d1fadaa82b096ae344372050408d70624 Mon Sep 17 00:00:00 2001
+From: Luis Ramirez <luis.ramirez@northern.tech>
+Date: Wed, 9 Jul 2025 23:49:05 +0000
+Subject: [PATCH] Use mender_dtb_name for fdtfile
+
+Signed-off-by: Luis Ramirez <luis.ramirez@northern.tech>
+---
+ configs/colibri-imx8x_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/colibri-imx8x_defconfig b/configs/colibri-imx8x_defconfig
+index a8a37590d7b..97c28a32a6d 100644
+--- a/configs/colibri-imx8x_defconfig
++++ b/configs/colibri-imx8x_defconfig
+@@ -26,7 +26,7 @@ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_BOOTDELAY=1
+ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="test -n ${fdtfile} || setenv fdtfile ${soc}-colibri-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_CBSIZE=2048
+ CONFIG_SYS_PBSIZE=2068
+ CONFIG_LOG=y
+-- 
+2.44.3
+

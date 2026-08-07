@@ -1,0 +1,22 @@
+From 18fce5a33abba0e3a44b5646899e0da847706b39 Mon Sep 17 00:00:00 2001
+From: kas User <kas@example.com>
+Date: Tue, 15 Apr 2025 20:04:31 +0000
+Subject: [PATCH] verdin-imx8mm: Use mender_dtb_name for fdtfile.
+
+---
+ configs/verdin-imx8mm_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/verdin-imx8mm_defconfig b/configs/verdin-imx8mm_defconfig
+index f6e8b6ec298..3210040b871 100644
+--- a/configs/verdin-imx8mm_defconfig
++++ b/configs/verdin-imx8mm_defconfig
+@@ -36,7 +36,7 @@ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_BOOTDELAY=1
+ CONFIG_OF_SYSTEM_SETUP=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="test -n ${fdtfile} || setenv fdtfile imx8mm-verdin-${variant}-${fdt_board}.dtb"
++CONFIG_PREBOOT="setenv fdtfile ${mender_dtb_name}"
+ CONFIG_SYS_CBSIZE=2048
+ CONFIG_SYS_PBSIZE=2081
+ CONFIG_LOG=y
