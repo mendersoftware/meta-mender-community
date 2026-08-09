@@ -1,0 +1,29 @@
+From fe20b1d416a5d008470836d8cda4c8ee36fc92f2 Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Tue, 24 Feb 2026 14:38:40 +0000
+Subject: [PATCH] overlays: add reTerminal.dtbo to Makefile
+
+Add the Seeed Studio reTerminal device tree overlay to the kernel
+build, so that the reTerminal-overlay.dts is compiled alongside the
+other overlays.
+
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+---
+ arch/arm/boot/dts/overlays/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
+index 367cbf437e1b..f618e0eb731c 100644
+--- a/arch/arm/boot/dts/overlays/Makefile
++++ b/arch/arm/boot/dts/overlays/Makefile
+@@ -226,6 +226,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
+ 	qca7000-uart0.dtbo \
+ 	ramoops.dtbo \
+ 	ramoops-pi4.dtbo \
++	reTerminal.dtbo \
+ 	rotary-encoder.dtbo \
+ 	rpi-backlight.dtbo \
+ 	rpi-codeczero.dtbo \
+-- 
+2.34.1
+
