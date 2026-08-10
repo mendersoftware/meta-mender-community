@@ -2,6 +2,13 @@
 set -e
 echo "$(mender-update show-artifact): $(basename "$0") was called!" >&2
 
+# Shared disk and ESP detection, spliced in at build time from
+# meta-mender-tegra-common. Not sourced: this runs from inside the artifact.
+#TEGRA_DISK_HELPERS
+
+TEGRA_LOG_PREFIX="switch-rootfs"
+ESP_MOUNT="${ESP_MOUNT:-/boot/efi}"
+
 get_bootpart() {
 	local current_slot=`nvbootctrl get-current-slot 2>/dev/null`
 	if [ -z "$current_slot" ]; then
@@ -25,21 +32,35 @@ current_slot=`get_bootpart`
 echo "current_slot=$current_slot" >&2
 
 next_slot=
-next_rootfs_dev=
+next_label=
 if [ $current_slot = "0" ]; then
 	next_slot="1"
-	next_rootfs_dev="/dev/disk/by-partlabel/APP_b"
+	next_label="APP_b"
 else
 	next_slot="0"
-	next_rootfs_dev="/dev/disk/by-partlabel/APP"
+	next_label="APP"
 fi
+
+next_rootfs_dev=$(tegra_partlabel_dev "$next_label") || {
+	echo "ERR: cannot resolve $next_label to a device" >&2
+	exit 1
+}
+echo "next slot $next_slot is $next_rootfs_dev" >&2
 
 tmp_mount=`mktemp -d`
 
 reset_unbootable_status $next_slot
-mkdir -p /boot/efi/EFI/UpdateCapsule
+
+# UEFI reads the capsule from the medium it booted, so staging it on the other
+# disk's ESP arms nothing and the switch silently does not happen.
+tegra_ensure_esp_mounted || {
+	echo "ERR: no usable ESP to stage the capsule on" >&2
+	exit 1
+}
+
+mkdir -p "$ESP_MOUNT/EFI/UpdateCapsule"
 mount -o ro $next_rootfs_dev $tmp_mount
-cp ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap /boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap
+cp ${tmp_mount}/opt/nvidia/UpdateCapsule/tegra-bl.cap "$ESP_MOUNT/EFI/UpdateCapsule/TEGRA_BL.Cap"
 umount $tmp_mount
 oe4t-set-uefi-OSIndications
 

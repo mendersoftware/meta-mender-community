@@ -2,7 +2,18 @@
 # Must parse and run under busybox ash: this layer targets images such as
 # core-image-minimal where /bin/sh is busybox and bash is not installed.
 
-CAPTARGET="/boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap"
+# Shared disk and ESP detection, spliced in at build time. See switch-rootfs.
+#TEGRA_DISK_HELPERS
+
+TEGRA_LOG_PREFIX="abort-blupdate"
+ESP_MOUNT="${ESP_MOUNT:-/boot/efi}"
+
+# A rollback can follow a reboot, and nothing pins the ESP mount across one, so
+# the capsule could be removed from the wrong disk and left armed on the right
+# one. Advisory: a rollback should finish either way.
+tegra_ensure_esp_mounted || true
+
+CAPTARGET="$ESP_MOUNT/EFI/UpdateCapsule/TEGRA_BL.Cap"
 
 if [ -f "$CAPTARGET" ]; then
     rm "$CAPTARGET"
