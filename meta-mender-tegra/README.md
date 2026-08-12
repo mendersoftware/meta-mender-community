@@ -33,13 +33,38 @@ revision: HEAD
 
 ## Layer structure
 
+A build takes three of these: the common layer, one update scheme, one Jetpack
+release.
+
 - `meta-mender-tegra-common`
-  Holds the parts of the Mender integration for Tegra that are common across
-  Jetpack releases
+  What both schemes need, across Jetpack releases: partition numbers, the storage
+  device, the A/B slot size calculation, the flash layouts, the persistent
+  machine-id, and the disk and ESP detection both schemes resolve their
+  partitions with.
+
+- `meta-mender-tegra-classic`
+  The classic update scheme: Mender's stock `rootfs-image` update module, driven
+  through this layer's state scripts and the `fw_printenv`/`fw_setenv` shims.
 
 - `meta-mender-tegra-jetpack7`
-  Holds Jetpack release 7 specific parts of the Mender integration for Tegra.
-  This correlates with the `wrynose` branch of `meta-tegra`.
+  Jetpack 7 specific parts, matching the `wrynose` branch of `meta-tegra`.
+
+### Selecting an update scheme
+
+One scheme layer in `BBLAYERS`, its class in `INHERIT`:
+
+```
+BBLAYERS += "\
+    ${TOPDIR}/../meta-mender-community/meta-mender-tegra/meta-mender-tegra-common \
+    ${TOPDIR}/../meta-mender-community/meta-mender-tegra/meta-mender-tegra-classic \
+    ${TOPDIR}/../meta-mender-community/meta-mender-tegra/meta-mender-tegra-jetpack7 \
+"
+INHERIT += "tegra-mender-classic"
+```
+
+`tegra-mender-common` is never inherited directly. The scheme class pulls it in,
+and on its own it would configure no scheme at all, so the common layer refuses
+that at parse time.
 
 ## Quick start
 
@@ -51,12 +76,16 @@ for the most up to date instructions on starting out with mender and tegra.
 
 Build configs (kas) live in the companion
 [mender-community-images](https://github.com/theyoctojester/mender-community-images)
-repo, under `yocto/<release>/{tagged,floating}/tegra/jetpack<N>/`:
+repo, under `yocto/<release>/{tagged,floating}/tegra/jetpack<N>/<scheme>/`, where
+the last directory is the update scheme the configuration selects:
 
 ```
 git clone https://github.com/theyoctojester/mender-community-images
-kas build mender-community-images/yocto/wrynose/tagged/tegra/jetpack7/jetson-agx-thor-devkit.yml
+kas build mender-community-images/yocto/wrynose/tagged/tegra/jetpack7/classic/jetson-agx-thor-devkit.yml
 ```
+
+Substitute `native/` for a configuration on the Tegra-native scheme. Not every
+board carries one.
 
 Jetpack 5 and 6 machines are covered by the `scarthgap` configurations in the
 same repository.
@@ -67,15 +96,33 @@ Mender leverages the UDA partition to store the persistent data between updates.
 Orin NX which uses an NVMe the current process doesn't work. Based on nvidia feedback [UDA is
 reserved](https://forums.developer.nvidia.com/t/jetson-orin-nx-custom-partition-layout-fails-with-uda-at-the-end/316401/6) by nvidia.
 
-To solve this issue we create a new [custom partition layout](recipes-bsp/tegra-binaries/tegra-storage-layout/flash_l4t_t234_nvme_rootfs_ab.xml) with a dedicated partition, `permanet_user_storage` at `id=17`, for persistent data. `UDA` is left without a filename in that layout.
+To solve this issue we create a new [custom partition layout](meta-mender-tegra-common/recipes-bsp/tegra-binaries/tegra-storage-layout/flash_l4t_t234_nvme_rootfs_ab.xml) with a dedicated partition, `permanet_user_storage` at `id=17`, for persistent data. `UDA` is left without a filename in that layout.
 
 ### Auto Grow UDA Partition
 
 It is possible to auto-grow the UDA partition to fill remaining space with [this](https://gist.github.com/rishabnayak/a734d2720f43b8908e59564c14fa52e9) bbappend in a layer above `meta-mender-tegra`. It sets the UDA allocation attribute to `0x808`, removes partition id numbers, and moves the UDA partition to right before the `secondary_gpt` partition following [Nvidia documentation](https://docs.nvidia.com/jetson/archives/r35.6.0/DeveloperGuide/AR/BootArchitecture/PartitionConfiguration.html#partition-child-elements).
 
+## The classic update scheme
+
+Mender's stock `rootfs-image` update module is written for u-boot and GRUB
+systems. `meta-mender-tegra-classic` supplies the adapters it needs on Tegra:
+
+| adapter | provides |
+|---|---|
+| `libubootenv-fake` | the `fw_printenv`/`fw_setenv` the module calls. `fw_printenv mender_boot_part` is answered from `nvbootctrl get-current-slot`, `fw_setenv upgrade_available` is kept in a flag file |
+| `ArtifactInstall_Leave_50_switch-rootfs` | the slot switch. Mounts the freshly written slot read only to copy the UEFI capsule out of it |
+| `ArtifactCommit_Leave_50_verify-slot` | `nvbootctrl verify` |
+| `ArtifactRollback_Leave_50_abort-blupdate` | removal of the staged capsule on rollback |
+| `mender-update-verifier` | reading `RootfsStatusSlot{A,B}` and clearing `upgrade_available` |
+| `nv_update_verifier` | the wrapper meta-tegra's verifier unit runs, keying the verification window off `upgrade_available` |
+| `RootfsPartA`/`RootfsPartB` in `mender.conf` | the rootfs partition names, which the BSP layout calls `APP` and `APP_b` |
+
+This is the scheme every published Tegra build uses and the one verified on
+hardware.
+
 ## Shell portability
 
-This layer installs shell scripts onto the target: the Mender state scripts, the
+These layers install shell scripts onto the target: the Mender state scripts, the
 `fw_printenv`/`fw_setenv` shims, the update verifiers and the machine-id helper.
 They run on images such as `core-image-minimal`, where `/bin/sh` is busybox ash
 and bash is not installed at all, so they must not use bash-only syntax.

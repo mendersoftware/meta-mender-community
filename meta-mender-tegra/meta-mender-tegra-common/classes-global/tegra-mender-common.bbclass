@@ -1,7 +1,60 @@
+# The scheme-independent half of the Tegra Mender integration. Not inherited
+# directly: a build inherits one of the scheme classes, tegra-mender-classic or
+# tegra-mender-native, and gets this through it.
+#
 # Keep this inherit. meta-tegra's tegra-common.inc derives
 # TEGRA_UEFI_FW_VERSION from L4T_VERSION but does not inherit l4t_version
 # itself, so dropping it here leaves the UEFI capsule signing version unset.
 inherit l4t_version
+
+# Exactly one scheme layer must be in BBLAYERS, and the class inherited must be
+# the one belonging to it.
+#
+# The two selectors are independent. Which layers are present decides which
+# recipes and bbappends the build sees, while INHERIT decides which scheme's
+# configuration applies, and bitbake has no way to declare that two layers
+# conflict. So this is the only place the two can be checked against each other,
+# and it lives in the common layer because that is the one present in every valid
+# configuration.
+#
+# The case that earns the check is both scheme layers in BBLAYERS with one of them
+# inherited. That builds cleanly, because bbappends come from BBFILES and have
+# nothing to do with INHERIT, so the unselected scheme's bbappends land on top of
+# the selected scheme's configuration. On this platform the result is an image
+# whose slot verification is wired to the wrong scheme, which with
+# RootfsRetryCountMax at 1 costs the rollback window on the first deployment.
+TEGRA_MENDER_SCHEME ??= ""
+TEGRA_MENDER_SCHEME_COLLECTIONS ?= "meta-mender-tegra-classic meta-mender-tegra-native"
+
+# Checked from a ConfigParsed handler rather than anonymous python, because this
+# is a configuration error and anonymous python would only reach it once recipe
+# parsing had started, reporting it against whichever unrelated recipe happened to
+# be parsed first.
+addhandler tegra_mender_check_scheme
+tegra_mender_check_scheme[eventmask] = "bb.event.ConfigParsed"
+python tegra_mender_check_scheme() {
+    d = e.data
+    schemes = (d.getVar('TEGRA_MENDER_SCHEME_COLLECTIONS') or '').split()
+    present = [c for c in (d.getVar('BBFILE_COLLECTIONS') or '').split() if c in schemes]
+    scheme = d.getVar('TEGRA_MENDER_SCHEME') or ''
+
+    if len(present) != 1:
+        bb.fatal('Expected exactly one Tegra Mender scheme layer in BBLAYERS, found '
+                 '%s. Add one of %s, and only one.'
+                 % (', '.join(present) if present else 'none', ', '.join(schemes)))
+    if not scheme:
+        bb.fatal('%s is in BBLAYERS but no scheme class was inherited, so none of its '
+                 'configuration applies. Add INHERIT += "tegra-mender-%s" rather than '
+                 'inheriting tegra-mender-common directly.'
+                 % (present[0], present[0].rsplit('-', 1)[1]))
+}
+
+# There is deliberately no third check that TEGRA_MENDER_SCHEME agrees with the
+# layer that is present. It cannot be made to fail: each scheme class lives in its
+# own layer and assigns the variable itself, so inheriting the other scheme's class
+# means the file is not on BBPATH and the parse fails first, and a value set in
+# local.conf is overwritten by the class, which is parsed after it. A check that
+# cannot fire is worse than none, because it reads as coverage.
 
 def tegra_mender_set_rootfs_partsize(calc_rootfs_size_kb):
     return calc_rootfs_size_kb * 1024
@@ -25,12 +78,6 @@ ARTIFACTIMG_FSTYPE = "ext4"
 # Generate dataimg for use with the tegraflash-tar package
 IMAGE_TYPEDEP:tegraflash-tar += " dataimg"
 IMAGE_FSTYPES += "dataimg"
-PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_PROVIDER_libubootenv:tegra = "libubootenv"
-PREFERRED_RPROVIDER_u-boot-fw-utils = "u-boot-fw-utils-tegra"
-PREFERRED_RPROVIDER_libubootenv-bin:tegra = "libubootenv-bin"
-PREFERRED_PROVIDER_libubootenv:tegra234 = "libubootenv-fake"
-PREFERRED_PROVIDER_libubootenv:tegra264 = "libubootenv-fake"
 
 # Note: this isn't really a boot file, just put it here to keep the mender build from
 # complaining about empty IMAGE_BOOT_FILES.  We won't use the full image anyway, just the mender file
@@ -104,6 +151,12 @@ ROOTFSPART_SIZE = "${@tegra_mender_set_rootfs_partsize(${MENDER_CALC_ROOTFS_SIZE
 # Default for thud and later is grub integration but we need to use u-boot integration already included.
 # Leave out sdimg since we don't use this with tegra (instead use
 # tegraflash)
+#
+# mender-uboot belongs to the classic scheme by intent, since it is what pulls a
+# libubootenv provider into the client's runtime dependencies. It stays here
+# anyway, because the kas configurations disable it globally and a disable beats
+# an enable, so moving it would change what anyone who does not disable it gets.
+# Worth untangling separately, once native can simply not ask for it.
 MENDER_FEATURES_ENABLE:append:tegra = " mender-uboot mender-persist-systemd-machine-id"
 MENDER_FEATURES_DISABLE:append:tegra = " mender-grub mender-image-uefi"
 
@@ -119,7 +172,7 @@ def tegra_mender_calc_total_size(d):
         # which were the only ones that set this. Fail loudly rather than
         # silently sizing an eMMC machine off the flash layout.
         bb.fatal('EMMC_SIZE is set, but the eMMC sizing path was removed from '
-                 'tegra-mender-setup. Set MENDER_STORAGE_TOTAL_SIZE_MB explicitly, '
+                 'tegra-mender-common. Set MENDER_STORAGE_TOTAL_SIZE_MB explicitly, '
                  'or restore the path.')
     if not d.getVar('ROOTFSPART_SIZE_DEFAULT'):
         # ROOTFSPART_SIZE_REDUNDANT is derived from it and cannot expand when
@@ -135,10 +188,6 @@ def tegra_mender_calc_total_size(d):
 
 MENDER_IMAGE_ROOTFS_SIZE_DEFAULT = "${@tegra_mender_image_rootfs_size(d)}"
 MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT:tegra = "${@tegra_mender_calc_total_size(d)}"
-
-_MENDER_IMAGE_DEPS_EXTRA = ""
-_MENDER_IMAGE_DEPS_EXTRA:tegra = "tegra-state-scripts:do_deploy"
-do_image_mender[depends] += "${_MENDER_IMAGE_DEPS_EXTRA}"
 
 # mender-setup-image adds kernel-image and kernel-devicetree to
 # MACHINE_ESSENTIAL_EXTRA_RDEPENDS, but the kernel is carried in the boot

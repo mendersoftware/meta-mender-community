@@ -17,7 +17,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 #
 # Consequence for mender: the data image lands on permanet_user_storage (id 17),
 # not on UDA, so MENDER_DATA_PART_NUMBER_DEFAULT has to say 17 for the machines
-# selected here. Keep the two in step; see tegra-mender-setup.bbclass.
+# selected here. Keep the two in step; see tegra-mender-common.bbclass.
 SRC_URI:append:p3768-0000-p3767-0000 = " \
     file://flash_l4t_t234_nvme_rootfs_ab.xml \
 "
