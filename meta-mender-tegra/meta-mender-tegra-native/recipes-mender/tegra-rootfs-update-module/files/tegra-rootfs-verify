@@ -1,0 +1,43 @@
+#!/bin/sh
+# Keep the running Tegra rootfs slot marked good.
+#
+# Must parse and run under busybox ash; see the update module for the details.
+#
+# UEFI condemns a rootfs slot whose retry counter runs out, and this platform
+# sets RootfsRetryCountMax to 1, so a slot that is never verified does not
+# survive. Something has to run "nvbootctrl verify" on an ordinary boot.
+#
+# It must not run while an update is awaiting its verdict. Verifying the newly
+# booted slot before mender has committed would mark it good and throw away the
+# A/B rollback, which is the whole point of the redundant layout. The stock
+# integration keys that window off mender's upgrade_available in the u-boot
+# environment; the native scheme has no u-boot environment, so the update module
+# drops a marker instead, for exactly the same window.
+# The marker names the slot the update is aiming at, and standing down only
+# applies while that slot is the one running. A marker is not proof that an
+# update is still live: a deployment interrupted between ArtifactInstall and its
+# verdict leaves one behind. Treating any marker as "never verify" would then
+# stop verification for good, and a slot that is never verified does not survive
+# a boot, so the stale marker would condemn the very slot it was left on.
+set -u
+
+PENDING="${TEGRA_UPDATE_PENDING:-/var/lib/mender/tegra-update-pending}"
+NVBOOTCTRL="${TEGRA_NVBOOTCTRL:-nvbootctrl}"
+
+if [ -e "$PENDING" ]; then
+    target="$(cat "$PENDING" 2>/dev/null || true)"
+    current="$("$NVBOOTCTRL" -t rootfs get-current-slot 2>/dev/null || true)"
+    if [ -n "$target" ] && [ "$target" = "$current" ]; then
+        echo "tegra-rootfs-verify: update pending on slot $current, leaving it unverified" 1>&2
+        exit 0
+    fi
+    # Running a slot the marker is not about. Either the switch has not happened
+    # yet, or a rollback already brought us back. Either way this slot is not the
+    # one awaiting a verdict and still has to be kept good. The marker is left in
+    # place, so the real window is still honoured if the switch happens later.
+    echo "tegra-rootfs-verify: pending marker names slot ${target:-none}," \
+         "running slot ${current:-unknown}; verifying anyway" 1>&2
+fi
+
+echo "tegra-rootfs-verify: marking the running slot good" 1>&2
+exec "$NVBOOTCTRL" verify

@@ -46,6 +46,11 @@ release.
   The classic update scheme: Mender's stock `rootfs-image` update module, driven
   through this layer's state scripts and the `fw_printenv`/`fw_setenv` shims.
 
+- `meta-mender-tegra-native`
+  The Tegra-native update scheme: a `tegra-rootfs-image` update module driving
+  `nvbootctrl`, the BSP partlabels and the UEFI capsule directly, with none of
+  those adapters.
+
 - `meta-mender-tegra-jetpack7`
   Jetpack 7 specific parts, matching the `wrynose` branch of `meta-tegra`.
 
@@ -62,9 +67,18 @@ BBLAYERS += "\
 INHERIT += "tegra-mender-classic"
 ```
 
-`tegra-mender-common` is never inherited directly. The scheme class pulls it in,
-and on its own it would configure no scheme at all, so the common layer refuses
-that at parse time.
+For the native scheme, substitute `meta-mender-tegra-native` and
+`INHERIT += "tegra-mender-native"`.
+
+Two things are refused at parse time. Inheriting `tegra-mender-common` directly:
+the scheme class pulls it in, and on its own it would configure no scheme at all.
+And two scheme layers at once: the bbappends of both would apply whichever class
+was inherited, yielding an image whose slot verification belongs to the other
+scheme.
+
+The schemes are mutually exclusive on the device as well. Neither can install the
+other's artifact, so there is no migration path; see
+[meta-mender-tegra-native/README.md](meta-mender-tegra-native/README.md).
 
 ## Quick start
 
@@ -119,6 +133,22 @@ systems. `meta-mender-tegra-classic` supplies the adapters it needs on Tegra:
 
 This is the scheme every published Tegra build uses and the one verified on
 hardware.
+
+## The native update scheme
+
+`meta-mender-tegra-native` replaces that stack with a single update module,
+`tegra-rootfs-image`, calling the BSP directly: `nvbootctrl -t rootfs` for slot
+state and verification, `/dev/disk/by-partlabel/APP{,_b}` for the partitions,
+`mender-flash` for the write, the UEFI capsule for the switch. The capsule ships
+inside the artifact, so nothing has to mount the freshly written slot.
+
+The artifact keeps the canonical `.mender` name and still provides
+`rootfs-image.version`, so the upload and the server side are unchanged. Only the
+payload type inside differs; `mender-artifact read` tells the two apart.
+
+Verification window, why `nv_update_verifier` is disabled rather than removed, and
+the scheme's limitations:
+[meta-mender-tegra-native/README.md](meta-mender-tegra-native/README.md).
 
 ## Shell portability
 
