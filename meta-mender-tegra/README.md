@@ -2,12 +2,25 @@
 
 Mender integration layer for NVIDIA Tegra hardware.
 
-The supported boards are:
+The boards with a published build configuration, and the update schemes each one
+has a configuration for:
 
-- Thor
-- AGX Orin
-- Orin Nano
-- Orin NX
+| Board | `MACHINE` | Boot medium | classic | native |
+|---|---|---|---|---|
+| Orin Nano devkit | `jetson-orin-nano-devkit` | microSD | yes | yes |
+| Orin Nano devkit | `jetson-orin-nano-devkit-nvme` | NVMe | yes | yes |
+| Orin NX 8GB, p3768 | `p3768-0000-p3767-0001` | NVMe | yes | yes |
+| Orin NX 16GB, p3768 | `p3768-0000-p3767-0000` | NVMe | yes | yes |
+| AGX Thor devkit | `jetson-agx-thor-devkit` | NVMe | yes | no |
+
+The layer itself is not limited to those machines, and anything meta-tegra
+supports on this branch can be configured by hand; the table is what has a
+configuration in `mender-community-images` and has been built. AGX Orin has no
+configuration here, so it is untested on this branch.
+
+Hardware verification is per board, and lags the configurations: the two Orin
+Nano configurations and the Orin NX 8GB have been flashed and deployed to on both
+schemes, the Orin NX 16GB and Thor are build-verified only.
 
 meta-tegra's `wrynose` branch is L4T 39.2.0 (Jetpack 7) and carries machines for
 tegra234 and tegra264 only. The Jetpack 4 and 5 era platforms (Nano, TX1, TX2,
