@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Marcin Pasinski <marcin.pasinski@northern.tech>
+Date: Wed, 31 Jan 2018 18:10:04 +0100
+Subject: [PATCH] Integration of Mender boot code into U-Boot. (u-boot-imx)
+
+Refresh of meta-mender-core's
+0002-Integration-of-Mender-boot-code-into-U-Boot.patch for NXP's
+downstream u-boot-imx.
+
+The only difference from the meta-mender version is one context line.
+NXP's lf_v2025.04 branch still guards the default environment body with
+CONFIG_USE_DEFAULT_ENV_FILE, whereas mainline U-Boot renamed that symbol
+to CONFIG_ENV_USE_DEFAULT_ENV_TEXT_FILE. The upstream patch therefore
+fails hunk 2 of include/env_default.h with "1 out of 2 hunks FAILED".
+
+The meta-mender patch is dropped from SRC_URI in
+u-boot-imx_%.bbappend and this one substituted. Re-check on every
+meta-mender bump: if the content of the upstream patch changes, this
+copy has to follow.
+
+Upstream-Status: Inappropriate [Mender specific]
+
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+Signed-off-by: Marcin Pasinski <marcin.pasinski@northern.tech>
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+---
+ include/env_default.h     | 3 +++
+ scripts/Makefile.autoconf | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/include/env_default.h b/include/env_default.h
+--- a/include/env_default.h
++++ b/include/env_default.h
+@@ -13,6 +13,8 @@
+ 
+ #include <generated/environment.h>
+ 
++#include <env_mender.h>
++
+ #ifdef DEFAULT_ENV_INSTANCE_EMBEDDED
+ env_t embedded_environment __UBOOT_ENV_SECTION__(environment) = {
+ 	ENV_CRC,	/* CRC Sum */
+@@ -27,6 +29,7 @@ char default_environment[] = {
+ #else
+ const char default_environment[] = {
+ #endif
++	MENDER_ENV_SETTINGS
+ #ifndef CONFIG_USE_DEFAULT_ENV_FILE
+ #ifdef	CONFIG_ENV_CALLBACK_LIST_DEFAULT
+ 	ENV_CALLBACK_VAR "=" CONFIG_ENV_CALLBACK_LIST_DEFAULT "\0"
+diff --git a/scripts/Makefile.autoconf b/scripts/Makefile.autoconf
+--- a/scripts/Makefile.autoconf
++++ b/scripts/Makefile.autoconf
+@@ -116,7 +116,8 @@ define filechk_config_h
+ 	$(if $(CONFIG_SYS_CONFIG_NAME),echo \#include \<configs/$(CONFIG_SYS_CONFIG_NAME).h\> ;) \
+ 	echo \#include \<asm/config.h\>;				\
+ 	echo \#include \<linux/kconfig.h\>;				\
+-	echo \#include \<config_fallbacks.h\>;)
++	echo \#include \<config_fallbacks.h\>;				\
++	echo \#include \<config_mender.h\>;)
+ endef
+ 
+ include/config.h: scripts/Makefile.autoconf create_symlink FORCE
+--
+2.43.0
+

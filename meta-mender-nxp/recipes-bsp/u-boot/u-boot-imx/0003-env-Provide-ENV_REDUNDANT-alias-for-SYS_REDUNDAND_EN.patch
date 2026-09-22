@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Mon, 21 Sep 2026 06:00:00 +0000
+Subject: [PATCH] env: Provide ENV_REDUNDANT alias for
+ SYS_REDUNDAND_ENVIRONMENT
+
+Version skew between two layers, not a board problem.
+
+Upstream U-Boot renamed SYS_REDUNDAND_ENVIRONMENT to ENV_REDUNDANT
+after v2025.04. oe-core wrynose ships u-boot 2026.01, which has the new
+name, and meta-mender's include/config_mender.h is written against it:
+
+  #ifndef CONFIG_ENV_REDUNDANT
+  # error CONFIG_ENV_REDUNDANT is required for Mender to work.
+
+meta-freescale pins u-boot-imx to NXP's lf_v2025.04 branch, which
+predates the rename, so the build fails at do_compile even though
+redundant environment support is correctly enabled under the old name.
+
+Add ENV_REDUNDANT as a hidden symbol tracking SYS_REDUNDAND_ENVIRONMENT
+rather than renaming, because the rest of this tree still refers to the
+old name.
+
+Drop this patch once u-boot-imx rebases past the rename.
+
+Upstream-Status: Inappropriate [compatibility shim for a downstream tree]
+
+Signed-off-by: Josef Holzmayr <jester@theyoctojester.info>
+---
+ env/Kconfig | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/env/Kconfig b/env/Kconfig
+--- a/env/Kconfig
++++ b/env/Kconfig
+@@ -474,6 +474,16 @@ config SYS_REDUNDAND_ENVIRONMENT
+ 	  which is used by env import/export commands which are independent of
+ 	  storing variables to redundant location on a non volatile device.
+ 
++config ENV_REDUNDANT
++	bool
++	default y if SYS_REDUNDAND_ENVIRONMENT
++	help
++	  Compatibility alias for SYS_REDUNDAND_ENVIRONMENT. Upstream U-Boot
++	  renamed the symbol after v2025.04; this tree still uses the old
++	  name. Provided so that code written against the new name, such as
++	  meta-mender's generated include/config_mender.h, sees a consistent
++	  value.
++
+ config ENV_FAT_INTERFACE
+ 	string "Name of the block device for the environment"
+ 	depends on ENV_IS_IN_FAT
+--
+2.43.0
+
