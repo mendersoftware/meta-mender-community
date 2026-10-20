@@ -1,47 +1,136 @@
 #!/bin/sh
 
-set -e
-
-trap_exit() {
-  umount -l /tmp/inactive_part
-}
-trap trap_exit EXIT
+set -eu
+export LC_ALL=C
 
 MENDER_ROOTFS_PART_A="@@MENDER_ROOTFS_PART_A@@"
 MENDER_ROOTFS_PART_B="@@MENDER_ROOTFS_PART_B@@"
+MENDER_BOOT_PART="@@MENDER_BOOT_PART@@"
+required_files="@@RPI_FIRMWARE_REQUIRED_FILES@@"
+reserve_kib="@@RPI_FIRMWARE_SPACE_RESERVE_KIB@@"
+boot="@@MENDER_BOOT_PART_MOUNT_LOCATION@@"
+mounted=0
+copy_tmp=
+work=
 
-safe_copy() {
-  if [ $# -gt 2 ]; then
-    echo "safe_copy can only handle one file copy at a time" >&2
-    exit 2
-  fi
-  cp -a "$1" "$2".tmp || return $?
-  sync "$2".tmp || return $?
-  mv "$2".tmp "$2" || return $?
-  sync "$(dirname "$2")" || return $?
+fail() {
+  echo "Firmware update: $*" >&2
+  exit 1
 }
 
-if mount | grep ${MENDER_ROOTFS_PART_A}; then
-  inactive_part="${MENDER_ROOTFS_PART_B}"
-else
-  inactive_part="${MENDER_ROOTFS_PART_A}"
+cleanup() {
+  status=$?
+  trap - EXIT
+  if [ -n "$copy_tmp" ]; then
+    rm -f "$copy_tmp" || status=1
+  fi
+  if [ "$mounted" -eq 1 ]; then
+    if ! umount "$work/rootfs"; then
+      echo "Firmware update: failed to unmount $work/rootfs" >&2
+      exit 1
+    fi
+  fi
+  if [ -n "$work" ]; then
+    rm -rf "$work" || status=1
+  fi
+  exit "$status"
+}
+trap cleanup EXIT
+trap 'exit 1' HUP INT TERM
+
+safe_copy() {
+  parent=$(dirname "$2")
+  mkdir -p "$parent"
+  copy_tmp=$(mktemp "$parent/.mender-firmware.XXXXXX")
+  cp "$1" "$copy_tmp"
+  sync "$copy_tmp"
+  mv -f "$copy_tmp" "$2"
+  copy_tmp=
+  sync "$parent"
+}
+
+part_a=$(readlink -f "$MENDER_ROOTFS_PART_A")
+part_b=$(readlink -f "$MENDER_ROOTFS_PART_B")
+boot_part=$(readlink -f "$MENDER_BOOT_PART")
+[ -b "$part_a" ] && [ -b "$part_b" ] && [ -b "$boot_part" ] || fail "invalid partition devices"
+[ "$part_a" != "$part_b" ] && [ "$part_a" != "$boot_part" ] && [ "$part_b" != "$boot_part" ] || fail "partition devices overlap"
+active=$(findmnt -n -o SOURCE --mountpoint /)
+active=$(readlink -f "$active")
+case "$active" in
+  "$part_a") inactive=$part_b ;;
+  "$part_b") inactive=$part_a ;;
+  *) fail "active rootfs is neither configured rootfs partition: $active" ;;
+esac
+boot=$(readlink -f "$boot")
+actual_boot=$(findmnt -n -o SOURCE --mountpoint "$boot")
+actual_boot=$(readlink -f "$actual_boot")
+[ "$actual_boot" = "$boot_part" ] || fail "unexpected boot mount: $actual_boot"
+boot_options=$(findmnt -n -o OPTIONS --mountpoint "$boot")
+case ",$boot_options," in
+  *,rw,*) ;;
+  *) fail "boot mount is not writable" ;;
+esac
+if findmnt -n -S "$inactive" >/dev/null; then
+  fail "inactive rootfs is already mounted"
 fi
 
-mkdir -p /tmp/inactive_part
-mount -o ro ${inactive_part} /tmp/inactive_part
+work=$(mktemp -d /tmp/mender-firmware.XXXXXX)
+mkdir "$work/rootfs"
+mount -o ro "$inactive" "$work/rootfs"
+mounted=1
+source_dir=$work/rootfs/boot/firmware
+[ -d "$source_dir" ] || fail "missing firmware directory"
 
-# These are dangerous operations and if they fail (partial copy) it might
-# render the device unusable.
-
-# Copy 'core' firmware files first
-for f in $(find /tmp/inactive_part/boot -maxdepth 1 -type f ! -name "*.dtbo"); do
-  safe_copy $f /uboot/$(basename $f)
+# List the files first so that every check runs before any copy.
+(cd "$source_dir" && find . -type f -print) > "$work/files.unsorted"
+sort "$work/files.unsorted" > "$work/files"
+[ -s "$work/files" ] || fail "empty firmware directory"
+for required in $required_files; do
+  [ -f "$source_dir/$required" ] && [ -r "$source_dir/$required" ] || fail "missing required firmware: $required"
 done
 
-# Copy overlays
-for f in $(find /tmp/inactive_part/boot/*.dtbo -maxdepth 1 -type f); do
-  safe_copy $f /uboot/overlays/$(basename $f)
-done
+allocation=$(stat -f -c %S "$boot")
+case "$allocation:$reserve_kib" in
+  *[!0-9:]*|:*|*:) fail "invalid space parameters" ;;
+esac
+[ "$allocation" -gt 0 ] || fail "invalid allocation unit"
+needed=$((reserve_kib * 1024))
+: > "$work/early"
+: > "$work/late"
+while IFS= read -r relative; do
+  relative=${relative#./}
+  case "$relative" in
+    ''|/*|*/..|../*|*/../*|..) fail "unsupported firmware path: $relative" ;;
+  esac
+  [ -r "$source_dir/$relative" ] && [ -f "$source_dir/$relative" ] || fail "unreadable firmware: $relative"
+  destination=$boot/$relative
+  parent=$destination
+  while [ "$parent" != "$boot" ]; do
+    # Reserve directory/name space only for paths not present yet.
+    if [ ! -e "$parent" ]; then
+      needed=$((needed + allocation))
+    fi
+    parent=$(dirname "$parent")
+  done
+  if [ -f "$destination" ] && cmp -s "$source_dir/$relative" "$destination"; then
+    continue
+  fi
+  size=$(stat -c %s "$source_dir/$relative")
+  needed=$((needed + ((size + allocation - 1) / allocation) * allocation + allocation))
+  case "$relative" in
+    config.txt|cmdline.txt) printf '%s\n' "$relative" >> "$work/late" ;;
+    *) printf '%s\n' "$relative" >> "$work/early" ;;
+  esac
+done < "$work/files"
+available_blocks=$(stat -f -c %a "$boot")
+available=$((available_blocks * allocation))
+[ "$available" -ge "$needed" ] || fail "insufficient boot space: need $needed bytes, available $available"
 
+cat "$work/early" "$work/late" > "$work/order"
+while IFS= read -r relative; do
+  echo "Updating firmware: $relative"
+  safe_copy "$source_dir/$relative" "$boot/$relative"
+done < "$work/order"
 
-exit 0
+# Also persist directories whose rename may have completed on an earlier attempt.
+sync -f "$boot"
