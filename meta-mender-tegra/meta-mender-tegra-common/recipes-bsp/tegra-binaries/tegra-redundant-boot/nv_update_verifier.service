@@ -1,9 +1,12 @@
 [Unit]
 Description=OTA bootloader update verifier
 After=nvstartup.service
+# The verifier decides whether a pending update is rolled back (and may force a
+# reboot); the Mender daemon must not commit or roll back before it is done.
+Before=mender-client.service mender-updated.service
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/sbin/nv_update_verifier
 
 [Install]
