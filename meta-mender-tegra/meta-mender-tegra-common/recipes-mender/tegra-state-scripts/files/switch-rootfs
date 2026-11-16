@@ -47,6 +47,9 @@ fi
 tmp_mount="$(mktemp -d)"
 
 reset_unbootable_status "${next_slot}"
+# Record which slot this update switches to, so nv_update_verifier can tell a
+# boot of the target from a boot that stayed on (or fell back to) this slot.
+echo "${next_slot}" > /var/lib/mender/tegra-update-target
 mkdir -p /boot/efi/EFI/UpdateCapsule
 mount -o ro "${next_rootfs_dev}" "${tmp_mount}"
 cp "${tmp_mount}"/opt/nvidia/UpdateCapsule/tegra-bl.cap /boot/efi/EFI/UpdateCapsule/TEGRA_BL.Cap

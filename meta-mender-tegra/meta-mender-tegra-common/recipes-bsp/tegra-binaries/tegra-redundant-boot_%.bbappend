@@ -8,3 +8,6 @@ do_install:append() {
     install -d ${D}/${sbindir}
     install -m 0755 ${S}/nv_update_verifier.sh ${D}/${sbindir}/nv_update_verifier
 }
+
+# nv_update_verifier sources uefi_common.func to mark a slot unbootable
+RDEPENDS:${PN} += "setup-nv-boot-control"
